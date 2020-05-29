@@ -1,0 +1,54 @@
+,Question,Answer
+0,,
+1,Single Choice,Wasserkocher a)
+2,,0
+3,,1
+4,,0
+5,,0
+6,,
+7,Formelfrage,Wasserkocher b)
+8,$v3,1.2
+9,$v4,7.9
+10,$r1,3686666
+11,,
+12,Formelfrage,Wasserkocher c)
+13,$v1,1400
+14,$v2,36
+15,$r1,0.9257
+16,,
+17,Formelfrage,Wasserkocher d)
+18,$v1,700
+19,$v2,26
+20,$r1,26.923
+21,,
+22,Formelfrage,Wasserkocher e)
+23,$v2,39
+24,$v1,1100
+25,$v4,428.6
+26,$r1,1.3827
+27,,
+28,Formelfrage,Wasserkocher f)
+29,$v1,1700
+30,$v3,52
+31,$v4,312
+32,,
+33,Formelfrage,Wasserkocher g)
+34,$v3,44
+35,$v1,1900
+36,$v4,248
+37,,
+38,Formelfrage,Wasserkocher h)
+39,$v1,67.3
+40,$v2,0.64
+41,$r1,95
+42,,
+43,Single Choice,Wasserkocher i)
+44,bleibt gleich,0
+45,wird größer,0
+46,verringert sich,1
+47,,
+48,Single Choice,Wasserkocher j)
+49,verringert sich,1
+50,wird größer,0
+51,bleibt gleich,0
+52,,
