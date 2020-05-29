@@ -1,10 +1,10 @@
-/answer_sheets/
-/answers_per_question/
-/.ipynb_checkpoints/
+/files/answer_sheets/
+/files/answers_per_question/
+/files/.ipynb_checkpoints/
 /files/
-raw_data_paper.xlsx
-graphiken_fuer_paper.ipynb
+files/raw_data_paper.xlsx
+files/graphiken_fuer_paper.ipynb
 
-/answers_per_question/
-/answer_sheets/
-/.ipynb_checkpoints/
+/files/answers_per_question/
+/files/answer_sheets/
+/files/.ipynb_checkpoints/
