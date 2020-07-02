@@ -9,6 +9,8 @@ from sympy import *
 from tkscrolledframe import ScrolledFrame
 import os
 import datetime
+import pathlib
+
 
 
 
@@ -21,8 +23,9 @@ class GuiMainWindow:
 
         # --------------------------    Set PATH for Project
 
-        self.project_root_path = r"C:\Users\tpantele\Desktop\ilias Generator - Projekt"
-        self.img_file_path_create_folder = "C:/Users/tpantele/Desktop/ilias Generator - Projekt/1590475954__0__tst_1944463/objects/"
+        # print(pathlib.Path().absolute())    Pfad zur Datei die ausgeführt wird
+        self.project_root_path = str(pathlib.Path().absolute())
+        self.img_file_path_create_folder = str(pathlib.Path().absolute()) + "1590475954__0__tst_1944463/objects/"
 
         # --------------------------    Static PATHs for Project
         # "orig"_tst and _qti files are empty file templates.
@@ -38,15 +41,19 @@ class GuiMainWindow:
 
         # --------------------------   Set size of windows
         # Main-window
-        self.formula_width = 1000
+        self.formula_width = 800
         self.formula_height = 800
 
+        # Main-window
+        self.multiplechoice_width = 800
+        self.multiplechoice_height = 800
+
         # Database-window
-        self.database_width = 1000
+        self.database_width = 800
         self.database_height = 800
 
         # Settings-window
-        self.settings_width = 1800
+        self.settings_width = 800
         self.settings_height = 800
 
 
@@ -62,7 +69,7 @@ class GuiMainWindow:
 
         # Create a ScrolledFrame widget
         self.sf_formula = ScrolledFrame(self.formula_tab_ttk, width=self.formula_width, height=self.formula_height)
-        self.sf_formula.grid()
+        self.sf_formula.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
         self.sf_formula.bind_arrow_keys(app)
@@ -76,11 +83,25 @@ class GuiMainWindow:
         self.singleChoice_tab = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.singleChoice_tab, text='Single Choice')  # Add the tab
 
-        # ---- Tab for Multiple Choice - Questions
-        self.multipleChoice_tab = ttk.Frame(self.tabControl)  # Create a tab
-        self.tabControl.add(self.multipleChoice_tab, text='Multiple Choice')  # Add the tab
 
-        self.tabControl.grid()  # Pack to make visible
+        # ---- Tab for Multiple Choice - Questions
+        self.mc_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
+        self.tabControl.add(self.mc_tab_ttk, text='Multiple Choice')  # Add the tab
+
+        # Create a ScrolledFrame widget
+        self.sf_mc = ScrolledFrame(self.mc_tab_ttk, width=self.multiplechoice_width, height=self.multiplechoice_height)
+        self.sf_mc.pack(expand=1, fill="both")
+
+        # Bind the arrow keys and scroll wheel
+        self.sf_mc.bind_arrow_keys(app)
+        self.sf_mc.bind_scroll_wheel(app)
+
+        # Create a frame within the ScrolledFrame
+        self.multipleChoice_tab = self.sf_mc.display_widget(Frame)
+
+
+        #self.tabControl.grid()  # Pack to make visible
+        self.tabControl.pack(expand=1, fill="both")
 
         self.frame_test_title = LabelFrame(self.formula_tab, text="Testname & Autor", padx=5, pady=5)
         self.frame_test_title.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
@@ -109,9 +130,29 @@ class GuiMainWindow:
         self.frame_question_type = LabelFrame(self.formula_tab, text="Type", padx=5, pady=5)
         self.frame_question_type.grid(row=9, column=1, padx=10, pady=10, sticky="NW")
 
-        # -------------------------------------------------------------------------------------------------------CREATE SINGLE QUESTION WITH FROM OID
+        # ----------------------------------------------------------  CREATING FRAMES FOR MultipleChoice TAB
+        self.frame_mc_latex_preview = LabelFrame(self.multipleChoice_tab, text="MC: LaTeX Preview", padx=5, pady=5)
+        self.frame_mc_latex_preview.grid(row=9, column=0, padx=10, pady=10, sticky="NW")
+
+        self.frame_mc_question_difficulty = LabelFrame(self.multipleChoice_tab, text="MC: Difficulty", padx=5, pady=5)
+        self.frame_mc_question_difficulty.grid(row=9, column=0, padx=170, pady=10, sticky="NW")
+
+        self.frame_mc_question_category = LabelFrame(self.multipleChoice_tab, text="MC: Category", padx=5, pady=5)
+        self.frame_mc_question_category.grid(row=9, column=0, padx=10, pady=10, sticky="NE")
+
+        self.frame_mc_question_type = LabelFrame(self.multipleChoice_tab, text="MC: Type", padx=5, pady=5)
+        self.frame_mc_question_type.grid(row=9, column=1, padx=10, pady=10, sticky="NW")
+
+        self.frame_mc_database = LabelFrame(self.multipleChoice_tab, text="Datenbank", padx=5, pady=5)
+        self.frame_mc_database.grid(row=10, column=0, padx=10, pady=10, sticky=NW)
+
+        # ----------------------------------------------------------  CREATE SINGLE QUESTION WITH FROM OID
         self.create_formelfrage_btn = Button(self.frame_create_formelfrage, text="Get oid and create", command=lambda: create_formelfrage.__init__(self))
         self.create_formelfrage_btn.grid(row=0, column=0, sticky=W)
+
+        self.create_multiplechoice_btn = Button(self.frame_create_formelfrage, text="mc create", command=lambda: create_multiplechoice.__init__(self))
+        #self.create_multiplechoice_btn.grid(row=1, column=0, sticky=W)
+
 
         self.create_formelfrage_entry = Entry(self.frame_create_formelfrage, width=15)
         self.create_formelfrage_entry.grid(row=0, column=1, sticky=W, padx=20)
@@ -134,8 +175,8 @@ class GuiMainWindow:
         self.database_show_records_btn = Button(self.frame_database, text="Show Records",command=lambda: Database.show_records(self))
         self.database_show_records_btn.grid(row=1, column=0, sticky=W, pady=5)
 
-        self.database_submit_btn = Button(self.frame_database, text="Submit", command=lambda: Database.submit(self))
-        self.database_submit_btn.grid(row=2, column=0, sticky=W, pady=5)
+        self.database_submit_formelfrage_btn = Button(self.frame_database, text="Submit", command=lambda: Database.submit(self))
+        self.database_submit_formelfrage_btn.grid(row=2, column=0, sticky=W, pady=5)
 
         self.database_delete_btn = Button(self.frame_database, text="Delete", command=lambda: Database.delete(self))
         self.database_delete_btn.grid(row=3, column=0, sticky=W, pady=5)
@@ -163,7 +204,7 @@ class GuiMainWindow:
         self.show_img_from_db_btn = Button(self.frame_db_picture, text="IMG from DB",command=lambda: Database.show_img_from_db(self))
         self.show_img_from_db_btn.grid(row=2, column=3, sticky=W)
 
-        self.myLatex_btn = Button(self.frame_latex_preview, text="show LaTeX Preview", command=lambda:LatexPreview.__init__(self) )
+        self.myLatex_btn = Button(self.frame_latex_preview, text="LaTeX Preview", command=lambda:LatexPreview.__init__(self) )
         self.myLatex_btn.grid(row=0, column=0, sticky=W)
 
         self.question_difficulty_label = Label(self.frame_question_difficulty, text="Schwierigkeitsgrad der Frage")
@@ -188,18 +229,53 @@ class GuiMainWindow:
         self.btn = Button(self.frame_latex_preview, text="add latex-term", command=lambda: Formelfrage.add_term(self))
         self.btn.grid()
 
-
-
         self.picture_name = "EMPTY"
+
+
+        # ----------------------------- CREATING BUTTONS FOR MultipleChoice TAB
+        self.mc_myLatex_btn = Button(self.frame_mc_latex_preview, text="LaTeX Preview", command=lambda: LatexPreview.__init__(self))
+        self.mc_myLatex_btn.grid(row=0, column=0, sticky=W)
+
+        self.mc_question_difficulty_label = Label(self.frame_mc_question_difficulty, text="Schwierigkeitsgrad der Frage")
+        self.mc_question_difficulty_label.grid(row=0, column=0, pady=5, padx=5)
+
+        self.mc_question_difficulty_entry = Entry(self.frame_mc_question_difficulty, width=10)
+        self.mc_question_difficulty_entry.grid(row=0, column=1, pady=5, padx=5)
+
+        self.mc_question_category_label = Label(self.frame_mc_question_category, text="Fragenkategorie")
+        self.mc_question_category_label.grid(row=0, column=0, pady=5, padx=5)
+
+        self.mc_question_category_entry = Entry(self.frame_mc_question_category, width=15)
+        self.mc_question_category_entry.grid(row=0, column=1, pady=5, padx=5)
+
+        self.mc_question_type_label = Label(self.frame_mc_question_type, text="Fragen-Typ")
+        self.mc_question_type_label.grid(row=0, column=0, pady=5, padx=5)
+
+        self.mc_question_type_entry = Entry(self.frame_mc_question_type, width=15)
+        self.mc_question_type_entry.grid(row=0, column=1, pady=5, padx=5)
+        self.mc_question_type_entry.insert(0, "Multiple Choice")
+
+        self.database_submit_multiplechoice_btn = Button(self.frame_mc_database, text="Submit MC", command=lambda: MultipleChoice.submit_mc(self))
+        self.database_submit_multiplechoice_btn.grid(row=2, column=0, sticky=W, pady=5)
+
+        self.database_load_multiplechoice_btn = Button(self.frame_mc_database, text="Load MC", command=lambda: Database.load(self))
+        self.database_load_multiplechoice_btn.grid(row=4, column=0, sticky=W, pady=5)
+
+        self.load_multiplechoice_box = Entry(self.frame_mc_database, width=5)
+        self.load_multiplechoice_box.grid(row=4, column=1, sticky=W)
+
+
         # ---Init Variable Matrix
         Formelfrage.__init__(self)
-        #MultipleChoice.__init__(self)
+        MultipleChoice.__init__(self)
 
     # ---Init MC-TAB
     # MultipleChoice.__init__(self, self.multipleChoice_tab)
 
     # ---Init MC-TAB
     # SingleChoice.__init__(self, self.singleChoice_tab)
+
+
 
 
     #create table / Database
@@ -417,7 +493,7 @@ class Formelfrage(GuiMainWindow):
         self.question_description_textfield_label.grid(row=3, column=0, sticky=W, padx=10)
 
         self.bar = Scrollbar(self.frame_formula)
-        self.formula_question_entry = Text(self.frame_formula, height=4, width=52, font=('Helvetica', 9))
+        self.formula_question_entry = Text(self.frame_formula, height=6, width=65, font=('Helvetica', 9))
         self.bar.grid(row=3, column=2, sticky=W)
         self.formula_question_entry.grid(row=3, column=1, pady=10, sticky=W)
         self.bar.config(command=self.formula_question_entry.yview)
@@ -930,16 +1006,748 @@ class Formelfrage(GuiMainWindow):
                                     "Ohm" : "148", "kOhm" : "150", "mOhm" : "151"}
 
         self.varTEST = selected_unit
-        print(self.varTEST)
+        #print(self.varTEST)
         self.selected_unit = self.unit_to_ilias_code[self.varTEST]
         return self.selected_unit
 
 
     def add_term(self):
-        self.formula_question_entry.insert(SEL_FIRST, '\\', 'RED')
-        self.formula_question_entry.insert(SEL_LAST, '\\\\', 'RED')
+        self.formula_question_entry.insert(SEL_FIRST, '\\(', 'RED')
+        self.formula_question_entry.insert(SEL_LAST, '\\)', 'RED')
         self.formula_question_entry.tag_config('RED', foreground='red')
 
+
+
+class MultipleChoice(Formelfrage):
+    def __init__(self):
+        # self.my_frame = Frame(master)
+        # self.my_frame.grid()
+
+        self.mc_frame = LabelFrame(self.multipleChoice_tab, text="Multiple Choice", padx=5, pady=5)
+        self.mc_frame.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
+
+        self.mc_question_title_label = Label(self.mc_frame, text="Titel")
+        self.mc_question_title_label.grid(row=0, column=0, sticky=W, padx=10, pady=(10, 0))
+        self.mc_question_title_entry = Entry(self.mc_frame, width=60)
+        self.mc_question_title_entry.grid(row=0, column=1, pady=(10, 0), sticky=W)
+
+        # mc_author_label = Label(mc_frame, text="Autor")
+        # mc_author_label.grid(row=1, column=0, sticky=W, padx=10)
+        # mc_author_entry = Entry(mc_frame, width=60)
+        # mc_author_entry.grid(row=1, column=1, sticky=W)
+
+        self.mc_question_description_label = Label(self.mc_frame, text="Beschreibung")
+        self.mc_question_description_label.grid(row=2, column=0, sticky=W, padx=10)
+        self.mc_question_description_entry = Entry(self.mc_frame, width=60)
+        self.mc_question_description_entry.grid(row=2, column=1, sticky=W)
+
+        self.mc_question_textfield_label = Label(self.mc_frame, text="Frage")
+        self.mc_question_textfield_label.grid(row=3, column=0, sticky=W, padx=10)
+
+        self.mc_bar = Scrollbar(self.mc_frame)
+        self.mc_infobox = Text(self.mc_frame, height=6, width=65, font=('Helvetica', 9))
+        self.mc_bar.grid(row=3, column=2, sticky=W)
+        self.mc_infobox.grid(row=3, column=1, pady=10, sticky=W)
+        self.mc_bar.config(command=self.mc_infobox.yview)
+        self.mc_infobox.config(yscrollcommand=self.mc_bar.set)
+
+        self.mc_processing_time_label = Label(self.mc_frame, text="Bearbeitungsdauer")
+        self.mc_processing_time_label.grid(row=4, column=0, sticky=W, pady=(5, 0), padx=10)
+
+        self.mc_processing_time_label = Label(self.mc_frame, text="Std:")
+        self.mc_processing_time_label.grid(row=4, column=1, sticky=W, pady=(5, 0))
+        self.mc_processing_time_label = Label(self.mc_frame, text="Min:")
+        self.mc_processing_time_label.grid(row=4, column=1, sticky=W, padx=70, pady=(5, 0))
+        self.mc_processing_time_label = Label(self.mc_frame, text="Sek:")
+        self.mc_processing_time_label.grid(row=4, column=1, sticky=W, padx=145, pady=(5, 0))
+
+        ### Preview LaTeX
+        expr = r'$$  {\text{Zu berechnen ist:  }}\  sin(x^2)\ {\text{Textblock 2}}\ {formel2} $$'
+        preview(expr, viewer='file', filename='output.png')
+
+        file_image = ImageTk.PhotoImage(Image.open('output.png'))
+        file_image_label = Label(self.mc_frame, image=file_image)
+        file_image_label.image = file_image
+
+        def latex_preview():
+            file_image_label.grid(row=20, column=1, pady=20)
+
+        self.myLatex_btn = Button(self.mc_frame, text="show LaTeX Preview", command=latex_preview)
+        self.myLatex_btn.grid(row=4, column=1, sticky=E)
+
+        ###
+
+        self.mc_processingtime_hours = list(range(24))
+        self.mc_processingtime_minutes = list(range(60))
+        self.mc_processingtime_seconds = list(range(60))
+
+        self.mc_proc_hours_box = ttk.Combobox(self.mc_frame, value=self.mc_processingtime_hours, width=2)
+        self.mc_proc_minutes_box = ttk.Combobox(self.mc_frame, value=self.mc_processingtime_minutes, width=2)
+        self.mc_proc_seconds_box = ttk.Combobox(self.mc_frame, value=self.mc_processingtime_seconds, width=2)
+
+        self.mc_proc_hours_box.current(0)
+        self.mc_proc_minutes_box.current(0)
+        self.mc_proc_seconds_box.current(0)
+
+        self.mc_proc_hours_box.bind("<<ComboboxSelected>>")
+        self.mc_proc_hours_box.bind("<<ComboboxSelected>>")
+        self.mc_proc_hours_box.bind("<<ComboboxSelected>>")
+
+        self.mc_proc_hours_box.grid(row=4, column=1, sticky=W, padx=25, pady=(5, 0))
+        self.mc_proc_minutes_box.grid(row=4, column=1, sticky=W, padx=100, pady=(5, 0))
+        self.mc_proc_seconds_box.grid(row=4, column=1, sticky=W, padx=170, pady=(5, 0))
+
+        self.mc_mix_questions_label = Label(self.mc_frame, text="Fragen mischen")
+        self.mc_mix_questions_label.grid(row=5, column=0, sticky=W, padx=10, pady=(5, 0))
+
+        self.mc_var_mix_questions = StringVar()
+        self.mc_check_mix_questions = Checkbutton(self.mc_frame, text="", variable=self.mc_var_mix_questions, onvalue="1", offvalue="0")
+        self.mc_check_mix_questions.deselect()
+        self.mc_check_mix_questions.grid(row=5, column=1, sticky=W, pady=(5, 0))
+
+        self.mc_answer_limitation_label = Label(self.mc_frame, text="Antwortbeschränkung")
+        self.mc_answer_limitation_label.grid(row=6, column=0, sticky=W, padx=10, pady=(5, 0))
+        self.mc_answer_limitation_entry = Entry(self.mc_frame, width=10)
+        self.mc_answer_limitation_entry.grid(row=6, column=1, sticky=W, pady=(5, 0))
+
+        self.answer_editor_box_label = Label(self.mc_frame, text="Antwort-Editor")
+        self.answer_editor_box_label.grid(row=7, column=0, sticky=W, padx=10, pady=(5, 0))
+        self.answer_editor_value = ("Einzeilige Antwort", "Mehrzeilige Antwort")
+        self.answer_editor_box = ttk.Combobox(self.mc_frame, value=self.answer_editor_value, width=20)
+        self.answer_editor_box.bind("<<ComboboxSelected>>")
+        self.answer_editor_box.grid(row=7, column=1, sticky=W, pady=(5, 0))
+
+        def mc_answer_selected(event):  # "event" is necessary here to react, although it is not used "officially"
+
+            if self.numbers_of_answers_box.get() == '1':
+                mc_var2_remove()
+                mc_var3_remove()
+                mc_var4_remove()
+                mc_var5_remove()
+                mc_var6_remove()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '2':
+                mc_var2_show()
+                mc_var3_remove()
+                mc_var4_remove()
+                mc_var5_remove()
+                mc_var6_remove()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '3':
+                mc_var2_show()
+                mc_var3_show()
+                mc_var4_remove()
+                mc_var5_remove()
+                mc_var6_remove()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '4':
+                mc_var2_show()
+                mc_var3_show()
+                mc_var4_show()
+                mc_var5_remove()
+                mc_var6_remove()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '5':
+                mc_var2_show()
+                mc_var3_show()
+                mc_var4_show()
+                mc_var5_show()
+                mc_var6_remove()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '6':
+                mc_var2_show()
+                mc_var3_show()
+                mc_var4_show()
+                mc_var5_show()
+                mc_var6_show()
+                mc_var7_remove()
+
+
+            elif self.numbers_of_answers_box.get() == '7':
+                mc_var2_show()
+                mc_var3_show()
+                mc_var4_show()
+                mc_var5_show()
+                mc_var6_show()
+                mc_var7_show()
+
+        self.numbers_of_answers_box_label = Label(self.mc_frame, text="Anzahl der Antworten")
+        self.numbers_of_answers_box_label.grid(row=8, column=0, sticky=W, padx=10, pady=(5, 0))
+        self.numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7"]
+        self.numbers_of_answers_box = ttk.Combobox(self.mc_frame, value=self.numbers_of_answers_value, width=20)
+        self.numbers_of_answers_box.bind("<<ComboboxSelected>>", mc_answer_selected)
+        self.numbers_of_answers_box.grid(row=8, column=1, sticky=W, pady=(5, 0))
+        self.numbers_of_answers_box.current(0)
+
+        # self.Label(self.mc_frame, text="Antworten").grid(row=9, column=0, sticky=W, padx=10, pady=(5, 0))
+        # self.Label(self.mc_frame, text="Antwort-Text").grid(row=9, column=1, sticky=W, pady=(5, 0))
+        self.points_picked_label = Label(self.mc_frame, text="Punkte:\nAusgewählt")
+        self.points_picked_label.grid(row=8, column=1, sticky=E, padx=30)
+        self.points_not_picked_label = Label(self.mc_frame, text="Punkte:\nNicht ausgewählt")
+        self.points_not_picked_label.grid(row=8, column=2)
+
+        # ------------------------------- VARIABLES RANGE: MINIMUM - TEXT & ENTRY --------------------------------------------
+        self.var1_answer_text, self.var1_points_picked_text, self.var1_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var2_answer_text, self.var2_points_picked_text, self.var2_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var3_answer_text, self.var3_points_picked_text, self.var3_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var4_answer_text, self.var4_points_picked_text, self.var4_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var5_answer_text, self.var5_points_picked_text, self.var5_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var6_answer_text, self.var6_points_picked_text, self.var6_points_not_picked_text = StringVar(), StringVar(), StringVar()
+        self.var7_answer_text, self.var7_points_picked_text, self.var7_points_not_picked_text = StringVar(), StringVar(), StringVar()
+
+        self.var1_answer_entry = Entry(self.mc_frame, textvariable=self.var1_answer_text, width=40)
+        self.var2_answer_entry = Entry(self.mc_frame, textvariable=self.var2_answer_text, width=40)
+        self.var3_answer_entry = Entry(self.mc_frame, textvariable=self.var3_answer_text, width=40)
+        self.var4_answer_entry = Entry(self.mc_frame, textvariable=self.var4_answer_text, width=40)
+        self.var5_answer_entry = Entry(self.mc_frame, textvariable=self.var5_answer_text, width=40)
+        self.var6_answer_entry = Entry(self.mc_frame, textvariable=self.var6_answer_text, width=40)
+        self.var7_answer_entry = Entry(self.mc_frame, textvariable=self.var7_answer_text, width=40)
+
+        # ------------------------------- VARIABLES RANGE:  MAXIMUM - TEXT & ENTRY --------------------------------------------
+
+        self.var1_points_picked_entry = Entry(self.mc_frame, textvariable=self.var1_points_picked_text, width=8)
+        self.var2_points_picked_entry = Entry(self.mc_frame, textvariable=self.var2_points_picked_text, width=8)
+        self.var3_points_picked_entry = Entry(self.mc_frame, textvariable=self.var3_points_picked_text, width=8)
+        self.var4_points_picked_entry = Entry(self.mc_frame, textvariable=self.var4_points_picked_text, width=8)
+        self.var5_points_picked_entry = Entry(self.mc_frame, textvariable=self.var5_points_picked_text, width=8)
+        self.var6_points_picked_entry = Entry(self.mc_frame, textvariable=self.var6_points_picked_text, width=8)
+        self.var7_points_picked_entry = Entry(self.mc_frame, textvariable=self.var7_points_picked_text, width=8)
+
+        # ------------------------------- VARIABLES PRECISION - TEXT & ENTRY --------------------------------------------
+
+        self.var1_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var1_points_not_picked_text, width=8)
+        self.var2_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var2_points_not_picked_text, width=8)
+        self.var3_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var3_points_not_picked_text, width=8)
+        self.var4_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var4_points_not_picked_text, width=8)
+        self.var5_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var5_points_not_picked_text, width=8)
+        self.var6_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var6_points_not_picked_text, width=8)
+        self.var7_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var7_points_not_picked_text, width=8)
+
+        self.answer1_label = Label(self.mc_frame, text="Antwort 1")
+        self.answer2_label = Label(self.mc_frame, text="Antwort 2")
+        self.answer3_label = Label(self.mc_frame, text="Antwort 3")
+        self.answer4_label = Label(self.mc_frame, text="Antwort 4")
+        self.answer5_label = Label(self.mc_frame, text="Antwort 5")
+        self.answer6_label = Label(self.mc_frame, text="Antwort 6")
+        self.answer7_label = Label(self.mc_frame, text="Antwort 7")
+
+        self.answer1_label.grid(row=10, column=0, sticky=W, padx=30)
+        self.var1_answer_entry.grid(row=10, column=1, sticky=W)
+        self.var1_points_picked_entry.grid(row=10, column=1, sticky=E, padx=40)
+        self.var1_points_not_picked_entry.grid(row=10, column=2)
+
+        def mc_var2_show():
+            self.answer2_label.grid(row=11, column=0, sticky=W, padx=30)
+            self.var2_answer_entry.grid(row=11, column=1, sticky=W)
+            self.var2_points_picked_entry.grid(row=11, column=1, sticky=E, padx=30)
+            self.var2_points_not_picked_entry.grid(row=11, column=2)
+
+        def mc_var3_show():
+            self.answer3_label.grid(row=12, column=0, sticky=W, padx=30)
+            self.var3_answer_entry.grid(row=12, column=1, sticky=W)
+            self.var3_points_picked_entry.grid(row=12, column=1, sticky=E, padx=30)
+            self.var3_points_not_picked_entry.grid(row=12, column=2)
+
+        def mc_var4_show():
+            self.answer4_label.grid(row=13, column=0, sticky=W, padx=30)
+            self.var4_answer_entry.grid(row=13, column=1, sticky=W)
+            self.var4_points_picked_entry.grid(row=13, column=1, sticky=E, padx=30)
+            self.var4_points_not_picked_entry.grid(row=13, column=2)
+
+        def mc_var5_show():
+            self.answer5_label.grid(row=14, column=0, sticky=W, padx=30)
+            self.var5_answer_entry.grid(row=14, column=1, sticky=W)
+            self.var5_points_picked_entry.grid(row=14, column=1, sticky=E, padx=30)
+            self.var5_points_not_picked_entry.grid(row=14, column=2)
+
+        def mc_var6_show():
+            self.answer6_label.grid(row=15, column=0, sticky=W, padx=30)
+            self.var6_answer_entry.grid(row=15, column=1, sticky=W)
+            self.var6_points_picked_entry.grid(row=15, column=1, sticky=E, padx=30)
+            self.var6_points_not_picked_entry.grid(row=15, column=2)
+
+        def mc_var7_show():
+            self.answer7_label.grid(row=16, column=0, sticky=W, padx=30)
+            self.var7_answer_entry.grid(row=16, column=1, sticky=W)
+            self.var7_points_picked_entry.grid(row=16, column=1, sticky=E, padx=30)
+            self.var7_points_not_picked_entry.grid(row=16, column=2)
+
+        def mc_var2_remove():
+            self.answer2_label.grid_remove()
+            self.var2_answer_entry.grid_remove()
+            self.var2_points_picked_entry.grid_remove()
+            self.var2_points_not_picked_entry.grid_remove()
+
+        def mc_var3_remove():
+            self.answer3_label.grid_remove()
+            self.var3_answer_entry.grid_remove()
+            self.var3_points_picked_entry.grid_remove()
+            self.var3_points_not_picked_entry.grid_remove()
+
+        def mc_var4_remove():
+            self.answer4_label.grid_remove()
+            self.var4_answer_entry.grid_remove()
+            self.var4_points_picked_entry.grid_remove()
+            self.var4_points_not_picked_entry.grid_remove()
+
+        def mc_var5_remove():
+            self.answer5_label.grid_remove()
+            self.var5_answer_entry.grid_remove()
+            self.var5_points_picked_entry.grid_remove()
+            self.var5_points_not_picked_entry.grid_remove()
+
+        def mc_var6_remove():
+            self.answer6_label.grid_remove()
+            self.var6_answer_entry.grid_remove()
+            self.var6_points_picked_entry.grid_remove()
+            self.var6_points_not_picked_entry.grid_remove()
+
+        def mc_var7_remove():
+            self.answer7_label.grid_remove()
+            self.var7_answer_entry.grid_remove()
+            self.var7_points_picked_entry.grid_remove()
+            self.var7_points_not_picked_entry.grid_remove()
+
+    def submit_mc(self):
+        conn = sqlite3.connect('ilias_questions_db.db')
+        c = conn.cursor()
+
+        # format of duration P0Y0M0DT0H30M0S
+        self.mc_test_time = "P0Y0M0DT" + self.mc_proc_hours_box.get() + "H" + self.mc_proc_minutes_box.get() + "M" + self.mc_proc_seconds_box.get() + "S"
+
+        # Insert into Table
+        c.execute(
+            "INSERT INTO my_table VALUES ("
+            ":question_difficulty, :question_category, :question_type, "
+            ":question_title, :question_title_description, :question_description_main, "
+            ":res1_formula, :res2_formula, :res3_formula,  "
+            ":var1_name, :var1_min, :var1_max, :var1_prec, :var1_divby, :var1_unit, "
+            ":var2_name, :var2_min, :var2_max, :var2_prec, :var2_divby, :var2_unit, "
+            ":var3_name, :var3_min, :var3_max, :var3_prec, :var3_divby, :var3_unit, "
+            ":var4_name, :var4_min, :var4_max, :var4_prec, :var4_divby, :var4_unit, "
+            ":var5_name, :var5_min, :var5_max, :var5_prec, :var5_divby, :var5_unit, "
+            ":var6_name, :var6_min, :var6_max, :var6_prec, :var6_divby, :var6_unit, "
+            ":var7_name, :var7_min, :var7_max, :var7_prec, :var7_divby, :var7_unit,"
+            ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
+            ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
+            ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit,"
+            ":img_name, :img_data, :test_time)",
+            {
+                'question_difficulty': self.mc_question_difficulty_entry.get(),
+                'question_category': self.mc_question_category_entry.get(),
+                'question_type': self.mc_question_type_entry.get(),
+
+                'question_title': self.mc_question_title_entry.get(),
+                'question_title_description': self.mc_question_description_entry.get(),
+
+                # The first part, "1.0" means that the input should be read from line one, character zero (ie: the very first character).
+                # END is an imported constant which is set to the string "end". The END part means to read until the end of the text box is reached.
+                # The only issue with this is that it actually adds a newline to our input. "
+                # "So, in order to fix it we should change END to end-1c(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c would mean delete two characters, and so on."
+                'question_description_main': self.mc_infobox.get("1.0", 'end-1c'),
+
+                # Antwort-Text  in Datenbank-Fach: var_name
+                'var1_name': self.var1_answer_text.get(),
+                'var1_min': self.var1_points_picked_text.get(),
+                'var1_max': self.var1_points_not_picked_text.get(),
+
+                'var2_name': self.var2_answer_text.get(),
+                'var2_min': self.var2_points_picked_text.get(),
+                'var2_max': self.var2_points_not_picked_text.get(),
+
+                'var3_name': self.var3_answer_text.get(),
+                'var3_min': self.var3_points_picked_text.get(),
+                'var3_max': self.var3_points_not_picked_text.get(),
+
+                'var4_name': self.var4_answer_text.get(),
+                'var4_min': self.var4_points_picked_text.get(),
+                'var4_max': self.var4_points_not_picked_text.get(),
+
+                'var5_name': self.var5_answer_text.get(),
+                'var5_min': self.var5_points_picked_text.get(),
+                'var5_max': self.var5_points_not_picked_text.get(),
+
+                'var6_name': self.var6_answer_text.get(),
+                'var6_min': self.var6_points_picked_text.get(),
+                'var6_max': self.var6_points_not_picked_text.get(),
+
+                'var7_name': self.var7_answer_text.get(),
+                'var7_min': self.var7_points_picked_text.get(),
+                'var7_max': self.var7_points_not_picked_text.get(),
+
+                'test_time': self.mc_test_time,
+
+
+                'res1_formula': "",
+                'res2_formula': "",
+                'res3_formula': "",
+                'var1_prec': "",
+                'var1_divby': "",
+                'var1_unit': "",
+                'var2_prec': "",
+                'var2_divby': "",
+                'var2_unit': "",
+                'var3_prec': "",
+                'var3_divby': "",
+                'var3_unit': "",
+                'var4_prec': "",
+                'var4_divby': "",
+                'var4_unit': "",
+                'var5_prec': "",
+                'var5_divby': "",
+                'var5_unit': "",
+                'var6_prec': "",
+                'var6_divby': "",
+                'var6_unit': "",
+                'var7_prec': "",
+                'var7_divby': "",
+                'var7_unit': "",
+
+                'res1_name': "",
+                'res1_min': "",
+                'res1_max': "",
+                'res1_prec': "",
+                'res1_tol': "",
+                'res1_points': "",
+                'res1_unit': "",
+
+                'res2_name': "",
+                'res2_min': "",
+                'res2_max': "",
+                'res2_prec': "",
+                'res2_tol': "",
+                'res2_points': "",
+                'res2_unit': "",
+
+                'res3_name': "",
+                'res3_min': "",
+                'res3_max': "",
+                'res3_prec': "",
+                'res3_tol': "",
+                'res3_points': "",
+                'res3_unit': "",
+
+                'img_name': "",
+                'img_data': ""
+
+
+
+            }
+        )
+        conn.commit()
+        conn.close()
+        print("mc question in databank")
+
+
+
+class create_multiplechoice(MultipleChoice):
+
+    def __init__(self):
+        #self.mytree = ET.parse(self.qti_file_path_read)
+        #self.myroot = self.mytree.getroot()
+
+        self.frame_mc_create = LabelFrame(self.formula_tab, text="Create Multiplechoice", padx=5, pady=5)
+        self.frame_mc_create.grid(row=1, column=2)
+
+        #create_multiplechoice.create_mc_question(self)
+
+
+    def create_mc_question(self,mytree, myroot, qti_file_path_read, qti_file_path_write, entry_split, x):
+
+        #self.mytree = ET.parse(qti_file_path_read)
+        #self.myroot = self.mytree.getroot()
+
+        self.mytree = mytree
+        self.myroot = myroot
+
+        conn = sqlite3.connect('ilias_questions_db.db')
+        c = conn.cursor()
+        c.execute("SELECT *, oid FROM my_table")
+
+        records = c.fetchall()
+
+        for record in records:
+            if str(record[len(record) - 1]) == entry_split[x]:
+
+                self.answer1 = str(record[9])
+                self.answer1_points_picked = str(record[10])
+                self.answer1_points_not_picked = str(record[11])
+
+                self.answer2 = str(record[15])
+                self.answer2_points_picked = str(record[16])
+                self.answer2_points_not_picked = str(record[17])
+
+                self.answer3 = str(record[21])
+                self.answer3_points_picked = str(record[22])
+                self.answer3_points_not_picked = str(record[23])
+
+                self.answer4 = str(record[27])
+                self.answer4_points_picked = str(record[28])
+                self.answer4_points_not_picked = str(record[29])
+
+                self.answer5 = str(record[33])
+                self.answer5_points_picked = str(record[34])
+                self.answer5_points_not_picked = str(record[35])
+
+                self.answer6 = str(record[39])
+                self.answer6_points_picked = str(record[40])
+                self.answer6_points_not_picked = str(record[41])
+
+                self.answer7 = str(record[45])
+                self.answer7_points_picked = str(record[46])
+                self.answer7_points_not_picked = str(record[47])
+
+                self.mc_test_time = str(record[74])
+
+
+
+
+
+
+                questestinterop = ET.Element('questestinterop')
+                assessment = ET.SubElement(questestinterop, 'assessment')
+                section = ET.SubElement(assessment, 'section')
+                item = ET.SubElement(section, 'item')
+                item.set('ident', "il_0_qst_000001")
+                item.set('title', "MC: 1. Frage")
+                item.set('maxattempts', "0")
+                qticomment = ET.SubElement(item, 'qticomment')
+                # qticomment.text = self.mc_question_description_title
+                duration = ET.SubElement(item, 'duration')
+                duration.text = self.mc_test_time
+
+                # append ITEM in the last "myroot"-Element. Here it is Element "section" in myroot
+                self.myroot[0][len(self.myroot[0]) - 1].append(item)
+
+
+                itemmetadata = ET.SubElement(item, 'itemmetadata')
+                presentation = ET.SubElement(item, 'presentation')
+                flow = ET.SubElement(presentation, 'flow')
+                material = ET.SubElement(flow, 'material')
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+
+
+
+
+
+
+
+                qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
+                # -----------------------------------------------------------------------ILIAS VERSION
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "ILIAS_VERSION"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "5.4.10 2020-03-04"
+                # -----------------------------------------------------------------------QUESTION_TYPE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "QUESTIONTYPE"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "MULTIPLE CHOICE QUESTION"
+                # -----------------------------------------------------------------------AUTHOR
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "AUTHOR"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "Tobias Panteleit"
+                # -----------------------------------------------------------------------additional_cont_edit_mode
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "additional_cont_edit_mode"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "default"
+                # -----------------------------------------------------------------------externalId
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "externalId"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "59a32416e65da6.54228908"
+                # -----------------------------------------------------------------------thumb_size
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "thumb_size"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = ""
+                # -----------------------------------------------------------------------feedback_setting
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "feedback_setting"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "1"
+                # -----------------------------------------------------------------------singleline
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "singleline"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "1"
+
+                presentation.set('label', "MC: 1. Frage")
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/html")
+                mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
+
+                response_lid.set('ident', "MCMR")
+                response_lid.set('rcardinality', "Multiple")
+
+                render_choice.set('shuffle', "Yes")
+                # -------------------------- Antwort 1
+                response_label.set('ident', "0")
+                material = ET.SubElement(response_label, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+                mattext.text = self.answer1
+
+                # -------------------------- Antwort 2
+                response_label = ET.SubElement(render_choice, 'response_label')
+                response_label.set('ident', "1")
+                material = ET.SubElement(response_label, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+                mattext.text = self.answer2
+
+                # -------------------------- Antwort 3
+                response_label = ET.SubElement(render_choice, 'response_label')
+                response_label.set('ident', "2")
+                material = ET.SubElement(response_label, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+                mattext.text = self.answer3
+
+                resprocessing = ET.SubElement(item, 'resprocessing')
+                outcomes = ET.SubElement(resprocessing, 'outcomes')
+                decvar = ET.SubElement(outcomes, 'decvar')
+
+                # -------------------------- Zusatz für Antwort 1
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                varequal = ET.SubElement(conditionvar, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "0"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "1"
+                displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
+                displayfeedback.set('feedbacktype', "Response")
+                displayfeedback.set('linkrefid', "response_0")
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                mc_not = ET.SubElement(conditionvar, 'mc_not')
+                varequal = ET.SubElement(mc_not, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "0"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "0"
+
+                # -------------------------- Zusatz für Antwort 2
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                varequal = ET.SubElement(conditionvar, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "1"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "1"
+                displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
+                displayfeedback.set('feedbacktype', "Response")
+                displayfeedback.set('linkrefid', "response_1")
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                mc_not = ET.SubElement(conditionvar, 'mc_not')
+                varequal = ET.SubElement(mc_not, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "1"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "0"
+
+                # -------------------------- Zusatz für Antwort 3
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                varequal = ET.SubElement(conditionvar, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "2"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "1"
+                displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
+                displayfeedback.set('feedbacktype', "Response")
+                displayfeedback.set('linkrefid', "response_2")
+                respcondition = ET.SubElement(resprocessing, 'respcondition')
+                respcondition.set('continue', "Yes")
+                conditionvar = ET.SubElement(respcondition, 'conditionvar')
+                mc_not = ET.SubElement(conditionvar, 'mc_not')
+                varequal = ET.SubElement(mc_not, 'varequal')
+                varequal.set('respident', "MCMR")
+                varequal.text = "2"
+                setvar = ET.SubElement(respcondition, 'setvar')
+                setvar.set('action', "Add")
+                setvar.text = "0"
+
+
+                itemfeedback = ET.SubElement(item, 'itemfeedback')
+                itemfeedback.set('ident', "response_0")
+                itemfeedback.set('view', "All")
+                flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
+                material = ET.SubElement(flow_mat, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+
+                itemfeedback = ET.SubElement(item, 'itemfeedback')
+                itemfeedback.set('ident', "response_1")
+                itemfeedback.set('view', "All")
+                flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
+                material = ET.SubElement(flow_mat, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+
+                itemfeedback = ET.SubElement(item, 'itemfeedback')
+                itemfeedback.set('ident', "response_2")
+                itemfeedback.set('view', "All")
+                flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
+                material = ET.SubElement(flow_mat, 'material')
+                mattext = ET.SubElement(material, 'mattext')
+                mattext.set('texttype', "text/plain")
+
+
+                self.mytree.write(qti_file_path_write)
+                print("MC Question created")
+
+        conn.commit()
+        conn.close()
+
+        create_multiplechoice.mc_replace_characters(self, qti_file_path_write)
+
+
+
+    def mc_replace_characters(self, qti_file_path_write):
+        # with open("xml_form_edit\\" + 'NEW_1590230409__0__qti_1948621.xml') as xml_file:
+        with open(qti_file_path_write, 'r') as xml_file:
+            xml_str = xml_file.read()
+        xml_str = xml_str.replace('mc_not', 'not')  #replace "x" with "new value for x"
+
+        with open(qti_file_path_write, 'w') as replaced_xml_file:
+            replaced_xml_file.write(xml_str)
+
+        print("\"mc_not\" replaced with \"not\"... done ")
 
 
 class Database(Formelfrage):
@@ -952,7 +1760,7 @@ class Database(Formelfrage):
         # Create a ScrolledFrame widget
         #self.sf_database = ScrolledFrame(self.database_window, width=600, height=600)
         self.sf_database = ScrolledFrame(self.database_window, width=self.database_width, height=self.database_height)
-        self.sf_database.grid()
+        self.sf_database.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
         self.sf_database.bind_arrow_keys(app)
@@ -1539,8 +2347,9 @@ class Database(Formelfrage):
         #print(self.picture_name)
 
         if self.picture_name != "EMPTY":
-            with open(self.picture_name, 'rb') as f:
-                self.picture_data = f.read()
+            # read image data in byte format
+            with open(self.picture_name, 'rb') as image_file:
+                self.picture_data = image_file.read()
 
 
         else:
@@ -2037,9 +2846,9 @@ class Database(Formelfrage):
                 self.rec_data = record[73]  #record[63] -> img_data_raw (as byte)
 
                 #Picture need to have the name"il_0_mob_xxxxxxx" for ilias to work
-                with open('il_0_mob_TEST.png', 'wb') as f:
-                    f.write(self.rec_data)
-                    print("IN IT 2")
+                with open('il_0_mob_TEST.png', 'wb') as image_file:
+                    image_file.write(self.rec_data)
+
 
                 self.picture_name = "il_0_mob_TEST.png"
                 self.db_file_image = ImageTk.PhotoImage(Image.open(self.picture_name).resize((250, 250)))
@@ -2377,148 +3186,156 @@ class create_formelfrage(Formelfrage):
         for x in range(len(self.entry_split)):
             for record in records:
                 if str(record[len(record) - 1]) == self.entry_split[x]:
+                    if record[2].lower() == "formelfrage":
+                        print("formelfrage found!")
 
 
+                        self.question_difficulty = str(record[0])
+                        self.question_category = str(record[1])
+                        self.question_type = str(record[2])
 
-                    self.question_difficulty = str(record[0])
-                    self.question_category = str(record[1])
-                    self.question_type = str(record[2])
+                        self.question_title = str(record[3])
+                        self.question_description_title = str(record[4])
+                        self.question_description_main_raw = str(record[5])
+                        self.formula_question_entry_multi_replaced = self.question_description_main_raw.replace('\n', "&lt;/p&gt;&#13;&#10;&lt;p&gt;")
+                        self.question_description_main_test = self.formula_question_entry_multi_replaced
+                        self.question_description_main_latex1 = self.question_description_main_test.replace('\\)', "</span>")
+                        self.question_description_main = self.question_description_main_latex1.replace('\\(', "<span class=\"latex\">")
 
-                    self.question_title = str(record[3])
-                    self.question_description_title = str(record[4])
-                    self.question_description_main_raw = str(record[5])
-                    self.formula_question_entry_multi_replaced = self.question_description_main_raw.replace('\n', "&lt;/p&gt;&#13;&#10;&lt;p&gt;")
-                    self.question_description_main_test = self.formula_question_entry_multi_replaced
-                    self.question_description_main_latex1 = self.question_description_main_test.replace('\\\\', "</span>")
-                    self.question_description_main = self.question_description_main_latex1.replace('\\', "<span class=\"latex\">")
+                        self.res1_formula = str(record[6])
+                        self.res1_formula_length = str(len(self.res1_formula))
+                        self.res2_formula = str(record[7])
+                        self.res2_formula_length = str(len(self.res2_formula))
+                        self.res3_formula = str(record[8])
+                        self.res3_formula_length = str(len(self.res3_formula))
 
-                    self.res1_formula = str(record[6])
-                    self.res1_formula_length = str(len(self.res1_formula))
-                    self.res2_formula = str(record[7])
-                    self.res2_formula_length = str(len(self.res2_formula))
-                    self.res3_formula = str(record[8])
-                    self.res3_formula_length = str(len(self.res3_formula))
+                        self.var1_name = str(record[9])
+                        self.var1_min = str(record[10])
+                        self.var1_max = str(record[11])
+                        self.var1_prec = str(record[12])
+                        self.var1_divby = str(record[13])
+                        self.var1_divby_length = str(len(self.var1_divby))
+                        self.var1_unit = str(record[14])
+                        self.var1_unit_length = str(len(self.var1_unit))
 
-                    self.var1_name = str(record[9])
-                    self.var1_min = str(record[10])
-                    self.var1_max = str(record[11])
-                    self.var1_prec = str(record[12])
-                    self.var1_divby = str(record[13])
-                    self.var1_divby_length = str(len(self.var1_divby))
-                    self.var1_unit = str(record[14])
-                    self.var1_unit_length = str(len(self.var1_unit))
+                        self.var2_name = str(record[15])
+                        self.var2_min = str(record[16])
+                        self.var2_max = str(record[17])
+                        self.var2_prec = str(record[18])
+                        self.var2_divby = str(record[19])
+                        self.var2_divby_length = str(len(self.var2_divby))
+                        self.var2_unit = str(record[20])
+                        self.var2_unit_length = str(len(self.var2_unit))
 
-                    self.var2_name = str(record[15])
-                    self.var2_min = str(record[16])
-                    self.var2_max = str(record[17])
-                    self.var2_prec = str(record[18])
-                    self.var2_divby = str(record[19])
-                    self.var2_divby_length = str(len(self.var2_divby))
-                    self.var2_unit = str(record[20])
-                    self.var2_unit_length = str(len(self.var2_unit))
+                        self.var3_name = str(record[21])
+                        self.var3_min = str(record[22])
+                        self.var3_max = str(record[23])
+                        self.var3_prec = str(record[24])
+                        self.var3_divby = str(record[25])
+                        self.var3_divby_length = str(len(self.var3_divby))
+                        self.var3_unit = str(record[26])
+                        self.var3_unit_length = str(len(self.var3_unit))
 
-                    self.var3_name = str(record[21])
-                    self.var3_min = str(record[22])
-                    self.var3_max = str(record[23])
-                    self.var3_prec = str(record[24])
-                    self.var3_divby = str(record[25])
-                    self.var3_divby_length = str(len(self.var3_divby))
-                    self.var3_unit = str(record[26])
-                    self.var3_unit_length = str(len(self.var3_unit))
+                        self.var4_name = str(record[27])
+                        self.var4_min = str(record[28])
+                        self.var4_max = str(record[29])
+                        self.var4_prec = str(record[30])
+                        self.var4_divby = str(record[31])
+                        self.var4_divby_length = str(len(self.var4_divby))
+                        self.var4_unit = str(record[32])
+                        self.var4_unit_length = str(len(self.var4_unit))
 
-                    self.var4_name = str(record[27])
-                    self.var4_min = str(record[28])
-                    self.var4_max = str(record[29])
-                    self.var4_prec = str(record[30])
-                    self.var4_divby = str(record[31])
-                    self.var4_divby_length = str(len(self.var4_divby))
-                    self.var4_unit = str(record[32])
-                    self.var4_unit_length = str(len(self.var4_unit))
+                        self.var5_name = str(record[33])
+                        self.var5_min = str(record[34])
+                        self.var5_max = str(record[35])
+                        self.var5_prec = str(record[36])
+                        self.var5_divby = str(record[37])
+                        self.var5_divby_length = str(len(self.var5_divby))
+                        self.var5_unit = str(record[38])
+                        self.var5_unit_length = str(len(self.var5_unit))
 
-                    self.var5_name = str(record[33])
-                    self.var5_min = str(record[34])
-                    self.var5_max = str(record[35])
-                    self.var5_prec = str(record[36])
-                    self.var5_divby = str(record[37])
-                    self.var5_divby_length = str(len(self.var5_divby))
-                    self.var5_unit = str(record[38])
-                    self.var5_unit_length = str(len(self.var5_unit))
+                        self.var6_name = str(record[39])
+                        self.var6_min = str(record[40])
+                        self.var6_max = str(record[41])
+                        self.var6_prec = str(record[42])
+                        self.var6_divby = str(record[43])
+                        self.var6_divby_length = str(len(self.var6_divby))
+                        self.var6_unit = str(record[44])
+                        self.var6_unit_length = str(len(self.var6_unit))
 
-                    self.var6_name = str(record[39])
-                    self.var6_min = str(record[40])
-                    self.var6_max = str(record[41])
-                    self.var6_prec = str(record[42])
-                    self.var6_divby = str(record[43])
-                    self.var6_divby_length = str(len(self.var6_divby))
-                    self.var6_unit = str(record[44])
-                    self.var6_unit_length = str(len(self.var6_unit))
+                        self.var7_name = str(record[45])
+                        self.var7_min = str(record[46])
+                        self.var7_max = str(record[47])
+                        self.var7_prec = str(record[48])
+                        self.var7_divby = str(record[49])
+                        self.var7_divby_length = str(len(self.var7_divby))
+                        self.var7_unit = str(record[50])
+                        self.var7_unit_length = str(len(self.var7_unit))
 
-                    self.var7_name = str(record[45])
-                    self.var7_min = str(record[46])
-                    self.var7_max = str(record[47])
-                    self.var7_prec = str(record[48])
-                    self.var7_divby = str(record[49])
-                    self.var7_divby_length = str(len(self.var7_divby))
-                    self.var7_unit = str(record[50])
-                    self.var7_unit_length = str(len(self.var7_unit))
-
-                    self.res1_name = str(record[51])
-                    self.res1_min = str(record[52])
-                    self.res1_min_length = str(len(self.res1_min))
-                    self.res1_max = str(record[53])
-                    self.res1_max_length = str(len(self.res1_max))
-                    self.res1_prec = str(record[54])
-                    self.res1_tol = str(record[55])
-                    self.res1_tol_length = str(len(self.res1_tol))
-                    self.res1_points = str(record[56])
-                    self.res1_unit = str(record[57])
-                    self.res1_unit_length = str(len(self.res1_unit))
-
-
-                    self.res2_name = str(record[58])
-                    self.res2_min = str(record[59])
-                    self.res2_min_length = str(len(self.res2_min))
-                    self.res2_max = str(record[60])
-                    self.res2_max_length = str(len(self.res2_max))
-                    self.res2_prec = str(record[61])
-                    self.res2_tol = str(record[62])
-                    self.res2_tol_length = str(len(self.res2_tol))
-                    self.res2_points = str(record[63])
-                    self.res2_unit = str(record[64])
-                    self.res2_unit_length = str(len(self.res2_unit))
+                        self.res1_name = str(record[51])
+                        self.res1_min = str(record[52])
+                        self.res1_min_length = str(len(self.res1_min))
+                        self.res1_max = str(record[53])
+                        self.res1_max_length = str(len(self.res1_max))
+                        self.res1_prec = str(record[54])
+                        self.res1_tol = str(record[55])
+                        self.res1_tol_length = str(len(self.res1_tol))
+                        self.res1_points = str(record[56])
+                        self.res1_unit = str(record[57])
+                        self.res1_unit_length = str(len(self.res1_unit))
 
 
-                    self.res3_name = str(record[65])
-                    self.res3_min = str(record[66])
-                    self.res3_min_length = str(len(self.res3_min))
-                    self.res3_max = str(record[67])
-                    self.res3_max_length = str(len(self.res3_max))
-                    self.res3_prec = str(record[68])
-                    self.res3_tol = str(record[69])
-                    self.res3_tol_length = str(len(self.res3_tol))
-                    self.res3_points = str(record[70])
-                    self.res3_unit = str(record[71])
-                    self.res3_unit_length = str(len(self.res3_unit))
+                        self.res2_name = str(record[58])
+                        self.res2_min = str(record[59])
+                        self.res2_min_length = str(len(self.res2_min))
+                        self.res2_max = str(record[60])
+                        self.res2_max_length = str(len(self.res2_max))
+                        self.res2_prec = str(record[61])
+                        self.res2_tol = str(record[62])
+                        self.res2_tol_length = str(len(self.res2_tol))
+                        self.res2_points = str(record[63])
+                        self.res2_unit = str(record[64])
+                        self.res2_unit_length = str(len(self.res2_unit))
 
-                    self.img_name = str(record[72])
-                    self.img_data_raw = record[73]
-                    self.img_data = str(record[73])
 
-                    self.test_time = str(record[74])
+                        self.res3_name = str(record[65])
+                        self.res3_min = str(record[66])
+                        self.res3_min_length = str(len(self.res3_min))
+                        self.res3_max = str(record[67])
+                        self.res3_max_length = str(len(self.res3_max))
+                        self.res3_prec = str(record[68])
+                        self.res3_tol = str(record[69])
+                        self.res3_tol_length = str(len(self.res3_tol))
+                        self.res3_points = str(record[70])
+                        self.res3_unit = str(record[71])
+                        self.res3_unit_length = str(len(self.res3_unit))
 
-                    self.oid = str(record[len(record)-1]) #oid ist IMMER letztes Fach
+                        self.img_name = str(record[72])
+                        self.img_data_raw = record[73]
+                        self.img_data = str(record[73])
 
-            create_formelfrage.create_question(self,x)
+                        self.test_time = str(record[74])
 
+                        self.oid = str(record[len(record)-1]) #oid ist IMMER letztes Fach
+                        create_formelfrage.create_question(self, x)  #
+                        print("Formelfrage generated with Title:")
+                        print(self.question_title)
+                        print("\n")
+
+
+                    elif record[2].lower() == "multiple choice":
+                        print("Question type with 'multiple choice' found")
+                        create_multiplechoice.create_mc_question(MultipleChoice,self.mytree, self.myroot, self.qti_file_path_read, self.qti_file_path_write, self.entry_split, x)
+                # create_formelfrage.create_question(self, x)   LAST CHANGE
         conn.commit()
         conn.close()
 
 
     def create_question(self, x):
-        #print("IN CREATE QUESTION")
-        #print(Formelfrage.unit_table(self, self.var1_unit_myCombo.get()))
-        #print(self.var1_unit_myCombo.get())
-        #print("IN CREATE QUESTION")
+        # print("IN CREATE QUESTION")
+        # print(Formelfrage.unit_table(self, self.var1_unit_myCombo.get()))
+        # print(self.var1_unit_myCombo.get())
+        # print("IN CREATE QUESTION")
 
         conn = sqlite3.connect('ilias_questions_db.db')
         c = conn.cursor()
@@ -2533,7 +3350,7 @@ class create_formelfrage(Formelfrage):
             except OSError:
                 print('Error: Creating directory. ' + directory)
 
-        createFolder(self.project_root_path + self.img_file_path_create_folder + 'il_0_mob_000000' + str(x) + '/')
+        createFolder(self.img_file_path_create_folder + 'il_0_mob_000000' + str(x) + '/')
 
 
         for record in records:
@@ -2543,8 +3360,8 @@ class create_formelfrage(Formelfrage):
 
                 if self.img_data_raw != "EMPTY":
                     #img wird immer als PNG Datei abgelegt.
-                    with open(self.img_file_path + "\\il_0_mob_000000" + str(x) + "\\" + self.img_name + ".png", 'wb') as f:
-                        f.write(self.img_data_raw)
+                    with open(self.img_file_path + "\\il_0_mob_000000" + str(x) + "\\" + self.img_name + ".png", 'wb') as image_file:
+                        image_file.write(self.img_data_raw)
 
                     self.image = Image.open(self.img_file_path + "\\il_0_mob_000000" + str(x) + "\\" + self.img_name + ".png")
                     self.image.save(self.img_file_path + "\\il_0_mob_000000" + str(x) + "\\" + self.img_name + ".png")
@@ -2592,6 +3409,7 @@ class create_formelfrage(Formelfrage):
                 self.myroot[0][len(self.myroot[0])-1].append(item)
 
 
+
                 if duration.text == "":
                     duration.text = "P0Y0M0DT1H0M0S"
 
@@ -2604,7 +3422,6 @@ class create_formelfrage(Formelfrage):
                     if assessment.get('title') == "":
                         assessment.set('title', "DEFAULT")
 
-                    print(assessment.attrib)
 
                 itemmetadata = ET.SubElement(item, 'itemmetadata')
                 presentation = ET.SubElement(item, 'presentation')
@@ -2614,8 +3431,6 @@ class create_formelfrage(Formelfrage):
 
                 mattext = ET.SubElement(material, 'mattext')
                 mattext.set('texttype', "text/html")
-
-                print("IMG DATA:"+ str(self.img_data))
 
                 if self.img_data != "EMPTY":
                     #mattext.text = "<p>" + self.question_description_main + "</p>" + "<p><img height=\"378\" src=\"il_0_mob_0000000\" width=\"482\" /></p>"
@@ -2649,7 +3464,6 @@ class create_formelfrage(Formelfrage):
                 fieldlabel.text = "AUTHOR"
                 fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
                 fieldentry.text = str(self.autor_entry.get())
-                print(str(self.autor_entry.get()))
                 # -----------------------------------------------------------------------POINTS
                 qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
@@ -3126,16 +3940,15 @@ class create_formelfrage(Formelfrage):
 
 
     def replace_characters(self):
-        # with open("xml_form_edit\\" + 'NEW_1590230409__0__qti_1948621.xml') as f:
-        with open(self.qti_file_path_write) as f:
-            xml_str = f.read()
-        xml_str = xml_str.replace('&amp;', '&')
-         
 
-        # with open("xml_form_edit\\"+'ESCAPED_1590230409__0__qti_1948621.xml', "w") as f:
-        #with open("1590475954__0__tst_1944463\\" + '1590475954__0__qti_1944463.xml', "w") as f:
-        with open(self.qti_file_path_write, "w") as f:
-            f.write(xml_str)
+        #open xml file to replace specific characters
+        with open(self.qti_file_path_write, 'r') as xml_file:
+            xml_str = xml_file.read()
+        xml_str = xml_str.replace('&amp;', '&') #replace 'x' with 'new_x'
+         
+        #write to file
+        with open(self.qti_file_path_write, 'w') as replaced_xml_file:
+            replaced_xml_file.write(xml_str)
 
         print("WORKOVER FINISHED!")
 
@@ -3156,7 +3969,7 @@ class GUI_settings_window(Formelfrage):
 
         # Create a ScrolledFrame widget
         self.sf_test_settings = ScrolledFrame(self.test_settings_window, width=self.settings_width, height=self.settings_height)
-        self.sf_test_settings.grid(sticky='nsew')
+        self.sf_test_settings.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
         self.sf_test_settings.bind_arrow_keys(app)
@@ -4233,396 +5046,7 @@ app.mainloop()
 
 def trash_class():
     """
-    class MultipleChoice(Formelfrage):
-        def __init__(self):
-            # self.my_frame = Frame(master)
-            # self.my_frame.grid()
-
-            self.mc_frame = LabelFrame(self.multipleChoice_tab, text="Multiple Choice", padx=5, pady=5)
-            self.mc_frame.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
-
-            self.mc_title_label = Label(self.mc_frame, text="Titel")
-            self.mc_title_label.grid(row=0, column=0, sticky=W, padx=10, pady=(10, 0))
-            self.mc_title_entry = Entry(self.mc_frame, width=60)
-            self.mc_title_entry.grid(row=0, column=1, pady=(10, 0), sticky=W)
-
-            # mc_author_label = Label(mc_frame, text="Autor")
-            # mc_author_label.grid(row=1, column=0, sticky=W, padx=10)
-            # mc_author_entry = Entry(mc_frame, width=60)
-            # mc_author_entry.grid(row=1, column=1, sticky=W)
-
-            self.mc_description_label = Label(self.mc_frame, text="Beschreibung")
-            self.mc_description_label.grid(row=2, column=0, sticky=W, padx=10)
-            self.mc_description_entry = Entry(self.mc_frame, width=60)
-            self.mc_description_entry.grid(row=2, column=1, sticky=W)
-
-            self.mc_question_textfield_label = Label(self.mc_frame, text="Frage")
-            self.mc_question_textfield_label.grid(row=3, column=0, sticky=W, padx=10)
-
-            # self.bar = Scrollbar(self.mc_frame)
-            # self.infobox = Text(self.mc_frame, height=4, width=52, font=('Helvetica', 9))
-            # self.bar.grid(row=3, column=2, sticky=W)
-            # self.infobox.grid(row=3, column=1, pady=10, sticky=W)
-            # self.bar.config(command=self.infobox.yview)
-            # self.infobox.config(yscrollcommand=self.bar.set)
-
-            self.mc_processing_time_label = Label(self.mc_frame, text="Bearbeitungsdauer")
-            self.mc_processing_time_label.grid(row=4, column=0, sticky=W, pady=(5, 0), padx=10)
-
-            self.mc_processing_time_label = Label(self.mc_frame, text="Std:")
-            self.mc_processing_time_label.grid(row=4, column=1, sticky=W, pady=(5, 0))
-            self.mc_processing_time_label = Label(self.mc_frame, text="Min:")
-            self.mc_processing_time_label.grid(row=4, column=1, sticky=W, padx=70, pady=(5, 0))
-            self.mc_processing_time_label = Label(self.mc_frame, text="Sek:")
-            self.mc_processing_time_label.grid(row=4, column=1, sticky=W, padx=145, pady=(5, 0))
-
-            ### Preview LaTeX
-            expr = r'$$  {\text{Zu berechnen ist:  }}\  sin(x^2)\ {\text{Textblock 2}}\ {formel2} $$'
-            preview(expr, viewer='file', filename='output.png')
-
-            file_image = ImageTk.PhotoImage(Image.open('output.png'))
-            file_image_label = Label(self.mc_frame, image=file_image)
-            file_image_label.image = file_image
-
-            def latex_preview():
-                file_image_label.grid(row=20, column=1, pady=20)
-
-            self.myLatex_btn = Button(self.mc_frame, text="show LaTeX Preview", command=latex_preview)
-            self.myLatex_btn.grid(row=4, column=1, sticky=E)
-
-            ###
-
-            self.processingtime_hours = list(range(24))
-            self.processingtime_minutes = list(range(60))
-            self.processingtime_seconds = list(range(60))
-
-            self.proc_hours_box = ttk.Combobox(self.mc_frame, value=self.processingtime_hours, width=2)
-            self.proc_minutes_box = ttk.Combobox(self.mc_frame, value=self.processingtime_minutes, width=2)
-            self.proc_seconds_box = ttk.Combobox(self.mc_frame, value=self.processingtime_seconds, width=2)
-
-            self.proc_hours_box.current(0)
-            self.proc_minutes_box.current(0)
-            self.proc_seconds_box.current(0)
-
-            self.proc_hours_box.bind("<<ComboboxSelected>>")
-            self.proc_hours_box.bind("<<ComboboxSelected>>")
-            self.proc_hours_box.bind("<<ComboboxSelected>>")
-
-            self.proc_hours_box.grid(row=4, column=1, sticky=W, padx=25, pady=(5, 0))
-            self.proc_minutes_box.grid(row=4, column=1, sticky=W, padx=100, pady=(5, 0))
-            self.proc_seconds_box.grid(row=4, column=1, sticky=W, padx=170, pady=(5, 0))
-
-            self.mc_mix_questions_label = Label(self.mc_frame, text="Fragen mischen")
-            self.mc_mix_questions_label.grid(row=5, column=0, sticky=W, padx=10, pady=(5, 0))
-
-            self.mc_var_mix_questions = StringVar()
-            self.mc_check_mix_questions = Checkbutton(self.mc_frame, text="", variable=self.mc_var_mix_questions,
-                                                      onvalue="1",
-                                                      offvalue="0")
-            self.mc_check_mix_questions.deselect()
-            self.mc_check_mix_questions.grid(row=5, column=1, sticky=W, pady=(5, 0))
-
-            self.mc_answer_limitation_label = Label(self.mc_frame, text="Antwortbeschränkung")
-            self.mc_answer_limitation_label.grid(row=6, column=0, sticky=W, padx=10, pady=(5, 0))
-            self.mc_answer_limitation_entry = Entry(self.mc_frame, width=10)
-            self.mc_answer_limitation_entry.grid(row=6, column=1, sticky=W, pady=(5, 0))
-
-            self.answer_editor_box_label = Label(self.mc_frame, text="Antwort-Editor")
-            self.answer_editor_box_label.grid(row=7, column=0, sticky=W, padx=10, pady=(5, 0))
-            self.answer_editor_value = ("Einzeilige Antwort", "Mehrzeilige Antwort")
-            self.answer_editor_box = ttk.Combobox(self.mc_frame, value=self.answer_editor_value, width=20)
-            self.answer_editor_box.bind("<<ComboboxSelected>>")
-            self.answer_editor_box.grid(row=7, column=1, sticky=W, pady=(5, 0))
-
-            def mc_answer_selected(event):  # "event" is necessary here to react, although it is not used "officially"
-
-                if self.numbers_of_answers_box.get() == '1':
-                    mc_var2_remove()
-                    mc_var3_remove()
-                    mc_var4_remove()
-                    mc_var5_remove()
-                    mc_var6_remove()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '2':
-                    mc_var2_show()
-                    mc_var3_remove()
-                    mc_var4_remove()
-                    mc_var5_remove()
-                    mc_var6_remove()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '3':
-                    mc_var2_show()
-                    mc_var3_show()
-                    mc_var4_remove()
-                    mc_var5_remove()
-                    mc_var6_remove()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '4':
-                    mc_var2_show()
-                    mc_var3_show()
-                    mc_var4_show()
-                    mc_var5_remove()
-                    mc_var6_remove()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '5':
-                    mc_var2_show()
-                    mc_var3_show()
-                    mc_var4_show()
-                    mc_var5_show()
-                    mc_var6_remove()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '6':
-                    mc_var2_show()
-                    mc_var3_show()
-                    mc_var4_show()
-                    mc_var5_show()
-                    mc_var6_show()
-                    mc_var7_remove()
-
-
-                elif self.numbers_of_answers_box.get() == '7':
-                    mc_var2_show()
-                    mc_var3_show()
-                    mc_var4_show()
-                    mc_var5_show()
-                    mc_var6_show()
-                    mc_var7_show()
-
-            self.numbers_of_answers_box_label = Label(self.mc_frame, text="Anzahl der Antworten")
-            self.numbers_of_answers_box_label.grid(row=8, column=0, sticky=W, padx=10, pady=(5, 0))
-            self.numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7"]
-            self.numbers_of_answers_box = ttk.Combobox(self.mc_frame, value=self.numbers_of_answers_value, width=20)
-            self.numbers_of_answers_box.bind("<<ComboboxSelected>>", mc_answer_selected)
-            self.numbers_of_answers_box.grid(row=8, column=1, sticky=W, pady=(5, 0))
-
-            # self.Label(self.mc_frame, text="Antworten").grid(row=9, column=0, sticky=W, padx=10, pady=(5, 0))
-            # self.Label(self.mc_frame, text="Antwort-Text").grid(row=9, column=1, sticky=W, pady=(5, 0))
-            # self.Label(self.mc_frame, text="Punkte:\nAusgewählt").grid(row=9, column=1, sticky=E, padx=20)
-            # self.Label(self.mc_frame, text="Punkte:\nNicht ausgewählt").grid(row=9, column=2)
-
-            # ------------------------------- VARIABLES RANGE: MINIMUM - TEXT & ENTRY --------------------------------------------
-            self.var1_answer_text, self.var1_points_picked_text, self.var1_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var2_answer_text, self.var2_points_picked_text, self.var2_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var3_answer_text, self.var3_points_picked_text, self.var3_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var4_answer_text, self.var4_points_picked_text, self.var4_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var5_answer_text, self.var5_points_picked_text, self.var5_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var6_answer_text, self.var6_points_picked_text, self.var6_points_not_picked_text = StringVar(), StringVar(), StringVar()
-            self.var7_answer_text, self.var7_points_picked_text, self.var7_points_not_picked_text = StringVar(), StringVar(), StringVar()
-
-            self.var1_answer_entry = Entry(self.mc_frame, textvariable=self.var1_answer_text, width=40)
-            self.var2_answer_entry = Entry(self.mc_frame, textvariable=self.var2_answer_text, width=40)
-            self.var3_answer_entry = Entry(self.mc_frame, textvariable=self.var3_answer_text, width=40)
-            self.var4_answer_entry = Entry(self.mc_frame, textvariable=self.var4_answer_text, width=40)
-            self.var5_answer_entry = Entry(self.mc_frame, textvariable=self.var5_answer_text, width=40)
-            self.var6_answer_entry = Entry(self.mc_frame, textvariable=self.var6_answer_text, width=40)
-            self.var7_answer_entry = Entry(self.mc_frame, textvariable=self.var7_answer_text, width=40)
-
-            # ------------------------------- VARIABLES RANGE:  MAXIMUM - TEXT & ENTRY --------------------------------------------
-
-            self.var1_points_picked_entry = Entry(self.mc_frame, textvariable=self.var1_points_picked_text, width=6)
-            self.var2_points_picked_entry = Entry(self.mc_frame, textvariable=self.var2_points_picked_text, width=6)
-            self.var3_points_picked_entry = Entry(self.mc_frame, textvariable=self.var3_points_picked_text, width=6)
-            self.var4_points_picked_entry = Entry(self.mc_frame, textvariable=self.var4_points_picked_text, width=6)
-            self.var5_points_picked_entry = Entry(self.mc_frame, textvariable=self.var5_points_picked_text, width=6)
-            self.var6_points_picked_entry = Entry(self.mc_frame, textvariable=self.var6_points_picked_text, width=6)
-            self.var7_points_picked_entry = Entry(self.mc_frame, textvariable=self.var7_points_picked_text, width=6)
-
-            # ------------------------------- VARIABLES PRECISION - TEXT & ENTRY --------------------------------------------
-
-            self.var1_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var1_points_not_picked_text,
-                                                      width=6)
-            self.var2_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var2_points_not_picked_text,
-                                                      width=6)
-            self.var3_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var3_points_not_picked_text,
-                                                      width=6)
-            self.var4_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var4_points_not_picked_text,
-                                                      width=6)
-            self.var5_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var5_points_not_picked_text,
-                                                      width=6)
-            self.var6_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var6_points_not_picked_text,
-                                                      width=6)
-            self.var7_points_not_picked_entry = Entry(self.mc_frame, textvariable=self.var7_points_not_picked_text,
-                                                      width=6)
-
-            self.answer1_label = Label(self.mc_frame, text="Antwort 1")
-            self.answer2_label = Label(self.mc_frame, text="Antwort 2")
-            self.answer3_label = Label(self.mc_frame, text="Antwort 3")
-            self.answer4_label = Label(self.mc_frame, text="Antwort 4")
-            self.answer5_label = Label(self.mc_frame, text="Antwort 5")
-            self.answer6_label = Label(self.mc_frame, text="Antwort 6")
-            self.answer7_label = Label(self.mc_frame, text="Antwort 7")
-
-            self.answer1_label.grid(row=10, column=0, sticky=W, padx=30)
-            self.var1_answer_entry.grid(row=10, column=1, sticky=W)
-            self.var1_points_picked_entry.grid(row=10, column=1, sticky=E, padx=30)
-            self.var1_points_not_picked_entry.grid(row=10, column=2)
-
-            def mc_var2_show():
-                self.answer2_label.grid(row=11, column=0, sticky=W, padx=30)
-                self.var2_answer_entry.grid(row=11, column=1, sticky=W)
-                self.var2_points_picked_entry.grid(row=11, column=1, sticky=E, padx=30)
-                self.var2_points_not_picked_entry.grid(row=11, column=2)
-
-            def mc_var3_show():
-                self.answer3_label.grid(row=12, column=0, sticky=W, padx=30)
-                self.var3_answer_entry.grid(row=12, column=1, sticky=W)
-                self.var3_points_picked_entry.grid(row=12, column=1, sticky=E, padx=30)
-                self.var3_points_not_picked_entry.grid(row=12, column=2)
-
-            def mc_var4_show():
-                self.answer4_label.grid(row=13, column=0, sticky=W, padx=30)
-                self.var4_answer_entry.grid(row=13, column=1, sticky=W)
-                self.var4_points_picked_entry.grid(row=13, column=1, sticky=E, padx=30)
-                self.var4_points_not_picked_entry.grid(row=13, column=2)
-
-            def mc_var5_show():
-                self.answer5_label.grid(row=14, column=0, sticky=W, padx=30)
-                self.var5_answer_entry.grid(row=14, column=1, sticky=W)
-                self.var5_points_picked_entry.grid(row=14, column=1, sticky=E, padx=30)
-                self.var5_points_not_picked_entry.grid(row=14, column=2)
-
-            def mc_var6_show():
-                self.answer6_label.grid(row=15, column=0, sticky=W, padx=30)
-                self.var6_answer_entry.grid(row=15, column=1, sticky=W)
-                self.var6_points_picked_entry.grid(row=15, column=1, sticky=E, padx=30)
-                self.var6_points_not_picked_entry.grid(row=15, column=2)
-
-            def mc_var7_show():
-                self.answer7_label.grid(row=16, column=0, sticky=W, padx=30)
-                self.var7_answer_entry.grid(row=16, column=1, sticky=W)
-                self.var7_points_picked_entry.grid(row=16, column=1, sticky=E, padx=30)
-                self.var7_points_not_picked_entry.grid(row=16, column=2)
-
-            def mc_var2_remove():
-                self.answer2_label.grid_remove()
-                self.var2_answer_entry.grid_remove()
-                self.var2_points_picked_entry.grid_remove()
-                self.var2_points_not_picked_entry.grid_remove()
-
-            def mc_var3_remove():
-                self.answer3_label.grid_remove()
-                self.var3_answer_entry.grid_remove()
-                self.var3_points_picked_entry.grid_remove()
-                self.var3_points_not_picked_entry.grid_remove()
-
-            def mc_var4_remove():
-                self.answer4_label.grid_remove()
-                self.var4_answer_entry.grid_remove()
-                self.var4_points_picked_entry.grid_remove()
-                self.var4_points_not_picked_entry.grid_remove()
-
-            def mc_var5_remove():
-                self.answer5_label.grid_remove()
-                self.var5_answer_entry.grid_remove()
-                self.var5_points_picked_entry.grid_remove()
-                self.var5_points_not_picked_entry.grid_remove()
-
-            def mc_var6_remove():
-                self.answer6_label.grid_remove()
-                self.var6_answer_entry.grid_remove()
-                self.var6_points_picked_entry.grid_remove()
-                self.var6_points_not_picked_entry.grid_remove()
-
-            def mc_var7_remove():
-                self.answer7_label.grid_remove()
-                self.var7_answer_entry.grid_remove()
-                self.var7_points_picked_entry.grid_remove()
-                self.var7_points_not_picked_entry.grid_remove()
-
-    class create_multiplechoice(MultipleChoice):
-        def __init__(self):
-            self.mytree = ET.parse("xml_form_orig\\" + 'testing_formular.xml')
-            self.myroot = self.mytree.getroot()
-
-            self.frame_mc_create = LabelFrame(self.formula_tab, text="Create Multiplechoice", padx=5, pady=5)
-            self.frame_mc_create.grid(row=1, column=2)
-
-        def create_mc_question(self):
-            questestinterop = ET.Element('questestinterop')
-            assessment = ET.SubElement(questestinterop, 'assessment')
-            section = ET.SubElement(assessment, 'section')
-            item = ET.SubElement(section, 'item')
-
-            duration = ET.SubElement(item, 'duration')
-            duration.text = self.test_time
-
-            qticomment = ET.SubElement(item, 'qticomment')
-            # qticomment.text = self.mc_question_description_title
-
-            itemmetadata = ET.SubElement(item, 'itemmetadata')
-            presentation = ET.SubElement(item, 'presentation')
-            # presentation.set('label', self.mc_q)
-            flow = ET.SubElement(presentation, 'flow')
-            material = ET.SubElement(flow, 'material')
-
-            mattext = ET.SubElement(material, 'mattext')
-            mattext.set('texttype', "text/html")
-
-            # item.set('ident', "il_0_qst_000000")
-            # item.set('title', question_name)
-
-            self.myroot[0][4].append(item)
-
-            qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-            # -----------------------------------------------------------------------ILIAS VERSION
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "ILIAS_VERSION"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "5.4.10 2020-03-04"
-            # -----------------------------------------------------------------------QUESTION_TYPE
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "QUESTIONTYPE"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "MULTIPLE CHOICE QUESTION"
-            # -----------------------------------------------------------------------AUTHOR
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "AUTHOR"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "Tobias Panteleit"
-            # -----------------------------------------------------------------------additional_cont_edit_mode
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "additional_cont_edit_mode"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "default"
-            # -----------------------------------------------------------------------externalId
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "externalId"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "59a32416e65da6.54228908"
-            # -----------------------------------------------------------------------thumb_size
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "thumb_size"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = ""
-            # -----------------------------------------------------------------------feedback_setting
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "feedback_setting"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "1"
-            # -----------------------------------------------------------------------singleline
-            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-            fieldlabel.text = "singleline"
-            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-            fieldentry.text = "1"
-            """
+   """
 def trash():
     """   
         class updateFormelFrage(Formelfrage):
