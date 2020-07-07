@@ -3140,6 +3140,7 @@ class Database(Formelfrage):
                                              'img_name',
                                              'img_data',
                                              'test_time'])
+        self.df = self.df.fillna("")    #fillna is used to remove "NaN"-entrys from excel-file and to prevent "missing string" error
 
         conn = sqlite3.connect('ilias_questions_db.db')
         c = conn.cursor()
