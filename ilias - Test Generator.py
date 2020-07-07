@@ -10,10 +10,9 @@ from tkscrolledframe import ScrolledFrame
 import os
 import datetime
 import pathlib
+import pandas as pd  # used for import csv to sql
 
 
-# -- Git Hub TEst
-#test 2
 
 
 class GuiMainWindow:
@@ -21,7 +20,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v1.1')
+        master.title('ilias - Test-Generator v1.2.1')
 
         # --------------------------    Set PATH for Project
 
@@ -180,17 +179,27 @@ class GuiMainWindow:
         self.database_submit_formelfrage_btn = Button(self.frame_database, text="Submit", command=lambda: Database.submit(self))
         self.database_submit_formelfrage_btn.grid(row=2, column=0, sticky=W, pady=5)
 
-        self.database_delete_btn = Button(self.frame_database, text="Delete", command=lambda: Database.delete(self))
-        self.database_delete_btn.grid(row=3, column=0, sticky=W, pady=5)
+        self.database_edit_btn = Button(self.frame_database, text="Edit", command=lambda: Database.edit(self))
+        self.database_edit_btn.grid(row=3, column=0, sticky=W, pady=5)
 
-        self.delete_box = Entry(self.frame_database, width=5)
-        self.delete_box.grid(row=3, column=1, sticky=W)
+        self.edit_box = Entry(self.frame_database, width=5)
+        self.edit_box.grid(row=3, column=1, sticky=W)
 
         self.database_load_btn = Button(self.frame_database, text="Load", command=lambda: Database.load(self))
         self.database_load_btn.grid(row=4, column=0, sticky=W, pady=5)
 
         self.load_box = Entry(self.frame_database, width=5)
         self.load_box.grid(row=4, column=1, sticky=W)
+
+        self.database_delete_btn = Button(self.frame_database, text="Delete", command=lambda: Database.delete(self))
+        self.database_delete_btn.grid(row=5, column=0, sticky=W, pady=5)
+
+        self.delete_box = Entry(self.frame_database, width=5)
+        self.delete_box.grid(row=5, column=1, sticky=W)
+
+        # csv_import_btn
+        self.excel_xlsx_import_btn_btn = Button(self.frame_database, text="Excel import",command=lambda: Database.excel_xlsx_import(self))
+        self.excel_xlsx_import_btn_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # still working?
         #self.show_test_settings_formula_tab = Button(self.formula_tab, text="Test-Einstellungen",command=lambda: GUI_settings_window.__init__(self.formula_tab))
@@ -228,8 +237,18 @@ class GuiMainWindow:
         self.question_type_entry.grid(row=0, column=1, pady=5, padx=5)
         self.question_type_entry.insert(0, "Formelfrage")
 
-        self.btn = Button(self.frame_latex_preview, text="add latex-term", command=lambda: Formelfrage.add_term(self))
-        self.btn.grid()
+        self.add_latex_term_btn = Button(self.frame_latex_preview, text="add latex-term",command=lambda: Formelfrage.add_term(self))
+        self.add_latex_term_btn.grid()
+
+        self.set_text_sub_btn = Button(self.frame_latex_preview, text="Text \"Tiefgestellt\"", command=lambda: Formelfrage.text_sub(self))
+        self.set_text_sub_btn.grid()
+
+        self.set_text_sup_btn = Button(self.frame_latex_preview, text="Text \"Hochgestellt\"",command=lambda: Formelfrage.text_sup(self))
+        self.set_text_sup_btn.grid()
+
+        # self.reallocate_text_btn = Button(self.frame_latex_preview, text=">>Reallocate Text<<", command=lambda: Formelfrage.reallocate_text(self))
+        # self.reallocate_text_btn.grid()
+
 
         self.picture_name = "EMPTY"
 
@@ -1017,6 +1036,54 @@ class Formelfrage(GuiMainWindow):
         self.formula_question_entry.insert(SEL_FIRST, '\\(', 'RED')
         self.formula_question_entry.insert(SEL_LAST, '\\)', 'RED')
         self.formula_question_entry.tag_config('RED', foreground='red')
+
+    def text_sub(self):
+        self.formula_question_entry.insert(SEL_FIRST, '<b>', 'SUB')
+        self.formula_question_entry.insert(SEL_LAST, '</b>', 'SUB')
+        self.formula_question_entry.tag_add('SUB', SEL_FIRST, SEL_LAST)
+        self.formula_question_entry.tag_config('SUB', offset=-4)
+        self.formula_question_entry.tag_config('SUB', foreground='blue')
+
+    def text_sup(self):
+        self.formula_question_entry.insert(SEL_FIRST, '<p>', 'SUP')
+        self.formula_question_entry.insert(SEL_LAST, '</p>', 'SUP')
+        self.formula_question_entry.tag_add('SUP', SEL_FIRST, SEL_LAST)
+        self.formula_question_entry.tag_config('SUP', offset=4)
+        self.formula_question_entry.tag_config('SUP', foreground='green')
+
+    def reallocate_text(self):
+
+        self.content = self.formula_question_entry.get("1.0", 'end-1c')
+        self.numbers_of_searchterm_p = self.content.count("<p>")
+        self.numbers_of_searchterm_b = self.content.count("<b>")
+        self.search_index = '1.0'
+        self.search_index_start = self.search_index
+        self.search_index_end = self.search_index
+
+        for x in range(self.numbers_of_searchterm_p):
+            self.search_p1_begin = self.formula_question_entry.search('<p>', self.search_index_start, stopindex ="end")
+            self.search_p1_end = self.formula_question_entry.search('</p>', self.search_p1_begin, stopindex="end")
+            self.formula_question_entry.tag_add('SUP', self.search_p1_begin, self.search_p1_end + '+4c')
+            self.formula_question_entry.tag_config('SUP', offset=4)
+            self.formula_question_entry.tag_config('SUP', foreground='green')
+            self.search_index_start = self.search_p1_end
+            self.search_index_end = self.search_p1_begin
+
+
+        self.search_index = '1.0'
+        self.search_index_start = self.search_index
+        self.search_index_end = self.search_index
+        for y in range(self.numbers_of_searchterm_b):
+            self.search_b1_begin = self.formula_question_entry.search('<b>', self.search_index_start, stopindex ="end")
+            self.search_b1_end = self.formula_question_entry.search('</b>', self.search_b1_begin, stopindex="end")
+            self.formula_question_entry.tag_add('SUB', self.search_b1_begin, self.search_b1_end + '+4c')
+            self.formula_question_entry.tag_config('SUB', offset=-4)
+            self.formula_question_entry.tag_config('SUB', foreground='blue')
+            self.search_index_start = self.search_b1_end
+            self.search_index_end = self.search_b1_begin
+
+
+
 
 
 
@@ -2648,6 +2715,224 @@ class Database(Formelfrage):
         conn.commit()
         conn.close()
 
+        print("Load Question with ID: " + record_id)
+        Database.reallocate_text(self)
+        print("Question entry text... re-allocated!")
+
+    def edit(self):
+
+        conn = sqlite3.connect('ilias_questions_db.db')
+        c = conn.cursor()
+        record_id = self.edit_box.get()
+
+        # format of duration P0Y0M0DT0H30M0S
+        self.test_time = "P0Y0M0DT" + self.proc_hours_box.get() + "H" + self.proc_minutes_box.get() + "M" + self.proc_seconds_box.get() + "S"
+
+        # Dieser String muss modifiziert werden. In der xml ist ein Zeilenumbrauch als "&lt;/p&gt;&#13;&#10;&lt;p&gt;" definiert und nur 1 Zeile!
+
+        # print(self.picture_name)
+
+        if self.picture_name != "EMPTY":
+            # read image data in byte format
+            with open(self.picture_name, 'rb') as image_file:
+                self.picture_data = image_file.read()
+
+
+        else:
+            self.picture_name_new = "EMPTY"
+            self.picture_data = "EMPTY"
+
+        c.execute("""UPDATE my_table SET
+             question_difficulty = :question_difficulty,
+             question_category = :question_category,
+             question_type = :question_type,
+
+             question_title = :question_title,
+             question_description_title = :question_description_title,
+             question_description_main = :question_description_main,
+
+             res1_formula = :res1_formula,
+             res2_formula = :res2_formula,
+             res3_formula = :res3_formula,
+
+             var1_name = :var1_name,
+             var1_min = :var1_min,
+             var1_max = :var1_max,
+             var1_prec = :var1_prec,
+             var1_divby = :var1_divby,
+             var1_unit = :var1_unit,
+
+             var2_name = :var2_name,
+             var2_min = :var2_min,
+             var2_max = :var2_max,
+             var2_prec = :var2_prec,
+             var2_divby = :var2_divby,
+             var2_unit = :var2_unit,
+
+             var3_name = :var3_name,
+             var3_min = :var3_min,
+             var3_max = :var3_max,
+             var3_prec = :var3_prec,
+             var3_divby = :var3_divby,
+             var3_unit = :var3_unit,
+
+             var4_name = :var4_name,
+             var4_min = :var4_min,
+             var4_max = :var4_max,
+             var4_prec = :var4_prec,
+             var4_divby = :var4_divby,
+             var4_unit = :var4_unit,
+
+             var5_name = :var5_name,
+             var5_min = :var5_min,
+             var5_max = :var5_max,
+             var5_prec = :var5_prec,
+             var5_divby = :var5_divby,
+             var5_unit = :var5_unit,
+
+             var6_name = :var6_name,
+             var6_min = :var6_min,
+             var6_max = :var6_max,
+             var6_prec = :var6_prec,
+             var6_divby = :var6_divby,
+             var6_unit = :var6_unit,
+
+             var7_name = :var7_name,
+             var7_min = :var7_min,
+             var7_max = :var7_max,
+             var7_prec = :var7_prec,
+             var7_divby = :var7_divby,
+             var7_unit = :var7_unit,
+
+             res1_name = :res1_name,
+             res1_min = :res1_min,
+             res1_max = :res1_max,
+             res1_prec = :res1_prec,
+             res1_tol = :res1_tol,
+             res1_points = :res1_points,
+             res1_unit = :res1_unit,
+
+             res2_name = :res2_name,
+             res2_min = :res2_min,
+             res2_max = :res2_max,
+             res2_prec = :res2_prec,
+             res2_tol = :res2_tol,
+             res2_points = :res2_points,
+             res2_unit = :res2_unit,
+
+             res3_name = :res3_name,
+             res3_min = :res3_min,
+             res3_max = :res3_max,
+             res3_prec = :res3_prec,
+             res3_tol = :res3_tol,
+             res3_points = :res3_points,
+             res3_unit = :res3_unit,
+
+             img_name = :img_name,
+             img_data = :img_data,
+
+             test_time= :test_time
+
+             WHERE oid = :oid""",
+                  {'question_difficulty': self.question_difficulty_entry.get(),
+                   'question_category': self.question_category_entry.get(),
+                   'question_type': self.question_type_entry.get(),
+
+                   'question_title': self.question_title_entry.get(),
+                   'question_description_title': self.question_description_entry.get(),
+
+                   'question_description_main': self.formula_question_entry.get("1.0", 'end-1c'),
+
+                   'res1_formula': self.res1_formula_text.get(),
+                   'res2_formula': self.res2_formula_text.get(),
+                   'res3_formula': self.res3_formula_text.get(),
+
+                   'var1_name': self.var1_name_text.get(),
+                   'var1_min': self.var1_min_text.get(),
+                   'var1_max': self.var1_max_text.get(),
+                   'var1_prec': self.var1_prec_text.get(),
+                   'var1_divby': self.var1_divby_text.get(),
+                   'var1_unit': self.var1_unit_myCombo.get(),
+
+                   'var2_name': self.var2_name_text.get(),
+                   'var2_min': self.var2_min_text.get(),
+                   'var2_max': self.var2_max_text.get(),
+                   'var2_prec': self.var2_prec_text.get(),
+                   'var2_divby': self.var2_divby_text.get(),
+                   'var2_unit': self.var2_unit_myCombo.get(),
+
+                   'var3_name': self.var3_name_text.get(),
+                   'var3_min': self.var3_min_text.get(),
+                   'var3_max': self.var3_max_text.get(),
+                   'var3_prec': self.var3_prec_text.get(),
+                   'var3_divby': self.var3_divby_text.get(),
+                   'var3_unit': self.var3_unit_myCombo.get(),
+
+                   'var4_name': self.var4_name_text.get(),
+                   'var4_min': self.var4_min_text.get(),
+                   'var4_max': self.var4_max_text.get(),
+                   'var4_prec': self.var4_prec_text.get(),
+                   'var4_divby': self.var4_divby_text.get(),
+                   'var4_unit': self.var4_unit_myCombo.get(),
+
+                   'var5_name': self.var5_name_text.get(),
+                   'var5_min': self.var5_min_text.get(),
+                   'var5_max': self.var5_max_text.get(),
+                   'var5_prec': self.var5_prec_text.get(),
+                   'var5_divby': self.var5_divby_text.get(),
+                   'var5_unit': self.var5_unit_myCombo.get(),
+
+                   'var6_name': self.var6_name_text.get(),
+                   'var6_min': self.var6_min_text.get(),
+                   'var6_max': self.var6_max_text.get(),
+                   'var6_prec': self.var6_prec_text.get(),
+                   'var6_divby': self.var6_divby_text.get(),
+                   'var6_unit': self.var6_unit_myCombo.get(),
+
+                   'var7_name': self.var7_name_text.get(),
+                   'var7_min': self.var7_min_text.get(),
+                   'var7_max': self.var7_max_text.get(),
+                   'var7_prec': self.var7_prec_text.get(),
+                   'var7_divby': self.var7_divby_text.get(),
+                   'var7_unit': self.var7_unit_myCombo.get(),
+
+                   'res1_name': self.res1_name_text.get(),
+                   'res1_min': self.res1_min_text.get(),
+                   'res1_max': self.res1_max_text.get(),
+                   'res1_prec': self.res1_prec_text.get(),
+                   'res1_tol': self.res1_tol_text.get(),
+                   'res1_points': self.res1_points_text.get(),
+                   'res1_unit': self.res1_unit_myCombo.get(),
+
+                   'res2_name': self.res2_name_text.get(),
+                   'res2_min': self.res2_min_text.get(),
+                   'res2_max': self.res2_max_text.get(),
+                   'res2_prec': self.res2_prec_text.get(),
+                   'res2_tol': self.res2_tol_text.get(),
+                   'res2_points': self.res2_points_text.get(),
+                   'res2_unit': self.res2_unit_myCombo.get(),
+
+                   'res3_name': self.res3_name_text.get(),
+                   'res3_min': self.res3_min_text.get(),
+                   'res3_max': self.res3_max_text.get(),
+                   'res3_prec': self.res3_prec_text.get(),
+                   'res3_tol': self.res3_tol_text.get(),
+                   'res3_points': self.res3_points_text.get(),
+                   'res3_unit': self.res3_unit_myCombo.get(),
+
+                   'img_name': self.picture_name_new,
+                   'img_data': self.picture_data,
+
+                   'test_time': self.test_time,
+                   'oid': record_id
+                   })
+
+        conn.commit()
+        conn.close()
+
+        print("Question with id: '" + record_id + "' edited")
+
+
     def show_records(self):
 
         conn = sqlite3.connect('ilias_questions_db.db')
@@ -2763,15 +3048,219 @@ class Database(Formelfrage):
 
         conn = sqlite3.connect('ilias_questions_db.db')
         c = conn.cursor()
+        self.delete_list = []
+        self.delete_list = self.delete_box.get().split(",")
 
-        c.execute("DELETE from my_table WHERE oid= " + self.delete_box.get())
+        for x in range(len(self.delete_list)):
+            c.execute("DELETE from my_table WHERE oid= " + str(self.delete_list[x]))
+            print("Entry with ID " + str(self.delete_list[x]) + " removed!")
 
         self.delete_box.delete(0, END)
 
         conn.commit()
         conn.close()
 
-        #Database.show_records(self)
+
+    def excel_xlsx_import(self):
+
+        self.xlsx_path = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+        self.xlsx_data = pd.read_excel(self.xlsx_path)
+        self.df = pd.DataFrame(self.xlsx_data, columns=['question_difficulty',
+                                             'question_category',
+                                             'question_type',
+                                             'question_title',
+                                             'question_description_title',
+                                             'question_description_main',
+                                             'res1_formula',
+                                             'res2_formula',
+                                             'res3_formula',
+                                             'var1_name',
+                                             'var1_min',
+                                             'var1_max',
+                                             'var1_prec',
+                                             'var1_divby',
+                                             'var1_unit',
+                                             'var2_name',
+                                             'var2_min',
+                                             'var2_max',
+                                             'var2_prec',
+                                             'var2_divby',
+                                             'var2_unit',
+                                             'var3_name',
+                                             'var3_min',
+                                             'var3_max',
+                                             'var3_prec',
+                                             'var3_divby',
+                                             'var3_unit',
+                                             'var4_name',
+                                             'var4_min',
+                                             'var4_max',
+                                             'var4_prec',
+                                             'var4_divby',
+                                             'var4_unit',
+                                             'var5_name',
+                                             'var5_min',
+                                             'var5_max',
+                                             'var5_prec',
+                                             'var5_divby',
+                                             'var5_unit',
+                                             'var6_name',
+                                             'var6_min',
+                                             'var6_max',
+                                             'var6_prec',
+                                             'var6_divby',
+                                             'var6_unit',
+                                             'var7_name',
+                                             'var7_min',
+                                             'var7_max',
+                                             'var7_prec',
+                                             'var7_divby',
+                                             'var7_unit',
+                                             'res1_name',
+                                             'res1_min',
+                                             'res1_max',
+                                             'res1_prec',
+                                             'res1_tol',
+                                             'res1_points',
+                                             'res1_unit',
+                                             'res2_name',
+                                             'res2_min',
+                                             'res2_max',
+                                             'res2_prec',
+                                             'res2_tol',
+                                             'res2_points',
+                                             'res2_unit',
+                                             'res3_name',
+                                             'res3_min',
+                                             'res3_max',
+                                             'res3_prec',
+                                             'res3_tol',
+                                             'res3_points',
+                                             'res3_unit',
+                                             'img_name',
+                                             'img_data',
+                                             'test_time'])
+
+        conn = sqlite3.connect('ilias_questions_db.db')
+        c = conn.cursor()
+
+        conn.commit()
+
+        for row in self.df.itertuples():
+            c.execute(
+                "INSERT INTO my_table VALUES ("
+                ":question_difficulty, :question_category, :question_type, "
+                ":question_title, :question_description_title, :question_description_main, "
+                ":res1_formula, :res2_formula, :res3_formula,  "
+                ":var1_name, :var1_min, :var1_max, :var1_prec, :var1_divby, :var1_unit, "
+                ":var2_name, :var2_min, :var2_max, :var2_prec, :var2_divby, :var2_unit, "
+                ":var3_name, :var3_min, :var3_max, :var3_prec, :var3_divby, :var3_unit, "
+                ":var4_name, :var4_min, :var4_max, :var4_prec, :var4_divby, :var4_unit, "
+                ":var5_name, :var5_min, :var5_max, :var5_prec, :var5_divby, :var5_unit, "
+                ":var6_name, :var6_min, :var6_max, :var6_prec, :var6_divby, :var6_unit, "
+                ":var7_name, :var7_min, :var7_max, :var7_prec, :var7_divby, :var7_unit,"
+                ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
+                ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
+                ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit,"
+                ":img_name, :img_data, :test_time)",
+                {
+                    'question_difficulty': row.question_difficulty,
+                    'question_category': row.question_category,
+                    'question_type': row.question_type,
+                    'question_title': row.question_title,
+                    'question_description_title': row.question_description_title,
+                    'question_description_main': row.question_description_main,
+
+                    'res1_formula': row.res1_formula,
+                    'res2_formula': row.res2_formula,
+                    'res3_formula': row.res3_formula,
+
+                    'var1_name': row.var1_name,
+                    'var1_min': row.var1_min,
+                    'var1_max': row.var1_max,
+                    'var1_prec': row.var1_prec,
+                    'var1_divby': row.var1_divby,
+                    'var1_unit': row.var1_unit,
+
+                    'var2_name': row.var2_name,
+                    'var2_min': row.var2_min,
+                    'var2_max': row.var2_max,
+                    'var2_prec': row.var2_prec,
+                    'var2_divby': row.var2_divby,
+                    'var2_unit': row.var2_unit,
+
+                    'var3_name': row.var3_name,
+                    'var3_min': row.var3_min,
+                    'var3_max': row.var3_max,
+                    'var3_prec': row.var3_prec,
+                    'var3_divby': row.var3_divby,
+                    'var3_unit': row.var3_unit,
+
+                    'var4_name': row.var4_name,
+                    'var4_min': row.var4_min,
+                    'var4_max': row.var4_max,
+                    'var4_prec': row.var4_prec,
+                    'var4_divby': row.var4_divby,
+                    'var4_unit': row.var4_unit,
+
+                    'var5_name': row.var5_name,
+                    'var5_min': row.var5_min,
+                    'var5_max': row.var5_max,
+                    'var5_prec': row.var5_prec,
+                    'var5_divby': row.var5_divby,
+                    'var5_unit': row.var5_unit,
+
+                    'var6_name': row.var6_name,
+                    'var6_min': row.var6_min,
+                    'var6_max': row.var6_max,
+                    'var6_prec': row.var6_prec,
+                    'var6_divby': row.var6_divby,
+                    'var6_unit': row.var6_unit,
+
+                    'var7_name': row.var7_name,
+                    'var7_min': row.var7_min,
+                    'var7_max': row.var7_max,
+                    'var7_prec': row.var7_prec,
+                    'var7_divby': row.var7_divby,
+                    'var7_unit': row.var7_unit,
+
+                    'res1_name': row.res1_name,
+                    'res1_min': row.res1_min,
+                    'res1_max': row.res1_max,
+                    'res1_prec': row.res1_prec,
+                    'res1_tol': row.res1_tol,
+                    'res1_points': row.res1_points,
+                    'res1_unit': row.res1_unit,
+
+                    'res2_name': row.res2_name,
+                    'res2_min': row.res2_min,
+                    'res2_max': row.res2_max,
+                    'res2_prec': row.res2_prec,
+                    'res2_tol': row.res2_tol,
+                    'res2_points': row.res2_points,
+                    'res2_unit': row.res2_unit,
+
+                    'res3_name': row.res3_name,
+                    'res3_min': row.res3_min,
+                    'res3_max': row.res3_max,
+                    'res3_prec': row.res3_prec,
+                    'res3_tol': row.res3_tol,
+                    'res3_points': row.res3_points,
+                    'res3_unit': row.res3_unit,
+
+                    'img_name': row.img_name,
+                    'img_data': row.img_data,
+
+                    'test_time': row.test_time
+                }
+            )
+        conn.commit()
+        conn.close()
+
+        self.foo = ([pos for pos, char in enumerate(self.xlsx_path) if char == '/'])
+        self.foo_len = len(self.foo)
+        self.xlsx_file_path = self.xlsx_path[self.foo[self.foo_len - 1] + 1:]
+        print("Load File: \"" + self.xlsx_file_path + "\" in mySQL...done!")
 
     def open_image(self):
         #global file_image  # needs to be global to print Image to Desktop
@@ -3199,10 +3688,15 @@ class create_formelfrage(Formelfrage):
                         self.question_title = str(record[3])
                         self.question_description_title = str(record[4])
                         self.question_description_main_raw = str(record[5])
-                        self.formula_question_entry_multi_replaced = self.question_description_main_raw.replace('\n', "&lt;/p&gt;&#13;&#10;&lt;p&gt;")
+                        self.formula_question_entry_multi_replaced = self.question_description_main_raw.replace('\n',"&lt;/p&gt;&#13;&#10;&lt;p&gt;")
                         self.question_description_main_test = self.formula_question_entry_multi_replaced
-                        self.question_description_main_latex1 = self.question_description_main_test.replace('\\)', "</span>")
-                        self.question_description_main = self.question_description_main_latex1.replace('\\(', "<span class=\"latex\">")
+                        self.question_description_main_latex_start = self.question_description_main_test.replace('\\)',"</span>")
+                        self.question_description_main_latex_end = self.question_description_main_latex_start.replace('\\(', "<span class=\"latex\">")
+                        self.question_description_main_sup_start = self.question_description_main_latex_end.replace('<p>', "<sup>")
+                        self.question_description_main_sup_end = self.question_description_main_sup_start.replace('</p>', "</sup>")
+                        self.question_description_main_sub_start = self.question_description_main_sup_end.replace('<b>',"<sub>")
+                        self.question_description_main_sub_end = self.question_description_main_sub_start.replace('</b>', "</sub>")
+                        self.question_description_main = self.question_description_main_sub_end
 
                         self.res1_formula = str(record[6])
                         self.res1_formula_length = str(len(self.res1_formula))
