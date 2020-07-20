@@ -4321,7 +4321,7 @@ class create_formelfrage(Formelfrage):
                 item.set('ident', "il_0_qst_000000")
                 item.set('title', question_name)
                 qticomment = ET.SubElement(item, 'qticomment')
-                #qticomment.text = self.question_description_title
+                qticomment.text = self.question_description_title
                 duration = ET.SubElement(item, 'duration')
                 duration.text = self.test_time
 
