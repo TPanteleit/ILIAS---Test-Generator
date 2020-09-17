@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 1.7                                                                                           #
+#    Version: 1.7.2                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die Ilias-Plattform.                                      #
-#    In der derzeitigen Version (v1.7) wird sich auf die Erstellung von Formelfragen beschränkt             #
+#    In der derzeitigen Version (v1.7.2) wird sich auf die Erstellung von Formelfragen beschränkt             #
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
 #    - Unterstützung von Taxonomie Einträgen und nachträgliche Ergänzung von Taxonomien                     #                                          #
@@ -69,7 +69,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v1.7.1')
+        master.title('ilias - Test-Generator v1.7.2')
 
 
         # --------------------------    Set PATH for Project
@@ -161,10 +161,9 @@ class GuiMainWindow:
         print("##    Testfragen -> 1590475954__0__qti_1944463.xml:    " + str(os.path.exists(self.qti_file_path_write)))
         print("##    Poolfragen -> orig_qpl_file:                     " + str(os.path.exists(self.qpl_file_pool_path_read)))
         print("##    Poolfragen -> orig_qti_file:                     " + str(os.path.exists(self.qti_file_pool_path_read)))
-        print("##    Poolfragen -> 1594724569__0__qpl_1950628.xml:    " + str(os.path.exists(self.qpl_file_pool_path_write)))
-        print("##    Poolfragen -> 1594724569__0__qti_1950628.xml:    " + str(os.path.exists(self.qti_file_pool_path_write)))
-        #print(os.path.exists(self.taxonomy_file_read
-        #print(os.path.exists(self.taxonomy_file_write
+        print("##    Poolfragen -> Vorlage_für_Fragenpool        :    " + str(os.path.exists(os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')))))
+
+
         print("\n")
 
 
@@ -206,8 +205,10 @@ class GuiMainWindow:
         self.sf_formula.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
-        self.sf_formula.bind_arrow_keys(app)
-        self.sf_formula.bind_scroll_wheel(app)
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.sf_formula.bind_arrow_keys(app)
+        #self.sf_formula.bind_scroll_wheel(app)
 
         # Create a frame within the ScrolledFrame
         self.formula_tab = self.sf_formula.display_widget(Frame)
@@ -227,8 +228,10 @@ class GuiMainWindow:
         self.sf_mc.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
-        self.sf_mc.bind_arrow_keys(app)
-        self.sf_mc.bind_scroll_wheel(app)
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.sf_mc.bind_arrow_keys(app)
+        #self.sf_mc.bind_scroll_wheel(app)
 
         # Create a frame within the ScrolledFrame
         self.multipleChoice_tab = self.sf_mc.display_widget(Frame)
@@ -325,7 +328,7 @@ class GuiMainWindow:
         self.database_submit_formelfrage_btn.grid(row=2, column=0, sticky=W, pady=5)
 
         self.database_new_question_btn = Button(self.frame_database, text="GUI Einträge entfernen", command=lambda: Database.new_question(self))
-        self.database_new_question_btn.grid(row=7, column=0, sticky=W, pady=5)
+        self.database_new_question_btn.grid(row=8, column=0, sticky=W, pady=5)
 
         self.database_edit_btn = Button(self.frame_database, text="Speichern", command=lambda: Database.edit(self))
         self.database_edit_btn.grid(row=3, column=0, sticky=W, pady=5)
@@ -339,19 +342,31 @@ class GuiMainWindow:
         self.load_box = Entry(self.frame_database, width=10)
         self.load_box.grid(row=4, column=1, sticky=W)
 
+        self.highlight_question_text_label = Label(self.frame_database, text="Fragentext mit Highlighting?")
+        self.highlight_question_text_label.grid(row=5, column=0, pady=5, padx=5)
+
+        self.var_highlight_question_text = IntVar()
+        self.check_highlight_question_text = Checkbutton(self.frame_database, text="", variable=self.var_highlight_question_text, onvalue=1, offvalue=0)
+        self.check_highlight_question_text.deselect()
+        self.check_highlight_question_text.grid(row=5, column=1, sticky=W)
+
+
+
         self.database_delete_btn = Button(self.frame_database, text="ID Löschen", command=lambda: Database.delete(self))
-        self.database_delete_btn.grid(row=5, column=0, sticky=W, pady=5)
+        self.database_delete_btn.grid(row=6, column=0, sticky=W, pady=5)
 
         self.delete_box = Entry(self.frame_database, width=10)
-        self.delete_box.grid(row=5, column=1, sticky=W)
+        self.delete_box.grid(row=6, column=1, sticky=W)
 
         self.delete_all_label = Label(self.frame_database, text="Alle DB Einträge löschen?")
-        self.delete_all_label.grid(row=6, column=0, pady=5, padx=5)
+        self.delete_all_label.grid(row=7, column=0, pady=5, padx=5)
 
         self.var_delete_all = IntVar()
         self.check_delete_all = Checkbutton(self.frame_database, text="", variable=self.var_delete_all, onvalue=1, offvalue=0)
         self.check_delete_all.deselect()
-        self.check_delete_all.grid(row=6, column=1, sticky=W)
+        self.check_delete_all.grid(row=7, column=1, sticky=W)
+
+
 
 
         #excel_import_btn
@@ -1494,35 +1509,37 @@ class Formelfrage(GuiMainWindow):
         self.sf_taxonomy.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
-        self.sf_taxonomy.bind_arrow_keys(app)
-        self.sf_taxonomy.bind_scroll_wheel(app)
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.sf_taxonomy.bind_arrow_keys(app)
+        #self.sf_taxonomy.bind_scroll_wheel(app)
 
         # Create a frame within the ScrolledFrame
         self.taxonomy = self.sf_taxonomy.display_widget(Frame)
 
 
-        self.taxonomy_frame_labels_scroll= LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
+        self.taxonomy_frame_labels_scroll= LabelFrame(self.taxonomy, text="Fragen ID's", padx=5, pady=5)
         self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
         self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
         self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        self.taxonomy_frame_labels2.bind_scroll_wheel(app)
+        #self.taxonomy_frame_labels2.bind_arrow_keys(app)
+        #self.taxonomy_frame_labels2.bind_scroll_wheel(app)
         self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
 
         #self.taxonomy_frame_labels = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
         #self.taxonomy_frame_labels.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
 
-        self.taxonomy_frame_boxes = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
+        self.taxonomy_frame_boxes = LabelFrame(self.taxonomy, text="Fragen ID's", padx=5, pady=5)
         self.taxonomy_frame_boxes.grid(row=0, column=1, padx=20, pady=10, sticky=NW)
 
-        self.taxonomy_frame_tree = LabelFrame(self.taxonomy, text="Tax Tree", padx=5, pady=5)
+        self.taxonomy_frame_tree = LabelFrame(self.taxonomy, text="Taxonomie Baum", padx=5, pady=5)
         self.taxonomy_frame_tree.grid(row=0, column=1, padx=20, pady=200, sticky=NW)
 
         #self.taxonomy_frame_tree_picture = LabelFrame(self.taxonomy, text="Taxonomie Bild", padx=5, pady=5)
         #self.taxonomy_frame_tree_picture.grid(row=2, column=1, padx=20, pady=10, sticky=NW)
 
         # ---- Starting ID to End ID set to node
-        self.label_starting_id = Label(self.taxonomy_frame_boxes, text="Start ID")
+        self.label_starting_id = Label(self.taxonomy_frame_boxes, text="von Fragen ID")
         self.label_starting_id.grid(sticky=W, pady=5, row=0, column=0)
 
         self.starting_id_var = StringVar()
@@ -1536,7 +1553,7 @@ class Formelfrage(GuiMainWindow):
         self.entry_starting_id.grid(sticky=W, pady=5, row=1, column=0)
 
 
-        self.label_ending_id = Label(self.taxonomy_frame_boxes, text="End ID")
+        self.label_ending_id = Label(self.taxonomy_frame_boxes, text="bis Fragen ID")
         self.label_ending_id.grid(sticky=W, padx=10, pady=5, row=0, column=1)
 
         self.entry_ending_id = Entry(self.taxonomy_frame_boxes, textvariable=self.ending_id_var, width=10)
@@ -1563,25 +1580,25 @@ class Formelfrage(GuiMainWindow):
 
 
         # Button to assign questions to node
-        self.assign_to_node_btn = Button(self.taxonomy_frame_boxes, text="Assign to Node", command=lambda: Formelfrage.assign_questions_to_node(self))
+        self.assign_to_node_btn = Button(self.taxonomy_frame_boxes, text="Fragen dem Knoten\nhinzufügen", command=lambda: Formelfrage.assign_questions_to_node(self))
         self.assign_to_node_btn.grid(row=4, column=0, sticky=W, pady=(20, 0))
 
-        self.remove_from_node_btn = Button(self.taxonomy_frame_boxes, text="Remove from Node",command=lambda: Formelfrage.remove_question_from_node(self))
+        self.remove_from_node_btn = Button(self.taxonomy_frame_boxes, text="Fragen von Knoten\nentfernen",command=lambda: Formelfrage.remove_question_from_node(self))
         self.remove_from_node_btn.grid(row=4, column=1, sticky=W, padx=5, pady=(20, 0))
 
-        self.tax_add_node_btn = Button(self.taxonomy_frame_tree, text="Add new tax_node",command=lambda: Formelfrage.add_node_to_tax(self))
+        self.tax_add_node_btn = Button(self.taxonomy_frame_tree, text="Neuen Knoten hinzufügen",command=lambda: Formelfrage.add_node_to_tax(self))
         self.tax_add_node_btn.grid(row=6, column=0, sticky=W, padx=5, pady=(20, 0))
 
         self.scan_tax_tree_btn = Button(self.taxonomy_frame_tree, text="scan_tax_tree",command=lambda: Formelfrage.scan_tax_tree(self))
         self.scan_tax_tree_btn.grid(row=6, column=1, sticky=W, padx=5, pady=(20, 0))
 
-        self.update_taxonomy_name_btn = Button(self.taxonomy_frame_tree, text="Update Tax Name", command=lambda: Formelfrage.update_taxonomy_name(self))
+        self.update_taxonomy_name_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Namen\naktualisieren", command=lambda: Formelfrage.update_taxonomy_name(self))
         self.update_taxonomy_name_btn.grid(row=0, column=2, sticky=E, padx=5, pady=(5, 0))
 
-        self.tax_remove_node_btn = Button(self.taxonomy_frame_tree, text="Remove tax_node",command=lambda: Formelfrage.remove_node_from_tax(self))
+        self.tax_remove_node_btn = Button(self.taxonomy_frame_tree, text="Knoten entfernen",command=lambda: Formelfrage.remove_node_from_tax(self))
         self.tax_remove_node_btn.grid(row=6, column=2, sticky=W, padx=5, pady=(20, 0))
 
-        self.tax_reallocate_btn = Button(self.taxonomy_frame_tree, text="Reallocate Tax File",command=lambda: Formelfrage.tax_reallocate(self))
+        self.tax_reallocate_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Datei\nneu anordnen",command=lambda: Formelfrage.tax_reallocate(self))
         self.tax_reallocate_btn.grid(row=5, column=2, sticky=W, padx=5, pady=(20, 0))
 
 
@@ -2539,8 +2556,11 @@ class Formelfrage(GuiMainWindow):
 
         self.taxonomy_frame_tree_picture2 = ScrolledFrame(self.taxonomy_frame_tree_picture_scroll, height=250, width=200)
         self.taxonomy_frame_tree_picture2.pack(expand=1, fill="both")
-        self.taxonomy_frame_tree_picture2.bind_arrow_keys(app)
-        self.taxonomy_frame_tree_picture2.bind_scroll_wheel(app)
+
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.taxonomy_frame_tree_picture2.bind_arrow_keys(app)
+        #self.taxonomy_frame_tree_picture2.bind_scroll_wheel(app)
         self.taxonomy_frame_tree_picture = self.taxonomy_frame_tree_picture2.display_widget(Frame)
 
         self.collect_childs = []
@@ -2752,8 +2772,8 @@ class Formelfrage(GuiMainWindow):
         self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
         self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
         self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        self.taxonomy_frame_labels2.bind_scroll_wheel(app)
+        #self.taxonomy_frame_labels2.bind_arrow_keys(app)
+        #self.taxonomy_frame_labels2.bind_scroll_wheel(app)
         self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
 
         #self.taxonomy_frame_labels = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
@@ -2886,8 +2906,8 @@ class Formelfrage(GuiMainWindow):
         self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
         self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
         self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        self.taxonomy_frame_labels2.bind_scroll_wheel(app)
+        #self.taxonomy_frame_labels2.bind_arrow_keys(app)
+        #self.taxonomy_frame_labels2.bind_scroll_wheel(app)
         self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
 
 
@@ -4262,9 +4282,10 @@ class Database(Formelfrage):
         self.sf_database = ScrolledFrame(self.database_window, width=self.database_width, height=self.database_height)
         self.sf_database.pack(expand=1, fill="both")
 
-        # Bind the arrow keys and scroll wheel
-        self.sf_database.bind_arrow_keys(app)
-        self.sf_database.bind_scroll_wheel(app)
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.sf_database.bind_arrow_keys(app)
+        #self.sf_database.bind_scroll_wheel(app)
 
         # Create a frame within the ScrolledFrame
         self.db_inner_frame = self.sf_database.display_widget(Frame)
@@ -5613,7 +5634,8 @@ class Database(Formelfrage):
 
         print("Load Question with ID: " + record_id)
 
-        Database.reallocate_text(self)
+        if self.var_highlight_question_text == 1:
+            Database.reallocate_text(self)
 
 
     def edit(self):
@@ -6127,7 +6149,7 @@ class Database(Formelfrage):
         self.listbox_oid_entrys_label = Label(self.db_inner_frame, text=self.var_oid_entrys)
         self.listbox_oid_entrys_label.grid(row=40, column=2, sticky=W)
 
-        self.listbox_oid_label = Label(self.db_inner_frame, text="DB\nentrys:")
+        self.listbox_oid_label = Label(self.db_inner_frame, text="DB\nEinträge:")
         self.listbox_oid_label.grid(row=40, column=1, sticky=W)
 
     def delete(self):
@@ -7065,6 +7087,8 @@ class create_formelfrage(Formelfrage):
 
         for title in self.myroot.iter('Title'):
             title.text = self.test_title_entry.get()
+            title.text = title.text.replace('&', "&amp;")
+
             if title.text == "":
                 title.text = "DEFAULT"
 
@@ -7102,9 +7126,12 @@ class create_formelfrage(Formelfrage):
                         self.question_difficulty = str(record[0])
                         self.question_category = str(record[1])
                         self.question_type = str(record[2])
-
                         self.question_title = str(record[3])
                         self.question_description_title = str(record[4])
+
+                        self.question_type = self.question_type.replace('&', "&amp;")
+                        self.question_title = self.question_title.replace('&', "&amp;")
+                        self.question_description_title = self.question_description_title.replace('&', "&amp;")
 
                         self.question_description_main_raw = str(record[5])
                         self.index_list = []
@@ -7499,8 +7526,8 @@ class create_formelfrage(Formelfrage):
 
                 for assessment in self.myroot.iter('assessment'):
 
-
-                    assessment.set('title', str(self.test_title_entry.get()))
+                    self.title_replaced = str(self.test_title_entry.get())
+                    assessment.set('title',self.title_replaced.replace('&', "&amp;"))
 
                     if assessment.get('title') == "":
                         assessment.set('title', "DEFAULT")
@@ -7546,7 +7573,8 @@ class create_formelfrage(Formelfrage):
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                 fieldlabel.text = "AUTHOR"
                 fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = str(self.autor_entry.get())
+                self.autor_replaced = str(self.autor_entry.get())
+                fieldentry.text = self.autor_replaced.replace('&', "&amp;")
                 # -----------------------------------------------------------------------POINTS
                 qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
@@ -8782,11 +8810,17 @@ class create_formelfrage_pool(Formelfrage):
                         self.question_difficulty = str(record[0])
                         self.question_category = str(record[1])
                         self.question_type = str(record[2])
-
                         self.question_title = str(record[3])
                         self.question_description_title = str(record[4])
 
+                        self.question_type = self.question_type.replace('&', "&amp;")
+                        self.question_title = self.question_title.replace('&', "&amp;")
+                        self.question_description_title = self.question_description_title.replace('&', "&amp;")
+
+
+
                         self.question_description_main_raw = str(record[5])
+
                         self.index_list = []
 
                         #print(self.question_description_main_raw)
@@ -8847,17 +8881,31 @@ class create_formelfrage_pool(Formelfrage):
                         self.res10_formula = str(record[15])
                         self.res10_formula_length = str(len(self.res10_formula))
 
+
+
+
+
+
+
+
                         # $V gegen $v tauschen, sonst enstehen Fehler beim ILIAS import
-                        self.res1_formula = self.res1_formula.replace("$V", "$v")
-                        self.res2_formula = self.res2_formula.replace("$V", "$v")
-                        self.res3_formula = self.res3_formula.replace("$V", "$v")
-                        self.res4_formula = self.res4_formula.replace("$V", "$v")
-                        self.res5_formula = self.res5_formula.replace("$V", "$v")
-                        self.res6_formula = self.res6_formula.replace("$V", "$v")
-                        self.res7_formula = self.res7_formula.replace("$V", "$v")
-                        self.res8_formula = self.res8_formula.replace("$V", "$v")
-                        self.res9_formula = self.res9_formula.replace("$V", "$v")
-                        self.res10_formula = self.res10_formula.replace("$V", "$v")
+                        # Zusätzlich werden die Funktionen ILIAS-Konform angepasst
+                        # Info aus ILIAS für die Eingabe einer Ergebnis-Formel:
+                        # Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken,
+                        # die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren),
+                        # die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl,
+                        # sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh',
+                        # 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'.
+                        self.res1_formula = self.res1_formula.lower()
+                        self.res2_formula = self.res2_formula.lower()
+                        self.res3_formula = self.res3_formula.lower()
+                        self.res4_formula = self.res4_formula.lower()
+                        self.res5_formula = self.res5_formula.lower()
+                        self.res6_formula = self.res6_formula.lower()
+                        self.res7_formula = self.res7_formula.lower()
+                        self.res8_formula = self.res8_formula.lower()
+                        self.res9_formula = self.res9_formula.lower()
+                        self.res10_formula = self.res10_formula.lower()
 
 
 
@@ -9310,8 +9358,8 @@ class create_formelfrage_pool(Formelfrage):
 
                 for assessment in self.myroot.iter('assessment'):
 
-
-                    assessment.set('title', str(self.test_title_entry.get()))
+                    self.title_replaced = str(self.test_title_entry.get())
+                    assessment.set('title', self.title_replaced.replace('&', "&amp;"))
 
                     if assessment.get('title') == "":
                         assessment.set('title', "DEFAULT")
@@ -9357,7 +9405,8 @@ class create_formelfrage_pool(Formelfrage):
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                 fieldlabel.text = "AUTHOR"
                 fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = str(self.autor_entry.get())
+                self.autor_replaced = str(self.autor_entry.get())
+                fieldentry.text = self.autor_replaced.replace('&', "&amp;")
                 # -----------------------------------------------------------------------POINTS
                 qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
@@ -10493,8 +10542,10 @@ class GUI_settings_window(Formelfrage):
         self.sf_test_settings.pack(expand=1, fill="both")
 
         # Bind the arrow keys and scroll wheel
-        self.sf_test_settings.bind_arrow_keys(app)
-        self.sf_test_settings.bind_scroll_wheel(app)
+        ### Bind the arrow keys and scroll wheel
+        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
+        #self.sf_test_settings.bind_arrow_keys(app)
+        #self.sf_test_settings.bind_scroll_wheel(app)
 
         # Create a frame within the ScrolledFrame
         self.test_settings = self.sf_test_settings.display_widget(Frame)
