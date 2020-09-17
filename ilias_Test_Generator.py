@@ -1522,11 +1522,19 @@ class Formelfrage(GuiMainWindow):
         ]
 
         # Lower and upper bounds
-        a_lower, a_upper = 100, 500
-        b_lower, b_upper = 200, 600
-        c_lower, c_upper = 300, 700
-        d_lower, d_upper = 400, 800
-        e_lower, e_upper = 300, 900
+
+        a_lower, a_upper = 100, 200
+        b_lower, b_upper = 300, 400
+        c_lower, c_upper = 500, 600
+        #d_lower, d_upper = self.var4_min_text.get(), self.var4_max_text.get()
+        #e_lower, e_upper = self.var5_min_text.get(), self.var5_max_text.get()
+
+
+        print(a_lower, a_upper)
+        print(b_lower, b_upper)
+        print(c_lower, c_upper)
+        #print(d_lower, d_upper)
+        #print(e_lower, e_upper)
 
         def min_max(col):
             return pd.Series(index=['min', 'max'], data=[col.min(), col.max()])
@@ -1536,8 +1544,7 @@ class Formelfrage(GuiMainWindow):
             np.linspace(a_lower, a_upper, N),
             np.linspace(b_lower, b_upper, N),
             np.linspace(c_lower, c_upper, N),
-            np.linspace(d_lower, d_upper, N),
-
+            #np.linspace(d_lower, d_upper, N),
 
         ]
 
@@ -1546,7 +1553,7 @@ class Formelfrage(GuiMainWindow):
         print("Berechne...")
         print()
 
-        df = pd.DataFrame(cartesian_product(values), index=['a', 'b', 'c', 'd']).T
+        df = pd.DataFrame(cartesian_product(values), index=['a', 'b', 'c']).T
         for i, f in enumerate(functions):
             df[f'f_{i + 1}'] = df.apply(f, axis=1)
         print(df.apply(min_max))
