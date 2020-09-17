@@ -59,7 +59,7 @@ import shutil                               # zum kopieren und zippen von Dateie
 import openpyxl                             # zum excel import von Bildern
 import numpy as np
 from pandas.core.reshape.util import cartesian_product
-
+import re
 
 
 
@@ -1490,8 +1490,11 @@ class Formelfrage(GuiMainWindow):
 
     def calc_value_range(self):
 
-        #self.calc_formula1 = Formelfrage.replace_symbols_in_formula(self)
-        #print(self.calc_formula1)
+        self.var1_in_formula = 0
+        self.var2_in_formula = 0
+        self.var3_in_formula = 0
+        self.var4_in_formula = 0
+        self.var5_in_formula = 0
 
         # Number of values per range
         N = 21
@@ -1500,6 +1503,31 @@ class Formelfrage(GuiMainWindow):
         #self.calc_formula1 = "lambda row: " + str(self.calc_formula1) + ","
 
         self.expression_test = Formelfrage.replace_symbols_in_formula(self)
+
+        if 'a' in self.expression_test:
+            #print("$v1 in der Formel")
+            self.var1_in_formula = 1
+
+        if 'b' in self.expression_test:
+            #print("$v2 in der Formel")
+            self.var2_in_formula = 1
+
+        if 'c' in self.expression_test:
+            #print("$v3 in der Formel")
+            self.var3_in_formula = 1
+
+        if 'd' in self.expression_test:
+            #print("$v4 in der Formel")
+            self.var4_in_formula = 1
+
+        if 'e' in self.expression_test:
+            #print("$v5 in der Formel")
+            self.var5_in_formula = 1
+
+
+
+
+
         self.exp_as_func = eval('lambda row: ' + self.expression_test)
 
         functions = [
@@ -1509,54 +1537,124 @@ class Formelfrage(GuiMainWindow):
             #lambda row: row['a'] ** 2,
             #eval(self.calc_formula1),
             self.exp_as_func
-            #lambda row: Formelfrage.replace_symbols_in_formula(self)
 
-
-
-
-            # a^2 * b/1000 + 3 * (a+b)
-            #lambda row: row['a']**2 * row['b']/1000 + 3*(row['a']+row['b']),
-
-            # (1/(2 * PI * (a * 1000) * (b * 1000)) * 10^12
-            #lambda row: 10**6 / (2 * np.pi * row['a'] * row['b']),
         ]
 
+
+
         # Lower and upper bounds
+        if bool(re.search(r'\d', self.var1_min_text.get())) == True and bool(re.search(r'\d', self.var1_min_text.get())) == True:
+            try:
+                self.var1_lower, self.var1_upper = int(self.var1_min_text.get()), int(self.var1_max_text.get())
+            except ValueError:
+                self.var1_lower, self.var1_upper = float(self.var1_min_text.get()), float(self.var1_max_text.get())
+        else: self.var1_lower, self.var1_upper = 1, 1
 
-        a_lower, a_upper = 100, 200
-        b_lower, b_upper = 300, 400
-        c_lower, c_upper = 500, 600
-        #d_lower, d_upper = self.var4_min_text.get(), self.var4_max_text.get()
-        #e_lower, e_upper = self.var5_min_text.get(), self.var5_max_text.get()
+
+        if bool(re.search(r'\d', self.var2_min_text.get())) == True and bool(re.search(r'\d', self.var2_min_text.get())) == True:
+            try:
+                self.var2_lower, self.var2_upper = int(self.var2_min_text.get()), int(self.var2_max_text.get())
+            except ValueError:
+                self.var2_lower, self.var2_upper = float(self.var2_min_text.get()), float(self.var2_max_text.get())
+        else: self.var2_lower, self.var2_upper = 1, 1
 
 
-        print(a_lower, a_upper)
-        print(b_lower, b_upper)
-        print(c_lower, c_upper)
-        #print(d_lower, d_upper)
-        #print(e_lower, e_upper)
+        if bool(re.search(r'\d', self.var3_min_text.get())) == True and bool(re.search(r'\d', self.var3_min_text.get())) == True:
+            try:
+                self.var3_lower, self.var3_upper = int(self.var3_min_text.get()), int(self.var3_max_text.get())
+            except ValueError:
+                self.var3_lower, self.var3_upper = float(self.var3_min_text.get()), float(self.var3_max_text.get())
+        else: self.var3_lower, self.var3_upper = 1, 1
+
+
+        if bool(re.search(r'\d', self.var4_min_text.get())) == True and bool(re.search(r'\d', self.var4_min_text.get())) == True:
+            try:
+                self.var4_lower, self.var4_upper = int(self.var4_min_text.get()), int(self.var4_max_text.get())
+            except ValueError:
+                self.var4_lower, self.var4_upper = float(self.var4_min_text.get()), float(self.var4_max_text.get())
+        else: self.var4_lower, self.var4_upper = 1, 1
+
+
+
+
+
+
+
+
+
+
+        a_lower, a_upper = self.var1_lower, self.var1_upper
+        b_lower, b_upper = self.var2_lower, self.var2_upper
+        c_lower, c_upper = self.var3_lower, self.var3_upper
+        d_lower, d_upper = self.var4_lower, self.var4_upper
+        #e_lower, e_upper = self.var5_lower, self.var5_upper
+
 
         def min_max(col):
             return pd.Series(index=['min', 'max'], data=[col.min(), col.max()])
 
+        #values = [
+        #    np.linspace(a_lower, a_upper, N),
+        #    np.linspace(b_lower, b_upper, N),
+        #    np.linspace(c_lower, c_upper, N),
+        #    np.linspace(d_lower, d_upper, N),
 
-        values = [
-            np.linspace(a_lower, a_upper, N),
-            np.linspace(b_lower, b_upper, N),
-            np.linspace(c_lower, c_upper, N),
-            #np.linspace(d_lower, d_upper, N),
-
-        ]
+        #]
 
         #print(values)
         print("---------------------------")
-        print("Berechne...")
         print()
 
-        df = pd.DataFrame(cartesian_product(values), index=['a', 'b', 'c']).T
+
+
+        #df = pd.DataFrame(cartesian_product(values), index=['a', 'b', 'c', 'd']).T
+
+        self.set_nr_of_var_index = []
+
+        #print(self.var1_in_formula, self.var2_in_formula, self.var3_in_formula, self.var4_in_formula, self.var5_in_formula)
+        if self.var1_in_formula == 1 and self.var2_in_formula == 0 and self.var3_in_formula == 0 and self.var4_in_formula == 0 and self.var5_in_formula == 0:
+             print("Berechne Formel mit 1 Variablen: ...")
+             self.set_nr_of_var_index=['a']
+             values = [
+                 np.linspace(a_lower, a_upper, N),
+             ]
+
+        if self.var1_in_formula == 1 and self.var2_in_formula == 1 and self.var3_in_formula == 0 and self.var4_in_formula == 0 and self.var5_in_formula == 0:
+            print("Berechne Formel mit 2 Variablen: ...")
+            self.set_nr_of_var_index = ['a', 'b']
+            values = [
+                np.linspace(a_lower, a_upper, N),
+                np.linspace(b_lower, b_upper, N),
+            ]
+
+        if self.var1_in_formula == 1 and self.var2_in_formula == 1 and self.var3_in_formula == 1 and self.var4_in_formula == 0 and self.var5_in_formula == 0:
+            print("Berechne Formel mit 3 Variablen: ...")
+            self.set_nr_of_var_index = ['a', 'b', 'c']
+            values = [
+                np.linspace(a_lower, a_upper, N),
+                np.linspace(b_lower, b_upper, N),
+                np.linspace(c_lower, c_upper, N),
+            ]
+
+        if self.var1_in_formula == 1 and self.var2_in_formula == 1 and self.var3_in_formula == 1 and self.var4_in_formula == 1 and self.var5_in_formula == 0:
+            print("Berechne Formel mit 4 Variablen: ...")
+            self.set_nr_of_var_index = ['a', 'b', 'c', 'd']
+            values = [
+                np.linspace(a_lower, a_upper, N),
+                np.linspace(b_lower, b_upper, N),
+                np.linspace(c_lower, c_upper, N),
+                np.linspace(d_lower, d_upper, N),
+            ]
+
+
+        df = pd.DataFrame(cartesian_product(values), index=self.set_nr_of_var_index).T
         for i, f in enumerate(functions):
             df[f'f_{i + 1}'] = df.apply(f, axis=1)
+        print()
         print(df.apply(min_max))
+
+        print()
+        print("Ergebnis berechnet!")
 
 
 
