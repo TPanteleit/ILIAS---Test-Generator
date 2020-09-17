@@ -435,6 +435,10 @@ class GuiMainWindow:
         self.show_taxonomy_btn = Button(self.frame_question_difficulty, text="Taxonomie-Einstellungen",command=lambda: Formelfrage.read_XML(self))
         self.show_taxonomy_btn.grid(row=5, column=0, columnspan = 2, padx=10, pady=(20,0), ipadx=40, sticky="W")
 
+        # Wertebereich errechnen
+        # self.res_formula_label.grid(row=20, column=1, sticky=E, pady=(10, 0), padx=100)
+        self.calculate_valuerange_btn = Button(self.frame_formula, text="Wertebereich berechnen",command=lambda: Formelfrage.calc_value_range(self))
+        self.calculate_valuerange_btn.grid(row=6, column=1, padx=50, sticky="E")
 
         #self.reallocate_text_btn = Button(self.frame_latex_preview, text=">>Reallocate Text<<", command=lambda: Formelfrage.reallocate_text(self))
         #self.reallocate_text_btn.grid()
@@ -1434,6 +1438,118 @@ class Formelfrage(GuiMainWindow):
         self.tooltip.bind(self.database_edit_btn, "Aktuelle Einträge unter aktuell ausgewählter ID in der Datenbank speichern/überschreiben.\nEs muss zunächst eine Frage zur Bearbeitung mit \"ID Laden\" geladen werden.")
 
 
+    def replace_symbols_in_formula(self):
+        print("----------------------")
+        print("Übernehme Formel aus Eingabefeld")
+
+
+
+        self.formula1  =  self.res1_formula_entry.get()
+        print(self.formula1)
+        print("Ersetze alle Symbole mit numpy-symoblik")
+
+        self.np_translator_dict = {"pi": "np.pi",
+                                  ",": ".",
+                                  "^": "**",
+                                  "e": "np.e",
+                                  "sin": "np.sin",
+                                  "sinh": "np.sinh",
+                                  "arcsin": "np.arcsin",
+                                  "asin": "np.asin",
+                                  "asinh": "np.asinh",
+                                  "arcsinh": "np.arcsinh",
+                                  "cos": "np.cos",
+                                  "cosh": "np.cosh",
+                                  "cossin": "np.cossin",
+                                  "acos": "np.acos",
+                                  "acosh": "np.acosh",
+                                  "arccosh": "np.arccosh",
+                                  "tan": "np.tan",
+                                  "tanh": "np.tanh",
+                                  "arctan": "np.arctan",
+                                  "atan": "np.atan",
+                                  "atanh": "np.atanh",
+                                  "arctanh": "np.arctanh",
+                                  "sqrt": "np.sqrt",
+                                  "abs": "np.abs",
+                                  "ln": "np.ln",
+                                  "log": "np.log",
+                                  "$v1": "row['a']",
+                                  "$v2": "row['b']",
+                                  "$v3": "row['c']",
+                                  "$v4": "row['d']",
+                                  "$v5": "row['e']"}
+
+        for item in self.np_translator_dict.keys():
+            self.formula1 = self.formula1.replace(item, self.np_translator_dict[item])
+
+        print()
+        print(self.formula1)
+        print("----------------------")
+        return self.formula1
+
+    def calc_value_range(self):
+
+        #self.calc_formula1 = Formelfrage.replace_symbols_in_formula(self)
+        #print(self.calc_formula1)
+
+        # Number of values per range
+        N = 21
+
+        # Functions
+        #self.calc_formula1 = "lambda row: " + str(self.calc_formula1) + ","
+
+        self.expression_test = Formelfrage.replace_symbols_in_formula(self)
+        self.exp_as_func = eval('lambda row: ' + self.expression_test)
+
+        functions = [
+            #  a * sqrt(b/c)
+            #lambda row: row['a'] * np.sqrt(row['b'] / row['c']),
+            #lambda row: row['a'] * np.sqrt(row['b']),
+            #lambda row: row['a'] ** 2,
+            #eval(self.calc_formula1),
+            self.exp_as_func
+            #lambda row: Formelfrage.replace_symbols_in_formula(self)
+
+
+
+
+            # a^2 * b/1000 + 3 * (a+b)
+            #lambda row: row['a']**2 * row['b']/1000 + 3*(row['a']+row['b']),
+
+            # (1/(2 * PI * (a * 1000) * (b * 1000)) * 10^12
+            #lambda row: 10**6 / (2 * np.pi * row['a'] * row['b']),
+        ]
+
+        # Lower and upper bounds
+        a_lower, a_upper = 100, 500
+        b_lower, b_upper = 200, 600
+        c_lower, c_upper = 300, 700
+        d_lower, d_upper = 400, 800
+        e_lower, e_upper = 300, 900
+
+        def min_max(col):
+            return pd.Series(index=['min', 'max'], data=[col.min(), col.max()])
+
+
+        values = [
+            np.linspace(a_lower, a_upper, N),
+            np.linspace(b_lower, b_upper, N),
+            np.linspace(c_lower, c_upper, N),
+            np.linspace(d_lower, d_upper, N),
+
+
+        ]
+
+        #print(values)
+        print("---------------------------")
+        print("Berechne...")
+        print()
+
+        df = pd.DataFrame(cartesian_product(values), index=['a', 'b', 'c', 'd']).T
+        for i, f in enumerate(functions):
+            df[f'f_{i + 1}'] = df.apply(f, axis=1)
+        print(df.apply(min_max))
 
 
 
