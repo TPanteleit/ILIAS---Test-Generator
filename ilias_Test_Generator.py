@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 1.7.2                                                                                           #
+#    Version: 1.7.3                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die Ilias-Plattform.                                      #
-#    In der derzeitigen Version (v1.7.2) wird sich auf die Erstellung von Formelfragen beschränkt             #
+#    In der derzeitigen Version (v1.7.3) wird sich auf die Erstellung von Formelfragen beschränkt             #
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
 #    - Unterstützung von Taxonomie Einträgen und nachträgliche Ergänzung von Taxonomien                     #                                          #
@@ -57,7 +57,8 @@ import pathlib
 import xlsxwriter
 import shutil                               # zum kopieren und zippen von Dateien
 import openpyxl                             # zum excel import von Bildern
-
+import numpy as np
+from pandas.core.reshape.util import cartesian_product
 
 
 
@@ -69,7 +70,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v1.7.2')
+        master.title('ilias - Test-Generator v1.7.3')
 
 
         # --------------------------    Set PATH for Project
@@ -161,7 +162,7 @@ class GuiMainWindow:
         print("##    Testfragen -> 1590475954__0__qti_1944463.xml:    " + str(os.path.exists(self.qti_file_path_write)))
         print("##    Poolfragen -> orig_qpl_file:                     " + str(os.path.exists(self.qpl_file_pool_path_read)))
         print("##    Poolfragen -> orig_qti_file:                     " + str(os.path.exists(self.qti_file_pool_path_read)))
-        print("##    Poolfragen -> Vorlage_für_Fragenpool        :    " + str(os.path.exists(os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')))))
+        print("##    Poolfragen -> Vorlage_für_Fragenpool:            " + str(os.path.exists(os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')))))
 
 
         print("\n")
@@ -376,6 +377,10 @@ class GuiMainWindow:
         # excel_export_btn
         self.excel_xlsx_export_btn = Button(self.frame_excel_sql, text="Datenbank exportieren",command=lambda: Database.sql_db_to_excel_export(self, "SQL_DB_export.xlsx"))
         self.excel_xlsx_export_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
+
+        #ilias test import_btn
+        self.ilias_test_import_btn = Button(self.frame_excel_sql, text="ILIAS-Test importieren",command=lambda: Database.ilias_test_to_sql_import(self))
+        self.ilias_test_import_btn.grid(row=2, column=1, sticky=W, pady=5, padx=10)
 
         # still working?
         #self.show_test_settings_formula_tab = Button(self.formula_tab, text="Test-Einstellungen",command=lambda: GUI_settings_window.__init__(self.formula_tab))
@@ -6686,6 +6691,605 @@ class Database(Formelfrage):
 
 
         #query = ("SELECT question_difficulty, question_category, question_type, question_title, question_description_title,question_description_main")
+
+    def ilias_test_to_sql_import(self):
+        app.filename = filedialog.askdirectory(initialdir=pathlib.Path().absolute(), title="Select a File")
+        self.select_test_import_file = app.filename
+        print(self.select_test_import_file)
+
+        self.ilias_folder_name = self.select_test_import_file .rsplit('/', 1)[-1]
+        self.ilias_folder_name_split1 = self.ilias_folder_name[:15]
+        self.ilias_folder_name_split2 = self.ilias_folder_name.rsplit('_', 1)[-1]
+        self.ilias_test_qti_file = os.path.normpath(os.path.join(self.select_test_import_file, self.ilias_folder_name_split1 + "qti_" + self.ilias_folder_name_split2 + ".xml"))
+
+
+        self.ilias_test_title = []
+        self.ilias_test_question_description_title = []
+        self.ilias_test_question_description = []
+        self.ilias_test_duration = []
+        self.ilias_test_question_points = []
+
+        self.ilias_test_variable1_prec = []
+        self.ilias_test_variable1_divby = []
+        self.ilias_test_variable1_min = []
+        self.ilias_test_variable1_max = []
+
+        self.ilias_test_variable2_prec = []
+        self.ilias_test_variable2_divby = []
+        self.ilias_test_variable2_min = []
+        self.ilias_test_variable2_max = []
+
+        self.ilias_test_variable3_prec = []
+        self.ilias_test_variable3_divby = []
+        self.ilias_test_variable3_min = []
+        self.ilias_test_variable3_max = []
+
+        self.ilias_test_variable4_prec = []
+        self.ilias_test_variable4_divby = []
+        self.ilias_test_variable4_min = []
+        self.ilias_test_variable4_max = []
+
+        self.ilias_test_variable5_prec = []
+        self.ilias_test_variable5_divby = []
+        self.ilias_test_variable5_min = []
+        self.ilias_test_variable5_max = []
+
+        # Werte für die Variable 1 in der Reihenfolge: "Präzision", "divby", "range_min", "range_max",
+        self.ilias_test_variable1 = []
+        self.ilias_test_variable2 = []
+        self.ilias_test_variable3 = []
+        self.ilias_test_variable4 = []
+        self.ilias_test_variable5 = []
+
+
+        self.ilias_test_result1 = []
+        self.ilias_test_result1_prec = []
+        self.ilias_test_result1_tol = []
+        self.ilias_test_result1_min = []
+        self.ilias_test_result1_max = []
+        self.ilias_test_result1_pts = []
+        self.ilias_test_result1_formula = []
+
+        # XML Datei "qti" einlesen
+        self.mytree = ET.parse(self.ilias_test_qti_file)
+        self.myroot = self.mytree.getroot()
+
+        for item in self.myroot.iter('item'):
+            #print(item.get('title'))
+            self.ilias_test_title.append(item.get('title'))
+
+
+        for comment in self.myroot.iter('qticomment'):
+            if comment.text == None:
+                comment.text = ""
+
+        for item in self.myroot.iter('item'):
+            if "" in item.find('qticomment').text:
+                self.ilias_test_question_description_title.append(item.find('qticomment').text)
+
+        for item in self.myroot.iter('item'):
+            if "" in item.find('duration').text:
+                self.ilias_test_duration.append(item.find('duration').text)
+
+        for qtimetadatafield in self.myroot.iter('qtimetadatafield'):
+            if qtimetadatafield.find('fieldlabel').text == "points":
+                self.ilias_test_question_points.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v1":
+                self.ilias_test_variable1.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v2":
+                self.ilias_test_variable2.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v3":
+                self.ilias_test_variable3.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v4":
+                self.ilias_test_variable4.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v5":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r1":
+                self.ilias_test_result1.append(qtimetadatafield.find('fieldentry').text)
+
+        #for mattext in self.myroot.iter('mattext'):
+        #    self.ilias_test_question_description.append(mattext.text)
+
+
+        for flow in self.myroot.iter('flow'):
+            for material in flow.iter('material'):
+                if "" in material.find('mattext').text:
+                        self.ilias_test_question_description.append(material.find('mattext').text)
+
+        #print("LÄNGE DER BESHREIBUNG: ")
+        #print("länge von iter: " + str(len(self.test_iter)))
+        #print(self.test_iter)
+
+        #for i in range(len(self.ilias_test_question_description)):
+        #    print(self.ilias_test_question_description[i])
+
+
+        # Liste mit Fragenbeschreibungen enthalten in
+        # Fach 1: "Willkommen zur Probe-Klausurl.."
+        # Fach 2: "Hiermit versichere ich an Eides statt.."
+        # Nach .pop(0) wird das Feld gelöscht und die List-Plätze nach vorne geschoben.
+        # Um Feld 0 und 1 zu löschen muss daher zweimal der Befehl pop(0) ausgeführt werden
+        #self.ilias_test_question_description.pop(0)
+        #self.ilias_test_question_description.pop(0)
+        #print("LÄNGE DER BESHREIBUNG 2: " + str(len(self.ilias_test_question_description)))
+
+
+        #print()
+        #print("+++++++++++++++++++++++++++++++++++++++")
+
+        #print(self.ilias_test_question_description)
+        for i in range(len(self.ilias_test_question_description)):
+            if self.ilias_test_question_description[i] != None:
+                self.ilias_test_question_description[i] = self.ilias_test_question_description[i].replace('<p>', '')
+                self.ilias_test_question_description[i] = self.ilias_test_question_description[i].replace('</p>', '')
+
+        #print(self.ilias_test_question_description)
+
+
+        #print("+++++++++++++++++++++++++++++++++++++++")
+
+        # Das erste Fach der Liste enthält die Beschreibung des Tests und nicht die Beschreibung der Frage und wird mit pop(0) entfernt
+        # self.ilias_test_question_description_title.pop(0)
+
+        # Das erste Fach der Liste enthält die Dauer des ganzen-Tests und nicht die Dauer der Frage und wird mit pop(0) entfernt
+        # self.ilias_test_duration.pop(0)
+
+        print("Anzahl der Fragen: " + str(len(self.ilias_test_title)))
+        #print("Anzahl der Beschreibungen: " + str(len(self.ilias_test_question_description_title)))
+        #print("Anzahl der Zeiten " + str(len(self.ilias_test_duration)))
+        #print("Anzahl der Punkte " + str(len(self.ilias_test_question_points)))
+        #print("Anzahl der Variablen1 " + str(len(self.ilias_test_variable1)))
+        #print(self.ilias_test_variable1)
+
+
+        self.ilias_test_variable1_settings = []
+        self.ilias_test_variable1_settings_2nd = []
+        self.ilias_test_variable2_settings = []
+        self.ilias_test_variable2_settings_2nd = []
+        self.ilias_test_variable3_settings = []
+        self.ilias_test_variable3_settings_2nd = []
+        self.ilias_test_variable4_settings = []
+        self.ilias_test_variable4_settings_2nd = []
+        self.ilias_test_variable5_settings = []
+        self.ilias_test_variable5_settings_2nd = []
+
+        self.ilias_test_result1_settings = []
+        self.ilias_test_result1_settings_2nd = []
+
+        # Liste Variable 1 - Werte auftrennen nach ";"
+        for i in range(len(self.ilias_test_variable1)):
+            self.ilias_test_variable1_settings += self.ilias_test_variable1[i].split(";")
+
+        for i in range(len(self.ilias_test_variable2)):
+            self.ilias_test_variable2_settings += self.ilias_test_variable2[i].split(";")
+
+        for i in range(len(self.ilias_test_variable3)):
+            self.ilias_test_variable3_settings += self.ilias_test_variable3[i].split(";")
+
+        for i in range(len(self.ilias_test_variable4)):
+            self.ilias_test_variable4_settings += self.ilias_test_variable4[i].split(";")
+
+        for i in range(len(self.ilias_test_variable5)):
+            self.ilias_test_variable5_settings += self.ilias_test_variable5[i].split(";")
+
+        for i in range(len(self.ilias_test_result1)):
+            self.ilias_test_result1_settings += self.ilias_test_result1[i].split(";")
+
+
+
+
+        # Lösche Fach 12 und danach jedes 13te Feld
+        # Diese Felder enthalten keine Informationen. Der String schließt mit "unitvalue";s:0:"";} ab und die gelöschten Felder
+        # enthalten den "Wert zwischen ; und } und sind unbrauchbar.
+        del self.ilias_test_variable1_settings[12::13]
+        del self.ilias_test_variable2_settings[12::13]
+        del self.ilias_test_variable3_settings[12::13]
+        del self.ilias_test_variable4_settings[12::13]
+        del self.ilias_test_variable5_settings[12::13]
+
+
+        # Erstes Feld löschen, dann enthält jedes 2. Fach der eigentliche Wert für die jeweilige Einstellung z.B. Präzision
+        if len(self.ilias_test_variable1_settings) > 0:
+            self.ilias_test_variable1_settings.pop(0)
+
+        if len(self.ilias_test_variable2_settings) > 0:
+            self.ilias_test_variable2_settings.pop(0)
+
+        if len(self.ilias_test_variable3_settings) > 0:
+            self.ilias_test_variable3_settings.pop(0)
+
+        if len(self.ilias_test_variable4_settings) > 0:
+            self.ilias_test_variable4_settings.pop(0)
+
+        if len(self.ilias_test_variable5_settings) > 0:
+            self.ilias_test_variable5_settings.pop(0)
+
+
+
+        self.ilias_test_variable1_settings_2nd = self.ilias_test_variable1_settings[::2]
+        self.ilias_test_variable2_settings_2nd = self.ilias_test_variable2_settings[::2]
+        self.ilias_test_variable3_settings_2nd = self.ilias_test_variable3_settings[::2]
+        self.ilias_test_variable4_settings_2nd = self.ilias_test_variable4_settings[::2]
+        self.ilias_test_variable5_settings_2nd = self.ilias_test_variable5_settings[::2]
+
+
+
+        #for i in range(len(self.ilias_test_variable1_settings_2nd)):
+         #   print("Fach " + str(i) + ": " + str(self.ilias_test_variable1_settings_2nd[i]))
+
+        for i in range(0, len(self.ilias_test_variable1_settings_2nd), 6):
+            self.ilias_test_variable1_prec.append(self.ilias_test_variable1_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable1_divby.append(self.ilias_test_variable1_settings_2nd[i+1][5:][:-1])
+            self.ilias_test_variable1_min.append(self.ilias_test_variable1_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_variable1_max.append(self.ilias_test_variable1_settings_2nd[i+3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable2_settings_2nd), 6):
+            self.ilias_test_variable2_prec.append(self.ilias_test_variable2_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable2_divby.append(self.ilias_test_variable2_settings_2nd[i+1][5:][:-1])
+            self.ilias_test_variable2_min.append(self.ilias_test_variable2_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_variable2_max.append(self.ilias_test_variable2_settings_2nd[i+3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable3_settings_2nd), 6):
+            self.ilias_test_variable3_prec.append(self.ilias_test_variable3_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable3_divby.append(self.ilias_test_variable3_settings_2nd[i+1][5:][:-1])
+            self.ilias_test_variable3_min.append(self.ilias_test_variable3_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_variable3_max.append(self.ilias_test_variable3_settings_2nd[i+3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable4_settings_2nd), 6):
+            self.ilias_test_variable4_prec.append(self.ilias_test_variable4_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable4_divby.append(self.ilias_test_variable4_settings_2nd[i+1][5:][:-1])
+            self.ilias_test_variable4_min.append(self.ilias_test_variable4_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_variable4_max.append(self.ilias_test_variable4_settings_2nd[i+3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable5_settings_2nd), 6):
+            self.ilias_test_variable5_prec.append(self.ilias_test_variable5_settings_2nd[i][2:])
+            self.ilias_test_variable5_divby.append(self.ilias_test_variable5_settings_2nd[i+1][5:][:-1])
+            self.ilias_test_variable5_min.append(self.ilias_test_variable5_settings_2nd[i+2][2:])
+            self.ilias_test_variable5_max.append(self.ilias_test_variable5_settings_2nd[i+3][2:])
+
+
+
+
+
+
+
+        #print(len(self.ilias_test_variable1_prec), self.ilias_test_variable1_prec)
+        #print(len(self.ilias_test_variable1_divby), self.ilias_test_variable1_divby)
+        #print(len(self.ilias_test_variable1_min), self.ilias_test_variable1_min)
+        #print(len(self.ilias_test_variable1_max), self.ilias_test_variable1_max)
+
+        #print(len(self.ilias_test_variable2_prec), self.ilias_test_variable2_prec)
+        #print(len(self.ilias_test_variable2_divby), self.ilias_test_variable2_divby)
+        #print(len(self.ilias_test_variable2_min), self.ilias_test_variable2_min)
+        #print(len(self.ilias_test_variable2_max), self.ilias_test_variable2_max)
+
+
+        # Listen auffüllen. Liste "Fragentitel" enthält die max. Anzahl an Fragen
+
+        for i in range(len(self.ilias_test_variable2_prec), len(self.ilias_test_title)):
+            self.ilias_test_variable2_prec.append(" ")
+            self.ilias_test_variable2_divby.append(" ")
+            self.ilias_test_variable2_min.append(" ")
+            self.ilias_test_variable2_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable3_prec), len(self.ilias_test_title)):
+            self.ilias_test_variable3_prec.append(" ")
+            self.ilias_test_variable3_divby.append(" ")
+            self.ilias_test_variable3_min.append(" ")
+            self.ilias_test_variable3_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable4_prec), len(self.ilias_test_title)):
+            self.ilias_test_variable4_prec.append(" ")
+            self.ilias_test_variable4_divby.append(" ")
+            self.ilias_test_variable4_min.append(" ")
+            self.ilias_test_variable4_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable5_prec), len(self.ilias_test_title)):
+            self.ilias_test_variable5_prec.append(" ")
+            self.ilias_test_variable5_divby.append(" ")
+            self.ilias_test_variable5_min.append(" ")
+            self.ilias_test_variable5_max.append(" ")
+        #
+
+
+
+        #print(len(self.ilias_test_variable3_prec), self.ilias_test_variable3_prec)
+        #print(len(self.ilias_test_variable3_divby), self.ilias_test_variable3_divby)
+        #print(len(self.ilias_test_variable3_min), self.ilias_test_variable3_min)
+        #print(len(self.ilias_test_variable3_max), self.ilias_test_variable3_max)
+
+        #print(len(self.ilias_test_variable4_prec), self.ilias_test_variable4_prec)
+        #print(len(self.ilias_test_variable4_divby), self.ilias_test_variable4_divby)
+        #print(len(self.ilias_test_variable4_min), self.ilias_test_variable4_min)
+        #print(len(self.ilias_test_variable4_max), self.ilias_test_variable4_max)
+
+        #print(len(self.ilias_test_variable5_prec), self.ilias_test_variable5_prec)
+        #print(len(self.ilias_test_variable5_divby), self.ilias_test_variable5_divby)
+        #print(len(self.ilias_test_variable5_min), self.ilias_test_variable5_min)
+        #print(len(self.ilias_test_variable5_max), self.ilias_test_variable5_max)
+
+
+        #print("######################")
+        #print(self.ilias_test_variable1[0])
+        #print("LÄNGE: " + str(len(self.ilias_test_variable1)))
+        #print(self.ilias_test_variable1_settings[0])
+        #print("LÄNGE: " +str(len(self.ilias_test_variable1_settings)))
+        #print(self.ilias_test_variable1_settings_2nd[0])
+        #print("LÄNGE: " + str(len(self.ilias_test_variable1_settings_2nd)))
+        #print("#######################")
+
+
+
+        # Ergebnis String auslesen
+
+
+        self.ilias_test_result1_settings.pop(0)
+        self.ilias_test_result1_settings_2nd = self.ilias_test_result1_settings[::2]
+
+        for i in range(len(self.ilias_test_result1_settings_2nd)):
+            self.ilias_test_result1_settings_2nd[i] = self.ilias_test_result1_settings_2nd[i].replace('"', '')
+
+        for i in range(0, len(self.ilias_test_result1_settings_2nd), 10):
+            self.ilias_test_result1_prec.append(self.ilias_test_result1_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result1_tol.append(self.ilias_test_result1_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result1_min.append(self.ilias_test_result1_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result1_max.append(self.ilias_test_result1_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result1_pts.append(self.ilias_test_result1_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result1_formula.append(self.ilias_test_result1_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+
+
+
+
+
+
+        #print(len(self.ilias_test_result1_prec), self.ilias_test_result1_prec)
+        #print(len(self.ilias_test_result1_tol), self.ilias_test_result1_tol)
+        #print(len(self.ilias_test_result1_min), self.ilias_test_result1_min)
+        #print(len(self.ilias_test_result1_max), self.ilias_test_result1_max)
+        #print(len(self.ilias_test_result1_pts), self.ilias_test_result1_pts)
+        #print(len(self.ilias_test_result1_formula), self.ilias_test_result1_formula)
+
+
+
+        # Fragentext auslesen
+
+        print()
+        ##print("+++++++++++++++++++++++++++++++++++")
+        #print(len(self.ilias_test_question_description))
+
+
+        #for i in range(len(self.ilias_test_result1)):
+           # print("Fach " + str(i) + ": " + str(self.ilias_test_question_description[i]))
+
+        #print("len duration: " + str(len(self.ilias_test_duration)))
+        #print("len test title: " + str(len(self.ilias_test_title)))
+
+
+        # Daten in die SQL-Datenbank einfügen
+        conn = sqlite3.connect('ilias_questions_db.db')
+        c = conn.cursor()
+        conn.commit()
+
+
+        for i in range(len(self.ilias_test_title)):
+            c.execute(
+                    "INSERT INTO my_table VALUES ("
+                    ":question_difficulty, :question_category, :question_type, "
+                    ":question_title, :question_description_title, :question_description_main, "
+                    ":res1_formula, :res2_formula, :res3_formula,  "
+                    ":res4_formula, :res5_formula, :res6_formula,  "
+                    ":res7_formula, :res8_formula, :res9_formula, :res10_formula, "
+                    ":var1_name, :var1_min, :var1_max, :var1_prec, :var1_divby, :var1_unit, "
+                    ":var2_name, :var2_min, :var2_max, :var2_prec, :var2_divby, :var2_unit, "
+                    ":var3_name, :var3_min, :var3_max, :var3_prec, :var3_divby, :var3_unit, "
+                    ":var4_name, :var4_min, :var4_max, :var4_prec, :var4_divby, :var4_unit, "
+                    ":var5_name, :var5_min, :var5_max, :var5_prec, :var5_divby, :var5_unit, "
+                    ":var6_name, :var6_min, :var6_max, :var6_prec, :var6_divby, :var6_unit, "
+                    ":var7_name, :var7_min, :var7_max, :var7_prec, :var7_divby, :var7_unit, "
+                    ":var8_name, :var8_min, :var8_max, :var8_prec, :var8_divby, :var8_unit, "
+                    ":var9_name, :var9_min, :var9_max, :var9_prec, :var9_divby, :var9_unit, "
+                    ":var10_name, :var10_min, :var10_max, :var10_prec, :var10_divby, :var10_unit, "
+                    ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
+                    ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
+                    ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit,"
+                    ":res4_name, :res4_min, :res4_max, :res4_prec, :res4_tol, :res4_points, :res4_unit, "
+                    ":res5_name, :res5_min, :res5_max, :res5_prec, :res5_tol, :res5_points, :res5_unit, "
+                    ":res6_name, :res6_min, :res6_max, :res6_prec, :res6_tol, :res6_points, :res6_unit, "
+                    ":res7_name, :res7_min, :res7_max, :res7_prec, :res7_tol, :res7_points, :res7_unit, "
+                    ":res8_name, :res8_min, :res8_max, :res8_prec, :res8_tol, :res8_points, :res8_unit, "
+                    ":res9_name, :res9_min, :res9_max, :res9_prec, :res9_tol, :res9_points, :res9_unit, "
+                    ":res10_name, :res10_min, :res10_max, :res10_prec, :res10_tol, :res10_points, :res10_unit, "
+                    ":img_name, :img_data, :test_time, :var_number, :res_number, :question_pool_tag)",
+                    {
+                        'question_difficulty': "",
+                        'question_category':  "",
+                        'question_type': "Formelfrage",
+                        'question_title': self.ilias_test_title[i],
+                        'question_description_title': self.ilias_test_question_description_title[i],
+                        'question_description_main': self.ilias_test_question_description[i],
+
+                        'res1_formula': self.ilias_test_result1_formula[i],
+                        'res2_formula':  "",
+                        'res3_formula':  "",
+                        'res4_formula':  "",
+                        'res5_formula':  "",
+                        'res6_formula':  "",
+                        'res7_formula':  "",
+                        'res8_formula':  "",
+                        'res9_formula':  "",
+                        'res10_formula': "",
+
+                        'var1_name':  "",
+                        'var1_min': self.ilias_test_variable1_min[i],
+                        'var1_max': self.ilias_test_variable1_max[i],
+                        'var1_prec': self.ilias_test_variable1_prec[i],
+                        'var1_divby': self.ilias_test_variable1_divby[i],
+                        'var1_unit': "",
+
+                        'var2_name':  "",
+                        'var2_min': self.ilias_test_variable2_min[i],
+                        'var2_max': self.ilias_test_variable2_max[i],
+                        'var2_prec': self.ilias_test_variable2_prec[i],
+                        'var2_divby': self.ilias_test_variable2_divby[i],
+                        'var2_unit':  "",
+
+                        'var3_name':  "",
+                        'var3_min': self.ilias_test_variable3_min[i],
+                        'var3_max': self.ilias_test_variable3_max[i],
+                        'var3_prec': self.ilias_test_variable3_prec[i],
+                        'var3_divby': self.ilias_test_variable3_divby[i],
+                        'var3_unit':  "",
+
+                        'var4_name':  "",
+                        'var4_min': self.ilias_test_variable4_min[i],
+                        'var4_max': self.ilias_test_variable4_max[i],
+                        'var4_prec': self.ilias_test_variable4_prec[i],
+                        'var4_divby': self.ilias_test_variable4_divby[i],
+                        'var4_unit':  "",
+
+                        'var5_name':  "",
+                        'var5_min': self.ilias_test_variable5_min[i],
+                        'var5_max': self.ilias_test_variable5_max[i],
+                        'var5_prec': self.ilias_test_variable5_prec[i],
+                        'var5_divby': self.ilias_test_variable5_divby[i],
+                        'var5_unit': "",
+
+                        'var6_name':  "",
+                        'var6_min':  "",
+                        'var6_max':  "",
+                        'var6_prec':  "",
+                        'var6_divby':  "",
+                        'var6_unit':  "",
+
+                        'var7_name':  "",
+                        'var7_min':  "",
+                        'var7_max':  "",
+                        'var7_prec':  "",
+                        'var7_divby':  "",
+                        'var7_unit':  "",
+
+                        'var8_name':  "",
+                        'var8_min':  "",
+                        'var8_max':  "",
+                        'var8_prec':  "",
+                        'var8_divby':  "",
+                        'var8_unit':  "",
+
+                        'var9_name':  "",
+                        'var9_min':  "",
+                        'var9_max':  "",
+                        'var9_prec':  "",
+                        'var9_divby':  "",
+                        'var9_unit':  "",
+
+                        'var10_name':  "",
+                        'var10_min':  "",
+                        'var10_max':  "",
+                        'var10_prec':  "",
+                        'var10_divby':  "",
+                        'var10_unit':  "",
+
+                        'res1_name':  "",
+                        'res1_min': self.ilias_test_result1_min[i],
+                        'res1_max': self.ilias_test_result1_max[i],
+                        'res1_prec': self.ilias_test_result1_prec[i],
+                        'res1_tol': self.ilias_test_result1_tol[i],
+                        'res1_points': self.ilias_test_result1_pts[i],
+                        'res1_unit': "",
+
+                        'res2_name':  "",
+                        'res2_min':  "",
+                        'res2_max':  "",
+                        'res2_prec':  "",
+                        'res2_tol':  "",
+                        'res2_points':  "",
+                        'res2_unit':  "",
+
+                        'res3_name':  "",
+                        'res3_min':  "",
+                        'res3_max':  "",
+                        'res3_prec': "",
+                        'res3_tol':  "",
+                        'res3_points':  "",
+                        'res3_unit':  "",
+
+                        'res4_name':  "",
+                        'res4_min':  "",
+                        'res4_max':  "",
+                        'res4_prec':  "",
+                        'res4_tol':  "",
+                        'res4_points':  "",
+                        'res4_unit':  "",
+
+                        'res5_name':  "",
+                        'res5_min':  "",
+                        'res5_max':  "",
+                        'res5_prec':  "",
+                        'res5_tol':  "",
+                        'res5_points':  "",
+                        'res5_unit':  "",
+
+                        'res6_name':  "",
+                        'res6_min':  "",
+                        'res6_max':  "",
+                        'res6_prec':  "",
+                        'res6_tol':  "",
+                        'res6_points':  "",
+                        'res6_unit':  "",
+
+                        'res7_name':  "",
+                        'res7_min':  "",
+                        'res7_max':  "",
+                        'res7_prec':  "",
+                        'res7_tol':  "",
+                        'res7_points':  "",
+                        'res7_unit':  "",
+
+                        'res8_name':  "",
+                        'res8_min':  "",
+                        'res8_max':  "",
+                        'res8_prec':  "",
+                        'res8_tol':  "",
+                        'res8_points':  "",
+                        'res8_unit':  "",
+
+                        'res9_name':  "",
+                        'res9_min':  "",
+                        'res9_max':  "",
+                        'res9_prec':  "",
+                        'res9_tol':  "",
+                        'res9_points':  "",
+                        'res9_unit':  "",
+
+                        'res10_name':  "",
+                        'res10_min':  "",
+                        'res10_max':  "",
+                        'res10_prec':  "",
+                        'res10_tol':  "",
+                        'res10_points':  "",
+                        'res10_unit':  "",
+
+                        'img_name': "EMPTY",
+                        'img_data': "EMPTY",
+
+                        'test_time': self.ilias_test_duration[i],
+                        'var_number':  "",
+                        'res_number':  "",
+                        'question_pool_tag':  ""
+                    }
+                )
+        conn.commit()
+        conn.close()
+
+        print("Test importiert!")
+
 
 
     def open_image(self):
