@@ -43,7 +43,6 @@ from tkinter import ttk
 import sqlite3  # verwendet für mySQL Datenbank
 import xml.etree.ElementTree as ET
 from sympy import *
-from tkscrolledframe import ScrolledFrame  # Bewegbares Fesnter (Scrollbalken)
 import os
 import pandas as pd  # used for import excel (xlsx) to mySQL_DB
 import pathlib
@@ -407,46 +406,14 @@ class Formelfrage(GuiMainWindow):
         # Taxonomie-datei "refreshen"
         Formelfrage.tax_file_refresh(self, self.taxonomy_exportXML_file)
 
-        # New Window must be "Toplevel" not "Tk()" in order to get Radiobuttons to work properly
-        self.taxonomy_window = Toplevel()
-        self.taxonomy_window.title("Taxonomie")
 
-        # Create a ScrolledFrame widget
-        self.sf_taxonomy = ScrolledFrame(self.taxonomy_window, width=self.taxonomy_width, height=self.taxonomy_height)
-        self.sf_taxonomy.pack(expand=1, fill="both")
 
-        # Bind the arrow keys and scroll wheel
-        ### Bind the arrow keys and scroll wheel
-        ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
-        # self.sf_taxonomy.bind_arrow_keys(app)
-        # self.sf_taxonomy.bind_scroll_wheel(app)
-
-        # Create a frame within the ScrolledFrame
-        self.taxonomy = self.sf_taxonomy.display_widget(Frame)
-
-        self.taxonomy_frame_labels_scroll = LabelFrame(self.taxonomy, text="Fragen ID's", padx=5, pady=5)
-        self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
-        self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
-        self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        # self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        # self.taxonomy_frame_labels2.bind_scroll_wheel(app)
-        self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
-
-        # self.taxonomy_frame_labels = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
-        # self.taxonomy_frame_labels.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
-
-        self.taxonomy_frame_boxes = LabelFrame(self.taxonomy, text="Fragen ID's", padx=5, pady=5)
-        self.taxonomy_frame_boxes.grid(row=0, column=1, padx=20, pady=10, sticky=NW)
-
-        self.taxonomy_frame_tree = LabelFrame(self.taxonomy, text="Taxonomie Baum", padx=5, pady=5)
-        self.taxonomy_frame_tree.grid(row=0, column=1, padx=20, pady=200, sticky=NW)
 
         # self.taxonomy_frame_tree_picture = LabelFrame(self.taxonomy, text="Taxonomie Bild", padx=5, pady=5)
         # self.taxonomy_frame_tree_picture.grid(row=2, column=1, padx=20, pady=10, sticky=NW)
 
         # ---- Starting ID to End ID set to node
-        self.label_starting_id = Label(self.taxonomy_frame_boxes, text="von Fragen ID")
-        self.label_starting_id.grid(sticky=W, pady=5, row=0, column=0)
+
 
         self.starting_id_var = StringVar()
         self.ending_id_var = StringVar()
@@ -455,58 +422,6 @@ class Formelfrage(GuiMainWindow):
         self.tax_node_name = StringVar()
         self.tax_node_parent = StringVar()
 
-        self.entry_starting_id = Entry(self.taxonomy_frame_boxes, textvariable=self.starting_id_var, width=10)
-        self.entry_starting_id.grid(sticky=W, pady=5, row=1, column=0)
-
-        self.label_ending_id = Label(self.taxonomy_frame_boxes, text="bis Fragen ID")
-        self.label_ending_id.grid(sticky=W, padx=10, pady=5, row=0, column=1)
-
-        self.entry_ending_id = Entry(self.taxonomy_frame_boxes, textvariable=self.ending_id_var, width=10)
-        self.entry_ending_id.grid(sticky=W, padx=10, pady=5, row=1, column=1)
-
-        self.taxonomy_name_label = Label(self.taxonomy_frame_tree, text="Name für Taxonomie")
-        self.taxonomy_name_label.grid(sticky=W, padx=10, pady=5, row=0, column=0)
-        self.taxonomy_name_entry = Entry(self.taxonomy_frame_tree, textvariable=self.taxonomy_name, width=20)
-        self.taxonomy_name_entry.grid(sticky=W, padx=10, pady=5, row=0, column=1)
-
-        self.tax_node_name_label = Label(self.taxonomy_frame_tree, text="Name für Knoten")
-        self.tax_node_name_label.grid(sticky=W, padx=10, pady=5, row=1, column=0)
-        self.tax_node_name_entry = Entry(self.taxonomy_frame_tree, textvariable=self.tax_node_name, width=20)
-        self.tax_node_name_entry.grid(sticky=W, padx=10, pady=5, row=1, column=1)
-
-        self.tax_node_parent_label = Label(self.taxonomy_frame_tree, text="Vaterknoten")
-        self.tax_node_parent_label.grid(sticky=W, padx=10, pady=5, row=2, column=0)
-        self.tax_node_parent_entry = Entry(self.taxonomy_frame_tree, textvariable=self.tax_node_parent, width=20)
-        self.tax_node_parent_entry.grid(sticky=W, padx=10, pady=5, row=2, column=1)
-
-        # Button to assign questions to node
-        self.assign_to_node_btn = Button(self.taxonomy_frame_boxes, text="Fragen dem Knoten\nhinzufügen",
-                                         command=lambda: Formelfrage.assign_questions_to_node(self))
-        self.assign_to_node_btn.grid(row=4, column=0, sticky=W, pady=(20, 0))
-
-        self.remove_from_node_btn = Button(self.taxonomy_frame_boxes, text="Fragen von Knoten\nentfernen",
-                                           command=lambda: Formelfrage.remove_question_from_node(self))
-        self.remove_from_node_btn.grid(row=4, column=1, sticky=W, padx=5, pady=(20, 0))
-
-        self.tax_add_node_btn = Button(self.taxonomy_frame_tree, text="Neuen Knoten hinzufügen",
-                                       command=lambda: Formelfrage.add_node_to_tax(self))
-        self.tax_add_node_btn.grid(row=6, column=0, sticky=W, padx=5, pady=(20, 0))
-
-        self.scan_tax_tree_btn = Button(self.taxonomy_frame_tree, text="scan_tax_tree",
-                                        command=lambda: Formelfrage.scan_tax_tree(self))
-        self.scan_tax_tree_btn.grid(row=6, column=1, sticky=W, padx=5, pady=(20, 0))
-
-        self.update_taxonomy_name_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Namen\naktualisieren",
-                                               command=lambda: Formelfrage.update_taxonomy_name(self))
-        self.update_taxonomy_name_btn.grid(row=0, column=2, sticky=E, padx=5, pady=(5, 0))
-
-        self.tax_remove_node_btn = Button(self.taxonomy_frame_tree, text="Knoten entfernen",
-                                          command=lambda: Formelfrage.remove_node_from_tax(self))
-        self.tax_remove_node_btn.grid(row=6, column=2, sticky=W, padx=5, pady=(20, 0))
-
-        self.tax_reallocate_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Datei\nneu anordnen",
-                                         command=lambda: Formelfrage.tax_reallocate(self))
-        self.tax_reallocate_btn.grid(row=5, column=2, sticky=W, padx=5, pady=(20, 0))
 
         Formelfrage.read_taxonomy_file(self)
         Formelfrage.scan_tax_tree(self)
@@ -1373,13 +1288,6 @@ class Formelfrage(GuiMainWindow):
         self.mytree = ET.parse(self.taxonomy_file_read)
         self.myroot = self.mytree.getroot()
 
-        self.taxonomy_frame_tree_picture_scroll = LabelFrame(self.taxonomy, text="Taxonomie Bild", padx=5, pady=5)
-        self.taxonomy_frame_tree_picture_scroll.grid(row=0, column=1, padx=20, pady=450, sticky=NW)
-
-        self.taxonomy_frame_tree_picture2 = ScrolledFrame(self.taxonomy_frame_tree_picture_scroll, height=250,
-                                                          width=200)
-        self.taxonomy_frame_tree_picture2.pack(expand=1, fill="both")
-
         ### Bind the arrow keys and scroll wheel
         ### Funktion hat keine auswirkungen, erzeugt jedoch (vernachlässigbare) Fehler
         # self.taxonomy_frame_tree_picture2.bind_arrow_keys(app)
@@ -1505,22 +1413,7 @@ class Formelfrage(GuiMainWindow):
         self.node_to_id_dict = dict(zip(self.node_tag_assign, self.child_tag_assign))
         print("------------------------------------------------")
 
-        # Export XML-File
-        # xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1"
-        # xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3"
-        # xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3"
-        # xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">
-        # Bsp: tax_node.find('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ItemId').text)
 
-        # -------- Struktur einer "assignment to node" in der XML
-        # < ds: Rec Entity = "tax_node_assignment" >
-        #    < TaxNodeAssignment >
-        #        < NodeId > 21682 < / NodeId >
-        #        < Component > qpl < / Component >
-        #        < ItemType > quest < / ItemType >
-        #        < ItemId > 470081 < / ItemId >
-        #    < / TaxNodeAssignment >
-        # < / ds: Rec >
 
         if self.entry_starting_id.get() != "" and self.entry_ending_id.get() != "":
             self.starting_id = int(self.entry_starting_id.get()[:6])
@@ -1572,19 +1465,7 @@ class Formelfrage(GuiMainWindow):
         # Taxonomie-datei "refreshen"
         Formelfrage.tax_file_refresh(self, self.taxonomy_exportXML_file)
 
-        # Taxonomie Fesnter wird "refreshed" um Text der Labels zu aktualisieren
-        self.taxonomy_frame_labels.destroy()
 
-        self.taxonomy_frame_labels_scroll = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
-        self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
-        self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
-        self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        # self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        # self.taxonomy_frame_labels2.bind_scroll_wheel(app)
-        self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
-
-        # self.taxonomy_frame_labels = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
-        # self.taxonomy_frame_labels.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
 
         Formelfrage.read_taxonomy_file(self)
 
@@ -1687,72 +1568,14 @@ class Formelfrage(GuiMainWindow):
         # Taxonomie Fesnter wird "refreshed" um Text der Labels zu aktualisieren
         self.taxonomy_frame_labels.destroy()
 
-        self.taxonomy_frame_labels_scroll = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
-        self.taxonomy_frame_labels_scroll.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
-        self.taxonomy_frame_labels2 = ScrolledFrame(self.taxonomy_frame_labels_scroll, height=700, width=500)
-        self.taxonomy_frame_labels2.pack(expand=1, fill="both")
-        # self.taxonomy_frame_labels2.bind_arrow_keys(app)
-        # self.taxonomy_frame_labels2.bind_scroll_wheel(app)
-        self.taxonomy_frame_labels = self.taxonomy_frame_labels2.display_widget(Frame)
+
 
         # self.taxonomy_frame_labels = LabelFrame(self.taxonomy, text="Question ID's", padx=5, pady=5)
         # self.taxonomy_frame_labels.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
 
         Formelfrage.read_taxonomy_file(self)
 
-    def reallocate_text(self):
 
-        self.content = self.formula_question_entry.get("1.0", 'end-1c')
-        self.numbers_of_searchterm_p = self.content.count("^")
-        self.numbers_of_searchterm_b = self.content.count("_")
-        self.numbers_of_searchterm_italic = self.content.count("//")
-        self.search_index = '1.0'
-        self.search_index_start = self.search_index
-        self.search_index_end = self.search_index
-
-        for x in range(self.numbers_of_searchterm_p):
-            self.search_p1_begin = self.formula_question_entry.search('^', self.search_index_start, stopindex="end")
-            self.search_p1_end = self.formula_question_entry.search(" ", self.search_p1_begin, stopindex="end")
-            self.formula_question_entry.tag_add('SUP', self.search_p1_begin, self.search_p1_end)
-            self.formula_question_entry.tag_config('SUP', offset=4)
-            self.formula_question_entry.tag_config('SUP', foreground='green')
-            self.search_index_start = self.search_p1_end
-            self.search_index_end = self.search_p1_begin
-
-        self.search_index = '1.0'
-        self.search_index_start = self.search_index
-        self.search_index_end = self.search_index
-        for y in range(self.numbers_of_searchterm_b):
-            self.search_b1_begin = self.formula_question_entry.search('_', self.search_index_start, stopindex="end")
-            self.search_b1_end = self.formula_question_entry.search(" ", self.search_b1_begin, stopindex="end")
-            self.formula_question_entry.tag_add('SUB', self.search_b1_begin, self.search_b1_end)
-            self.formula_question_entry.tag_config('SUB', offset=-4)
-            self.formula_question_entry.tag_config('SUB', foreground='blue')
-            self.search_index_start = self.search_b1_end
-            self.search_index_end = self.search_b1_begin
-
-        self.search_index = '1.0'
-        self.search_index_start = self.search_index
-        print(self.search_index_start)
-        self.search_index_end = self.search_index
-        for z in range(self.numbers_of_searchterm_italic):
-            try:
-                self.search_italic1_begin = self.formula_question_entry.search('//', self.search_index_start,
-                                                                               stopindex="end")
-                self.search_italic1_end = self.formula_question_entry.search('///', self.search_italic1_begin,
-                                                                             stopindex="end")
-                self.formula_question_entry.tag_add('ITALIC', self.search_italic1_begin,
-                                                    self.search_italic1_end + '+3c')
-                self.formula_question_entry.tag_config('ITALIC', foreground='brown')
-                self.formula_question_entry.tag_config('ITALIC', font=('Times New Roman', 9, 'italic'))
-                self.search_index_start = self.search_italic1_end + '+3c'
-                self.search_index_end = self.search_italic1_begin
-
-            except:
-                print("Index error in italic-function -> can be ignored ")
-
-        print("Question entry text... re-allocated!")
-        # -----------------------Place Label & Entry-Boxes for Variable  on GUI
 
 
 
