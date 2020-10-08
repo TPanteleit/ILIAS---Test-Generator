@@ -1998,7 +1998,7 @@ class Formelfrage(GuiMainWindow):
                                   '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
         xml_str = xml_str.replace('<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Entity="tax" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
 	                              '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-        
+
         #print(self.var_use_question_pool_for_eAss_ilias)
         # Anpassung Taxonomie Datei (export.xml) für das Prüfungsilias
         #if self.var_use_question_pool_for_eAss_ilias == 1:
@@ -2110,12 +2110,12 @@ class Formelfrage(GuiMainWindow):
 
 
     def add_node_to_tax_from_excel(self, file_location, new_node_name, parent_node_name):
-        
-        
-        
+
+
+
         self.taxonomy_export_file = file_location
         Formelfrage.tax_file_refresh(self, self.taxonomy_export_file)
-        
+
         self.mytree = ET.parse(self.taxonomy_export_file)
         self.myroot = self.mytree.getroot()
 
@@ -6846,8 +6846,8 @@ class Database(Formelfrage):
         image_width = 140.0
         image_height = 182.0
 
-        cell_width = 31.0
-        cell_height = 21.0
+        cell_width = 10.0
+        cell_height = 10.0
 
         x_scale = cell_width / image_width
         y_scale = cell_height / image_height
@@ -6927,6 +6927,11 @@ class Database(Formelfrage):
         self.ilias_test_title = []
         self.ilias_test_question_description_title = []
         self.ilias_test_question_description = []
+
+
+        self.ilias_test_question_description_image_name = []
+        self.ilias_test_question_description_image_uri = []
+
         self.ilias_test_duration = []
         self.ilias_test_question_points = []
 
@@ -6955,12 +6960,42 @@ class Database(Formelfrage):
         self.ilias_test_variable5_min = []
         self.ilias_test_variable5_max = []
 
+        self.ilias_test_variable6_prec = []
+        self.ilias_test_variable6_divby = []
+        self.ilias_test_variable6_min = []
+        self.ilias_test_variable6_max = []
+
+        self.ilias_test_variable7_prec = []
+        self.ilias_test_variable7_divby = []
+        self.ilias_test_variable7_min = []
+        self.ilias_test_variable7_max = []
+
+        self.ilias_test_variable8_prec = []
+        self.ilias_test_variable8_divby = []
+        self.ilias_test_variable8_min = []
+        self.ilias_test_variable8_max = []
+
+        self.ilias_test_variable9_prec = []
+        self.ilias_test_variable9_divby = []
+        self.ilias_test_variable9_min = []
+        self.ilias_test_variable9_max = []
+
+        self.ilias_test_variable10_prec = []
+        self.ilias_test_variable10_divby = []
+        self.ilias_test_variable10_min = []
+        self.ilias_test_variable10_max = []
+
         # Werte für die Variable 1 in der Reihenfolge: "Präzision", "divby", "range_min", "range_max",
         self.ilias_test_variable1 = []
         self.ilias_test_variable2 = []
         self.ilias_test_variable3 = []
         self.ilias_test_variable4 = []
         self.ilias_test_variable5 = []
+        self.ilias_test_variable6 = []
+        self.ilias_test_variable7 = []
+        self.ilias_test_variable8 = []
+        self.ilias_test_variable9 = []
+        self.ilias_test_variable10 = []
 
 
         self.ilias_test_result1 = []
@@ -6971,9 +7006,83 @@ class Database(Formelfrage):
         self.ilias_test_result1_pts = []
         self.ilias_test_result1_formula = []
 
+        self.ilias_test_result2 = []
+        self.ilias_test_result2_prec = []
+        self.ilias_test_result2_tol = []
+        self.ilias_test_result2_min = []
+        self.ilias_test_result2_max = []
+        self.ilias_test_result2_pts = []
+        self.ilias_test_result2_formula = []
+
+        self.ilias_test_result3 = []
+        self.ilias_test_result3_prec = []
+        self.ilias_test_result3_tol = []
+        self.ilias_test_result3_min = []
+        self.ilias_test_result3_max = []
+        self.ilias_test_result3_pts = []
+        self.ilias_test_result3_formula = []
+
+        self.ilias_test_result4 = []
+        self.ilias_test_result4_prec = []
+        self.ilias_test_result4_tol = []
+        self.ilias_test_result4_min = []
+        self.ilias_test_result4_max = []
+        self.ilias_test_result4_pts = []
+        self.ilias_test_result4_formula = []
+
+        self.ilias_test_result5 = []
+        self.ilias_test_result5_prec = []
+        self.ilias_test_result5_tol = []
+        self.ilias_test_result5_min = []
+        self.ilias_test_result5_max = []
+        self.ilias_test_result5_pts = []
+        self.ilias_test_result5_formula = []
+
+        self.ilias_test_result6 = []
+        self.ilias_test_result6_prec = []
+        self.ilias_test_result6_tol = []
+        self.ilias_test_result6_min = []
+        self.ilias_test_result6_max = []
+        self.ilias_test_result6_pts = []
+        self.ilias_test_result6_formula = []
+
+        self.ilias_test_result7 = []
+        self.ilias_test_result7_prec = []
+        self.ilias_test_result7_tol = []
+        self.ilias_test_result7_min = []
+        self.ilias_test_result7_max = []
+        self.ilias_test_result7_pts = []
+        self.ilias_test_result7_formula = []
+
+        self.ilias_test_result8 = []
+        self.ilias_test_result8_prec = []
+        self.ilias_test_result8_tol = []
+        self.ilias_test_result8_min = []
+        self.ilias_test_result8_max = []
+        self.ilias_test_result8_pts = []
+        self.ilias_test_result8_formula = []
+
+        self.ilias_test_result9 = []
+        self.ilias_test_result9_prec = []
+        self.ilias_test_result9_tol = []
+        self.ilias_test_result9_min = []
+        self.ilias_test_result9_max = []
+        self.ilias_test_result9_pts = []
+        self.ilias_test_result9_formula = []
+
+        self.ilias_test_result10 = []
+        self.ilias_test_result10_prec = []
+        self.ilias_test_result10_tol = []
+        self.ilias_test_result10_min = []
+        self.ilias_test_result10_max = []
+        self.ilias_test_result10_pts = []
+        self.ilias_test_result10_formula = []
+
         # XML Datei "qti" einlesen
         self.mytree = ET.parse(self.ilias_test_qti_file)
         self.myroot = self.mytree.getroot()
+
+
 
         for item in self.myroot.iter('item'):
             #print(item.get('title'))
@@ -6988,11 +7097,18 @@ class Database(Formelfrage):
             if "" in item.find('qticomment').text:
                 self.ilias_test_question_description_title.append(item.find('qticomment').text)
 
+
         for item in self.myroot.iter('item'):
             if "" in item.find('duration').text:
                 self.ilias_test_duration.append(item.find('duration').text)
 
+
         for qtimetadatafield in self.myroot.iter('qtimetadatafield'):
+
+            if qtimetadatafield.find('fieldlabel').text == "QUESTIONTYPE":
+                self.ilias_question_type = qtimetadatafield.find('fieldentry').text
+
+
             if qtimetadatafield.find('fieldlabel').text == "points":
                 self.ilias_test_question_points.append(qtimetadatafield.find('fieldentry').text)
 
@@ -7011,18 +7127,95 @@ class Database(Formelfrage):
             if qtimetadatafield.find('fieldlabel').text == "$v5":
                 self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
 
+            if qtimetadatafield.find('fieldlabel').text == "$v6":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v7":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v8":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v9":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$v10":
+                self.ilias_test_variable5.append(qtimetadatafield.find('fieldentry').text)
+
             if qtimetadatafield.find('fieldlabel').text == "$r1":
                 self.ilias_test_result1.append(qtimetadatafield.find('fieldentry').text)
 
-        #for mattext in self.myroot.iter('mattext'):
-        #    self.ilias_test_question_description.append(mattext.text)
+            if qtimetadatafield.find('fieldlabel').text == "$r2":
+                self.ilias_test_result2.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r3":
+                self.ilias_test_result3.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r4":
+                self.ilias_test_result4.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r5":
+                self.ilias_test_result5.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r6":
+                self.ilias_test_result6.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r7":
+                self.ilias_test_result7.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r8":
+                self.ilias_test_result8.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r9":
+                self.ilias_test_result9.append(qtimetadatafield.find('fieldentry').text)
+
+            if qtimetadatafield.find('fieldlabel').text == "$r10":
+                self.ilias_test_result10.append(qtimetadatafield.find('fieldentry').text)
+
+
+
+    #for mattext in self.myroot.iter('mattext'):
+    #    self.ilias_test_question_description.append(mattext.text)
+
+
+
 
 
         for flow in self.myroot.iter('flow'):
             for material in flow.iter('material'):
                 if "" in material.find('mattext').text:
+
+                    # Wenn in dem Fragentext "img" enthalten ist, gibt es immer auch ein Bild zu der Frage
+                    if "il_0_mob_" in material.find('mattext').text:
                         self.ilias_test_question_description.append(material.find('mattext').text)
 
+                        #Bildname hinzufügen
+                        if material.find('matimage').attrib.get('label'):
+                            self.ilias_test_question_description_image_name.append(material.find('matimage').attrib.get('label'))
+                        # Bild Pfad hinzufügen
+                        if material.find('matimage').attrib.get('uri'):
+                            self.ilias_test_question_description_image_uri.append(material.find('matimage').attrib.get('uri'))
+                    else:
+                        self.ilias_test_question_description.append(material.find('mattext').text)
+                        self.ilias_test_question_description_image_name.append("EMPTY")
+                        self.ilias_test_question_description_image_uri.append("EMPTY")
+
+       # for flow in self.myroot.iter('flow'):
+       #     for material in flow.iter('material'):
+       #         if material.find('matimage').attrib.get('label'):
+       #                 self.ilias_test_question_description_image_name.append(material.find('matimage').attrib.get('label'))
+
+        #for flow in self.myroot.iter('flow'):
+        #    for material in flow.iter('material'):
+        #        if "" in material.find('matimage').attrib.get('uri'):
+        #                self.ilias_test_question_description_image_uri.append(material.find('matimage').attrib.get('uri'))
+
+
+
+
+        print("LABEL - NAMES")
+        print(self.ilias_test_question_description_image_name)
+        print(self.ilias_test_question_description_image_uri)
         #print("LÄNGE DER BESHREIBUNG: ")
         #print("länge von iter: " + str(len(self.test_iter)))
         #print(self.test_iter)
@@ -7043,23 +7236,78 @@ class Database(Formelfrage):
 
         #print()
         #print("+++++++++++++++++++++++++++++++++++++++")
+        """
+        self.string_split = []
+        self.index_with_img = []
 
-        #print(self.ilias_test_question_description)
+
+        print()
+        print("+++++++++++++++++++++++")
+        print(self.ilias_test_question_description[0])
+        print("-----------------------")
+
+        # String nach /p aufsplitten um an den Bild-String zu kommen
+        self.string_split = self.ilias_test_question_description[0].split('</p>')
+        print("LÄNGE SPLIT: " + str(len(self.string_split)))
+
+        for i in range(len(self.string_split)):
+            if "img" in self.string_split[i]:
+                self.string_with_img = self.string_split[i]
+                print("Wert i: " + str(i))
+                self.index_with_img.append(i)
+
+        print(self.index_with_img)
+
+        for i in range(len(self.index_with_img)):
+            self.string_split.pop(self.index_with_img[i])
+
+        print("original")
+        print(self.string_split)
+        print("=======================")
+        print("JOINED")
+        print('</p>'.join(self.string_split))
+        print("++++++++++++++++++++++")
+        print("Just IMAGE")
+        #print(self.string_with_img)
+        print()
+        """
+
+
+
+
+
+
+        print()
+        print("äääääääääääääääääääääääääääääääääää")
+        print(self.ilias_test_question_description)
+
+        self.test_list1 = []
+        self.test_list1_l_join = []
+
         for i in range(len(self.ilias_test_question_description)):
-            if self.ilias_test_question_description[i] != None:
-                self.ilias_test_question_description[i] = self.ilias_test_question_description[i].replace('<p>', '')
-                self.ilias_test_question_description[i] = self.ilias_test_question_description[i].replace('</p>', '')
-
-        #print(self.ilias_test_question_description)
 
 
-        #print("+++++++++++++++++++++++++++++++++++++++")
+            # Text aus Fach übernehmen
+            self.test_neu1 = self.ilias_test_question_description[i]
 
-        # Das erste Fach der Liste enthält die Beschreibung des Tests und nicht die Beschreibung der Frage und wird mit pop(0) entfernt
-        # self.ilias_test_question_description_title.pop(0)
+            #Text auftrennen nach Beschreibung und IMG
+            self.test_list1 = self.test_neu1.split('</p>')
 
-        # Das erste Fach der Liste enthält die Dauer des ganzen-Tests und nicht die Dauer der Frage und wird mit pop(0) entfernt
-        # self.ilias_test_duration.pop(0)
+            # IMG teil löschen
+            for i in range(len(self.test_list1)):
+                if "img" in self.test_list1[i]:
+                    self.test_list1.pop(i)
+                    break
+
+
+
+            self.test_list1_l_join.append('</p>'.join(self.test_list1))
+
+
+        for i in range(len(self.test_list1_l_join)):
+            self.test_list1_l_join[i] = self.test_list1_l_join[i].replace('<p>', "")
+            self.test_list1_l_join[i] = self.test_list1_l_join[i].replace('</p>', "")
+
 
         print("Anzahl der Fragen: " + str(len(self.ilias_test_title)))
         #print("Anzahl der Beschreibungen: " + str(len(self.ilias_test_question_description_title)))
@@ -7079,9 +7327,37 @@ class Database(Formelfrage):
         self.ilias_test_variable4_settings_2nd = []
         self.ilias_test_variable5_settings = []
         self.ilias_test_variable5_settings_2nd = []
+        self.ilias_test_variable6_settings = []
+        self.ilias_test_variable6_settings_2nd = []
+        self.ilias_test_variable7_settings = []
+        self.ilias_test_variable7_settings_2nd = []
+        self.ilias_test_variable8_settings = []
+        self.ilias_test_variable8_settings_2nd = []
+        self.ilias_test_variable9_settings = []
+        self.ilias_test_variable9_settings_2nd = []
+        self.ilias_test_variable10_settings = []
+        self.ilias_test_variable10_settings_2nd = []
 
         self.ilias_test_result1_settings = []
         self.ilias_test_result1_settings_2nd = []
+        self.ilias_test_result2_settings = []
+        self.ilias_test_result2_settings_2nd = []
+        self.ilias_test_result3_settings = []
+        self.ilias_test_result3_settings_2nd = []
+        self.ilias_test_result4_settings = []
+        self.ilias_test_result4_settings_2nd = []
+        self.ilias_test_result5_settings = []
+        self.ilias_test_result5_settings_2nd = []
+        self.ilias_test_result6_settings = []
+        self.ilias_test_result6_settings_2nd = []
+        self.ilias_test_result7_settings = []
+        self.ilias_test_result7_settings_2nd = []
+        self.ilias_test_result8_settings = []
+        self.ilias_test_result8_settings_2nd = []
+        self.ilias_test_result9_settings = []
+        self.ilias_test_result9_settings_2nd = []
+        self.ilias_test_result10_settings = []
+        self.ilias_test_result10_settings_2nd = []
 
         # Liste Variable 1 - Werte auftrennen nach ";"
         for i in range(len(self.ilias_test_variable1)):
@@ -7099,9 +7375,52 @@ class Database(Formelfrage):
         for i in range(len(self.ilias_test_variable5)):
             self.ilias_test_variable5_settings += self.ilias_test_variable5[i].split(";")
 
+        for i in range(len(self.ilias_test_variable6)):
+            self.ilias_test_variable6_settings += self.ilias_test_variable6[i].split(";")
+
+        for i in range(len(self.ilias_test_variable7)):
+            self.ilias_test_variable7_settings += self.ilias_test_variable7[i].split(";")
+
+        for i in range(len(self.ilias_test_variable8)):
+            self.ilias_test_variable8_settings += self.ilias_test_variable8[i].split(";")
+
+        for i in range(len(self.ilias_test_variable9)):
+            self.ilias_test_variable9_settings += self.ilias_test_variable9[i].split(";")
+
+        for i in range(len(self.ilias_test_variable10)):
+            self.ilias_test_variable10_settings += self.ilias_test_variable10[i].split(";")
+
+
+
         for i in range(len(self.ilias_test_result1)):
             self.ilias_test_result1_settings += self.ilias_test_result1[i].split(";")
 
+        for i in range(len(self.ilias_test_result2)):
+            self.ilias_test_result2_settings += self.ilias_test_result2[i].split(";")
+
+        for i in range(len(self.ilias_test_result3)):
+            self.ilias_test_result3_settings += self.ilias_test_result3[i].split(";")
+
+        for i in range(len(self.ilias_test_result4)):
+            self.ilias_test_result4_settings += self.ilias_test_result4[i].split(";")
+
+        for i in range(len(self.ilias_test_result5)):
+            self.ilias_test_result5_settings += self.ilias_test_result5[i].split(";")
+
+        for i in range(len(self.ilias_test_result6)):
+            self.ilias_test_result6_settings += self.ilias_test_result6[i].split(";")
+
+        for i in range(len(self.ilias_test_result7)):
+            self.ilias_test_result7_settings += self.ilias_test_result7[i].split(";")
+
+        for i in range(len(self.ilias_test_result8)):
+            self.ilias_test_result8_settings += self.ilias_test_result8[i].split(";")
+
+        for i in range(len(self.ilias_test_result9)):
+            self.ilias_test_result9_settings += self.ilias_test_result9[i].split(";")
+
+        for i in range(len(self.ilias_test_result10)):
+            self.ilias_test_result10_settings += self.ilias_test_result10[i].split(";")
 
 
 
@@ -7113,6 +7432,11 @@ class Database(Formelfrage):
         del self.ilias_test_variable3_settings[12::13]
         del self.ilias_test_variable4_settings[12::13]
         del self.ilias_test_variable5_settings[12::13]
+        del self.ilias_test_variable6_settings[12::13]
+        del self.ilias_test_variable7_settings[12::13]
+        del self.ilias_test_variable8_settings[12::13]
+        del self.ilias_test_variable9_settings[12::13]
+        del self.ilias_test_variable10_settings[12::13]
 
 
         # Erstes Feld löschen, dann enthält jedes 2. Fach der eigentliche Wert für die jeweilige Einstellung z.B. Präzision
@@ -7131,6 +7455,22 @@ class Database(Formelfrage):
         if len(self.ilias_test_variable5_settings) > 0:
             self.ilias_test_variable5_settings.pop(0)
 
+        if len(self.ilias_test_variable6_settings) > 0:
+            self.ilias_test_variable6_settings.pop(0)
+
+        if len(self.ilias_test_variable7_settings) > 0:
+            self.ilias_test_variable7_settings.pop(0)
+
+        if len(self.ilias_test_variable8_settings) > 0:
+            self.ilias_test_variable8_settings.pop(0)
+
+        if len(self.ilias_test_variable9_settings) > 0:
+            self.ilias_test_variable9_settings.pop(0)
+
+        if len(self.ilias_test_variable10_settings) > 0:
+            self.ilias_test_variable10_settings.pop(0)
+
+
 
 
         self.ilias_test_variable1_settings_2nd = self.ilias_test_variable1_settings[::2]
@@ -7138,6 +7478,11 @@ class Database(Formelfrage):
         self.ilias_test_variable3_settings_2nd = self.ilias_test_variable3_settings[::2]
         self.ilias_test_variable4_settings_2nd = self.ilias_test_variable4_settings[::2]
         self.ilias_test_variable5_settings_2nd = self.ilias_test_variable5_settings[::2]
+        self.ilias_test_variable6_settings_2nd = self.ilias_test_variable6_settings[::2]
+        self.ilias_test_variable7_settings_2nd = self.ilias_test_variable7_settings[::2]
+        self.ilias_test_variable8_settings_2nd = self.ilias_test_variable8_settings[::2]
+        self.ilias_test_variable9_settings_2nd = self.ilias_test_variable9_settings[::2]
+        self.ilias_test_variable10_settings_2nd = self.ilias_test_variable10_settings[::2]
 
 
 
@@ -7169,10 +7514,46 @@ class Database(Formelfrage):
             self.ilias_test_variable4_max.append(self.ilias_test_variable4_settings_2nd[i+3].rsplit(':', 1)[-1])
 
         for i in range(0, len(self.ilias_test_variable5_settings_2nd), 6):
-            self.ilias_test_variable5_prec.append(self.ilias_test_variable5_settings_2nd[i][2:])
-            self.ilias_test_variable5_divby.append(self.ilias_test_variable5_settings_2nd[i+1][5:][:-1])
-            self.ilias_test_variable5_min.append(self.ilias_test_variable5_settings_2nd[i+2][2:])
-            self.ilias_test_variable5_max.append(self.ilias_test_variable5_settings_2nd[i+3][2:])
+            self.ilias_test_variable5_prec.append(self.ilias_test_variable5_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable5_divby.append(self.ilias_test_variable5_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable5_min.append(self.ilias_test_variable5_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable5_max.append(self.ilias_test_variable5_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable5_settings_2nd), 6):
+            self.ilias_test_variable5_prec.append(self.ilias_test_variable5_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable5_divby.append(self.ilias_test_variable5_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable5_min.append(self.ilias_test_variable5_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable5_max.append(self.ilias_test_variable5_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable6_settings_2nd), 6):
+            self.ilias_test_variable6_prec.append(self.ilias_test_variable6_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable6_divby.append(self.ilias_test_variable6_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable6_min.append(self.ilias_test_variable6_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable6_max.append(self.ilias_test_variable6_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable7_settings_2nd), 6):
+            self.ilias_test_variable7_prec.append(self.ilias_test_variable7_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable7_divby.append(self.ilias_test_variable7_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable7_min.append(self.ilias_test_variable7_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable7_max.append(self.ilias_test_variable7_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable8_settings_2nd), 6):
+            self.ilias_test_variable8_prec.append(self.ilias_test_variable8_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable8_divby.append(self.ilias_test_variable8_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable8_min.append(self.ilias_test_variable8_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable8_max.append(self.ilias_test_variable8_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable9_settings_2nd), 6):
+            self.ilias_test_variable9_prec.append(self.ilias_test_variable9_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable9_divby.append(self.ilias_test_variable9_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable9_min.append(self.ilias_test_variable9_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable9_max.append(self.ilias_test_variable9_settings_2nd[i + 3].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_variable10_settings_2nd), 6):
+            self.ilias_test_variable10_prec.append(self.ilias_test_variable10_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_variable10_divby.append(self.ilias_test_variable10_settings_2nd[i + 1][5:][:-1])
+            self.ilias_test_variable10_min.append(self.ilias_test_variable10_settings_2nd[i + 2].rsplit(':', 1)[-1])
+            self.ilias_test_variable10_max.append(self.ilias_test_variable10_settings_2nd[i + 3].rsplit(':', 1)[-1])
 
 
 
@@ -7193,30 +7574,62 @@ class Database(Formelfrage):
 
         # Listen auffüllen. Liste "Fragentitel" enthält die max. Anzahl an Fragen
 
-        for i in range(len(self.ilias_test_variable2_prec), len(self.ilias_test_title)):
+        for i in range(len(self.ilias_test_variable2_min), len(self.ilias_test_title)):
             self.ilias_test_variable2_prec.append(" ")
             self.ilias_test_variable2_divby.append(" ")
             self.ilias_test_variable2_min.append(" ")
             self.ilias_test_variable2_max.append(" ")
 
-        for i in range(len(self.ilias_test_variable3_prec), len(self.ilias_test_title)):
+        for i in range(len(self.ilias_test_variable3_min), len(self.ilias_test_title)):
             self.ilias_test_variable3_prec.append(" ")
             self.ilias_test_variable3_divby.append(" ")
             self.ilias_test_variable3_min.append(" ")
             self.ilias_test_variable3_max.append(" ")
 
-        for i in range(len(self.ilias_test_variable4_prec), len(self.ilias_test_title)):
+        for i in range(len(self.ilias_test_variable4_min), len(self.ilias_test_title)):
             self.ilias_test_variable4_prec.append(" ")
             self.ilias_test_variable4_divby.append(" ")
             self.ilias_test_variable4_min.append(" ")
             self.ilias_test_variable4_max.append(" ")
 
-        for i in range(len(self.ilias_test_variable5_prec), len(self.ilias_test_title)):
+
+        for i in range(len(self.ilias_test_variable5_min), len(self.ilias_test_title)):
             self.ilias_test_variable5_prec.append(" ")
             self.ilias_test_variable5_divby.append(" ")
             self.ilias_test_variable5_min.append(" ")
             self.ilias_test_variable5_max.append(" ")
-        #
+
+        for i in range(len(self.ilias_test_variable6_min), len(self.ilias_test_title)):
+            self.ilias_test_variable6_prec.append(" ")
+            self.ilias_test_variable6_divby.append(" ")
+            self.ilias_test_variable6_min.append(" ")
+            self.ilias_test_variable6_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable7_min), len(self.ilias_test_title)):
+            self.ilias_test_variable7_prec.append(" ")
+            self.ilias_test_variable7_divby.append(" ")
+            self.ilias_test_variable7_min.append(" ")
+            self.ilias_test_variable7_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable8_min), len(self.ilias_test_title)):
+            self.ilias_test_variable8_prec.append(" ")
+            self.ilias_test_variable8_divby.append(" ")
+            self.ilias_test_variable8_min.append(" ")
+            self.ilias_test_variable8_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable9_min), len(self.ilias_test_title)):
+            self.ilias_test_variable9_prec.append(" ")
+            self.ilias_test_variable9_divby.append(" ")
+            self.ilias_test_variable9_min.append(" ")
+            self.ilias_test_variable9_max.append(" ")
+
+        for i in range(len(self.ilias_test_variable10_min), len(self.ilias_test_title)):
+            self.ilias_test_variable10_prec.append(" ")
+            self.ilias_test_variable10_divby.append(" ")
+            self.ilias_test_variable10_min.append(" ")
+            self.ilias_test_variable10_max.append(" ")
+
+
 
 
 
@@ -7249,12 +7662,90 @@ class Database(Formelfrage):
 
         # Ergebnis String auslesen
 
+        print("Länge der Settings")
+        print(self.ilias_test_result1_settings)
+        print(self.ilias_test_result2_settings)
+        print(self.ilias_test_result3_settings)
+        print(self.ilias_test_result4_settings)
+        print(self.ilias_test_result5_settings)
+        print(self.ilias_test_result6_settings)
+        print(self.ilias_test_result7_settings)
+        print(self.ilias_test_result8_settings)
+        print(self.ilias_test_result9_settings)
+        print(self.ilias_test_result10_settings)
 
-        self.ilias_test_result1_settings.pop(0)
+        if len(self.ilias_test_result1_settings) > 0:
+            self.ilias_test_result1_settings.pop(0)
+
+        if len(self.ilias_test_result2_settings) > 0:
+            self.ilias_test_result2_settings.pop(0)
+
+        if len(self.ilias_test_result3_settings) > 0:
+            self.ilias_test_result3_settings.pop(0)
+
+        if len(self.ilias_test_result4_settings) > 0:
+            self.ilias_test_result4_settings.pop(0)
+
+        if len(self.ilias_test_result5_settings) > 0:
+            self.ilias_test_result5_settings.pop(0)
+
+        if len(self.ilias_test_result6_settings) > 0:
+            self.ilias_test_result6_settings.pop(0)
+
+        if len(self.ilias_test_result7_settings) > 0:
+            self.ilias_test_result7_settings.pop(0)
+
+        if len(self.ilias_test_result8_settings) > 0:
+            self.ilias_test_result8_settings.pop(0)
+
+        if len(self.ilias_test_result9_settings) > 0:
+            self.ilias_test_result9_settings.pop(0)
+
+        if len(self.ilias_test_result10_settings) > 0:
+            self.ilias_test_result10_settings.pop(0)
+
+
         self.ilias_test_result1_settings_2nd = self.ilias_test_result1_settings[::2]
+        self.ilias_test_result2_settings_2nd = self.ilias_test_result2_settings[::2]
+        self.ilias_test_result3_settings_2nd = self.ilias_test_result3_settings[::2]
+        self.ilias_test_result4_settings_2nd = self.ilias_test_result4_settings[::2]
+        self.ilias_test_result5_settings_2nd = self.ilias_test_result5_settings[::2]
+        self.ilias_test_result6_settings_2nd = self.ilias_test_result6_settings[::2]
+        self.ilias_test_result7_settings_2nd = self.ilias_test_result7_settings[::2]
+        self.ilias_test_result8_settings_2nd = self.ilias_test_result8_settings[::2]
+        self.ilias_test_result9_settings_2nd = self.ilias_test_result9_settings[::2]
+
+
 
         for i in range(len(self.ilias_test_result1_settings_2nd)):
             self.ilias_test_result1_settings_2nd[i] = self.ilias_test_result1_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result2_settings_2nd)):
+            self.ilias_test_result2_settings_2nd[i] = self.ilias_test_result2_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result3_settings_2nd)):
+            self.ilias_test_result3_settings_2nd[i] = self.ilias_test_result3_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result4_settings_2nd)):
+            self.ilias_test_result4_settings_2nd[i] = self.ilias_test_result4_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result5_settings_2nd)):
+            self.ilias_test_result5_settings_2nd[i] = self.ilias_test_result5_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result6_settings_2nd)):
+            self.ilias_test_result6_settings_2nd[i] = self.ilias_test_result6_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result7_settings_2nd)):
+            self.ilias_test_result7_settings_2nd[i] = self.ilias_test_result7_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result8_settings_2nd)):
+            self.ilias_test_result8_settings_2nd[i] = self.ilias_test_result8_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result9_settings_2nd)):
+            self.ilias_test_result9_settings_2nd[i] = self.ilias_test_result9_settings_2nd[i].replace('"', '')
+
+        for i in range(len(self.ilias_test_result10_settings_2nd)):
+            self.ilias_test_result10_settings_2nd[i] = self.ilias_test_result10_settings_2nd[i].replace('"', '')
 
         for i in range(0, len(self.ilias_test_result1_settings_2nd), 10):
             self.ilias_test_result1_prec.append(self.ilias_test_result1_settings_2nd[i].rsplit(':', 1)[-1])
@@ -7264,34 +7755,179 @@ class Database(Formelfrage):
             self.ilias_test_result1_pts.append(self.ilias_test_result1_settings_2nd[i+4].rsplit(':', 1)[-1])
             self.ilias_test_result1_formula.append(self.ilias_test_result1_settings_2nd[i+5].rsplit(':', 1)[-1])
 
+        for i in range(0, len(self.ilias_test_result2_settings_2nd), 10):
+            self.ilias_test_result2_prec.append(self.ilias_test_result2_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result2_tol.append(self.ilias_test_result2_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result2_min.append(self.ilias_test_result2_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result2_max.append(self.ilias_test_result2_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result2_pts.append(self.ilias_test_result2_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result2_formula.append(self.ilias_test_result2_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result3_settings_2nd), 10):
+            self.ilias_test_result3_prec.append(self.ilias_test_result3_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result3_tol.append(self.ilias_test_result3_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result3_min.append(self.ilias_test_result3_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result3_max.append(self.ilias_test_result3_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result3_pts.append(self.ilias_test_result3_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result3_formula.append(self.ilias_test_result3_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result4_settings_2nd), 10):
+            self.ilias_test_result4_prec.append(self.ilias_test_result4_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result4_tol.append(self.ilias_test_result4_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result4_min.append(self.ilias_test_result4_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result4_max.append(self.ilias_test_result4_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result4_pts.append(self.ilias_test_result4_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result4_formula.append(self.ilias_test_result4_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result5_settings_2nd), 10):
+            self.ilias_test_result5_prec.append(self.ilias_test_result5_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result5_tol.append(self.ilias_test_result5_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result5_min.append(self.ilias_test_result5_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result5_max.append(self.ilias_test_result5_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result5_pts.append(self.ilias_test_result5_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result5_formula.append(self.ilias_test_result5_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        print("####### 5er #############")
+        print(self.ilias_test_result5_formula)
+        print("#####################")
+
+        for i in range(0, len(self.ilias_test_result6_settings_2nd), 10):
+            self.ilias_test_result6_prec.append(self.ilias_test_result6_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result6_tol.append(self.ilias_test_result6_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result6_min.append(self.ilias_test_result6_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result6_max.append(self.ilias_test_result6_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result6_pts.append(self.ilias_test_result6_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result6_formula.append(self.ilias_test_result6_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result7_settings_2nd), 10):
+            self.ilias_test_result7_prec.append(self.ilias_test_result7_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result7_tol.append(self.ilias_test_result7_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result7_min.append(self.ilias_test_result7_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result7_max.append(self.ilias_test_result7_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result7_pts.append(self.ilias_test_result7_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result7_formula.append(self.ilias_test_result7_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result8_settings_2nd), 10):
+            self.ilias_test_result8_prec.append(self.ilias_test_result8_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result8_tol.append(self.ilias_test_result8_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result8_min.append(self.ilias_test_result8_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result8_max.append(self.ilias_test_result8_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result8_pts.append(self.ilias_test_result8_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result8_formula.append(self.ilias_test_result8_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result9_settings_2nd), 10):
+            self.ilias_test_result9_prec.append(self.ilias_test_result9_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result9_tol.append(self.ilias_test_result9_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result9_min.append(self.ilias_test_result9_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result9_max.append(self.ilias_test_result9_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result9_pts.append(self.ilias_test_result9_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result9_formula.append(self.ilias_test_result9_settings_2nd[i+5].rsplit(':', 1)[-1])
+
+        for i in range(0, len(self.ilias_test_result10_settings_2nd), 10):
+            self.ilias_test_result10_prec.append(self.ilias_test_result10_settings_2nd[i].rsplit(':', 1)[-1])
+            self.ilias_test_result10_tol.append(self.ilias_test_result10_settings_2nd[i+1].rsplit(':', 1)[-1])
+            self.ilias_test_result10_min.append(self.ilias_test_result10_settings_2nd[i+2].rsplit(':', 1)[-1])
+            self.ilias_test_result10_max.append(self.ilias_test_result10_settings_2nd[i+3].rsplit(':', 1)[-1])
+            self.ilias_test_result10_pts.append(self.ilias_test_result10_settings_2nd[i+4].rsplit(':', 1)[-1])
+            self.ilias_test_result10_formula.append(self.ilias_test_result10_settings_2nd[i+5].rsplit(':', 1)[-1])
 
 
 
 
+        for i in range(len(self.ilias_test_result2_min), len(self.ilias_test_title)):
+            self.ilias_test_result2_min.append(" ")
+            self.ilias_test_result2_max.append(" ")
+            self.ilias_test_result2_prec.append(" ")
+            self.ilias_test_result2_tol.append(" ")
+            self.ilias_test_result2_pts.append(" ")
+            self.ilias_test_result2_formula.append(" ")
+
+        for i in range(len(self.ilias_test_result3_min), len(self.ilias_test_title)):
+            self.ilias_test_result3_min.append(" ")
+            self.ilias_test_result3_max.append(" ")
+            self.ilias_test_result3_prec.append(" ")
+            self.ilias_test_result3_tol.append(" ")
+            self.ilias_test_result3_pts.append(" ")
+            self.ilias_test_result3_formula.append(" ")
 
 
-        #print(len(self.ilias_test_result1_prec), self.ilias_test_result1_prec)
-        #print(len(self.ilias_test_result1_tol), self.ilias_test_result1_tol)
-        #print(len(self.ilias_test_result1_min), self.ilias_test_result1_min)
-        #print(len(self.ilias_test_result1_max), self.ilias_test_result1_max)
-        #print(len(self.ilias_test_result1_pts), self.ilias_test_result1_pts)
-        #print(len(self.ilias_test_result1_formula), self.ilias_test_result1_formula)
+        for i in range(len(self.ilias_test_result4_min), len(self.ilias_test_title)):
+            self.ilias_test_result4_min.append(" ")
+            self.ilias_test_result4_max.append(" ")
+            self.ilias_test_result4_prec.append(" ")
+            self.ilias_test_result4_tol.append(" ")
+            self.ilias_test_result4_pts.append(" ")
+            self.ilias_test_result4_formula.append(" ")
 
+        for i in range(len(self.ilias_test_result5_min), len(self.ilias_test_title)):
+            self.ilias_test_result5_min.append(" ")
+            self.ilias_test_result5_max.append(" ")
+            self.ilias_test_result5_prec.append(" ")
+            self.ilias_test_result5_tol.append(" ")
+            self.ilias_test_result5_pts.append(" ")
+            self.ilias_test_result5_formula.append(" ")
 
+        for i in range(len(self.ilias_test_result6_min), len(self.ilias_test_title)):
+            self.ilias_test_result6_min.append(" ")
+            self.ilias_test_result6_max.append(" ")
+            self.ilias_test_result6_prec.append(" ")
+            self.ilias_test_result6_tol.append(" ")
+            self.ilias_test_result6_pts.append(" ")
+            self.ilias_test_result6_formula.append(" ")
 
-        # Fragentext auslesen
+        for i in range(len(self.ilias_test_result7_min), len(self.ilias_test_title)):
+            self.ilias_test_result7_min.append(" ")
+            self.ilias_test_result7_max.append(" ")
+            self.ilias_test_result7_prec.append(" ")
+            self.ilias_test_result7_tol.append(" ")
+            self.ilias_test_result7_pts.append(" ")
+            self.ilias_test_result7_formula.append(" ")
+
+        for i in range(len(self.ilias_test_result8_min), len(self.ilias_test_title)):
+            self.ilias_test_result8_min.append(" ")
+            self.ilias_test_result8_max.append(" ")
+            self.ilias_test_result8_prec.append(" ")
+            self.ilias_test_result8_tol.append(" ")
+            self.ilias_test_result8_pts.append(" ")
+            self.ilias_test_result8_formula.append(" ")
+
+        for i in range(len(self.ilias_test_result9_min), len(self.ilias_test_title)):
+            self.ilias_test_result9_min.append(" ")
+            self.ilias_test_result9_max.append(" ")
+            self.ilias_test_result9_prec.append(" ")
+            self.ilias_test_result9_tol.append(" ")
+            self.ilias_test_result9_pts.append(" ")
+            self.ilias_test_result9_formula.append(" ")
+
+        for i in range(len(self.ilias_test_result10_min), len(self.ilias_test_title)):
+            self.ilias_test_result10_min.append(" ")
+            self.ilias_test_result10_max.append(" ")
+            self.ilias_test_result10_prec.append(" ")
+            self.ilias_test_result10_tol.append(" ")
+            self.ilias_test_result10_pts.append(" ")
+            self.ilias_test_result10_formula.append(" ")
+
+        print(len(self.ilias_test_result1_formula), len(self.ilias_test_result2_formula), len(self.ilias_test_result3_formula), len(self.ilias_test_result4_formula), len(self.ilias_test_result5_formula), len(self.ilias_test_result6_formula), len(self.ilias_test_result7_formula), len(self.ilias_test_result8_formula),len(self.ilias_test_result9_formula),len(self.ilias_test_result10_formula))
+        print(self.ilias_test_result1_formula)
+        print(self.ilias_test_result2_formula)
+        print(self.ilias_test_result3_formula)
+        print(self.ilias_test_result4_formula)
+        print(self.ilias_test_result5_formula)
+        print(self.ilias_test_result6_formula)
+        print(self.ilias_test_result7_formula)
+        print(self.ilias_test_result8_formula)
+        print(self.ilias_test_result9_formula)
+        print(self.ilias_test_result10_formula)
+
 
         print()
-        ##print("+++++++++++++++++++++++++++++++++++")
-        #print(len(self.ilias_test_question_description))
 
 
-        #for i in range(len(self.ilias_test_result1)):
-           # print("Fach " + str(i) + ": " + str(self.ilias_test_question_description[i]))
 
-        #print("len duration: " + str(len(self.ilias_test_duration)))
-        #print("len test title: " + str(len(self.ilias_test_title)))
 
+        for i in range(len(self.ilias_test_question_description_image_uri)):
+            if self.ilias_test_question_description_image_uri[i] != "EMPTY":
+                self.ilias_test_question_description_image_uri[i] = os.path.normpath(os.path.join(self.select_test_import_file, self.ilias_test_question_description_image_uri[i]))
 
         # Daten in die SQL-Datenbank einfügen
         conn = sqlite3.connect('ilias_questions_db.db')
@@ -7300,6 +7936,17 @@ class Database(Formelfrage):
 
 
         for i in range(len(self.ilias_test_title)):
+
+            #if self.ilias_test_question_description_image_name[i] == "":
+            #    self.ilias_test_question_description_image_name[i] = "EMTPY"
+
+            if self.ilias_test_question_description_image_uri[i] != "EMPTY":
+                with open(self.ilias_test_question_description_image_uri[i], 'rb') as image_file:
+                    self.image_data = image_file.read()
+            else:
+                self.image_data = "EMPTY"
+
+
             c.execute(
                     "INSERT INTO my_table VALUES ("
                     ":question_difficulty, :question_category, :question_type, "
@@ -7334,18 +7981,18 @@ class Database(Formelfrage):
                         'question_type': "Formelfrage",
                         'question_title': self.ilias_test_title[i],
                         'question_description_title': self.ilias_test_question_description_title[i],
-                        'question_description_main': self.ilias_test_question_description[i],
+                        'question_description_main': self.test_list1_l_join[i],
 
                         'res1_formula': self.ilias_test_result1_formula[i],
-                        'res2_formula':  "",
-                        'res3_formula':  "",
-                        'res4_formula':  "",
-                        'res5_formula':  "",
-                        'res6_formula':  "",
-                        'res7_formula':  "",
-                        'res8_formula':  "",
-                        'res9_formula':  "",
-                        'res10_formula': "",
+                        'res2_formula': self.ilias_test_result2_formula[i],
+                        'res3_formula': self.ilias_test_result3_formula[i],
+                        'res4_formula': self.ilias_test_result4_formula[i],
+                        'res5_formula': self.ilias_test_result5_formula[i],
+                        'res6_formula': self.ilias_test_result6_formula[i],
+                        'res7_formula': self.ilias_test_result7_formula[i],
+                        'res8_formula': self.ilias_test_result8_formula[i],
+                        'res9_formula': self.ilias_test_result9_formula[i],
+                        'res10_formula': self.ilias_test_result10_formula[i],
 
                         'var1_name':  "",
                         'var1_min': self.ilias_test_variable1_min[i],
@@ -7383,38 +8030,38 @@ class Database(Formelfrage):
                         'var5_unit': "",
 
                         'var6_name':  "",
-                        'var6_min':  "",
-                        'var6_max':  "",
-                        'var6_prec':  "",
-                        'var6_divby':  "",
+                        'var6_min': self.ilias_test_variable6_min[i],
+                        'var6_max': self.ilias_test_variable6_max[i],
+                        'var6_prec': self.ilias_test_variable6_prec[i],
+                        'var6_divby': self.ilias_test_variable6_divby[i],
                         'var6_unit':  "",
 
                         'var7_name':  "",
-                        'var7_min':  "",
-                        'var7_max':  "",
-                        'var7_prec':  "",
-                        'var7_divby':  "",
+                        'var7_min': self.ilias_test_variable7_min[i],
+                        'var7_max': self.ilias_test_variable7_max[i],
+                        'var7_prec': self.ilias_test_variable7_prec[i],
+                        'var7_divby': self.ilias_test_variable7_divby[i],
                         'var7_unit':  "",
 
                         'var8_name':  "",
-                        'var8_min':  "",
-                        'var8_max':  "",
-                        'var8_prec':  "",
-                        'var8_divby':  "",
+                        'var8_min': self.ilias_test_variable8_min[i],
+                        'var8_max': self.ilias_test_variable8_max[i],
+                        'var8_prec': self.ilias_test_variable8_prec[i],
+                        'var8_divby': self.ilias_test_variable8_divby[i],
                         'var8_unit':  "",
 
                         'var9_name':  "",
-                        'var9_min':  "",
-                        'var9_max':  "",
-                        'var9_prec':  "",
-                        'var9_divby':  "",
+                        'var9_min': self.ilias_test_variable9_min[i],
+                        'var9_max': self.ilias_test_variable9_max[i],
+                        'var9_prec': self.ilias_test_variable9_prec[i],
+                        'var9_divby': self.ilias_test_variable9_divby[i],
                         'var9_unit':  "",
 
                         'var10_name':  "",
-                        'var10_min':  "",
-                        'var10_max':  "",
-                        'var10_prec':  "",
-                        'var10_divby':  "",
+                        'var10_min': self.ilias_test_variable10_min[i],
+                        'var10_max': self.ilias_test_variable10_max[i],
+                        'var10_prec': self.ilias_test_variable10_prec[i],
+                        'var10_divby': self.ilias_test_variable10_divby[i],
                         'var10_unit':  "",
 
                         'res1_name':  "",
@@ -7426,79 +8073,79 @@ class Database(Formelfrage):
                         'res1_unit': "",
 
                         'res2_name':  "",
-                        'res2_min':  "",
-                        'res2_max':  "",
-                        'res2_prec':  "",
-                        'res2_tol':  "",
-                        'res2_points':  "",
+                        'res2_min': self.ilias_test_result2_min[i],
+                        'res2_max': self.ilias_test_result2_max[i],
+                        'res2_prec': self.ilias_test_result2_prec[i],
+                        'res2_tol': self.ilias_test_result2_tol[i],
+                        'res2_points': self.ilias_test_result2_pts[i],
                         'res2_unit':  "",
 
                         'res3_name':  "",
-                        'res3_min':  "",
-                        'res3_max':  "",
-                        'res3_prec': "",
-                        'res3_tol':  "",
-                        'res3_points':  "",
+                        'res3_min': self.ilias_test_result3_min[i],
+                        'res3_max': self.ilias_test_result3_max[i],
+                        'res3_prec': self.ilias_test_result3_prec[i],
+                        'res3_tol': self.ilias_test_result3_tol[i],
+                        'res3_points': self.ilias_test_result3_pts[i],
                         'res3_unit':  "",
 
                         'res4_name':  "",
-                        'res4_min':  "",
-                        'res4_max':  "",
-                        'res4_prec':  "",
-                        'res4_tol':  "",
-                        'res4_points':  "",
+                        'res4_min': self.ilias_test_result4_min[i],
+                        'res4_max': self.ilias_test_result4_max[i],
+                        'res4_prec': self.ilias_test_result4_prec[i],
+                        'res4_tol': self.ilias_test_result4_tol[i],
+                        'res4_points': self.ilias_test_result4_pts[i],
                         'res4_unit':  "",
 
                         'res5_name':  "",
-                        'res5_min':  "",
-                        'res5_max':  "",
-                        'res5_prec':  "",
-                        'res5_tol':  "",
-                        'res5_points':  "",
+                        'res5_min': self.ilias_test_result5_min[i],
+                        'res5_max': self.ilias_test_result5_max[i],
+                        'res5_prec': self.ilias_test_result5_prec[i],
+                        'res5_tol': self.ilias_test_result5_tol[i],
+                        'res5_points': self.ilias_test_result5_pts[i],
                         'res5_unit':  "",
 
                         'res6_name':  "",
-                        'res6_min':  "",
-                        'res6_max':  "",
-                        'res6_prec':  "",
-                        'res6_tol':  "",
-                        'res6_points':  "",
+                        'res6_min': self.ilias_test_result6_min[i],
+                        'res6_max': self.ilias_test_result6_max[i],
+                        'res6_prec': self.ilias_test_result6_prec[i],
+                        'res6_tol': self.ilias_test_result6_tol[i],
+                        'res6_points': self.ilias_test_result6_pts[i],
                         'res6_unit':  "",
 
                         'res7_name':  "",
-                        'res7_min':  "",
-                        'res7_max':  "",
-                        'res7_prec':  "",
-                        'res7_tol':  "",
-                        'res7_points':  "",
+                        'res7_min': self.ilias_test_result7_min[i],
+                        'res7_max': self.ilias_test_result7_max[i],
+                        'res7_prec': self.ilias_test_result7_prec[i],
+                        'res7_tol': self.ilias_test_result7_tol[i],
+                        'res7_points': self.ilias_test_result7_pts[i],
                         'res7_unit':  "",
 
                         'res8_name':  "",
-                        'res8_min':  "",
-                        'res8_max':  "",
-                        'res8_prec':  "",
-                        'res8_tol':  "",
-                        'res8_points':  "",
+                        'res8_min': self.ilias_test_result8_min[i],
+                        'res8_max': self.ilias_test_result8_max[i],
+                        'res8_prec': self.ilias_test_result8_prec[i],
+                        'res8_tol': self.ilias_test_result8_tol[i],
+                        'res8_points': self.ilias_test_result8_pts[i],
                         'res8_unit':  "",
 
                         'res9_name':  "",
-                        'res9_min':  "",
-                        'res9_max':  "",
-                        'res9_prec':  "",
-                        'res9_tol':  "",
-                        'res9_points':  "",
+                        'res9_min': self.ilias_test_result9_min[i],
+                        'res9_max': self.ilias_test_result9_max[i],
+                        'res9_prec': self.ilias_test_result9_prec[i],
+                        'res9_tol': self.ilias_test_result9_tol[i],
+                        'res9_points': self.ilias_test_result9_pts[i],
                         'res9_unit':  "",
 
                         'res10_name':  "",
-                        'res10_min':  "",
-                        'res10_max':  "",
-                        'res10_prec':  "",
-                        'res10_tol':  "",
-                        'res10_points':  "",
+                        'res10_min': self.ilias_test_result10_min[i],
+                        'res10_max': self.ilias_test_result10_max[i],
+                        'res10_prec': self.ilias_test_result10_prec[i],
+                        'res10_tol': self.ilias_test_result10_tol[i],
+                        'res10_points': self.ilias_test_result10_pts[i],
                         'res10_unit':  "",
 
-                        'img_name': "EMPTY",
-                        'img_data': "EMPTY",
+                        'img_name': self.ilias_test_question_description_image_name[i],
+                        'img_data': self.image_data,
 
                         'test_time': self.ilias_test_duration[i],
                         'var_number':  "",
@@ -9468,7 +10115,7 @@ class create_formelfrage(Formelfrage):
         with open(self.qti_file_path_write, 'r') as xml_file:
             xml_str = xml_file.read()
         xml_str = xml_str.replace('&amp;', '&') #replace 'x' with 'new_x'
-         
+
         # write to file
         with open(self.qti_file_path_write, 'w') as replaced_xml_file:
             replaced_xml_file.write(xml_str)
@@ -9683,6 +10330,7 @@ class create_formelfrage_pool(Formelfrage):
 
                         self.question_description_main = self.question_description_main_res_uppercase
 
+                        print(self.question_description_main)
 
 
                         self.res1_formula = str(record[6])
@@ -9991,10 +10639,10 @@ class create_formelfrage_pool(Formelfrage):
 
         # ID und Fragen auflisten
         self.taxonomy_qtiXML_file = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten",  self.ilias_id_pool_qpl, self.ilias_id_pool_qti_xml))
-        
+
         #Formelfrage.tax_file_refresh(self, self.taxonomy_qtiXML_file)
-        
-        
+
+
         # Fragen aus der qti Datei auslesen (FragenID, Fragentitel)
         self.mytree = ET.parse(self.taxonomy_qtiXML_file)
         self.myroot = self.mytree.getroot()
@@ -10109,6 +10757,8 @@ class create_formelfrage_pool(Formelfrage):
             except OSError:
                 print('Error: Creating directory. ' + directory)
 
+        print("FOLDER NAME FOR IMAGES")
+        print(self.img_file_path_create_folder_pool + '/' + 'il_0_mob_000000' + str(x) + '/')
         createFolder(self.img_file_path_create_folder_pool + '/' + 'il_0_mob_000000' + str(x) + '/')
 
         for record in records:
