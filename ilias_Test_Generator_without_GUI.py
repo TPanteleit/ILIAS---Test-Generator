@@ -8,10 +8,10 @@
 #    In der derzeitigen Version (v1.7.3) wird sich auf die Erstellung von Formelfragen beschränkt           #
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
-#    - Unterstützung von Taxonomie Einträgen und nachträgliche Ergänzung von Taxonomien                     #                                          #
+#    - Unterstützung von Taxonomie Einträgen und nachträgliche Ergänzung von Taxonomien                     #                                          
 #    - Bild-Dateien können nun aus Excel importiert und aus der Datenbank exportiert werden.                #
 #    - $V und $R werden in der Fragenbeschreibung und in der Formel entsprechend in $v und $r konvertiert   #
-#    - Bei der Erstellung von Fragenpools werden neue Ordner mit aufsteigender Nummerierung                 #                                          #
+#    - Bei der Erstellung von Fragenpools werden neue Ordner mit aufsteigender Nummerierung                 #                                          
 #                                                                                                           #
 #                                                                                                           #
 # -------------------------------------------------------------------------------------------------         #
@@ -28,11 +28,7 @@
 #    Jeweils der Ordner mit der höchsten Nummer am Ende. Bei Programmstart darf sich in diesen              #
 #    Ordnern keine *.zip o.ä. befinden!                                                                     #
 #                                                                                                           #
-# ----------------------------------------------------------------------------------------------------------#
-#                                                                                                                  #
-#    Für "Test-Einstellungen übernehmen" muss die Bibliothek "from datetime import datetime" auskommentiert werden #
-#                                                                                                                  #
-####################################################################################################################
+#############################################################################################################
 
 
 
