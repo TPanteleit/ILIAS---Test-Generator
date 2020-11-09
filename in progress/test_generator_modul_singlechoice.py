@@ -9,6 +9,7 @@ import sqlite3
 import os
 import pprint
 import pandas as pd
+from datetime import datetime
 
 ### Eigene Dateien / Module
 import test_generator_modul_datenbanken_anzeigen
@@ -25,24 +26,26 @@ class SingleChoice:
         self.project_root_path = project_root_path
         self.singlechoice_files_path = os.path.normpath(os.path.join(self.project_root_path, "SingleChoice"))
         
-        self.singlechoice_test_file_path = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_test_qti_und_tst_dateien_vorlage"))
-        self.singlechoice_pool_file_path = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_pool_qti_und_qpl_dateien_vorlage")) 
+        
 
-        self.singlechoice_test_qti_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_test_file_path, "ilias_test_vorlage__qti__.xml"))
-        self.singlechoice_test_tst_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_test_file_path, "ilias_test_vorlage__tst__.xml"))
+        self.singlechoice_test_qti_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__qti__.xml"))
+        self.singlechoice_test_tst_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__tst__.xml"))
         
-        self.singlechoice_pool_qti_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_pool_file_path, "ilias_pool_vorlage__qti__.xml"))
-        self.singlechoice_pool_qpl_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_pool_file_path, "ilias_pool_vorlage__qti__.xml"))
+        self.singlechoice_pool_qti_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qti__.xml"))
+        self.singlechoice_pool_qpl_file_path_template = os.path.normpath(os.path.join(self.singlechoice_files_path, "sc_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qti__.xml"))
         
         
-        self.singlechoice_test_qti_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_test_file_path, "1604407426__0__qti_2040314.xml"))
-        self.singlechoice_test_tst_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path, self.singlechoice_test_file_path, "1604407426__0__tst_2040314.xml"))
+        self.singlechoice_test_qti_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_test_abgabe", "1604407426__0__qti_2040314.xml"))
+        self.singlechoice_test_tst_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_test_abgabe", "1604407426__0__tst_2040314.xml"))
+        
         
 
         ###### FRAMES
-
+        self.sc_frame_ilias_test_title = LabelFrame(self.singlechoice_tab, text="Testname & Autor", padx=5, pady=5)
+        self.sc_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
+        
         self.sc_frame = LabelFrame(self.singlechoice_tab, text="Single Choice", padx=5, pady=5)
-        self.sc_frame.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
+        self.sc_frame.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
 
         self.sc_frame_question_attributes = LabelFrame(self.singlechoice_tab, text="Fragen Attribute", padx=5, pady=5)
         self.sc_frame_question_attributes.grid(row=9, column=0, padx=170, pady=10, sticky="NW")
@@ -56,6 +59,21 @@ class SingleChoice:
         self.sc_frame_create_singlechoice_test = LabelFrame(self.singlechoice_tab, text="Singlechoice-Test erstellen", padx=5, pady=5)
         self.sc_frame_create_singlechoice_test.grid(row=10, column=0, padx=0, pady=10, sticky="NE")
         
+ 
+    
+ ###################### "Testname % Autor" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
+ 
+        self.sc_ilias_test_title_label = Label(self.sc_frame_ilias_test_title, text="Name des Tests")
+        self.sc_ilias_test_title_label.grid(row=0, column=0, sticky=W)
+
+        self.sc_ilias_test_title_entry = Entry(self.sc_frame_ilias_test_title, width=60)
+        self.sc_ilias_test_title_entry.grid(row=0, column=1, sticky=W, padx=30)
+
+        self.sc_ilias_autor_label = Label(self.sc_frame_ilias_test_title, text="Autor")
+        self.sc_ilias_autor_label.grid(row=1, column=0, sticky=W)
+
+        self.sc_ilias_autor_entry = Entry(self.sc_frame_ilias_test_title, width=60)
+        self.sc_ilias_autor_entry.grid(row=1, column=1, sticky=W, padx=30) 
         
         
  ###################### "Single Choice" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
@@ -254,16 +272,43 @@ class SingleChoice:
         self.sc_var6_select_img_btn = Button(self.sc_frame, text="Datei wählen", command=lambda: SingleChoice.sc_open_image(self, self.sc_var6_img_label_entry, self.sc_var6_img_data))
         self.sc_var7_select_img_btn = Button(self.sc_frame, text="Datei wählen", command=lambda: SingleChoice.sc_open_image(self, self.sc_var7_img_label_entry, self.sc_var7_img_data))
 
+
+###################### "SingleChoice-Datenbank" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
+        
+        ### LABELS
+        self.sc_delete_all_label = Label(self.sc_frame_database, text="Alle DB Einträge löschen?")
+        self.sc_delete_all_label.grid(row=4, column=0, pady=5, padx=5)
+        
+        
+        
+        ### ENTRIES
+        self.sc_delete_box = Entry(self.sc_frame_database, width=10)
+        self.sc_delete_box.grid(row=3, column=1, sticky=W)
+        
+        
+        ### BUTTONS
         self.sc_database_save_id_to_db_singlechoice_btn = Button(self.sc_frame_database, text="Speichern unter neuer ID", command=lambda: SingleChoice.sc_save_id_to_db(self))
         self.sc_database_save_id_to_db_singlechoice_btn.grid(row=0, column=0, sticky=W, pady=5)
 
-        self.sc_database_save_id_to_db_singlechoice_btn = Button(self.sc_frame_database, text="Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, app, "ilias_singlechoice_db", "singlechoice_table"))
+        self.sc_database_save_id_to_db_singlechoice_btn = Button(self.sc_frame_database, text="SC - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, app, "ilias_singlechoice_db", "singlechoice_table"))
         self.sc_database_save_id_to_db_singlechoice_btn.grid(row=1, column=0, sticky=W, pady=5)
 
         self.sc_excel_import_to_db_singlechoice_btn = Button(self.sc_frame_database, text="Excel-Datei importieren (SC)", command=lambda: SingleChoice.sc_excel_import_to_db(self))
         self.sc_excel_import_to_db_singlechoice_btn.grid(row=2, column=0, sticky=W, pady=5)
+        
+        self.sc_database_delete_id_from_db_btn = Button(self.sc_frame_database, text="ID Löschen", command=lambda: SingleChoice.sc_delete_id_from_db(self))
+        self.sc_database_delete_id_from_db_btn.grid(row=3, column=0, sticky=W, pady=5)
+        
+        
+        ### CHECKBOXES
+        self.sc_var_delete_all = IntVar()
+        self.sc_check_delete_all = Checkbutton(self.sc_frame_database, text="", variable=self.sc_var_delete_all, onvalue=1, offvalue=0)
+        self.sc_check_delete_all.deselect()
+        self.sc_check_delete_all.grid(row=4, column=1, sticky=W)
 
-        # ------------------------------- VARIABLES  - TEXT & ENTRY --------------------------------------------
+
+
+# ------------------------------- VARIABLES  - TEXT & ENTRY --------------------------------------------
 
         self.sc_var1_img_label_entry = Entry(self.sc_frame, textvariable=self.sc_var1_img_label_text, width=30)
         self.sc_var2_img_label_entry = Entry(self.sc_frame, textvariable=self.sc_var2_img_label_text, width=30)
@@ -574,6 +619,7 @@ class SingleChoice:
         conn.close()
 
         print("Neuer Eintrag in die SingleChoice-Datenbank --> Fragentitel: " + str(self.sc_question_title_entry.get()))
+    
     """
     def sc_load_id_from_db(self):
         conn = sqlite3.connect('ilias_singlechoice_db.db')
@@ -927,6 +973,7 @@ class SingleChoice:
 
         self.sc_xlsx_file_column_labels = []
         self.sc_sql_values_question_marks = "("
+        self.sc_sql_labels_param = ""
 
 
         # Dataframe erstellen
@@ -943,79 +990,159 @@ class SingleChoice:
         # Leere Einträge entfernen
         self.sc_dataframe = self.sc_dataframe.fillna("")
 
-        print(len(self.sc_xlsx_file_column_labels))
+        
 
 
-        for i in range(len(self.sc_xlsx_file_column_labels)):
+        for i in range(len(self.sc_xlsx_file_column_labels)-1):
             self.sc_sql_values_question_marks += "?,"
-            if i == (len(self.sc_xlsx_file_column_labels)-1):
+            
+            if i == (len(self.sc_xlsx_file_column_labels)-2):
                 self.sc_sql_values_question_marks += "?)"
+                
 
 
-
-        print(self.sc_sql_values_question_marks)
+        
 
         # Mit SingleChoice Datenbank verbinden
-        conn = sqlite3.connect('ilias_questions_db.db')
+        conn = sqlite3.connect('ilias_singlechoice_db.db')
         c = conn.cursor()
+        
+        
         #c.execute("INSERT INTO table VALUES (?, ?, ?)", (var1, var2, var3))
-        c.execute("INSERT INTO singlechoice_table VALUES " + self.sc_sql_values_question_marks, (
-            self.sc_question_difficulty,
-            self.sc_question_category,
-            self.sc_question_type,
-            self.sc_question_title,
-            self.sc_question_description_title,
-            self.sc_question_description_main,
-            self.sc_response_1_text,
-            self.sc_response_2_text,
-            self.sc_response_3_text,
-            self.sc_response_4_text,
-            self.sc_response_5_text,
-            self.sc_response_6_text,
-            self.sc_response_7_text,
-            self.sc_response_8_text,
-            self.sc_response_9_text,
-            self.sc_response_10_text,
-            self.sc_response_1_pts,
-            self.sc_response_2_pts,
-            self.sc_response_3_pts,
-            self.sc_response_4_pts,
-            self.sc_response_5_pts,
-            self.sc_response_6_pts,
-            self.sc_response_7_pts,
-            self.sc_response_8_pts,
-            self.sc_response_9_pts,
-            self.sc_response_10_pts,
-            self.sc_response_1_img_label,
-            self.sc_response_2_img_label,
-            self.sc_response_3_img_label,
-            self.sc_response_4_img_label,
-            self.sc_response_5_img_label,
-            self.sc_response_6_img_label,
-            self.sc_response_7_img_label,
-            self.sc_response_8_img_label,
-            self.sc_response_9_img_label,
-            self.sc_response_10_img_label,
-            self.sc_response_1_img_string_base64_encoded,
-            self.sc_response_2_img_string_base64_encoded,
-            self.sc_response_3_img_string_base64_encoded,
-            self.sc_response_4_img_string_base64_encoded,
-            self.sc_response_5_img_string_base64_encoded,
-            self.sc_response_6_img_string_base64_encoded,
-            self.sc_response_7_img_string_base64_encoded,
-            self.sc_response_8_img_string_base64_encoded,
-            self.sc_response_9_img_string_base64_encoded,
-            self.sc_response_10_img_string_base64_encoded,
-            self.sc_description_img_name,
-            self.sc_description_img_data,
-            self.sc_test_time,
-            self.sc_var_number,
-            self.sc_res_number,
-            self.sc_question_pool_tag,
+        
+        
+        
+        
+        for row in self.sc_dataframe.itertuples():
+            c.execute("INSERT INTO singlechoice_table VALUES " + self.sc_sql_values_question_marks, (
+                   row.question_difficulty,
+                   row.question_category,
+                   row.question_type,
+                   row.question_title,
+                   row.question_description_title,
+                   row.question_description_main,
+                   row.response_1_text,
+                   row.response_2_text,
+                   row.response_3_text,
+                   row.response_4_text,
+                   row.response_5_text,
+                   row.response_6_text,
+                   row.response_7_text,
+                   row.response_8_text,
+                   row.response_9_text,
+                   row.response_10_text,
+                   row.response_1_pts,
+                   row.response_2_pts,
+                   row.response_3_pts,
+                   row.response_4_pts,
+                   row.response_5_pts,
+                   row.response_6_pts,
+                   row.response_7_pts,
+                   row.response_8_pts,
+                   row.response_9_pts,
+                   row.response_10_pts,
+                   row.response_1_img_label,
+                   row.response_2_img_label,
+                   row.response_3_img_label,
+                   row.response_4_img_label,
+                   row.response_5_img_label,
+                   row.response_6_img_label,
+                   row.response_7_img_label,
+                   row.response_8_img_label,
+                   row.response_9_img_label,
+                   row.response_10_img_label,
+                   row.response_1_img_string_base64_encoded,
+                   row.response_2_img_string_base64_encoded,
+                   row.response_3_img_string_base64_encoded,
+                   row.response_4_img_string_base64_encoded,
+                   row.response_5_img_string_base64_encoded,
+                   row.response_6_img_string_base64_encoded,
+                   row.response_7_img_string_base64_encoded,
+                   row.response_8_img_string_base64_encoded,
+                   row.response_9_img_string_base64_encoded,
+                   row.response_10_img_string_base64_encoded,
+                   row.description_img_name,
+                   row.description_img_data,
+                   row.test_time,
+                   row.var_number,
+                   row.res_number,
+                   row.question_pool_tag
+                 ))
+    
+        
+      
+        conn.commit()
+        conn.close()
+        
+        print("Load File: \"" + self.sc_xlsx_path + "\" in singlechoice_table...done!")
+       
+        
+    def sc_delete_id_from_db(self):
+        
+        # Variablen
+        self.sc_delete_list = []
+        self.sc_delete_all_list = []
+        
+        
+        
+        # Zur Datenbank connecten
+        conn = sqlite3.connect('ilias_singlechoice_db.db')
+        c = conn.cursor()
+        
+        # Wenn in das EIngabefeld Kommagetrenne ID's eingetragen wurden, dann ->
+        # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
+        self.sc_delete_list = self.delete_box.get().split(",")
+       
+        
+        # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
+        # den String nehmen, und nach Bindestrick "-" splitten
+        # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
+         
+        self.sc_delete_mult = self.sc_delete_box.get()
+        self.sc_delete_mult_start = self.sc_delete_mult.split('-')[0]
+        self.sc_delete_mult_end = self.sc_delete_mult.split('-')[-1]
+        self.sc_delete_mult_symbol = "-" in self.sc_delete_mult
+        #print(self.sc_delete_mult_start)
+        #print(self.sc_delete_mult_end)
+        #print(self.sc_delete_mult_symbol)
+
+        if self.sc_var_delete_all.get() == 1:
+            now = datetime.now()  # current date and time
+            date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
+            actual_time = str(date_time)
+            #Database.sql_db_to_excel_export(self, "BACKUP_Export_from_SQL__" + str(actual_time) + ".xlsx")
+            c.execute("SELECT *, oid FROM singlechoice_table")
+            records = c.fetchall()
+            for record in records:
+                self.sc_delete_all_list.append(int(record[len(record) - 1]))
+                
+                # Das Erste Feld enthält Variablen Namen
+            
+            self.sc_delete_all_list.pop(0)
+            
+
+            for x in range(len(self.sc_delete_all_list)):
+                c.execute("DELETE from singlechoice_table WHERE oid= " + str(self.sc_delete_all_list[x]))
+            print("All Entries removed!")
 
 
-            ))
+        elif self.sc_delete_mult_symbol == True:
 
+            for x in range(int(self.sc_delete_mult_start), int(self.sc_delete_mult_end)+1):
+                c.execute("DELETE from singlechoice_table WHERE oid= " + str(x))
+                print("Entry with ID " + str(x) + " removed!")
+
+
+        else:
+            for x in range(len(self.sc_delete_list)):
+                c.execute("DELETE from singlechoice_table WHERE oid= " + str(self.sc_delete_list[x]))
+                print("Entry with ID " + str(self.sc_delete_list[x]) + " removed!")
+
+        self.sc_delete_box.delete(0, END)
+
+        conn.commit()
+        conn.close()
+        
 class Create_SingleChoice_Test:
     def __init__(self):
        
@@ -1122,20 +1249,31 @@ class Create_SingleChoice_Test:
             for MetaData in ContentObject.iter('MetaData'):
                 for General in MetaData.iter('General'):
                     for Title in General.iter('Title'):
-                        Title.text = self.sc_test_title_entry.get()
-                        
+                        Title.text = self.sc_ilias_test_title_entry.get()
+                        print("Title - Text")
+                        print(Title.text)
                         # .XML Datei kann keine "&" verarbeiten. 
                         # "&" muss gegen "&amp" ausgetauscht werden sonst kann Ilias die Datei hinterher nicht verwerten.
                         Title.text = Title.text.replace('&', "&amp;")
         
+        print(self.sc_var1_answer_entry.get())
+        print(self.sc_test_title_entry.get())
+        print(self.sc_question_description_entry.get())
+        
+        
+        
         # Sollte kein Namen vergeben werden, wird der Test-Titel auf "DEFAULT" gesetzt
-        if Title.text == "sc_test_vorlage":
+        if Title.text == "sc_test_vorlage" or Title.text == "":
             Title.text = "DEFAULT"
         
         # Änderungen der .XML in eine neue Datei schreiben
         # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
         # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
         self.sc_mytree.write(self.singlechoice_test_tst_file_path_output)
+        
+        
+        print("TST FILE geschrieben!")
+        print(self.singlechoice_test_tst_file_path_output)
         
         
         
@@ -1159,8 +1297,7 @@ class Create_SingleChoice_Test:
         sc_db_records = cursor.fetchall()
 
         for i in range(len(self.sc_test_entry_splitted)):
-            for sc_db_record in sc_db_records:
-                print(sc_db_record)
+            for sc_db_record in sc_db_records:               
                 if str(sc_db_record[len(sc_db_record) - 1]) == self.sc_test_entry_splitted[i]:
                     for t in range(len(sc_db_record)):
                         if sc_db_record[self.sc_db_entry_to_index_dict['question_type']].lower() == "singlechoice" or sc_db_record[self.sc_db_entry_to_index_dict['question_type']].lower() == "single choice":
@@ -1217,58 +1354,115 @@ class Create_SingleChoice_Test:
                             self.sc_var_number	                            = sc_db_record[self.sc_db_entry_to_index_dict['var_number']]
                             self.sc_res_number	                            = sc_db_record[self.sc_db_entry_to_index_dict['res_number']]
                             self.sc_question_pool_tag                       = sc_db_record[self.sc_db_entry_to_index_dict['question_pool_tag']]
+                            
+                            
+            Create_SingleChoice_Test.sc_create_question(self, i)
+                            
+    def sc_create_question(self, id_nr):
+        """Diese Funktion wandelt die SQL-Einträge in die .xml um, welche anschließend in ILIAS eingespielt werden kann"""
+        
+        # Neuen Ordner erstellen um den Test darin abzulegen
+        """ ... """
+        
+        
+        # Verbindung zur SC-Datenank
+        sc_connect = sqlite3.connect('ilias_singlechoice_db.db')
+        sc_cursor = sc_connect.cursor()
+        
+        # Alle Einträge auslesen
+        sc_cursor.execute("SELECT *, oid FROM singlechoice_table")
+        sc_db_records = sc_cursor.fetchall()
+        
+        
+        for sc_db_record in sc_db_records:
+            
+            if str(sc_db_record[len(sc_db_record)-1]) == self.sc_test_entry_splitted[id_nr]:
+                
+                # XML Struktur aus XML Datei festlegen
+                questestinterop = ET.Element('questestinterop')
+                assessment = ET.SubElement(questestinterop, 'assessment')
+                section = ET.SubElement(assessment, 'section')
+               
+                
+               
+                item = ET.SubElement(section, 'item')
+                qticomment = ET.SubElement(item, 'qticomment')
+                duration = ET.SubElement(item, 'duration')
+                itemmetadata = ET.SubElement(item, 'itemmetadata')
+                presentation = ET.SubElement(item, 'presentation')
+                flow = ET.SubElement(presentation, 'flow')
+                question_description_material = ET.SubElement(flow, 'material')
+                question_description_mattext = ET.SubElement(question_description_material, 'mattext')
+                
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+                question_answer_material = ET.SubElement(response_label, 'material')
+                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+                
+                
+                qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                
+                ### XML EInträge mit Werten füllen
+                
+                # Testdauer
+                duration.text = self.sc_test_time
+                if duration.text == "":
+                    duration.text = "P0Y0M0DT1H0M0S"
+                    
+                # Fragen-Titel
+                item.set('title', self.sc_question_title)
+                
+                # Fragen-Titel Beschreibung
+                qticomment.text = self.sc_question_description_title
+                
+                
+                
+                
+                # XML Fragen-Titel
+                presentation.set('label', self.sc_question_title)
+                
+                
+                #Fragen-Beschreibung (Format)
+                question_description_mattext.set('texttype', "text/html")
+                
+                
+                # Neues "Item" an xml anhängen
+                self.sc_myroot[0][len(self.sc_myroot[0])-1].append(item)
+                
+                
+                """ Prüfen ob ILIAS Version ausgelesen werden kann"""
+                # -----------------------------------------------------------------------ILIAS VERSION
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "ILIAS_VERSION"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "5.4.14 2020-07-31"
+                # -----------------------------------------------------------------------QUESTIONTYPE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "QUESTIONTYPE"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "SINGLE CHOICE QUESTION"
+                # -----------------------------------------------------------------------AUTHOR
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "AUTHOR"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                self.sc_autor_replaced = str(self.sc_autor_entry.get())
+                fieldentry.text = self.sc_autor_replaced.replace('&', "&amp;")
+                
+                
+                
+                self.sc_mytree.write(self.singlechoice_test_qti_file_path_output)
+                print("SingleChoice Frage erstellt!")
 
-                    print("==========================")
-                    print(self.sc_question_difficulty)
-                    print(self.sc_question_category)
-                    print(self.sc_question_type)
-                    print(self.sc_question_title)
-                    print(self.sc_question_description_title)
-                    print(self.sc_question_description_main)
-                    print(self.sc_response_1_text)
-                    print(self.sc_response_2_text)
-                    print(self.sc_response_3_text)
-                    print(self.sc_response_4_text)
-                    print(self.sc_response_5_text)
-                    print(self.sc_response_6_text)
-                    print(self.sc_response_7_text)
-                    print(self.sc_response_8_text)
-                    print(self.sc_response_9_text)
-                    print(self.sc_response_10_text)
-                    print(self.sc_response_1_pts)
-                    print(self.sc_response_2_pts)
-                    print(self.sc_response_3_pts)
-                    print(self.sc_response_4_pts)
-                    print(self.sc_response_5_pts)
-                    print(self.sc_response_6_pts)
-                    print(self.sc_response_7_pts)
-                    print(self.sc_response_8_pts)
-                    print(self.sc_response_9_pts)
-                    print(self.sc_response_10_pts)
-                    print(self.sc_response_1_img_label)
-                    print(self.sc_response_2_img_label)
-                    print(self.sc_response_3_img_label)
-                    print(self.sc_response_4_img_label)
-                    print(self.sc_response_5_img_label)
-                    print(self.sc_response_6_img_label)
-                    print(self.sc_response_7_img_label)
-                    print(self.sc_response_8_img_label)
-                    print(self.sc_response_9_img_label)
-                    print(self.sc_response_10_img_label)
-                    print(self.sc_response_1_img_string_base64_encoded)
-                    print(self.sc_response_2_img_string_base64_encoded)
-                    print(self.sc_response_3_img_string_base64_encoded)
-                    print(self.sc_response_4_img_string_base64_encoded)
-                    print(self.sc_response_5_img_string_base64_encoded)
-                    print(self.sc_response_6_img_string_base64_encoded)
-                    print(self.sc_response_7_img_string_base64_encoded)
-                    print(self.sc_response_8_img_string_base64_encoded)
-                    print(self.sc_response_9_img_string_base64_encoded)
-                    print(self.sc_response_10_img_string_base64_encoded)
-                    print(self.sc_description_img_name)
-                    print(self.sc_description_img_data)
-                    print(self.sc_test_time)
-                    print(self.sc_var_number)
-                    print(self.sc_res_number)
-                    print(self.sc_question_pool_tag)
-                    print("/////////////////////////////////////////////////")
+
+        sc_connect.commit()
+        sc_connect.close()
+                
+                
+                
+                
+                   

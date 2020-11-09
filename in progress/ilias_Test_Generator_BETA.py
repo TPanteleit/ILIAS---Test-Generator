@@ -8125,6 +8125,8 @@ class create_formelfrage(Formelfrage):
                         self.test_time = str(record[148])
 
                         self.oid = str(record[len(record)-1]) #oid ist IMMER letztes Fach
+                        
+                        # "x"ist die ID-Nummer welche im Eingabefeld eingegeben wurde
                         create_formelfrage.create_question(self, x)  #
                         print("Formelfrage generated with Title --> \"" + self.question_title + "\"" )
 
@@ -8267,7 +8269,7 @@ class create_formelfrage(Formelfrage):
                 fieldlabel.text = "ILIAS_VERSION"
                 fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
                 fieldentry.text = "5.4.10 2020-03-04"
-                # -----------------------------------------------------------------------QUESTION_TYPE
+                # -----------------------------------------------------------------------QUESTIONTYPE
                 qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                 fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                 fieldlabel.text = "QUESTIONTYPE"
