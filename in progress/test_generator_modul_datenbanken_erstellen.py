@@ -199,13 +199,13 @@ class CreateDatabases:
         if self.database_singlechoice_exists != True:
             try:
                 # Create a database or connect to one
-                conn = sqlite3.connect('ilias_singlechoice_db.db')
+                connect = sqlite3.connect('ilias_singlechoice_db.db')
 
                 # Create cursor
-                c = conn.cursor()
+                cursor = connect.cursor()
 
                 # Create table
-                c.execute("""CREATE TABLE IF NOT EXISTS my_table (
+                cursor.execute("""CREATE TABLE IF NOT EXISTS singlechoice_table (
                         question_difficulty text,
                         question_category text,
                         question_type text,
@@ -261,16 +261,120 @@ class CreateDatabases:
                         )""")
 
                 # Commit Changes
-                conn.commit()
+                connect.commit()
 
                 # Close Connection
-                conn.close()
+                connect.close()
 
                 print("SingleChoice Datenbank erstellt!")
 
             except:
                 print("Datenbank \"SingleChoice\" bereits vorhanden!")
 
+
+
+
+    def insert_template_to_database_singlechoice(self):
+
+        # Create a database or connect to one
+        connect = sqlite3.connect('ilias_singlechoice_db.db')
+
+        # Create cursor
+        cursor = connect.cursor()
+
+        # Create table
+        cursor.execute(
+            "INSERT INTO singlechoice_table VALUES ("
+            ":question_difficulty, :question_category, :question_type, "
+            ":question_title, :question_description_title, :question_description_main, "
+            ":response_1_text, :response_1_pts, :response_1_img_label, :response_1_img_string_base64_encoded,"
+            ":response_2_text, :response_2_pts, :response_2_img_label, :response_2_img_string_base64_encoded,"
+            ":response_3_text, :response_3_pts, :response_3_img_label, :response_3_img_string_base64_encoded,"
+            ":response_4_text, :response_4_pts, :response_4_img_label, :response_4_img_string_base64_encoded,"
+            ":response_5_text, :response_5_pts, :response_5_img_label, :response_5_img_string_base64_encoded,"
+            ":response_6_text, :response_6_pts, :response_6_img_label, :response_6_img_string_base64_encoded,"
+            ":response_7_text, :response_7_pts, :response_7_img_label, :response_7_img_string_base64_encoded,"
+            ":response_8_text, :response_8_pts, :response_8_img_label, :response_8_img_string_base64_encoded,"
+            ":response_9_text, :response_9_pts, :response_9_img_label, :response_9_img_string_base64_encoded,"
+            ":response_10_text, :response_10_pts, :response_10_img_label, :response_10_img_string_base64_encoded,"
+            ":description_img_name, :description_img_data, :test_time, :var_number, :res_number, :question_pool_tag)",
+            {
+                'question_difficulty': "question_difficulty",
+                'question_category': "question_category",
+                'question_type': "question_type",
+
+                'question_title': "question_title",
+                'question_description_title': "question_description_title",
+
+                'question_description_main': "question_description_main",
+                'response_1_text': "response_1_text",
+                'response_1_pts': "response_1_pts",
+                'response_1_img_label': "response_1_img_label",
+                'response_1_img_string_base64_encoded': "response_1_img_string_base64_encoded",
+
+                'response_2_text': "response_2_text",
+                'response_2_pts': "response_2_pts",
+                'response_2_img_label': "response_2_img_label",
+                'response_2_img_string_base64_encoded': "response_2_img_string_base64_encoded",
+
+                'response_3_text':  "response_3_text",
+                'response_3_pts': "response_3_pts",
+                'response_3_img_label': "response_3_img_label",
+                'response_3_img_string_base64_encoded': "response_3_img_string_base64_encoded",
+
+                'response_4_text': "response_4_text",
+                'response_4_pts': "response_4_pts",
+                'response_4_img_label': "response_4_img_label",
+                'response_4_img_string_base64_encoded': "response_4_img_string_base64_encoded",
+
+                'response_5_text': "response_5_text",
+                'response_5_pts': "response_5_pts",
+                'response_5_img_label': "response_5_img_label",
+                'response_5_img_string_base64_encoded': "response_5_img_string_base64_encoded",
+
+                'response_6_text': "response_6_text",
+                'response_6_pts': "response_6_pts",
+                'response_6_img_label': "response_6_img_label",
+                'response_6_img_string_base64_encoded': "response_6_img_string_base64_encoded",
+
+                'response_7_text': "response_7_text",
+                'response_7_pts': "response_7_pts",
+                'response_7_img_label': "response_7_img_label",
+                'response_7_img_string_base64_encoded': "response_7_img_string_base64_encoded",
+
+                'response_8_text': "response_8_text",
+                'response_8_pts': "response_8_pts",
+                'response_8_img_label': "response_8_img_label",
+                'response_8_img_string_base64_encoded': "response_8_img_string_base64_encoded",
+
+                'response_9_text': "response_9_text",
+                'response_9_pts': "response_9_pts",
+                'response_9_img_label': "response_9_img_label",
+                'response_9_img_string_base64_encoded': "response_9_img_string_base64_encoded",
+
+                'response_10_text': "response_10_text",
+                'response_10_pts': "response_10_pts",
+                'response_10_img_label': "response_10_img_label",
+                'response_10_img_string_base64_encoded': "response_10_img_string_base64_encoded",
+
+                'description_img_name': "description_img_name",
+                'description_img_data': "description_img_data",
+
+                'test_time': "test_time",
+
+                'var_number': "var_number",
+                'res_number': "res_number",
+                'question_pool_tag': "question_pool_tag"
+            }
+        )
+
+        # Commit Changes
+        connect.commit()
+
+        # Close Connection
+        connect.close()
+
+        print("Eintrag \"Vorlage\" zur SingleChoice Datenbank hinzugefügt!")
 
     def create_database_test_settings_profiles(self):
         if self.database_test_settings_profiles_exists != True:
