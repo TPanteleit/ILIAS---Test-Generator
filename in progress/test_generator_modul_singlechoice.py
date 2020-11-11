@@ -1387,234 +1387,286 @@ class Create_SingleChoice_Test:
             
             if str(sc_db_record[len(sc_db_record)-1]) == self.sc_test_entry_splitted[id_nr]:
                 
-                # XML Struktur aus XML Datei festlegen
+                # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
                 questestinterop = ET.Element('questestinterop')
                 assessment = ET.SubElement(questestinterop, 'assessment')
                 section = ET.SubElement(assessment, 'section')
                
                 
-               
-                item = ET.SubElement(section, 'item')
-                qticomment = ET.SubElement(item, 'qticomment')
-                duration = ET.SubElement(item, 'duration')
-                itemmetadata = ET.SubElement(item, 'itemmetadata')
-                presentation = ET.SubElement(item, 'presentation')
-                flow = ET.SubElement(presentation, 'flow')
-                question_description_material = ET.SubElement(flow, 'material')
-                question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-                
-                response_lid = ET.SubElement(flow, 'response_lid')
-                render_choice = ET.SubElement(response_lid, 'render_choice')
-                response_label = ET.SubElement(render_choice, 'response_label')
-                question_answer_material = ET.SubElement(response_label, 'material')
-                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
                 
                 
-                qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, section)  
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_2_text, section)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_3_text, section)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_4_text, section)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_5_text, section)
+  
 
-
-
-                ### XML EInträge mit Werten füllen
-                # Testdauer
-                duration.text = self.sc_test_time
-                if duration.text == "":
-                    duration.text = "P0Y0M0DT1H0M0S"
+        # Diese Funktion fügt die möglichen Antworten in die XML Struktur ein
+        # response_sql -> Der Antwort Text aus der SQL-Datenbank (z.B. aus der Spalte "response_1_text)
+        # response_label_xml -> Eintrag gibt die "ID" der Antwort wider. Beginnt bei "0" und wird mit jeder zusätzlichen Antowort inkrementiert
+        def sc_add_answer_to_xml(self, response_sql, section):
+                   
+                    # Struktur für den SingleChoice - Fragen/Antworten Teil  -- HEADER
+                    # Muss für jede Frage neu angelegt/hinzugefügt werden
+                    item = ET.SubElement(section, 'item')
+                    qticomment = ET.SubElement(item, 'qticomment')
+                    duration = ET.SubElement(item, 'duration')
+                    itemmetadata = ET.SubElement(item, 'itemmetadata')
+                    presentation = ET.SubElement(item, 'presentation')
                     
-                # Fragen-Titel
-                item.set('title', self.sc_question_title)
-                
-                # Fragen-Titel Beschreibung
-                qticomment.text = self.sc_question_description_title
-                
-                
-                
-                
-                # XML Fragen-Titel
-                presentation.set('label', self.sc_question_title)
-                
-                
-                #Fragen-Beschreibung (Format)
-                question_description_mattext.set('texttype', "text/html")
+                            
+                    # Struktur für den SingleCHoice - Fragen/Antworten Teil  -- MAIN
+                    # Muss für jede Frage neu angelegt/hinzugefügt werden
+                    flow = ET.SubElement(presentation, 'flow')
+                    question_description_material = ET.SubElement(flow, 'material')
+                    question_description_mattext = ET.SubElement(question_description_material, 'mattext')
+                    response_lid = ET.SubElement(flow, 'response_lid')
+                    render_choice = ET.SubElement(response_lid, 'render_choice')
+                    response_label = ET.SubElement(render_choice, 'response_label')
+                    question_answer_material = ET.SubElement(response_label, 'material')
+                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
                 
                 
-                # Neues "Item" an xml anhängen
-                self.sc_myroot[0][len(self.sc_myroot[0])-1].append(item)
+                    qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    
+                    
+                    
+                    ### ------------------------------------------------------- XML Einträge mit Werten füllen
+                    
+                    # Fragen-Titel -- "item title" in xml
+                    item.set('title', self.sc_question_title.replace('&', "&amp;"))
+                    
+                    # Fragen-Titel Beschreibung
+                    qticomment.text = self.sc_question_description_title
+                    
+                    # Testdauer -- "duration" in xml
+                    # wird keine Testzeit eingetragen, wird 1h vorausgewählt
+                    duration.text = self.sc_test_time
+                    if duration.text == "":
+                        duration.text = "P0Y0M0DT1H0M0S"
+                        
+                    
+                    
+                    
+                    """ Prüfen ob ILIAS Version ausgelesen werden kann"""
+                    # -----------------------------------------------------------------------ILIAS VERSION
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "ILIAS_VERSION"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "5.4.14 2020-07-31"
+                    # -----------------------------------------------------------------------QUESTIONTYPE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "QUESTIONTYPE"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "SINGLE CHOICE QUESTION"
+                    # -----------------------------------------------------------------------AUTHOR
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "AUTHOR"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    self.sc_autor_replaced = str(self.sc_autor_entry.get())
+                    fieldentry.text = self.sc_autor_replaced.replace('&', "&amp;")
+                    # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "additional_cont_edit_mode"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "default"
+                    # -----------------------------------------------------------------------EXTERNAL_ID
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "externalId"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "5f11d3ed9af3e5.53678796"
+                    # -----------------------------------------------------------------------THUMB_SIZE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "thumb_size"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = ""
+                    # -----------------------------------------------------------------------FEEDBACK_SETTING
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "feedback_setting"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "2"
+                    # -----------------------------------------------------------------------SINGLELINE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "singleline"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "1"
+                    
+                    
+                    # Fragentitel einsetzen -- "presentation label" in xml
+                    presentation.set('label', self.sc_question_title)
+                    
+                    
+                    
+                    
+                    #Fragen-Text -- "mattext_texttype" in xml -- Gibt das Format des Textes an
+                    question_description_mattext.set('texttype', "text/html")
+                    
+    
+                
+                    #Fragen-Text -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
+                    question_description_mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
                 
                 
-                """ Prüfen ob ILIAS Version ausgelesen werden kann"""
-                # -----------------------------------------------------------------------ILIAS VERSION
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "ILIAS_VERSION"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "5.4.14 2020-07-31"
-                # -----------------------------------------------------------------------QUESTIONTYPE
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "QUESTIONTYPE"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "SINGLE CHOICE QUESTION"
-                # -----------------------------------------------------------------------AUTHOR
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "AUTHOR"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                self.sc_autor_replaced = str(self.sc_autor_entry.get())
-                fieldentry.text = self.sc_autor_replaced.replace('&', "&amp;")
-                # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "additional_cont_edit_mode"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "default"
-                # -----------------------------------------------------------------------EXTERNAL_ID
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "externalId"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "5f11d3ed9af3e5.53678796"
-                # -----------------------------------------------------------------------THUMB_SIZE
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "thumb_size"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = ""
-                # -----------------------------------------------------------------------FEEDBACK_SETTING
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "feedback_setting"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "2"
-                # -----------------------------------------------------------------------SINGLELINE
-                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                fieldlabel.text = "singleline"
-                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                fieldentry.text = "1"
+                    # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
+                    
+                    
+                    ###### Auslesen der Anzahl der Antworten
+                    if isinstance(self.sc_response_1_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_2_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_3_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_4_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_5_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_6_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_7_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_8_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_9_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    elif isinstance(self.sc_response_1_text, str) == True:
+                        self.sc_response_counter = self.sc_response_counter + 1
+                    
+                    
+                    
+                    
+                    # "MCSR --> Singlechoice Identifier für xml datei
+                    response_lid.set('ident', "MCSR")
+                    response_lid.set('rcardinality', "Single")
+                    render_choice.set('shuffle', "Yes")
+                    
+                    
+                    for nr in range(self.sc_response_counter):
+                        #response_lid = ET.SubElement(flow, 'response_lid')
+                        #render_choice = ET.SubElement(response_lid, 'render_choice')
+                        response_label = ET.SubElement(render_choice, 'response_label')
+                        question_answer_material = ET.SubElement(response_label, 'material')
+                        question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+            
+                        if response_sql != "":
+                            response_label.set('ident', str(nr+1))
+                            question_answer_mattext.set('texttype', "text/plain")
+                            question_answer_mattext.text = response_sql
 
-                # -----------------------------------------------------------------------FRAGENTITEL
-                presentation.set('label', self.sc_question_title)
+            
+            
 
+                    # Neues "Item" an xml anhängen
+                    self.sc_myroot[0][len(self.sc_myroot[0])-1].append(item)
 
-                # -----------------------------------------------------------------------FRAGEN_TEXT_BESCHREIBUNG
-                question_description_mattext.set('texttype', "text/html")
-                question_description_mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
+            #sc_create_question.(self, self.sc_response_1_text)
 
 
-                # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
-                # "MCSR --> Singlechoice Identifier für xml datei
-                response_lid.set('ident', "MCSR")
-                response_lid.set('rcardinality', "Single")
-                render_choice.set('shuffle', "Yes")
+                
+                    
+                
+                
+            # -----------------------------------------------------------------------ANTWORT 1
 
+            """  
+            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_1_text, response_label,  self.sc_response_counter, flow)
+            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_2_text, response_label,  self.sc_response_counter, flow)
+            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_3_text, response_label,  self.sc_response_counter, flow)
+            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_4_text, response_label,  self.sc_response_counter, flow)
+            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_5_text, response_label,  self.sc_response_counter, flow)
+             
+             
 
-                ###### Auslesen der Anzahl der Antworten
-                if isinstance(self.sc_response_1_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_2_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_3_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_4_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_5_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_6_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_7_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_8_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_9_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-                elif isinstance(self.sc_response_1_text, str) == True:
-                    self.sc_response_counter = self.sc_response_counter + 1
-
-                # -----------------------------------------------------------------------ANTWORT 1
-
-
-                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label,  self.sc_response_counter, flow)
-                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_2_text, response_label,  self.sc_response_counter, flow)
-                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_3_text, response_label,  self.sc_response_counter, flow)
-                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_4_text, response_label,  self.sc_response_counter, flow)
-                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_5_text, response_label,  self.sc_response_counter, flow)
-
-                """
-
-                response_lid = ET.SubElement(flow, 'response_lid')
-                render_choice = ET.SubElement(response_lid, 'render_choice')
-                response_label = ET.SubElement(render_choice, 'response_label')
-                question_answer_material = ET.SubElement(response_label, 'material')
-                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-                if self.sc_response_1_text != "":
-                    response_label.set('ident', str(self.sc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.sc_response_1_text
-                    self.sc_response_counter = self.sc_response_counter + 1
-                # -----------------------------------------------------------------------ANTWORT 2
-                response_lid = ET.SubElement(flow, 'response_lid')
-                render_choice = ET.SubElement(response_lid, 'render_choice')
-                response_label = ET.SubElement(render_choice, 'response_label')
-                question_answer_material = ET.SubElement(response_label, 'material')
-                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-                if self.sc_response_2_text != "":
-                    response_label.set('ident', str(self.sc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.sc_response_2_text
-                    self.sc_response_counter = self.sc_response_counter + 1
-                # -----------------------------------------------------------------------ANTWORT 3
-                response_lid = ET.SubElement(flow, 'response_lid')
-                render_choice = ET.SubElement(response_lid, 'render_choice')
-                response_label = ET.SubElement(render_choice, 'response_label')
-                question_answer_material = ET.SubElement(response_label, 'material')
-                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-                if self.sc_response_3_text != "":
-                    response_label.set('ident', str(self.sc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.sc_response_3_text
-                    self.sc_response_counter = self.sc_response_counter + 1
-                # -----------------------------------------------------------------------ANTWORT 4
-                response_lid = ET.SubElement(flow, 'response_lid')
-                render_choice = ET.SubElement(response_lid, 'render_choice')
-                response_label = ET.SubElement(render_choice, 'response_label')
-                question_answer_material = ET.SubElement(response_label, 'material')
-                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-                if self.sc_response_4_text != "":
-                    response_label.set('ident', str(self.sc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.sc_response_4_text
-                    self.sc_response_counter = self.sc_response_counter + 1
-                """
+             #response_lid = ET.SubElement(flow, 'response_lid')
+             #render_choice = ET.SubElement(response_lid, 'render_choice')
+             #response_label = ET.SubElement(render_choice, 'response_label')
+             #question_answer_material = ET.SubElement(response_label, 'material')
+             #question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+             #Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+             if self.sc_response_1_text != "":
+                 response_label.set('ident', str(self.sc_response_counter))
+                 question_answer_mattext.set('texttype', "text/plain")
+                 question_answer_mattext.text = self.sc_response_1_text
+                 self.sc_response_counter = self.sc_response_counter + 1
+             # -----------------------------------------------------------------------ANTWORT 2
+             #response_lid = ET.SubElement(flow, 'response_lid')
+             #render_choice = ET.SubElement(response_lid, 'render_choice')
+             response_label = ET.SubElement(render_choice, 'response_label')
+             question_answer_material = ET.SubElement(response_label, 'material')
+             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+             if self.sc_response_2_text != "":
+                 response_label.set('ident', str(self.sc_response_counter))
+                 question_answer_mattext.set('texttype', "text/plain")
+                 question_answer_mattext.text = self.sc_response_2_text
+                 self.sc_response_counter = self.sc_response_counter + 1
+             # -----------------------------------------------------------------------ANTWORT 3
+             #response_lid = ET.SubElement(flow, 'response_lid')
+             #render_choice = ET.SubElement(response_lid, 'render_choice')
+             response_label = ET.SubElement(render_choice, 'response_label')
+             question_answer_material = ET.SubElement(response_label, 'material')
+             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+             if self.sc_response_3_text != "":
+                 response_label.set('ident', str(self.sc_response_counter))
+                 question_answer_mattext.set('texttype', "text/plain")
+                 question_answer_mattext.text = self.sc_response_3_text
+                 self.sc_response_counter = self.sc_response_counter + 1
+             # -----------------------------------------------------------------------ANTWORT 4
+             #response_lid = ET.SubElement(flow, 'response_lid')
+             #render_choice = ET.SubElement(response_lid, 'render_choice')
+             response_label = ET.SubElement(render_choice, 'response_label')
+             question_answer_material = ET.SubElement(response_label, 'material')
+             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+             if self.sc_response_4_text != "":
+                 response_label.set('ident', str(self.sc_response_counter))
+                 question_answer_mattext.set('texttype', "text/plain")
+                 question_answer_mattext.text = self.sc_response_4_text
+                 self.sc_response_counter = self.sc_response_counter + 1
+             
+             # -----------------------------------------------------------------------ANTWORT 4
+             #response_lid = ET.SubElement(flow, 'response_lid')
+             #render_choice = ET.SubElement(response_lid, 'render_choice')
+             response_label = ET.SubElement(render_choice, 'response_label')
+             question_answer_material = ET.SubElement(response_label, 'material')
+             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+             if self.sc_response_4_text != "":
+                 response_label.set('ident', str(self.sc_response_counter))
+                 question_answer_mattext.set('texttype', "text/plain")
+                 question_answer_mattext.text = self.sc_response_4_text
+                 self.sc_response_counter = self.sc_response_counter + 1
+             """
 
 
 
 
-                self.sc_mytree.write(self.singlechoice_test_qti_file_path_output)
-                print("SingleChoice Frage erstellt!")
+            self.sc_mytree.write(self.singlechoice_test_qti_file_path_output)
+            print("SingleChoice Frage erstellt!")
+                
+                
+
+       
 
 
+
+
+                
+
+                
+                
         sc_connect.commit()
-        sc_connect.close()
-
-    def sc_add_answer_to_xml(self, response_sql, response_label_xml,  response_counter, flow):
-        for nr in range(response_counter):
-            response_lid = ET.SubElement(flow, 'response_lid')
-            render_choice = ET.SubElement(response_lid, 'render_choice')
-            response_label = ET.SubElement(render_choice, 'response_label')
-            question_answer_material = ET.SubElement(response_label, 'material')
-            question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-
-            if response_sql != "":
-                response_label_xml.set('ident', str(nr+1))
-                question_answer_mattext.set('texttype', "text/plain")
-                question_answer_mattext.text = response_sql
-
-                
-                
-                
+        sc_connect.close()     
                    
