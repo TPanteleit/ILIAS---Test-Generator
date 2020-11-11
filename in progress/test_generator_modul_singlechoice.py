@@ -246,6 +246,15 @@ class SingleChoice:
         self.sc_var6_answer_text, self.sc_var6_points_text, self.sc_var6_img_label_text = StringVar(), StringVar(), StringVar()
         self.sc_var7_answer_text, self.sc_var7_points_text, self.sc_var7_img_label_text = StringVar(), StringVar(), StringVar()
 
+        self.sc_var1_img_data = ""
+        self.sc_var2_img_data = ""
+        self.sc_var3_img_data = ""
+        self.sc_var3_img_data = ""
+        self.sc_var4_img_data = ""
+        self.sc_var5_img_data = ""
+        self.sc_var6_img_data = ""
+        self.sc_var7_img_data = ""
+
         self.sc_var1_answer_entry = Entry(self.sc_frame, textvariable=self.sc_var1_answer_text, width=40)
         self.sc_var2_answer_entry = Entry(self.sc_frame, textvariable=self.sc_var2_answer_text, width=40)
         self.sc_var3_answer_entry = Entry(self.sc_frame, textvariable=self.sc_var3_answer_text, width=40)
@@ -524,21 +533,16 @@ class SingleChoice:
         self.sc_test_time = "P0Y0M0DT" + self.sc_proc_hours_box.get() + "H" + self.sc_proc_minutes_box.get() + "M" + self.sc_proc_seconds_box.get() + "S"
 
         # Insert into Table
+        # Reihenfolge muss mit der Datenbank übereinstimmen
         c.execute(
             "INSERT INTO singlechoice_table VALUES ("
-            ":question_difficulty, :question_category, :question_type, "
-            ":question_title, :question_description_title, :question_description_main, "
-            ":response_1_text, :response_1_pts, :response_1_img_label, :response_1_img_string_base64_encoded,"
-            ":response_2_text, :response_2_pts, :response_2_img_label, :response_2_img_string_base64_encoded,"
-            ":response_3_text, :response_3_pts, :response_3_img_label, :response_3_img_string_base64_encoded,"
-            ":response_4_text, :response_4_pts, :response_4_img_label, :response_4_img_string_base64_encoded,"
-            ":response_5_text, :response_5_pts, :response_5_img_label, :response_5_img_string_base64_encoded,"
-            ":response_6_text, :response_6_pts, :response_6_img_label, :response_6_img_string_base64_encoded,"
-            ":response_7_text, :response_7_pts, :response_7_img_label, :response_7_img_string_base64_encoded,"
-            ":response_8_text, :response_8_pts, :response_8_img_label, :response_8_img_string_base64_encoded,"
-            ":response_9_text, :response_9_pts, :response_9_img_label, :response_9_img_string_base64_encoded,"
-            ":response_10_text, :response_10_pts, :response_10_img_label, :response_10_img_string_base64_encoded,"
-            ":description_img_name, :description_img_data, :test_time, :var_number, :res_number, :question_pool_tag)",
+            ":question_difficulty, :question_category, :question_type, :question_title, :question_description_title, :question_description_main, "
+            ":response_1_text,:response_2_text,:response_3_text,:response_4_text,:response_5_text,:response_6_text,:response_7_text,:response_8_text,:response_9_text,:response_10_text, "
+            ":response_1_pts, :response_2_pts, :response_3_pts, :response_4_pts, :response_5_pts, :response_6_pts, :response_7_pts, :response_8_pts, :response_9_pts, :response_10_pts, "
+            ":response_1_img_label, :response_2_img_label, :response_3_img_label, :response_4_img_label, :response_5_img_label, :response_6_img_label, :response_7_img_label, :response_8_img_label, :response_9_img_label, :response_10_img_label, "
+            ":response_1_img_string_base64_encoded, :response_2_img_string_base64_encoded, :response_3_img_string_base64_encoded, :response_4_img_string_base64_encoded, :response_5_img_string_base64_encoded, "
+            ":response_6_img_string_base64_encoded, :response_7_img_string_base64_encoded, :response_8_img_string_base64_encoded, :response_9_img_string_base64_encoded, :response_10_img_string_base64_encoded, "
+            ":description_img_name,:description_img_data,:test_time, :var_number, :res_number, :question_pool_tag)",
             {
                 'question_difficulty': self.sc_question_difficulty_entry.get(),
                 'question_category': self.sc_question_category_entry.get(),
@@ -559,35 +563,35 @@ class SingleChoice:
                 'response_1_img_label': self.sc_var1_img_label_text.get(),
                 'response_1_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
 
-                'response_2_text': self.sc_var1_answer_text.get(),
-                'response_2_pts': self.sc_var1_points_text.get(),
-                'response_2_img_label': self.sc_var1_img_label_text.get(),
-                'response_2_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_2_text': self.sc_var2_answer_text.get(),
+                'response_2_pts': self.sc_var2_points_text.get(),
+                'response_2_img_label': self.sc_var2_img_label_text.get(),
+                'response_2_img_string_base64_encoded':  self.sc_var2_img_data_encoded64_string,
 
-                'response_3_text': self.sc_var1_answer_text.get(),
-                'response_3_pts': self.sc_var1_points_text.get(),
-                'response_3_img_label': self.sc_var1_img_label_text.get(),
-                'response_3_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_3_text': self.sc_var3_answer_text.get(),
+                'response_3_pts': self.sc_var3_points_text.get(),
+                'response_3_img_label': self.sc_var3_img_label_text.get(),
+                'response_3_img_string_base64_encoded':  self.sc_var3_img_data_encoded64_string,
 
-                'response_4_text': self.sc_var1_answer_text.get(),
-                'response_4_pts': self.sc_var1_points_text.get(),
-                'response_4_img_label': self.sc_var1_img_label_text.get(),
-                'response_4_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_4_text': self.sc_var4_answer_text.get(),
+                'response_4_pts': self.sc_var4_points_text.get(),
+                'response_4_img_label': self.sc_var4_img_label_text.get(),
+                'response_4_img_string_base64_encoded':  self.sc_var4_img_data_encoded64_string,
 
-                'response_5_text': self.sc_var1_answer_text.get(),
-                'response_5_pts': self.sc_var1_points_text.get(),
-                'response_5_img_label': self.sc_var1_img_label_text.get(),
-                'response_5_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_5_text': self.sc_var5_answer_text.get(),
+                'response_5_pts': self.sc_var5_points_text.get(),
+                'response_5_img_label': self.sc_var5_img_label_text.get(),
+                'response_5_img_string_base64_encoded':  self.sc_var5_img_data_encoded64_string,
 
-                'response_6_text': self.sc_var1_answer_text.get(),
-                'response_6_pts': self.sc_var1_points_text.get(),
-                'response_6_img_label': self.sc_var1_img_label_text.get(),
-                'response_6_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_6_text': self.sc_var6_answer_text.get(),
+                'response_6_pts': self.sc_var6_points_text.get(),
+                'response_6_img_label': self.sc_var6_img_label_text.get(),
+                'response_6_img_string_base64_encoded':  self.sc_var6_img_data_encoded64_string,
 
-                'response_7_text': self.sc_var1_answer_text.get(),
-                'response_7_pts': self.sc_var1_points_text.get(),
-                'response_7_img_label': self.sc_var1_img_label_text.get(),
-                'response_7_img_string_base64_encoded':  self.sc_var1_img_data_encoded64_string,
+                'response_7_text': self.sc_var7_answer_text.get(),
+                'response_7_pts': self.sc_var7_points_text.get(),
+                'response_7_img_label': self.sc_var7_img_label_text.get(),
+                'response_7_img_string_base64_encoded':  self.sc_var7_img_data_encoded64_string,
 
                 'response_8_text': " ",
                 'response_8_pts': " ",
@@ -1091,7 +1095,7 @@ class SingleChoice:
         
         # Wenn in das EIngabefeld Kommagetrenne ID's eingetragen wurden, dann ->
         # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
-        self.sc_delete_list = self.delete_box.get().split(",")
+        self.sc_delete_list = self.sc_delete_box.get().split(",")
        
         
         # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
@@ -1361,6 +1365,11 @@ class Create_SingleChoice_Test:
     def sc_create_question(self, id_nr):
         """Diese Funktion wandelt die SQL-Einträge in die .xml um, welche anschließend in ILIAS eingespielt werden kann"""
         
+
+        # VARIABLEN
+        self.sc_response_counter = 0    #wird verwendet zu zählen, wieviele Anworten pro Frage verwendet werden. Bei einer neuer Antwort -> +1
+
+
         # Neuen Ordner erstellen um den Test darin abzulegen
         """ ... """
         
@@ -1403,9 +1412,10 @@ class Create_SingleChoice_Test:
                 
                 qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
                 qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                
+
+
+
                 ### XML EInträge mit Werten füllen
-                
                 # Testdauer
                 duration.text = self.sc_test_time
                 if duration.text == "":
@@ -1452,16 +1462,158 @@ class Create_SingleChoice_Test:
                 fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
                 self.sc_autor_replaced = str(self.sc_autor_entry.get())
                 fieldentry.text = self.sc_autor_replaced.replace('&', "&amp;")
-                
-                
-                
+                # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "additional_cont_edit_mode"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "default"
+                # -----------------------------------------------------------------------EXTERNAL_ID
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "externalId"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "5f11d3ed9af3e5.53678796"
+                # -----------------------------------------------------------------------THUMB_SIZE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "thumb_size"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = ""
+                # -----------------------------------------------------------------------FEEDBACK_SETTING
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "feedback_setting"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "2"
+                # -----------------------------------------------------------------------SINGLELINE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "singleline"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "1"
+
+                # -----------------------------------------------------------------------FRAGENTITEL
+                presentation.set('label', self.sc_question_title)
+
+
+                # -----------------------------------------------------------------------FRAGEN_TEXT_BESCHREIBUNG
+                question_description_mattext.set('texttype', "text/html")
+                question_description_mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
+
+
+                # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
+                # "MCSR --> Singlechoice Identifier für xml datei
+                response_lid.set('ident', "MCSR")
+                response_lid.set('rcardinality', "Single")
+                render_choice.set('shuffle', "Yes")
+
+
+                ###### Auslesen der Anzahl der Antworten
+                if isinstance(self.sc_response_1_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_2_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_3_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_4_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_5_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_6_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_7_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_8_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_9_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+                elif isinstance(self.sc_response_1_text, str) == True:
+                    self.sc_response_counter = self.sc_response_counter + 1
+
+                # -----------------------------------------------------------------------ANTWORT 1
+
+
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label,  self.sc_response_counter, flow)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_2_text, response_label,  self.sc_response_counter, flow)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_3_text, response_label,  self.sc_response_counter, flow)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_4_text, response_label,  self.sc_response_counter, flow)
+                Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_5_text, response_label,  self.sc_response_counter, flow)
+
+                """
+
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+                question_answer_material = ET.SubElement(response_label, 'material')
+                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+                #Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+                if self.sc_response_1_text != "":
+                    response_label.set('ident', str(self.sc_response_counter))
+                    question_answer_mattext.set('texttype', "text/plain")
+                    question_answer_mattext.text = self.sc_response_1_text
+                    self.sc_response_counter = self.sc_response_counter + 1
+                # -----------------------------------------------------------------------ANTWORT 2
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+                question_answer_material = ET.SubElement(response_label, 'material')
+                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+                if self.sc_response_2_text != "":
+                    response_label.set('ident', str(self.sc_response_counter))
+                    question_answer_mattext.set('texttype', "text/plain")
+                    question_answer_mattext.text = self.sc_response_2_text
+                    self.sc_response_counter = self.sc_response_counter + 1
+                # -----------------------------------------------------------------------ANTWORT 3
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+                question_answer_material = ET.SubElement(response_label, 'material')
+                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+                if self.sc_response_3_text != "":
+                    response_label.set('ident', str(self.sc_response_counter))
+                    question_answer_mattext.set('texttype', "text/plain")
+                    question_answer_mattext.text = self.sc_response_3_text
+                    self.sc_response_counter = self.sc_response_counter + 1
+                # -----------------------------------------------------------------------ANTWORT 4
+                response_lid = ET.SubElement(flow, 'response_lid')
+                render_choice = ET.SubElement(response_lid, 'render_choice')
+                response_label = ET.SubElement(render_choice, 'response_label')
+                question_answer_material = ET.SubElement(response_label, 'material')
+                question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+                # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
+                if self.sc_response_4_text != "":
+                    response_label.set('ident', str(self.sc_response_counter))
+                    question_answer_mattext.set('texttype', "text/plain")
+                    question_answer_mattext.text = self.sc_response_4_text
+                    self.sc_response_counter = self.sc_response_counter + 1
+                """
+
+
+
+
                 self.sc_mytree.write(self.singlechoice_test_qti_file_path_output)
                 print("SingleChoice Frage erstellt!")
 
 
         sc_connect.commit()
         sc_connect.close()
-                
+
+    def sc_add_answer_to_xml(self, response_sql, response_label_xml,  response_counter, flow):
+        for nr in range(response_counter):
+            response_lid = ET.SubElement(flow, 'response_lid')
+            render_choice = ET.SubElement(response_lid, 'render_choice')
+            response_label = ET.SubElement(render_choice, 'response_label')
+            question_answer_material = ET.SubElement(response_label, 'material')
+            question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
+
+            if response_sql != "":
+                response_label_xml.set('ident', str(nr+1))
+                question_answer_mattext.set('texttype', "text/plain")
+                question_answer_mattext.text = response_sql
+
                 
                 
                 
