@@ -1,0 +1,4 @@
+Um die Datenbank direkt einsehen zu können ist ein SQL-Viewer notwendig.
+Nach erfolgreicher Installation können die Datenbanken mit einem Doppelklick geöffnt werden.
+
+https://sqlitebrowser.org/dl/
