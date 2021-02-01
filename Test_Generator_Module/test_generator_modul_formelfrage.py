@@ -106,9 +106,7 @@ class Formelfrage:
         connect.close()
 
 
-        print("------DICTIONARY EINTRÄGE")
-        print(self.ff_db_entry_to_index_dict)
-        print("-------------------------")
+
 ############## FRAMES
         self.ff_frame_ilias_test_title = LabelFrame(self.formelfrage_tab, text="Testname & Autor", padx=5, pady=5)
         self.ff_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
@@ -456,15 +454,15 @@ class Formelfrage:
 
         def selected_hours(event):
             self.selected_hours = self.ff_proc_hours_box.get()
-            print(self.selected_hours)
+
 
         def selected_minutes(event):
             self.selected_minutes = self.ff_proc_minutes_box.get()
-            print(self.selected_minutes)
+
 
         def selected_seconds(event):
             self.selected_seconds = self.ff_proc_seconds_box.get()
-            print(self.selected_seconds)
+
 
         self.ff_proc_hours_box.bind("<<ComboboxSelected>>", selected_hours)
         self.ff_proc_minutes_box.bind("<<ComboboxSelected>>", selected_minutes)
@@ -1579,8 +1577,6 @@ class Formelfrage:
         # Bild 1
         if self.ff_description_img_name_1!= "EMPTY":
             # read image data in byte format
-            print(self.ff_description_img_name_1)
-            print(self.ff_description_img_path_1)
             with open(self.ff_description_img_path_1, 'rb') as image_file_1:
                 self.ff_description_img_data_1 = image_file_1.read()
 
@@ -1594,8 +1590,6 @@ class Formelfrage:
         # Bild 2
         if self.ff_description_img_name_2!= "EMPTY":
             # read image data in byte format
-            print(self.ff_description_img_name_2)
-            print(self.ff_description_img_path_2)
             with open(self.ff_description_img_path_2, 'rb') as image_file_2:
                 self.ff_description_img_data_2 = image_file_2.read()
 
@@ -1610,8 +1604,6 @@ class Formelfrage:
         if self.ff_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
-            print(self.ff_description_img_name_3)
-            print(self.ff_description_img_path_3)
             with open(self.ff_description_img_path_3, 'rb') as image_file_3:
                 self.ff_description_img_data_3 = image_file_3.read()
 

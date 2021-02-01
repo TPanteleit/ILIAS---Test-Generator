@@ -1246,6 +1246,11 @@ class Import_ILIAS_Datei_in_DB:
                     ":var8_name, :var8_min, :var8_max, :var8_prec, :var8_divby, :var8_unit, "
                     ":var9_name, :var9_min, :var9_max, :var9_prec, :var9_divby, :var9_unit, "
                     ":var10_name, :var10_min, :var10_max, :var10_prec, :var10_divby, :var10_unit, "
+                    ":var11_name, :var11_min, :var11_max, :var11_prec, :var11_divby, :var11_unit, "
+                    ":var12_name, :var12_min, :var12_max, :var12_prec, :var12_divby, :var12_unit, "
+                    ":var13_name, :var13_min, :var13_max, :var13_prec, :var13_divby, :var13_unit, "
+                    ":var14_name, :var14_min, :var14_max, :var14_prec, :var14_divby, :var14_unit, "
+                    ":var15_name, :var15_min, :var15_max, :var15_prec, :var15_divby, :var15_unit, "
                     ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
                     ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
                     ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit,"
@@ -1349,6 +1354,41 @@ class Import_ILIAS_Datei_in_DB:
                         'var10_prec': self.ilias_test_variable10_prec[i],
                         'var10_divby': self.ilias_test_variable10_divby[i],
                         'var10_unit':  "",
+
+                        'var11_name': "",
+                        'var11_min': "",
+                        'var11_max': "",
+                        'var11_prec': "",
+                        'var11_divby': "",
+                        'var11_unit': "",
+
+                        'var12_name': "",
+                        'var12_min': "",
+                        'var12_max': "",
+                        'var12_prec': "",
+                        'var12_divby': "",
+                        'var12_unit': "",
+
+                        'var13_name': "",
+                        'var13_min': "",
+                        'var13_max': "",
+                        'var13_prec': "",
+                        'var13_divby': "",
+                        'var13_unit': "",
+
+                        'var14_name': "",
+                        'var14_min': "",
+                        'var14_max': "",
+                        'var14_prec': "",
+                        'var14_divby': "",
+                        'var14_unit': "",
+
+                        'var15_name': "",
+                        'var15_min': "",
+                        'var15_max': "",
+                        'var15_prec': "",
+                        'var15_divby': "",
+                        'var15_unit': "",
 
                         'res1_name':  "",
                         'res1_min': self.ilias_test_result1_min[i],
