@@ -14,9 +14,9 @@ class CreateDatabases:
         self.project_root_path = project_root_path
 
         self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
-        self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
-        self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
-        self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
+        self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
+        self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
+        self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
 
 
         self.database_formelfrage_permutation_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_formelfrage_permutation_db.db"))
@@ -35,6 +35,7 @@ class CreateDatabases:
         print("##    Datenbank -> SingleChoice:                       " + str(self.database_singlechoice_exists))
         print("##    Datenbank -> MultipleChoice:                     " + str(self.database_multiplechoice_exists))
         print("##    Datenbank -> Zuordnungsfrage:                    " + str(self.database_zuordnungsfrage_exists))
+        print("##    Datenbank -> Formelfrage_Permutation:            " + str(self.database_formelfrage_permutation_exists))
         print("##    Datenbank -> Test-Einstellungen_Profile:         " + str(self.database_test_settings_profiles_exists))
         print("\n")
 
@@ -128,6 +129,36 @@ class CreateDatabases:
                     var10_prec int,
                     var10_divby int,
                     var10_unit text,
+                    var11_name text,
+                    var11_min int,
+                    var11_max int,
+                    var11_prec int,
+                    var11_divby int,
+                    var11_unit text,
+                    var12_name text,
+                    var12_min int,
+                    var12_max int,
+                    var12_prec int,
+                    var12_divby int,
+                    var12_unit text,
+                    var13_name text,
+                    var13_min int,
+                    var13_max int,
+                    var13_prec int,
+                    var13_divby int,
+                    var13_unit text,
+                    var14_name text,
+                    var14_min int,
+                    var14_max int,
+                    var14_prec int,
+                    var14_divby int,
+                    var14_unit text,
+                    var15_name text,
+                    var15_min int,
+                    var15_max int,
+                    var15_prec int,
+                    var15_divby int,
+                    var15_unit text,
                     res1_name text,
                     res1_min int,
                     res1_max int,
@@ -255,6 +286,11 @@ class CreateDatabases:
             ":var8_name, :var8_min, :var8_max, :var8_prec, :var8_divby, :var8_unit, "
             ":var9_name, :var9_min, :var9_max, :var9_prec, :var9_divby, :var9_unit, "
             ":var10_name, :var10_min, :var10_max, :var10_prec, :var10_divby, :var10_unit, "
+            ":var11_name, :var11_min, :var11_max, :var11_prec, :var11_divby, :var11_unit, "
+            ":var12_name, :var12_min, :var12_max, :var12_prec, :var12_divby, :var12_unit, "
+            ":var13_name, :var13_min, :var13_max, :var13_prec, :var13_divby, :var13_unit, "
+            ":var14_name, :var14_min, :var14_max, :var14_prec, :var14_divby, :var14_unit, "
+            ":var15_name, :var15_min, :var15_max, :var15_prec, :var15_divby, :var15_unit, "
             ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
             ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
             ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit, "
@@ -358,6 +394,41 @@ class CreateDatabases:
                 'var10_prec': "var10_prec",
                 'var10_divby': "var10_divby",
                 'var10_unit': "var10_unit",
+
+                'var11_name': "var11_name",
+                'var11_min': "var11_min",
+                'var11_max': "var11_max",
+                'var11_prec': "var11_prec",
+                'var11_divby': "var11_divby",
+                'var11_unit': "var11_unit",
+
+                'var12_name': "var12_name",
+                'var12_min': "var12_min",
+                'var12_max': "var12_max",
+                'var12_prec': "var12_prec",
+                'var12_divby': "var12_divby",
+                'var12_unit': "var12_unit",
+
+                'var13_name': "var13_name",
+                'var13_min': "var13_min",
+                'var13_max': "var13_max",
+                'var13_prec': "var13_prec",
+                'var13_divby': "var13_divby",
+                'var13_unit': "var13_unit",
+
+                'var14_name': "var14_name",
+                'var14_min': "var14_min",
+                'var14_max': "var14_max",
+                'var14_prec': "var14_prec",
+                'var14_divby': "var14_divby",
+                'var14_unit': "var14_unit",
+
+                'var15_name': "var15_name",
+                'var15_min': "var15_min",
+                'var15_max': "var15_max",
+                'var15_prec': "var15_prec",
+                'var15_divby': "var15_divby",
+                'var15_unit': "var15_unit",
 
                 'res1_name': "res1_name",
                 'res1_min': "res1_min",
@@ -629,34 +700,25 @@ class CreateDatabases:
                     res10_points int,
                     res10_unit text,
                     
-                    perm_var_name_1 text,
+                    
                     perm_var_symbol_1 text,
                     perm_var_value_1 text,
-                    perm_var_name_2 text,
                     perm_var_symbol_2 text,
                     perm_var_value_2 text,
-                    perm_var_name_3 text,
                     perm_var_symbol_3 text,
                     perm_var_value_3 text,
-                    perm_var_name_4 text,
                     perm_var_symbol_4 text,
                     perm_var_value_4 text,
-                    perm_var_name_5 text,
                     perm_var_symbol_5 text,
                     perm_var_value_5 text,
-                    perm_var_name_6 text,
                     perm_var_symbol_6 text,
                     perm_var_value_6 text,
-                    perm_var_name_7 text,
                     perm_var_symbol_7 text,
                     perm_var_value_7 text,
-                    perm_var_name_8 text,
                     perm_var_symbol_8 text,
                     perm_var_value_8 text,
-                    perm_var_name_9 text,
                     perm_var_symbol_9 text,
                     perm_var_value_9 text,
-                    perm_var_name_10 text,
                     perm_var_symbol_10 text,
                     perm_var_value_10 text,
                     
@@ -727,16 +789,17 @@ class CreateDatabases:
             ":res8_name, :res8_min, :res8_max, :res8_prec, :res8_tol, :res8_points, :res8_unit, "
             ":res9_name, :res9_min, :res9_max, :res9_prec, :res9_tol, :res9_points, :res9_unit, "
             ":res10_name, :res10_min, :res10_max, :res10_prec, :res10_tol, :res10_points, :res10_unit, "
-            ":perm_var_name_1, :perm_var_symbol_1, :perm_var_value_1,"
-            ":perm_var_name_2, :perm_var_symbol_2, :perm_var_value_2,"
-            ":perm_var_name_3, :perm_var_symbol_3, :perm_var_value_3,"
-            ":perm_var_name_4, :perm_var_symbol_4, :perm_var_value_4,"
-            ":perm_var_name_5, :perm_var_symbol_5, :perm_var_value_5,"
-            ":perm_var_name_6, :perm_var_symbol_6, :perm_var_value_6,"
-            ":perm_var_name_7, :perm_var_symbol_7, :perm_var_value_7,"
-            ":perm_var_name_8, :perm_var_symbol_8, :perm_var_value_8,"
-            ":perm_var_name_9, :perm_var_symbol_9, :perm_var_value_9,"
-            ":perm_var_name_10, :perm_var_symbol_10, :perm_var_value_10,"
+            
+            ":perm_var_symbol_1, :perm_var_value_1,"
+            ":perm_var_symbol_2, :perm_var_value_2,"
+            ":perm_var_symbol_3, :perm_var_value_3,"
+            ":perm_var_symbol_4, :perm_var_value_4,"
+            ":perm_var_symbol_5, :perm_var_value_5,"
+            ":perm_var_symbol_6, :perm_var_value_6,"
+            ":perm_var_symbol_7, :perm_var_value_7,"
+            ":perm_var_symbol_8, :perm_var_value_8,"
+            ":perm_var_symbol_9, :perm_var_value_9,"
+            ":perm_var_symbol_10, :perm_var_value_10,"
             
             ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
             ":description_img_name_2, :description_img_data_2, :description_img_path_2, "
@@ -912,34 +975,34 @@ class CreateDatabases:
                 'res10_points': "res10_points",
                 'res10_unit': "res10_unit",
 
-                'perm_var_name_1': "perm_var_name_1",
+
                 'perm_var_symbol_1': "perm_var_symbol_1",
                 'perm_var_value_1': "perm_var_value_1",
-                'perm_var_name_2': "perm_var_name_2",
+
                 'perm_var_symbol_2': "perm_var_symbol_2",
                 'perm_var_value_2': "perm_var_value_2",
-                'perm_var_name_3': "perm_var_name_3",
+
                 'perm_var_symbol_3': "perm_var_symbol_3",
                 'perm_var_value_3': "perm_var_value_3",
-                'perm_var_name_4': "perm_var_name_4",
+
                 'perm_var_symbol_4': "perm_var_symbol_4",
                 'perm_var_value_4': "perm_var_value_4",
-                'perm_var_name_5': "perm_var_name_5",
+
                 'perm_var_symbol_5': "perm_var_symbol_5",
                 'perm_var_value_5': "perm_var_value_5",
-                'perm_var_name_6': "perm_var_name_6",
+
                 'perm_var_symbol_6': "perm_var_symbol_6",
                 'perm_var_value_6': "perm_var_value_6",
-                'perm_var_name_7': "perm_var_name_7",
+
                 'perm_var_symbol_7': "perm_var_symbol_7",
                 'perm_var_value_7': "perm_var_value_7",
-                'perm_var_name_8': "perm_var_name_8",
+
                 'perm_var_symbol_8': "perm_var_symbol_8",
                 'perm_var_value_8': "perm_var_value_8",
-                'perm_var_name_9': "perm_var_name_9",
+
                 'perm_var_symbol_9': "perm_var_symbol_9",
                 'perm_var_value_9': "perm_var_value_9",
-                'perm_var_name_10': "perm_var_name_10",
+
                 'perm_var_symbol_10': "perm_var_symbol_10",
                 'perm_var_value_10': "perm_var_value_10",
 
@@ -1436,7 +1499,6 @@ class CreateDatabases:
 
                 print("Neue MultipleChoice Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
                 CreateDatabases.insert_template_to_database_multiplechoice(self)
-
 
     def insert_template_to_database_multiplechoice(self):
 
@@ -2271,237 +2333,245 @@ class Import_Export_Database(CreateDatabases):
             conn = sqlite3.connect(self.database_formelfrage_path)
             c = conn.cursor()
 
-            for row in self.dataframe.itertuples():
+            self.number_of_excel_entries = 0
+            for ff_row in self.dataframe.itertuples():
+                print(ff_row)
+                self.number_of_excel_entries +=1
 
-                # # "+1" ist notwendig weil "row" mit '1' anfängt und das DICT mit '0'
-                # # Bild 1
-                # if "placeholder" in str(row[self.db_entry_to_index_dict['description_img_data_1']+1]):
-                #     print("image 1 found! -> " + str(row[self.db_entry_to_index_dict['description_img_path_1']+1]))
-                #     # read image data in byte format
-                #     with open(row[self.db_entry_to_index_dict['description_img_path_1']+1], 'rb') as image_file_1:
-                #         self.ff_description_img_data_1 = image_file_1.read()
-                #
-                # else:
-                #     self.ff_description_img_data_1 = "EMPTY"
-                #
-                # # Bild 2
-                # if "placeholder" in str(row[self.db_entry_to_index_dict['description_img_data_2']+1]):
-                #     print("image 2 found! -> " + str(row[self.db_entry_to_index_dict['description_img_path_2']+1]))
-                #     # read image data in byte format
-                #     with open(row[self.db_entry_to_index_dict['description_img_path_2']+1], 'rb') as image_file_2:
-                #         self.ff_description_img_data_2 = image_file_2.read()
-                #
-                # else:
-                #     self.ff_description_img_data_2 = "EMPTY"
-                #
-                # # BIld 3
-                # if "placeholder" in str(row[self.db_entry_to_index_dict['description_img_data_3']+1]):
-                #     print("image 3 found! -> " + str(row[self.db_entry_to_index_dict['description_img_path_3']+1]))
-                #     # read image data in byte format
-                #     with open(row[self.db_entry_to_index_dict['description_img_path_3']+1], 'rb') as image_file_3:
-                #         self.ff_description_img_data_3 = image_file_3.read()
-                #
-                # else:
-                #     self.ff_description_img_data_3 = "EMPTY"
-
-                self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
-                self.ff_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
-                self.ff_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
+                self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
+                self.ff_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
+                self.ff_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
 
                 c.execute("INSERT INTO formelfrage_table VALUES " + self.sql_values_question_marks, (
-                    row.question_difficulty,
-                    row.question_category,
-                    row.question_type,
-                    row.question_title,
-                    row.question_description_title,
-                    row.question_description_main,
+                    ff_row.question_difficulty,
+                    ff_row.question_category,
+                    ff_row.question_type,
+                    ff_row.question_title,
+                    ff_row.question_description_title,
+                    ff_row.question_description_main,
 
-                    row.res1_formula,
-                    row.res2_formula,
-                    row.res3_formula,
-                    row.res4_formula,
-                    row.res5_formula,
-                    row.res6_formula,
-                    row.res7_formula,
-                    row.res8_formula,
-                    row.res9_formula,
-                    row.res10_formula,
+                    ff_row.res1_formula,
+                    ff_row.res2_formula,
+                    ff_row.res3_formula,
+                    ff_row.res4_formula,
+                    ff_row.res5_formula,
+                    ff_row.res6_formula,
+                    ff_row.res7_formula,
+                    ff_row.res8_formula,
+                    ff_row.res9_formula,
+                    ff_row.res10_formula,
 
-                    row.var1_name,
-                    row.var1_min,
-                    row.var1_max,
-                    row.var1_prec,
-                    row.var1_divby,
-                    row.var1_unit,
+                    ff_row.var1_name,
+                    ff_row.var1_min,
+                    ff_row.var1_max,
+                    ff_row.var1_prec,
+                    ff_row.var1_divby,
+                    ff_row.var1_unit,
 
-                    row.var2_name,
-                    row.var2_min,
-                    row.var2_max,
-                    row.var2_prec,
-                    row.var2_divby,
-                    row.var2_unit,
+                    ff_row.var2_name,
+                    ff_row.var2_min,
+                    ff_row.var2_max,
+                    ff_row.var2_prec,
+                    ff_row.var2_divby,
+                    ff_row.var2_unit,
 
-                    row.var3_name,
-                    row.var3_min,
-                    row.var3_max,
-                    row.var3_prec,
-                    row.var3_divby,
-                    row.var3_unit,
+                    ff_row.var3_name,
+                    ff_row.var3_min,
+                    ff_row.var3_max,
+                    ff_row.var3_prec,
+                    ff_row.var3_divby,
+                    ff_row.var3_unit,
 
-                    row.var4_name,
-                    row.var4_min,
-                    row.var4_max,
-                    row.var4_prec,
-                    row.var4_divby,
-                    row.var4_unit,
+                    ff_row.var4_name,
+                    ff_row.var4_min,
+                    ff_row.var4_max,
+                    ff_row.var4_prec,
+                    ff_row.var4_divby,
+                    ff_row.var4_unit,
 
-                    row.var5_name,
-                    row.var5_min,
-                    row.var5_max,
-                    row.var5_prec,
-                    row.var5_divby,
-                    row.var5_unit,
+                    ff_row.var5_name,
+                    ff_row.var5_min,
+                    ff_row.var5_max,
+                    ff_row.var5_prec,
+                    ff_row.var5_divby,
+                    ff_row.var5_unit,
 
-                    row.var6_name,
-                    row.var6_min,
-                    row.var6_max,
-                    row.var6_prec,
-                    row.var6_divby,
-                    row.var6_unit,
+                    ff_row.var6_name,
+                    ff_row.var6_min,
+                    ff_row.var6_max,
+                    ff_row.var6_prec,
+                    ff_row.var6_divby,
+                    ff_row.var6_unit,
 
-                    row.var7_name,
-                    row.var7_min,
-                    row.var7_max,
-                    row.var7_prec,
-                    row.var7_divby,
-                    row.var7_unit,
+                    ff_row.var7_name,
+                    ff_row.var7_min,
+                    ff_row.var7_max,
+                    ff_row.var7_prec,
+                    ff_row.var7_divby,
+                    ff_row.var7_unit,
 
-                    row.var8_name,
-                    row.var8_min,
-                    row.var8_max,
-                    row.var8_prec,
-                    row.var8_divby,
-                    row.var8_unit,
+                    ff_row.var8_name,
+                    ff_row.var8_min,
+                    ff_row.var8_max,
+                    ff_row.var8_prec,
+                    ff_row.var8_divby,
+                    ff_row.var8_unit,
 
-                    row.var9_name,
-                    row.var9_min,
-                    row.var9_max,
-                    row.var9_prec,
-                    row.var9_divby,
-                    row.var9_unit,
+                    ff_row.var9_name,
+                    ff_row.var9_min,
+                    ff_row.var9_max,
+                    ff_row.var9_prec,
+                    ff_row.var9_divby,
+                    ff_row.var9_unit,
 
-                    row.var10_name,
-                    row.var10_min,
-                    row.var10_max,
-                    row.var10_prec,
-                    row.var10_divby,
-                    row.var10_unit,
+                    ff_row.var10_name,
+                    ff_row.var10_min,
+                    ff_row.var10_max,
+                    ff_row.var10_prec,
+                    ff_row.var10_divby,
+                    ff_row.var10_unit,
 
-                    row.res1_name,
-                    row.res1_min,
-                    row.res1_max,
-                    row.res1_prec,
-                    row.res1_tol,
-                    row.res1_points,
-                    row.res1_unit,
+                    ff_row.var11_name,
+                    ff_row.var11_min,
+                    ff_row.var11_max,
+                    ff_row.var11_prec,
+                    ff_row.var11_divby,
+                    ff_row.var11_unit,
 
-                    row.res2_name,
-                    row.res2_min,
-                    row.res2_max,
-                    row.res2_prec,
-                    row.res2_tol,
-                    row.res2_points,
-                    row.res2_unit,
+                    ff_row.var12_name,
+                    ff_row.var12_min,
+                    ff_row.var12_max,
+                    ff_row.var12_prec,
+                    ff_row.var12_divby,
+                    ff_row.var12_unit,
 
-                    row.res3_name,
-                    row.res3_min,
-                    row.res3_max,
-                    row.res3_prec,
-                    row.res3_tol,
-                    row.res3_points,
-                    row.res3_unit,
+                    ff_row.var13_name,
+                    ff_row.var13_min,
+                    ff_row.var13_max,
+                    ff_row.var13_prec,
+                    ff_row.var13_divby,
+                    ff_row.var13_unit,
 
-                    row.res4_name,
-                    row.res4_min,
-                    row.res4_max,
-                    row.res4_prec,
-                    row.res4_tol,
-                    row.res4_points,
-                    row.res4_unit,
+                    ff_row.var14_name,
+                    ff_row.var14_min,
+                    ff_row.var14_max,
+                    ff_row.var14_prec,
+                    ff_row.var14_divby,
+                    ff_row.var14_unit,
 
-                    row.res5_name,
-                    row.res5_min,
-                    row.res5_max,
-                    row.res5_prec,
-                    row.res5_tol,
-                    row.res5_points,
-                    row.res5_unit,
+                    ff_row.var15_name,
+                    ff_row.var15_min,
+                    ff_row.var15_max,
+                    ff_row.var15_prec,
+                    ff_row.var15_divby,
+                    ff_row.var15_unit,
 
-                    row.res6_name,
-                    row.res6_min,
-                    row.res6_max,
-                    row.res6_prec,
-                    row.res6_tol,
-                    row.res6_points,
-                    row.res6_unit,
 
-                    row.res7_name,
-                    row.res7_min,
-                    row.res7_max,
-                    row.res7_prec,
-                    row.res7_tol,
-                    row.res7_points,
-                    row.res7_unit,
+                    ff_row.res1_name,
+                    ff_row.res1_min,
+                    ff_row.res1_max,
+                    ff_row.res1_prec,
+                    ff_row.res1_tol,
+                    ff_row.res1_points,
+                    ff_row.res1_unit,
 
-                    row.res8_name,
-                    row.res8_min,
-                    row.res8_max,
-                    row.res8_prec,
-                    row.res8_tol,
-                    row.res8_points,
-                    row.res8_unit,
+                    ff_row.res2_name,
+                    ff_row.res2_min,
+                    ff_row.res2_max,
+                    ff_row.res2_prec,
+                    ff_row.res2_tol,
+                    ff_row.res2_points,
+                    ff_row.res2_unit,
 
-                    row.res9_name,
-                    row.res9_min,
-                    row.res9_max,
-                    row.res9_prec,
-                    row.res9_tol,
-                    row.res9_points,
-                    row.res9_unit,
+                    ff_row.res3_name,
+                    ff_row.res3_min,
+                    ff_row.res3_max,
+                    ff_row.res3_prec,
+                    ff_row.res3_tol,
+                    ff_row.res3_points,
+                    ff_row.res3_unit,
 
-                    row.res10_name,
-                    row.res10_min,
-                    row.res10_max,
-                    row.res10_prec,
-                    row.res10_tol,
-                    row.res10_points,
-                    row.res10_unit,
+                    ff_row.res4_name,
+                    ff_row.res4_min,
+                    ff_row.res4_max,
+                    ff_row.res4_prec,
+                    ff_row.res4_tol,
+                    ff_row.res4_points,
+                    ff_row.res4_unit,
 
-                    row.description_img_name_1,
+                    ff_row.res5_name,
+                    ff_row.res5_min,
+                    ff_row.res5_max,
+                    ff_row.res5_prec,
+                    ff_row.res5_tol,
+                    ff_row.res5_points,
+                    ff_row.res5_unit,
+
+                    ff_row.res6_name,
+                    ff_row.res6_min,
+                    ff_row.res6_max,
+                    ff_row.res6_prec,
+                    ff_row.res6_tol,
+                    ff_row.res6_points,
+                    ff_row.res6_unit,
+
+                    ff_row.res7_name,
+                    ff_row.res7_min,
+                    ff_row.res7_max,
+                    ff_row.res7_prec,
+                    ff_row.res7_tol,
+                    ff_row.res7_points,
+                    ff_row.res7_unit,
+
+                    ff_row.res8_name,
+                    ff_row.res8_min,
+                    ff_row.res8_max,
+                    ff_row.res8_prec,
+                    ff_row.res8_tol,
+                    ff_row.res8_points,
+                    ff_row.res8_unit,
+
+                    ff_row.res9_name,
+                    ff_row.res9_min,
+                    ff_row.res9_max,
+                    ff_row.res9_prec,
+                    ff_row.res9_tol,
+                    ff_row.res9_points,
+                    ff_row.res9_unit,
+
+                    ff_row.res10_name,
+                    ff_row.res10_min,
+                    ff_row.res10_max,
+                    ff_row.res10_prec,
+                    ff_row.res10_tol,
+                    ff_row.res10_points,
+                    ff_row.res10_unit,
+
+                    ff_row.description_img_name_1,
                     self.ff_description_img_data_1,
-                    row.description_img_path_1,
+                    ff_row.description_img_path_1,
 
-                    row.description_img_name_2,
+                    ff_row.description_img_name_2,
                     self.ff_description_img_data_2,
-                    row.description_img_path_2,
+                    ff_row.description_img_path_2,
 
-                    row.description_img_name_3,
+                    ff_row.description_img_name_3,
                     self.ff_description_img_data_3,
-                    row.description_img_path_3,
+                    ff_row.description_img_path_3,
 
-                    row.test_time,
-                    row.var_number,
-                    row.res_number,
-                    row.question_pool_tag,
-                    row.question_author
+                    ff_row.test_time,
+                    ff_row.var_number,
+                    ff_row.res_number,
+                    ff_row.question_pool_tag,
+                    ff_row.question_author
                 ))
 
 
                 conn.commit()
 
 
-                print("Load File: \"" + self.xlsx_path + "\" in formelfrage_table...done!")
-                print("Excel-Einträge: " + str(len(row)))
+            print("Load File: \"" + self.xlsx_path + "\" in formelfrage_table...done!")
+            print("Excel-Einträge: " + str(self.number_of_excel_entries))
 
         elif self.question_type == "multiplechoice" or self.question_type == "multiple choice":
 
@@ -2851,9 +2921,9 @@ class Import_Export_Database(CreateDatabases):
         return self.description_img_data
 
 
-    def excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
+    def excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
         self.xlsx_workbook_name = xlsx_workbook_name
-        self.database_name = database_name
+        self.database_path = database_path
         self.database_table_name = database_table_name
         self.xlsx_worksheet_name = xlsx_worksheet_name
         self.project_root_path = project_root_path
@@ -2862,7 +2932,7 @@ class Import_Export_Database(CreateDatabases):
 
         # Datenbank-Name lautet z.B.: ilias_singlechoice_db.db
         # durch den Zusatz [:-3] werden die letzten 3 Zeichen gelöscht
-        self.database_dir_name = database_name[:-3]
+        self.database_dir_name = "ilias_" + str(database_name[:-3])
         self.database_dir_name += "_images"
 
 
@@ -2881,7 +2951,7 @@ class Import_Export_Database(CreateDatabases):
         # y_scale = cell_height / image_height
         ##########################################
 
-        conn = sqlite3.connect(self.database_name)
+        conn = sqlite3.connect(self.database_path)
         cursor = conn.cursor()
         query = 'SELECT * FROM {} LIMIT -1 OFFSET 1'.format(self.database_table_name)
         cursor.execute(query)
@@ -2998,8 +3068,8 @@ class Delete_Entry_from_Database:
         self.modul_delete_box_id = modul_delete_box_id
 
         # Datanebase Name und Table_name
-        self.database_db_name = "ilias_" + str(self.question_type) + "_db.db"
-        self.database_db_table_name = str(self.question_type) + "_table"
+        self.database_db_name = database_name
+        self.database_db_table_name = database_table_name
 
 
 

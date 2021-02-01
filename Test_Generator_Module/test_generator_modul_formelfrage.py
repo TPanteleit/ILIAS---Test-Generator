@@ -106,7 +106,9 @@ class Formelfrage:
         connect.close()
 
 
-
+        print("------DICTIONARY EINTRÄGE")
+        print(self.ff_db_entry_to_index_dict)
+        print("-------------------------")
 ############## FRAMES
         self.ff_frame_ilias_test_title = LabelFrame(self.formelfrage_tab, text="Testname & Autor", padx=5, pady=5)
         self.ff_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
@@ -363,7 +365,7 @@ class Formelfrage:
         self.ff_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
+        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
         self.ff_excel_export_to_xlsx_formelfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
 
@@ -500,6 +502,11 @@ class Formelfrage:
         self.variable8_label = Label(self.ff_frame, text='Variable 8')
         self.variable9_label = Label(self.ff_frame, text='Variable 9')
         self.variable10_label = Label(self.ff_frame, text='Variable 10')
+        self.variable11_label = Label(self.ff_frame, text='Variable 11')
+        self.variable12_label = Label(self.ff_frame, text='Variable 12')
+        self.variable13_label = Label(self.ff_frame, text='Variable 13')
+        self.variable14_label = Label(self.ff_frame, text='Variable 14')
+        self.variable15_label = Label(self.ff_frame, text='Variable 15')
 
         # Label für Var1 ist immer aktiv/ zu sehen. Var2-10 werden je nach Auswahl ein-/ausgeblendet
         self.variable1_label.grid(row=6, column=0, sticky=W, padx=20)
@@ -572,6 +579,38 @@ class Formelfrage:
         self.var10_prec_entry = Entry(self.ff_frame, width=6)
         self.var10_divby_entry = Entry(self.ff_frame, width=6)
 
+        self.var11_name_entry = Entry(self.ff_frame,  width=6)
+        self.var11_min_entry = Entry(self.ff_frame, width=6)
+        self.var11_max_entry = Entry(self.ff_frame, width=6)
+        self.var11_prec_entry = Entry(self.ff_frame, width=6)
+        self.var11_divby_entry = Entry(self.ff_frame, width=6)
+
+        self.var12_name_entry = Entry(self.ff_frame,  width=6)
+        self.var12_min_entry = Entry(self.ff_frame, width=6)
+        self.var12_max_entry = Entry(self.ff_frame, width=6)
+        self.var12_prec_entry = Entry(self.ff_frame, width=6)
+        self.var12_divby_entry = Entry(self.ff_frame, width=6)
+
+        self.var13_name_entry = Entry(self.ff_frame,  width=6)
+        self.var13_min_entry = Entry(self.ff_frame, width=6)
+        self.var13_max_entry = Entry(self.ff_frame, width=6)
+        self.var13_prec_entry = Entry(self.ff_frame, width=6)
+        self.var13_divby_entry = Entry(self.ff_frame, width=6)
+
+        self.var14_name_entry = Entry(self.ff_frame,  width=6)
+        self.var14_min_entry = Entry(self.ff_frame, width=6)
+        self.var14_max_entry = Entry(self.ff_frame, width=6)
+        self.var14_prec_entry = Entry(self.ff_frame, width=6)
+        self.var14_divby_entry = Entry(self.ff_frame, width=6)
+
+        self.var15_name_entry = Entry(self.ff_frame,  width=6)
+        self.var15_min_entry = Entry(self.ff_frame, width=6)
+        self.var15_max_entry = Entry(self.ff_frame, width=6)
+        self.var15_prec_entry = Entry(self.ff_frame, width=6)
+        self.var15_divby_entry = Entry(self.ff_frame, width=6)
+
+
+
         # Eingabefelder für Var1 sind immer aktiv/ zu sehen. Var2-10 werden je nach Auswahl ein-/ausgeblendet
         self.var1_name_entry.grid(row=6, column=1, sticky=W)
         self.var1_min_entry.grid(row=6, column=1, sticky=W, padx=60)
@@ -603,6 +642,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '2':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -614,6 +658,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '3':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -625,6 +674,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '4':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -636,6 +690,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '5':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -647,6 +706,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '6':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -658,6 +722,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '7':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -669,6 +738,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '8':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -680,6 +754,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '9':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -691,6 +770,11 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
             elif self.ff_numbers_of_answers_box.get() == '10':
                 Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
@@ -702,12 +786,97 @@ class Formelfrage:
                 Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
                 Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.ff_numbers_of_answers_box.get() == '11':
+                Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.ff_numbers_of_answers_box.get() == '12':
+                Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.ff_numbers_of_answers_box.get() == '13':
+                Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.ff_numbers_of_answers_box.get() == '14':
+                Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.ff_numbers_of_answers_box.get() == '15':
+                Formelfrage.ff_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
+                Formelfrage.ff_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "show")
 
 
 
         self.ff_numbers_of_answers_box_label = Label(self.ff_frame, text="Anzahl der Variablen: ")
         self.ff_numbers_of_answers_box_label.grid(row=5, column=0, sticky=W, padx=10, pady=(20, 0))
-        self.ff_numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        self.ff_numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
         self.ff_numbers_of_answers_box = ttk.Combobox(self.ff_frame, value=self.ff_numbers_of_answers_value, width=3)
         self.ff_numbers_of_answers_box.bind("<<ComboboxSelected>>", ff_answer_selected)
         self.ff_numbers_of_answers_box.grid(row=5, column=1, sticky=W, pady=(20, 0))
@@ -749,12 +918,12 @@ class Formelfrage:
         self.res_points_label = Label(self.ff_frame, text='Punkte')
         self.res_formula_label = Label(self.ff_frame, text='Formel')
 
-        self.res_min_label.grid(row=20, column=1, sticky=W, pady=(10, 0), padx=60)
-        self.res_max_label.grid(row=20, column=1, sticky=W, pady=(10, 0), padx=100)
-        self.res_prec_label.grid(row=20, column=1, sticky=W, pady=(10, 0), padx=140)
-        self.res_tol_label.grid(row=20, column=1, sticky=W, pady=(10, 0), padx=180)
-        self.res_points_label.grid(row=20, column=1, sticky=W, pady=(10, 0), padx=220)
-        self.res_formula_label.grid(row=20, column=1, sticky=E, pady=(10, 0), padx=100)
+        self.res_min_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=60)
+        self.res_max_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=100)
+        self.res_prec_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=140)
+        self.res_tol_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=180)
+        self.res_points_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=220)
+        self.res_formula_label.grid(row=40, column=1, sticky=E, pady=(10, 0), padx=100)
 
 
 
@@ -770,7 +939,7 @@ class Formelfrage:
         self.result10_label = Label(self.ff_frame, text='Ergebnis 10')
 
         # Label für Res1 ist immer aktiv/ zu sehen. Res2-10 werden je nach Auswahl ein-/ausgeblendet
-        self.result1_label.grid(row=21, column=0, sticky=W, padx=20)
+        self.result1_label.grid(row=41, column=0, sticky=W, padx=20)
 
         
 
@@ -858,13 +1027,13 @@ class Formelfrage:
         self.res10_formula_entry = Entry(self.ff_frame, width=30)
 
         # Eingabefelder für Res1 sind immer aktiv/ zu sehen. Res2-10 werden je nach Auswahl ein-/ausgeblendet
-        self.res1_name_entry.grid(row=21, column=1, sticky=W)
-        self.res1_min_entry.grid(row=21, column=1, sticky=W, padx=60)
-        self.res1_max_entry.grid(row=21, column=1, sticky=W, padx=100)
-        self.res1_prec_entry.grid(row=21, column=1, sticky=W, padx=140)
-        self.res1_tol_entry.grid(row=21, column=1, sticky=W, padx=180)
-        self.res1_points_entry.grid(row=21, column=1, sticky=W, padx=220)
-        self.res1_formula_entry.grid(row=21, column=1, sticky=E, padx=20)
+        self.res1_name_entry.grid(row=41, column=1, sticky=W)
+        self.res1_min_entry.grid(row=41, column=1, sticky=W, padx=60)
+        self.res1_max_entry.grid(row=41, column=1, sticky=W, padx=100)
+        self.res1_prec_entry.grid(row=41, column=1, sticky=W, padx=140)
+        self.res1_tol_entry.grid(row=41, column=1, sticky=W, padx=180)
+        self.res1_points_entry.grid(row=41, column=1, sticky=W, padx=220)
+        self.res1_formula_entry.grid(row=41, column=1, sticky=E, padx=20)
 
 
 
@@ -893,132 +1062,132 @@ class Formelfrage:
         def ff_result_selected(event):  # "variable" need for comboBox Binding
 
             if self.ff_numbers_of_results_box.get() == '1':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '2':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '3':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '4':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '5':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '6':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '7':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '8':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "remove")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '9':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "remove")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
             elif self.ff_numbers_of_results_box.get() == '10':
-                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "22", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "23", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "24", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "25", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "26", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "27", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "28", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "29", "show")
-                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "30", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
+                Formelfrage.ff_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "show")
 
 
         self.ff_numbers_of_results_box_label = Label(self.ff_frame, text="Anzahl der Ergebnisse: ")
-        self.ff_numbers_of_results_box_label.grid(row=20, column=0, sticky=W, padx=10, pady=(20, 0))
+        self.ff_numbers_of_results_box_label.grid(row=40, column=0, sticky=W, padx=10, pady=(20, 0))
         self.ff_numbers_of_results_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         self.ff_numbers_of_results_box = ttk.Combobox(self.ff_frame, value=self.ff_numbers_of_results_value, width=3)
         self.ff_numbers_of_results_box.current(0)
         self.ff_numbers_of_results_box.bind("<<ComboboxSelected>>", ff_result_selected)
-        self.ff_numbers_of_results_box.grid(row=20, column=1, sticky=W, pady=(20, 0))
+        self.ff_numbers_of_results_box.grid(row=40, column=1, sticky=W, pady=(20, 0))
 
     def ff_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status):
 
@@ -1471,6 +1640,11 @@ class Formelfrage:
             ":var8_name, :var8_min, :var8_max, :var8_prec, :var8_divby, :var8_unit, "
             ":var9_name, :var9_min, :var9_max, :var9_prec, :var9_divby, :var9_unit, "
             ":var10_name, :var10_min, :var10_max, :var10_prec, :var10_divby, :var10_unit, "
+            ":var11_name, :var11_min, :var11_max, :var11_prec, :var11_divby, :var11_unit, "
+            ":var12_name, :var12_min, :var12_max, :var12_prec, :var12_divby, :var12_unit, "
+            ":var13_name, :var13_min, :var13_max, :var13_prec, :var13_divby, :var13_unit, "
+            ":var14_name, :var14_min, :var14_max, :var14_prec, :var14_divby, :var14_unit, "
+            ":var15_name, :var15_min, :var15_max, :var15_prec, :var15_divby, :var15_unit, "
             ":res1_name, :res1_min, :res1_max, :res1_prec, :res1_tol, :res1_points, :res1_unit, "
             ":res2_name, :res2_min, :res2_max, :res2_prec, :res2_tol, :res2_points, :res2_unit, "
             ":res3_name, :res3_min, :res3_max, :res3_prec, :res3_tol, :res3_points, :res3_unit, "
@@ -1579,6 +1753,42 @@ class Formelfrage:
                 'var10_prec': self.var10_prec_entry.get(),
                 'var10_divby': self.var10_divby_entry.get(),
                 'var10_unit': "",
+
+                'var11_name': self.var11_name_entry.get(),
+                'var11_min': self.var11_min_entry.get(),
+                'var11_max': self.var11_max_entry.get(),
+                'var11_prec': self.var11_prec_entry.get(),
+                'var11_divby': self.var11_divby_entry.get(),
+                'var11_unit': "",
+
+                'var12_name': self.var12_name_entry.get(),
+                'var12_min': self.var12_min_entry.get(),
+                'var12_max': self.var12_max_entry.get(),
+                'var12_prec': self.var12_prec_entry.get(),
+                'var12_divby': self.var12_divby_entry.get(),
+                'var12_unit': "",
+
+                'var13_name': self.var13_name_entry.get(),
+                'var13_min': self.var13_min_entry.get(),
+                'var13_max': self.var13_max_entry.get(),
+                'var13_prec': self.var13_prec_entry.get(),
+                'var13_divby': self.var13_divby_entry.get(),
+                'var13_unit': "",
+
+                'var14_name': self.var14_name_entry.get(),
+                'var14_min': self.var14_min_entry.get(),
+                'var14_max': self.var14_max_entry.get(),
+                'var14_prec': self.var14_prec_entry.get(),
+                'var14_divby': self.var14_divby_entry.get(),
+                'var14_unit': "",
+
+                'var15_name': self.var15_name_entry.get(),
+                'var15_min': self.var15_min_entry.get(),
+                'var15_max': self.var15_max_entry.get(),
+                'var15_prec': self.var15_prec_entry.get(),
+                'var15_divby': self.var15_divby_entry.get(),
+                'var15_unit': "",
+
 
                 'res1_name': self.res1_name_entry.get(),
                 'res1_min': self.res1_min_entry.get(),
@@ -1788,6 +1998,36 @@ class Formelfrage:
             self.var10_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var10_prec']])
             self.var10_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var10_divby']])
 
+            self.var11_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var11_name']])
+            self.var11_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var11_min']])
+            self.var11_max_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var11_max']])
+            self.var11_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var11_prec']])
+            self.var11_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var11_divby']])
+
+            self.var12_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var12_name']])
+            self.var12_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var12_min']])
+            self.var12_max_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var12_max']])
+            self.var12_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var12_prec']])
+            self.var12_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var12_divby']])
+
+            self.var13_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var13_name']])
+            self.var13_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var13_min']])
+            self.var13_max_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var13_max']])
+            self.var13_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var13_prec']])
+            self.var13_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var13_divby']])
+
+            self.var14_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var14_name']])
+            self.var14_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var14_min']])
+            self.var14_max_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var14_max']])
+            self.var14_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var14_prec']])
+            self.var14_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var14_divby']])
+
+            self.var15_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var15_name']])
+            self.var15_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var15_min']])
+            self.var15_max_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var15_max']])
+            self.var15_prec_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var15_prec']])
+            self.var15_divby_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['var15_divby']])
+
 
             self.res1_name_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['res1_name']])
             self.res1_min_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['res1_min']])
@@ -1990,6 +2230,41 @@ class Formelfrage:
             var10_prec = :var10_prec,
             var10_divby = :var10_divby,
             var10_unit = :var10_unit,
+            
+            var11_name = :var11_name,
+            var11_min = :var11_min,
+            var11_max = :var11_max,
+            var11_prec = :var11_prec,
+            var11_divby = :var11_divby,
+            var11_unit = :var11_unit,
+            
+            var12_name = :var12_name,
+            var12_min = :var12_min,
+            var12_max = :var12_max,
+            var12_prec = :var12_prec,
+            var12_divby = :var12_divby,
+            var12_unit = :var12_unit,
+            
+            var13_name = :var13_name,
+            var13_min = :var13_min,
+            var13_max = :var13_max,
+            var13_prec = :var13_prec,
+            var13_divby = :var13_divby,
+            var13_unit = :var13_unit,
+            
+            var14_name = :var14_name,
+            var14_min = :var14_min,
+            var14_max = :var14_max,
+            var14_prec = :var14_prec,
+            var14_divby = :var14_divby,
+            var14_unit = :var14_unit,
+            
+            var15_name = :var15_name,
+            var15_min = :var15_min,
+            var15_max = :var15_max,
+            var15_prec = :var15_prec,
+            var15_divby = :var15_divby,
+            var15_unit = :var15_unit,
             
             res1_name = :res1_name,
             res1_min = :res1_min,
@@ -2458,6 +2733,36 @@ class Formelfrage:
         self.var10_prec_entry.delete(0, END)
         self.var10_divby_entry.delete(0, END)
 
+        self.var11_name_entry.delete(0, END)
+        self.var11_min_entry.delete(0, END)
+        self.var11_max_entry.delete(0, END)
+        self.var11_prec_entry.delete(0, END)
+        self.var11_divby_entry.delete(0, END)
+
+        self.var12_name_entry.delete(0, END)
+        self.var12_min_entry.delete(0, END)
+        self.var12_max_entry.delete(0, END)
+        self.var12_prec_entry.delete(0, END)
+        self.var12_divby_entry.delete(0, END)
+
+        self.var13_name_entry.delete(0, END)
+        self.var13_min_entry.delete(0, END)
+        self.var13_max_entry.delete(0, END)
+        self.var13_prec_entry.delete(0, END)
+        self.var13_divby_entry.delete(0, END)
+
+        self.var14_name_entry.delete(0, END)
+        self.var14_min_entry.delete(0, END)
+        self.var14_max_entry.delete(0, END)
+        self.var14_prec_entry.delete(0, END)
+        self.var14_divby_entry.delete(0, END)
+
+        self.var15_name_entry.delete(0, END)
+        self.var15_min_entry.delete(0, END)
+        self.var15_max_entry.delete(0, END)
+        self.var15_prec_entry.delete(0, END)
+        self.var15_divby_entry.delete(0, END)
+
         self.res1_name_entry.delete(0, END)
         self.res1_min_entry.delete(0, END)
         self.res1_max_entry.delete(0, END)
@@ -2684,6 +2989,41 @@ class Create_Formelfrage_Questions(Formelfrage):
                             self.ff_var10_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var10_prec']]
                             self.ff_var10_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var10_divby']]
                             self.ff_var10_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var10_unit']]
+
+                            self.ff_var11_name                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var11_name']]
+                            self.ff_var11_min                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var11_min']]
+                            self.ff_var11_max                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var11_max']]
+                            self.ff_var11_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var11_prec']]
+                            self.ff_var11_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var11_divby']]
+                            self.ff_var11_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var11_unit']]
+
+                            self.ff_var12_name                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var12_name']]
+                            self.ff_var12_min                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var12_min']]
+                            self.ff_var12_max                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var12_max']]
+                            self.ff_var12_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var12_prec']]
+                            self.ff_var12_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var12_divby']]
+                            self.ff_var12_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var12_unit']]
+
+                            self.ff_var13_name                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var13_name']]
+                            self.ff_var13_min                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var13_min']]
+                            self.ff_var13_max                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var13_max']]
+                            self.ff_var13_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var13_prec']]
+                            self.ff_var13_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var13_divby']]
+                            self.ff_var13_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var13_unit']]
+
+                            self.ff_var14_name                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var14_name']]
+                            self.ff_var14_min                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var14_min']]
+                            self.ff_var14_max                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var14_max']]
+                            self.ff_var14_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var14_prec']]
+                            self.ff_var14_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var14_divby']]
+                            self.ff_var14_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var14_unit']]
+
+                            self.ff_var15_name                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var15_name']]
+                            self.ff_var15_min                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var15_min']]
+                            self.ff_var15_max                                                          = ff_db_record[self.ff_db_entry_to_index_dict['var15_max']]
+                            self.ff_var15_prec                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var15_prec']]
+                            self.ff_var15_divby                                                        = ff_db_record[self.ff_db_entry_to_index_dict['var15_divby']]
+                            self.ff_var15_unit                                                         = ff_db_record[self.ff_db_entry_to_index_dict['var15_unit']]
 
                             self.ff_res1_name                                                          = ff_db_record[self.ff_db_entry_to_index_dict['res1_name']]
                             self.ff_res1_min                                                           = ff_db_record[self.ff_db_entry_to_index_dict['res1_min']]
@@ -2953,6 +3293,11 @@ class Create_Formelfrage_Questions(Formelfrage):
                         Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v8", self.ff_var8_min, self.ff_var8_max, self.ff_var8_prec, self.ff_var8_divby, self.ff_var8_unit)
                         Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v9", self.ff_var9_min, self.ff_var9_max, self.ff_var9_prec, self.ff_var9_divby, self.ff_var9_unit)
                         Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v10", self.ff_var10_min, self.ff_var10_max, self.ff_var10_prec, self.ff_var10_divby, self.ff_var10_unit)
+                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v11", self.ff_var11_min, self.ff_var11_max, self.ff_var11_prec, self.ff_var11_divby, self.ff_var11_unit)
+                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v12", self.ff_var12_min, self.ff_var12_max, self.ff_var12_prec, self.ff_var12_divby, self.ff_var12_unit)
+                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v13", self.ff_var13_min, self.ff_var13_max, self.ff_var13_prec, self.ff_var13_divby, self.ff_var13_unit)
+                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v14", self.ff_var14_min, self.ff_var14_max, self.ff_var14_prec, self.ff_var14_divby, self.ff_var14_unit)
+                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v15", self.ff_var15_min, self.ff_var15_max, self.ff_var15_prec, self.ff_var15_divby, self.ff_var15_unit)
 
 
 

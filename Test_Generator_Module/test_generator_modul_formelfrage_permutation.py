@@ -483,8 +483,6 @@ class Formelfrage_Permutation:
         ########################### ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX ##############################
 
         ########### PERMUTATION_VALUES
-        self.perm_var_name_label = Label(self.ffperm_frame, text='perm\nname')
-        self.perm_var_name_label.grid(row=5, column=1, sticky=E, pady=(20, 0), padx=170)
 
         self.perm_symbol_of_variable_label = Label(self.ffperm_frame, text='perm\nsymbol ')
         self.perm_symbol_of_variable_label.grid(row=5, column=1, sticky=E, pady=(20, 0), padx=116)
@@ -493,16 +491,7 @@ class Formelfrage_Permutation:
         self.perm_var_values_label.grid(row=5, column=1, sticky=E, pady=(20, 0), padx=50)
 
 
-        self.perm_var_name_entry_1 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_2 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_3 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_4 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_5 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_6 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_7 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_8 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_9 = Entry(self.ffperm_frame,  width=6)
-        self.perm_var_name_entry_10 = Entry(self.ffperm_frame,  width=6)
+        
         
         
         
@@ -531,7 +520,7 @@ class Formelfrage_Permutation:
         self.perm_var_value_entry_10 = Entry(self.ffperm_frame, width=19)
         
         
-        self.perm_var_name_entry_1.grid(row=6, column=1,  sticky=E, padx=165)
+        
         self.perm_var_symbol_entry_1.grid(row=6, column=1,  sticky=E, padx=123)
         self.perm_var_value_entry_1.grid(row=6, column=1,  sticky=E, padx=0)
         ###########################
@@ -664,114 +653,114 @@ class Formelfrage_Permutation:
 
 
             if self.ffperm_numbers_of_answers_box.get() == '1':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "remove", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "remove", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "remove",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "remove",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '2':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "remove", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "remove",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '3':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "remove",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '4':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "remove",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '5':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "remove",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '6':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "remove",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '7':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "remove",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '8':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "remove",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '9':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "show", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "show",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "remove",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
             elif self.ffperm_numbers_of_answers_box.get() == '10':
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show", self.perm_var_name_entry_2, self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show", self.perm_var_name_entry_3, self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show", self.perm_var_name_entry_4, self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show", self.perm_var_name_entry_5, self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show", self.perm_var_name_entry_6, self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show", self.perm_var_name_entry_7, self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show", self.perm_var_name_entry_8, self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "show", self.perm_var_name_entry_9, self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
-                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "show", self.perm_var_name_entry_10, self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable2_label, self.perm_var2_name_entry, self.perm_var2_min_entry, self.perm_var2_max_entry, self.perm_var2_prec_entry, self.perm_var2_divby_entry, "7", "show",  self.perm_var_symbol_entry_2, self.perm_var_value_entry_2)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable3_label, self.perm_var3_name_entry, self.perm_var3_min_entry, self.perm_var3_max_entry, self.perm_var3_prec_entry, self.perm_var3_divby_entry, "8", "show",  self.perm_var_symbol_entry_3, self.perm_var_value_entry_3)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable4_label, self.perm_var4_name_entry, self.perm_var4_min_entry, self.perm_var4_max_entry, self.perm_var4_prec_entry, self.perm_var4_divby_entry, "9", "show",  self.perm_var_symbol_entry_4, self.perm_var_value_entry_4)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable5_label, self.perm_var5_name_entry, self.perm_var5_min_entry, self.perm_var5_max_entry, self.perm_var5_prec_entry, self.perm_var5_divby_entry, "10", "show",  self.perm_var_symbol_entry_5, self.perm_var_value_entry_5)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable6_label, self.perm_var6_name_entry, self.perm_var6_min_entry, self.perm_var6_max_entry, self.perm_var6_prec_entry, self.perm_var6_divby_entry, "11", "show",  self.perm_var_symbol_entry_6, self.perm_var_value_entry_6)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable7_label, self.perm_var7_name_entry, self.perm_var7_min_entry, self.perm_var7_max_entry, self.perm_var7_prec_entry, self.perm_var7_divby_entry, "12", "show",  self.perm_var_symbol_entry_7, self.perm_var_value_entry_7)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable8_label, self.perm_var8_name_entry, self.perm_var8_min_entry, self.perm_var8_max_entry, self.perm_var8_prec_entry, self.perm_var8_divby_entry, "13", "show",  self.perm_var_symbol_entry_8, self.perm_var_value_entry_8)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable9_label, self.perm_var9_name_entry, self.perm_var9_min_entry, self.perm_var9_max_entry, self.perm_var9_prec_entry, self.perm_var9_divby_entry, "14", "show",  self.perm_var_symbol_entry_9, self.perm_var_value_entry_9)
+                Formelfrage_Permutation.ffperm_variable_show_or_remove(self, self.perm_variable10_label, self.perm_var10_name_entry, self.perm_var10_min_entry, self.perm_var10_max_entry, self.perm_var10_prec_entry, self.perm_var10_divby_entry, "15", "show",  self.perm_var_symbol_entry_10, self.perm_var_value_entry_10)
 
 
 
@@ -1106,7 +1095,7 @@ class Formelfrage_Permutation:
         self.ffperm_numbers_of_results_box.bind("<<ComboboxSelected>>", ffperm_result_selected)
         self.ffperm_numbers_of_results_box.grid(row=20, column=1, sticky=W, pady=(20, 0))
 
-    def ffperm_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status, perm_var_name_entry, perm_var_symbol_entry, perm_var_value_entry):
+    def ffperm_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status, perm_var_symbol_entry, perm_var_value_entry):
 
             if var_status == "show":
                 var_label.grid(row=int(row_nr), column=0, sticky=W, padx=20)
@@ -1117,7 +1106,7 @@ class Formelfrage_Permutation:
                 var_divby_entry.grid(row=int(row_nr), column=1, sticky=W, padx=180)
                 # var_unit_myCombo.grid(row=int(row_nr), column=0, sticky=E, padx=10)
 
-                perm_var_name_entry.grid(row=int(row_nr), column=1, sticky=E, padx=165)
+
                 perm_var_symbol_entry.grid(row=int(row_nr), column=1, sticky=E, padx=123)
                 perm_var_value_entry.grid(row=int(row_nr), column=1, sticky=E, padx=0)
 
@@ -1132,7 +1121,7 @@ class Formelfrage_Permutation:
                 var_divby_entry.grid_remove()
                 # var_unit_myCombo.grid_remove()
 
-                perm_var_name_entry.grid_remove()
+
                 perm_var_symbol_entry.grid_remove()
                 perm_var_value_entry.grid_remove()
 
@@ -1577,16 +1566,16 @@ class Formelfrage_Permutation:
             ":res8_name, :res8_min, :res8_max, :res8_prec, :res8_tol, :res8_points, :res8_unit, "
             ":res9_name, :res9_min, :res9_max, :res9_prec, :res9_tol, :res9_points, :res9_unit, "
             ":res10_name, :res10_min, :res10_max, :res10_prec, :res10_tol, :res10_points, :res10_unit, "
-            ":perm_var_name_1, :perm_var_symbol_1, :perm_var_value_1,"
-            ":perm_var_name_2, :perm_var_symbol_2, :perm_var_value_2,"
-            ":perm_var_name_3, :perm_var_symbol_3, :perm_var_value_3,"
-            ":perm_var_name_4, :perm_var_symbol_4, :perm_var_value_4,"
-            ":perm_var_name_5, :perm_var_symbol_5, :perm_var_value_5,"
-            ":perm_var_name_6, :perm_var_symbol_6, :perm_var_value_6,"
-            ":perm_var_name_7, :perm_var_symbol_7, :perm_var_value_7,"
-            ":perm_var_name_8, :perm_var_symbol_8, :perm_var_value_8,"
-            ":perm_var_name_9, :perm_var_symbol_9, :perm_var_value_9,"
-            ":perm_var_name_10, :perm_var_symbol_10, :perm_var_value_10,"
+            ":perm_var_symbol_1, :perm_var_value_1,"
+            ":perm_var_symbol_2, :perm_var_value_2,"
+            ":perm_var_symbol_3, :perm_var_value_3,"
+            ":perm_var_symbol_4, :perm_var_value_4,"
+            ":perm_var_symbol_5, :perm_var_value_5,"
+            ":perm_var_symbol_6, :perm_var_value_6,"
+            ":perm_var_symbol_7, :perm_var_value_7,"
+            ":perm_var_symbol_8, :perm_var_value_8,"
+            ":perm_var_symbol_9, :perm_var_value_9,"
+            ":perm_var_symbol_10, :perm_var_value_10,"
             ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
             ":description_img_name_2, :description_img_data_2, :description_img_path_2, "
             ":description_img_name_3, :description_img_data_3, :description_img_path_3, "
@@ -1767,34 +1756,34 @@ class Formelfrage_Permutation:
                 'res10_points': self.perm_res10_points_entry.get(),
                 'res10_unit': "",
 
-                'perm_var_name_1': self.perm_var_name_entry_1.get(),
+                
                 'perm_var_symbol_1': self.perm_var_symbol_entry_1.get(),
                 'perm_var_value_1': self.perm_var_value_entry_1.get(),
-                'perm_var_name_2': self.perm_var_name_entry_2.get(),
+                
                 'perm_var_symbol_2': self.perm_var_symbol_entry_2.get(),
                 'perm_var_value_2': self.perm_var_value_entry_2.get(),
-                'perm_var_name_3': self.perm_var_name_entry_3.get(),
+                
                 'perm_var_symbol_3': self.perm_var_symbol_entry_3.get(),
                 'perm_var_value_3': self.perm_var_value_entry_3.get(),
-                'perm_var_name_4': self.perm_var_name_entry_4.get(),
+                
                 'perm_var_symbol_4': self.perm_var_symbol_entry_4.get(),
                 'perm_var_value_4': self.perm_var_value_entry_4.get(),
-                'perm_var_name_5': self.perm_var_name_entry_5.get(),
+                
                 'perm_var_symbol_5': self.perm_var_symbol_entry_5.get(),
                 'perm_var_value_5': self.perm_var_value_entry_5.get(),
-                'perm_var_name_6': self.perm_var_name_entry_6.get(),
+               
                 'perm_var_symbol_6': self.perm_var_symbol_entry_6.get(),
                 'perm_var_value_6': self.perm_var_value_entry_6.get(),
-                'perm_var_name_7': self.perm_var_name_entry_7.get(),
+                
                 'perm_var_symbol_7': self.perm_var_symbol_entry_7.get(),
                 'perm_var_value_7': self.perm_var_value_entry_7.get(),
-                'perm_var_name_8': self.perm_var_name_entry_8.get(),
+                
                 'perm_var_symbol_8': self.perm_var_symbol_entry_8.get(),
                 'perm_var_value_8': self.perm_var_value_entry_8.get(),
-                'perm_var_name_9': self.perm_var_name_entry_9.get(),
+                
                 'perm_var_symbol_9': self.perm_var_symbol_entry_9.get(),
                 'perm_var_value_9': self.perm_var_value_entry_9.get(),
-                'perm_var_name_10': self.perm_var_name_entry_10.get(),
+                
                 'perm_var_symbol_10': self.perm_var_symbol_entry_10.get(),
                 'perm_var_value_10': self.perm_var_value_entry_10.get(),
 
@@ -2005,34 +1994,34 @@ class Formelfrage_Permutation:
             self.perm_res10_tol_entry.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['res10_tol']])
             self.perm_res10_points_entry.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['res10_points']])
 
-            self.perm_var_name_entry_1.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_1']])
+           
             self.perm_var_symbol_entry_1.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_1']])
             self.perm_var_value_entry_1.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_1']])
-            self.perm_var_name_entry_2.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_2']])
+         
             self.perm_var_symbol_entry_2.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_2']])
             self.perm_var_value_entry_2.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_2']])
-            self.perm_var_name_entry_3.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_3']])
+        
             self.perm_var_symbol_entry_3.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_3']])
             self.perm_var_value_entry_3.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_3']])
-            self.perm_var_name_entry_4.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_4']])
+        
             self.perm_var_symbol_entry_4.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_4']])
             self.perm_var_value_entry_4.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_4']])
-            self.perm_var_name_entry_5.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_5']])
+           
             self.perm_var_symbol_entry_5.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_5']])
             self.perm_var_value_entry_5.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_5']])
-            self.perm_var_name_entry_6.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_6']])
+           
             self.perm_var_symbol_entry_6.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_6']])
             self.perm_var_value_entry_6.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_6']])
-            self.perm_var_name_entry_7.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_7']])
+           
             self.perm_var_symbol_entry_7.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_7']])
             self.perm_var_value_entry_7.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_7']])
-            self.perm_var_name_entry_8.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_8']])
+            
             self.perm_var_symbol_entry_8.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_8']])
             self.perm_var_value_entry_8.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_8']])
-            self.perm_var_name_entry_9.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_9']])
+            
             self.perm_var_symbol_entry_9.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_9']])
             self.perm_var_value_entry_9.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_9']])
-            self.perm_var_name_entry_10.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_10']])
+            
             self.perm_var_symbol_entry_10.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_10']])
             self.perm_var_value_entry_10.insert(END, ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_10']])
 
@@ -2452,7 +2441,7 @@ class Formelfrage_Permutation:
         self.ffperm_delete_box_id = ""
         self.ffperm_delete_box_id = self.ffperm_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ffperm_delete_box_id, "formelfrage", self.ffperm_var_delete_all.get(), self.project_root_path, self.ffperm_db_entry_to_index_dict, self.database_formelfrage_permutation_path, "formelfrage_permutation_table", "formelfrage_permutation_DB_export_file.xlsx", "Formelfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ffperm_delete_box_id, "formelfrage_permutation", self.ffperm_var_delete_all.get(), self.project_root_path, self.ffperm_db_entry_to_index_dict, self.database_formelfrage_permutation_path, "formelfrage_permutation_table", "formelfrage_permutation_DB_export_file.xlsx", "FF_Permutation - Database")
       
 
     def ffperm_clear_GUI(self):
@@ -2606,34 +2595,34 @@ class Formelfrage_Permutation:
         self.perm_res10_points_entry.delete(0, END)
 
 
-        self.perm_var_name_entry_1.delete(0, END)
+        
         self.perm_var_symbol_entry_1.delete(0, END)
         self.perm_var_value_entry_1.delete(0, END)
-        self.perm_var_name_entry_2.delete(0, END)
+      
         self.perm_var_symbol_entry_2.delete(0, END)
         self.perm_var_value_entry_2.delete(0, END)
-        self.perm_var_name_entry_3.delete(0, END)
+
         self.perm_var_symbol_entry_3.delete(0, END)
         self.perm_var_value_entry_3.delete(0, END)
-        self.perm_var_name_entry_4.delete(0, END)
+      
         self.perm_var_symbol_entry_4.delete(0, END)
         self.perm_var_value_entry_4.delete(0, END)
-        self.perm_var_name_entry_5.delete(0, END)
+       
         self.perm_var_symbol_entry_5.delete(0, END)
         self.perm_var_value_entry_5.delete(0, END)
-        self.perm_var_name_entry_6.delete(0, END)
+    
         self.perm_var_symbol_entry_6.delete(0, END)
         self.perm_var_value_entry_6.delete(0, END)
-        self.perm_var_name_entry_7.delete(0, END)
+       
         self.perm_var_symbol_entry_7.delete(0, END)
         self.perm_var_value_entry_7.delete(0, END)
-        self.perm_var_name_entry_8.delete(0, END)
+     
         self.perm_var_symbol_entry_8.delete(0, END)
         self.perm_var_value_entry_8.delete(0, END)
-        self.perm_var_name_entry_9.delete(0, END)
+       
         self.perm_var_symbol_entry_9.delete(0, END)
         self.perm_var_value_entry_9.delete(0, END)
-        self.perm_var_name_entry_10.delete(0, END)
+     
         self.perm_var_symbol_entry_10.delete(0, END)
         self.perm_var_value_entry_10.delete(0, END)
 
@@ -2873,34 +2862,34 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                             self.ffperm_res10_points                                                       = ffperm_db_record[self.ffperm_db_entry_to_index_dict['res10_points']]
                             self.ffperm_res10_unit                                                         = ffperm_db_record[self.ffperm_db_entry_to_index_dict['res10_unit']]
 
-                            self.ff_perm_var_name_1                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_1']]
+
                             self.ff_perm_var_symbol_1                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_1']]
                             self.ff_perm_var_value_1                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_1']]
-                            self.ff_perm_var_name_2                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_2']]
+
                             self.ff_perm_var_symbol_2                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_2']]
                             self.ff_perm_var_value_2                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_2']]
-                            self.ff_perm_var_name_3                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_3']]
+
                             self.ff_perm_var_symbol_3                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_3']]
                             self.ff_perm_var_value_3                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_3']]
-                            self.ff_perm_var_name_4                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_4']]
+
                             self.ff_perm_var_symbol_4                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_4']]
                             self.ff_perm_var_value_4                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_4']]
-                            self.ff_perm_var_name_5                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_5']]
+
                             self.ff_perm_var_symbol_5                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_5']]
                             self.ff_perm_var_value_5                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_5']]
-                            self.ff_perm_var_name_6                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_6']]
+
                             self.ff_perm_var_symbol_6                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_6']]
                             self.ff_perm_var_value_6                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_6']]
-                            self.ff_perm_var_name_7                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_7']]
+
                             self.ff_perm_var_symbol_7                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_7']]
                             self.ff_perm_var_value_7                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_7']]
-                            self.ff_perm_var_name_8                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_8']]
+
                             self.ff_perm_var_symbol_8                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_8']]
                             self.ff_perm_var_value_8                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_8']]
-                            self.ff_perm_var_name_9                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_9']]
+
                             self.ff_perm_var_symbol_9                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_9']]
                             self.ff_perm_var_value_9                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_9']]
-                            self.ff_perm_var_name_10                                                    = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_name_10']]
+
                             self.ff_perm_var_symbol_10                                                  = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_symbol_10']]
                             self.ff_perm_var_value_10                                                   = ffperm_db_record[self.ffperm_db_entry_to_index_dict['perm_var_value_10']]
 
@@ -2925,16 +2914,6 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
     def ffperm_question_structure(self, id_nr):
         """Diese Funktion wandelt die SQL-Einträge in die .xml um, welche anschließend in ILIAS eingespielt werden kann"""
-
-        def just_a_test(var_res_min_max):
-            # check if exponential in var_min, var_max, res_min or res_max
-            for key in self.exponential_to_number_dict:
-                if key in var_res_min_max:
-                    var_res_min_max = var_res_min_max.replace(key, self.exponential_to_number_dict[key])
-
-            return var_res_min_max
-
-
 
 
 
@@ -3014,69 +2993,59 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
             "10^30": "1000000000000000000000000000000",
         }
 
-        self.ffperm_var1_min_replaced = ""
-        self.ffperm_var1_max_replaced = ""
+        self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced = "", ""
+        self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced = "", ""
+        self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced = "", ""
+        self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced = "", ""
+        self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced = "", ""
+        
+        self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced = "", ""
+        self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced = "", ""
+        self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced = "", ""
+        self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced = "", ""
+        self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced = "", ""
+
 
         perm_var_name_1, perm_var_symbol_1, perm_var_value_1 = self.ff_perm_var_name_1, self.ff_perm_var_symbol_1, self.ff_perm_var_value_1.split(',')
         perm_var_name_2, perm_var_symbol_2, perm_var_value_2 = self.ff_perm_var_name_2, self.ff_perm_var_symbol_2, self.ff_perm_var_value_2.split(',')
         perm_var_name_3, perm_var_symbol_3, perm_var_value_3 = self.ff_perm_var_name_3, self.ff_perm_var_symbol_3, self.ff_perm_var_value_3.split(',')
-        perm_var_name_4, perm_var_symbol_4, perm_var_value_4 = self.perm_var_name_entry_4.get(), self.perm_var_symbol_entry_4.get(), self.perm_var_value_entry_4.get()
-        perm_var_name_5, perm_var_symbol_5, perm_var_value_5 = self.perm_var_name_entry_5.get(), self.perm_var_symbol_entry_5.get(), self.perm_var_value_entry_5.get()
-        perm_var_name_6, perm_var_symbol_6, perm_var_value_6 = self.perm_var_name_entry_6.get(), self.perm_var_symbol_entry_6.get(), self.perm_var_value_entry_6.get()
-        perm_var_name_7, perm_var_symbol_7, perm_var_value_7 = self.perm_var_name_entry_7.get(), self.perm_var_symbol_entry_7.get(), self.perm_var_value_entry_7.get()
-        perm_var_name_8, perm_var_symbol_8, perm_var_value_8 = self.perm_var_name_entry_8.get(), self.perm_var_symbol_entry_8.get(), self.perm_var_value_entry_8.get()
-        perm_var_name_9, perm_var_symbol_9, perm_var_value_9 = self.perm_var_name_entry_9.get(), self.perm_var_symbol_entry_9.get(), self.perm_var_value_entry_9.get()
-        perm_var_name_10, perm_var_symbol_10, perm_var_value_10 = self.perm_var_name_entry_10.get(), self.perm_var_symbol_entry_10.get(), self.perm_var_value_entry_10.get()
+        perm_var_name_4, perm_var_symbol_4, perm_var_value_4 = self.ff_perm_var_name_4, self.ff_perm_var_symbol_4, self.ff_perm_var_value_4.split(',')
+        perm_var_name_5, perm_var_symbol_5, perm_var_value_5 = self.ff_perm_var_name_5, self.ff_perm_var_symbol_5, self.ff_perm_var_value_5.split(',')
 
 
+        # Hier wird das Permutation Symbol mit Permutation-Werten verknüpft
         self.perm_symbol_to_values_dict = {
             perm_var_symbol_1: perm_var_value_1,
             perm_var_symbol_2: perm_var_value_2,
             perm_var_symbol_3: perm_var_value_3,
             perm_var_symbol_4: perm_var_value_4,
-            perm_var_symbol_5: perm_var_value_5,
-            perm_var_symbol_6: perm_var_value_6,
-            perm_var_symbol_7: perm_var_value_7,
-            perm_var_symbol_8: perm_var_value_8,
-            perm_var_symbol_9: perm_var_value_9,
-            perm_var_symbol_10: perm_var_value_10
+            perm_var_symbol_5: perm_var_value_5
         }
 
 
         self.perm_symbol_sammlung = ""
-        self.perm_symbol_sammlung = [perm_var_symbol_1, perm_var_symbol_2, perm_var_symbol_3, perm_var_symbol_4, perm_var_symbol_5,
-                                perm_var_symbol_6, perm_var_symbol_7, perm_var_symbol_8, perm_var_symbol_9, perm_var_symbol_10]
+        self.perm_symbol_sammlung = [perm_var_symbol_1, perm_var_symbol_2, perm_var_symbol_3, perm_var_symbol_4, perm_var_symbol_5]
 
         self.var_res_min_max_sammlung = [self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max,
                                           self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max,
                                           self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max,
                                           self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_res4_min, self.ffperm_res4_max,
                                           self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_res5_min, self.ffperm_res5_max,
-                                          self.ffperm_var6_min, self.ffperm_var6_max, self.ffperm_res6_min, self.ffperm_res6_max,
-                                          self.ffperm_var7_min, self.ffperm_var7_max, self.ffperm_res7_min, self.ffperm_res7_max,
-                                          self.ffperm_var8_min, self.ffperm_var8_max, self.ffperm_res8_min, self.ffperm_res8_max,
-                                          self.ffperm_var9_min, self.ffperm_var9_max, self.ffperm_res9_min, self.ffperm_res9_max,
-                                          self.ffperm_var10_min, self.ffperm_var10_max, self.ffperm_res10_min, self.ffperm_res10_max
-
                                           ]
 
         self.var_res_min_max_sammlung_dict = {
-            "ffperm_var1_min": 0,  "ffperm_var1_max": 1,  "ffperm_res1_min": 2,   "ffperm_res1_max": 3
-            # self.ffperm_var1_min: "4", self.ffperm_var1_max: "5", self.ffperm_res1_min: "6",  self.ffperm_res1_max: "7",
-            # self.ffperm_var1_min: "8", self.ffperm_var1_max: "9", self.ffperm_res1_min: "10",  self.ffperm_res1_max: "11",
-            # self.ffperm_var1_min: "12", self.ffperm_var1_max: "13", self.ffperm_res1_min: "14",  self.ffperm_res1_max: "15",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
-            # self.ffperm_var1_min: "0", self.ffperm_var1_max: "1", self.ffperm_res1_min: "2",  self.ffperm_res1_max: "3",
+            "ffperm_var1_min": 0, "ffperm_var1_max": 1, "ffperm_res1_min": 2, "ffperm_res1_max": 3,
+            "ffperm_var2_min": 4, "ffperm_var2_max": 5, "ffperm_res2_min": 6, "ffperm_res2_max": 7,
+            "ffperm_var3_min": 8, "ffperm_var3_max": 9, "ffperm_res3_min": 10, "ffperm_res3_max": 11,
+            "ffperm_var4_min": 12, "ffperm_var4_max": 13, "ffperm_res4_min": 14, "ffperm_res4_max": 15,
+            "ffperm_var5_min": 16, "ffperm_var5_max": 17, "ffperm_res5_min": 18, "ffperm_res5_max": 19
+
         }
 
-        print("??????????????????????????????")
+        #print("??????????????????????????????")
 
-        print(self.perm_symbol_sammlung)
-        print("??????????????????????????????")
+        #print(self.perm_symbol_sammlung)
+        #print("??????????????????????????????")
         #def perm_var_in_range(perm_var_min, perm_var_max, perm_symbol_sammlung):
         #    # 10*10^-6
         #    if "*" in str(perm_var_min):
@@ -3116,10 +3085,7 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                     print("Permutation aktiv!")
                     print('''''''''''''''''''''''''''''''')
                     print("\n")
-                    print(perm_var_name_1, perm_var_symbol_1, perm_var_value_1)
-                    print(perm_var_name_2, perm_var_symbol_2, perm_var_value_2)
-                    print(perm_var_name_3, perm_var_symbol_3, perm_var_value_3)
-                    print('''''''''''''''''''''''''''''''')
+
                     for k in range(len(perm_var_value_1)):
                         # Hier wird die perm_variable_1 durch einen Wert ersetzt. Z.B.: $x1=[1,3,2]  ..gegeben ist die Spannung U$x1 --> U1, U3, U2
                         self.ffperm_question_description_main_permutation = self.ffperm_question_description_main.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
@@ -3130,19 +3096,107 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
                         #####
                         # Anpassung der Ranges
+
+                        # Permutationsvariable in Variablen-Ranges suchen und ersetzen
                         for n in range(len(self.perm_symbol_sammlung)):
+                            #VAR1 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_min):
                                 self.ffperm_var1_min_replaced = self.ffperm_var1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_max):
                                self.ffperm_var1_max_replaced = self.ffperm_var1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
+                            #VAR2 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_min):
+                                self.ffperm_var2_min_replaced = self.ffperm_var2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_max):
+                               self.ffperm_var2_max_replaced = self.ffperm_var2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #VAR3 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_min):
+                                self.ffperm_var3_min_replaced = self.ffperm_var3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_max):
+                               self.ffperm_var3_max_replaced = self.ffperm_var3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #VAR4 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_min):
+                                self.ffperm_var4_min_replaced = self.ffperm_var4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_max):
+                               self.ffperm_var4_max_replaced = self.ffperm_var4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #VAR5 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_min):
+                                self.ffperm_var5_min_replaced = self.ffperm_var5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_max):
+                               self.ffperm_var5_max_replaced = self.ffperm_var5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                            
+                            
+                            # PERMUTATION SYMBOLE in RESULT ERSETZEN
+                            
+                            #RES1 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res5_min):
+                                self.ffperm_res5_min_replaced = self.ffperm_res5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res5_max):
+                               self.ffperm_res5_max_replaced = self.ffperm_res5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                            
+                            #RES1 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_min):
+                                self.ffperm_res1_min_replaced = self.ffperm_res1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_max):
+                               self.ffperm_res1_max_replaced = self.ffperm_res1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #RES2 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_min):
+                                self.ffperm_res2_min_replaced = self.ffperm_res2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_max):
+                               self.ffperm_res2_max_replaced = self.ffperm_res2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #RES3 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res3_min):
+                                self.ffperm_res3_min_replaced = self.ffperm_res3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res3_max):
+                               self.ffperm_res3_max_replaced = self.ffperm_res3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            #RES4 - MIN / MAX
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res4_min):
+                                self.ffperm_res4_min_replaced = self.ffperm_res4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res4_max):
+                               self.ffperm_res4_max_replaced = self.ffperm_res4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+
+
+
+
+
+
+
+
+
+                        self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max = self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced
+                        self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max = self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced
+                        self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max = self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced
+                        self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_res4_min, self.ffperm_res4_max = self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced
+                        self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_res5_min, self.ffperm_res5_max = self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced
+
 
                         #####
-                        print("WERT von k " + str(k))
+                        #print("WERT von k " + str(k))
                         #self.ffperm_var1_min = self.var_res_min_max_sammlung[self.var_res_min_max_sammlung_dict["ffperm_var1_min"]]
                         print("NACHHER--------------")
-                        print(self.ffperm_var1_min_replaced)
+                        print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
 
 
 
@@ -3153,13 +3207,13 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                         self.ffperm_res1_formula_permutation = self.ffperm_res1_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
 
 
-                        # Formeln in der der Berechnung, auf 0 setzen wenn nciht gebraucht
+                        # Formeln in derBerechnung, auf 0 setzen wenn nicht gebraucht
                         for m in range(len(perm_var_value_1)):
                             if perm_var_value_1[m] != perm_var_value_1[k]:
                                 self.ffperm_res1_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
 
-                        print("MAIN")
-                        print(self.ffperm_question_description_main_permutation)
+                        #print("MAIN")
+                        #print(self.ffperm_question_description_main_permutation)
 
                         test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
                         test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_2, self.ffperm_description_img_data_2, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)

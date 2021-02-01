@@ -387,7 +387,7 @@ class Zuordnungsfrage:
         self.mq_excel_import_to_db_zuordnungsfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.mq_excel_export_to_xlsx_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database"))
+        self.mq_excel_export_to_xlsx_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_db.db", "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database"))
         self.mq_excel_export_to_xlsx_zuordnungsfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import

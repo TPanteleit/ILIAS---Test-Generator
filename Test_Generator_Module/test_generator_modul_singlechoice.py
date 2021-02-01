@@ -759,7 +759,7 @@ class SingleChoice:
         self.sc_excel_import_to_db_singlechoice_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database"))
+        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_db.db", "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database"))
         self.sc_excel_export_to_xlsx_singlechoice_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import

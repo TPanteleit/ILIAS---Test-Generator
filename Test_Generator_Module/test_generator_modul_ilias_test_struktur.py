@@ -201,6 +201,8 @@ class Create_ILIAS_Pool:
             self.pool_id_file_zip_template = "3335532"
         if self.question_type == "zuordnungsfrage" or self.question_type == "zordnungs frage":
             self.pool_id_file_zip_template = "4445532"
+        if self.question_type == "formelfrage_perm" or self.question_type == "formelfrage_permutation":
+            self.pool_id_file_zip_template = "9995532"
 
 
 
@@ -298,7 +300,7 @@ class Create_ILIAS_Pool:
 
         # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
         # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-        Additional_Funtions.copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
+        Additional_Funtions.copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'Vorlage_1596569820__0__qpl_2074808')),
                  os.path.normpath(os.path.join(self.pool_directory_output, self.ilias_id_pool_qpl_dir)))
 
         # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
