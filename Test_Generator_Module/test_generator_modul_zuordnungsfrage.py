@@ -1646,12 +1646,15 @@ class Zuordnungsfrage:
 
         def mq_bind_value_for_empty_answer_image(definition_picture_label_entry, definition_picture_data_entry, definition_picture_path_entry, term_picture_label_entry, term_picture_data_entry, term_picture_path_entry):
 
-            definition_picture_label_entry.insert(0, "EMPTY")
-            definition_picture_data_entry.insert(0, "EMPTY")
-            definition_picture_path_entry.insert(0, "EMPTY")
-            term_picture_label_entry.insert(0, "EMPTY")
-            term_picture_data_entry.insert(0, "EMPTY")
-            term_picture_path_entry.insert(0, "EMPTY")
+            if definition_picture_label_entry == "":
+                definition_picture_label_entry.insert(0, "EMPTY")
+                definition_picture_data_entry.insert(0, "EMPTY")
+                definition_picture_path_entry.insert(0, "EMPTY")
+
+            if term_picture_label_entry == "":
+                term_picture_label_entry.insert(0, "EMPTY")
+                term_picture_data_entry.insert(0, "EMPTY")
+                term_picture_path_entry.insert(0, "EMPTY")
 
         
         mq_bind_value_for_empty_answer_image(self.mq_definitions_var1_img_label_entry, self.mq_definitions_var1_img_data_entry, self.mq_definitions_var1_img_path_entry, self.mq_terms_var1_img_label_entry, self.mq_terms_var1_img_data_entry, self.mq_terms_var1_img_path_entry)
@@ -1860,7 +1863,7 @@ class Zuordnungsfrage:
         conn.commit()
         conn.close()
 
-        print("Neuer Eintrag in die SingleChoice-Datenbank --> Fragentitel: " + str(self.mq_question_title_entry.get()))
+        print("Neuer Eintrag in die Zuordnungsfragen-Datenbank --> Fragentitel: " + str(self.mq_question_title_entry.get()))
 
     def mq_load_id_from_db(self, entry_to_index_dict):
         self.mq_db_entry_to_index_dict = entry_to_index_dict
@@ -2015,7 +2018,7 @@ class Zuordnungsfrage:
         self.mq_delete_box_id = ""
         self.mq_delete_box_id = self.mq_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mq_delete_box_id, "zuordnungsfrage", self.mq_var_delete_all.get(), self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mq_delete_box_id, "zuordnungsfrage", self.mq_var_delete_all.get(), self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_db.db", "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database")
 
         self.mq_delete_box.delete(0, END)
     
@@ -2805,7 +2808,7 @@ class Create_Zuordnungsfrage_Pool(Zuordnungsfrage):
                                                                             self.zuordnungsfrage_pool_qti_file_path_template,
                                                                             self.mq_ilias_test_title_entry.get(),
                                                                             self.create_zuordnungsfrage_pool_entry.get(),
-                                                                            self.mq_question_type_entry.get(),
+                                                                            "Zuordnungsfrage",
                                                                             self.database_zuordnungsfrage_path,
                                                                             "zuordnungsfrage_table",
                                                                             self.mq_db_entry_to_index_dict,

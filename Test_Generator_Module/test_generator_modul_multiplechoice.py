@@ -1232,7 +1232,7 @@ class MultipleChoice:
 
             self.mc_question_difficulty_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_difficulty']] )
             self.mc_question_category_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_category']] )
-            self.mc_question_type_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_type']] )
+            #self.mc_question_type_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_type']] )
 
             self.mc_question_title_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_title']] )
             self.mc_question_description_title_entry.insert(END,  mc_db_record[self.mc_db_entry_to_index_dict['question_description_title']] )
@@ -1291,7 +1291,7 @@ class MultipleChoice:
         self.mc_delete_box_id = ""
         self.mc_delete_box_id = self.mc_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, "multiplechoice", self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, "multiplechoice", self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database")
         
         self.mc_delete_box.delete(0, END)
 
@@ -1498,6 +1498,7 @@ class Create_MultipleChoice_Questions(MultipleChoice):
                             self.mc_var_number	                            = mc_db_record[self.mc_db_entry_to_index_dict['var_number']]
                             self.mc_question_pool_tag                       = mc_db_record[self.mc_db_entry_to_index_dict['question_pool_tag']]
                             self.mc_question_author                         = mc_db_record[self.mc_db_entry_to_index_dict['question_author']].replace('&', "&amp;")
+
 
             Create_MultipleChoice_Questions.mc_question_structure(self, i)
 
@@ -2245,9 +2246,18 @@ class Create_MultipleChoice_Pool(MultipleChoice):
         # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
         # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
 
-        test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self, self.project_root_path, self.multiplechoice_pool_directory_output, self.multiplechoice_files_path_pool_output,
-                                                                            self.multiplechoice_pool_qti_file_path_template, self.mc_ilias_test_title_entry.get(), self.create_multiplechoice_pool_entry.get(),
-                                                                            self.mc_question_type_entry.get(), self.database_multiplechoice_path, "multiplechoice_table", self.mc_db_entry_to_index_dict, self.mc_var_create_question_pool_all)
+        test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
+                                                                            self.project_root_path,
+                                                                            self.multiplechoice_pool_directory_output,
+                                                                            self.multiplechoice_files_path_pool_output,
+                                                                            self.multiplechoice_pool_qti_file_path_template,
+                                                                            self.mc_ilias_test_title_entry.get(),
+                                                                            self.create_multiplechoice_pool_entry.get(),
+                                                                            "Multiplechoice",
+                                                                            self.database_multiplechoice_path,
+                                                                            "multiplechoice_table",
+                                                                            self.mc_db_entry_to_index_dict,
+                                                                            self.mc_var_create_question_pool_all)
 
 
 

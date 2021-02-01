@@ -3061,13 +3061,14 @@ class Import_Export_Database(CreateDatabases):
 
 
 class Delete_Entry_from_Database:
-    def __init__(self, modul_delete_box_id, question_type, modul_var_delete_all, project_root_path, db_entry_to_index_dict, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
+    def __init__(self, modul_delete_box_id, question_type, modul_var_delete_all, project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
 
         self.question_type = question_type.lower()
         self.modul_var_delete_all = modul_var_delete_all
         self.modul_delete_box_id = modul_delete_box_id
 
         # Datanebase Name und Table_name
+        self.database_db_path = database_path
         self.database_db_name = database_name
         self.database_db_table_name = database_table_name
 
@@ -3104,7 +3105,7 @@ class Delete_Entry_from_Database:
 
 
             # Zur Datenbank connecten
-            conn = sqlite3.connect(self.database_db_name)
+            conn = sqlite3.connect(self.database_db_path)
             c = conn.cursor()
 
             # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
@@ -3128,7 +3129,7 @@ class Delete_Entry_from_Database:
                 actual_time = str(date_time)
                 self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
 
-                Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
+                Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
 
                 c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
                 records = c.fetchall()

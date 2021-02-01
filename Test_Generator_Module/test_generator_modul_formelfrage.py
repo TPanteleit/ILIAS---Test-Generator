@@ -2560,7 +2560,7 @@ class Formelfrage:
         self.ff_delete_box_id = ""
         self.ff_delete_box_id = self.ff_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, "formelfrage", self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, "formelfrage", self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
         """
         self.sc_delete_box.delete(0, END)
         
@@ -3613,7 +3613,7 @@ class Create_Formelfrage_Pool(Formelfrage):
                                                                             self.formelfrage_pool_qti_file_path_template,
                                                                             self.ff_ilias_test_title_entry.get(),
                                                                             self.create_formelfrage_pool_entry.get(),
-                                                                            self.ff_question_type_entry.get(),
+                                                                            "Formelfrage",
                                                                             self.database_formelfrage_path,
                                                                             "formelfrage_table",
                                                                             self.ff_db_entry_to_index_dict,

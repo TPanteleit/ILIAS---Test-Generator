@@ -1414,7 +1414,7 @@ class SingleChoice:
         self.sc_delete_box_id = ""
         self.sc_delete_box_id = self.sc_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.sc_delete_box_id, "singlechoice", self.sc_var_delete_all.get(), self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.sc_delete_box_id, "singlechoice", self.sc_var_delete_all.get(), self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_db.db", "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database")
 
         self.sc_delete_box.delete(0, END)
 
@@ -2094,7 +2094,7 @@ class Create_SingleChoice_Pool(SingleChoice):
                                                                             self.singlechoice_pool_qti_file_path_template,
                                                                             self.sc_ilias_test_title_entry.get(),
                                                                             self.create_singlechoice_pool_entry.get(),
-                                                                            self.sc_question_type_entry.get(),
+                                                                            "Singlechoice",
                                                                             self.database_singlechoice_path,
                                                                             "singlechoice_table",
                                                                             self.sc_db_entry_to_index_dict,
