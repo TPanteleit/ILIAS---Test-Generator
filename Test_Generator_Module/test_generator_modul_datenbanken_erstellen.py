@@ -2044,6 +2044,163 @@ class CreateDatabases:
         print("Eintrag \"Vorlage\" zur Zuordnungsfrage Datenbank hinzugefügt!")
 
 
+####### Neue -- LUECKENTEXT --  Datenbank erstellen und befüllen #########
+
+    def create_database_lueckentext(self):
+        if self.database_lueckentext_exists != True:
+
+            # Create a database or connect to one
+            connect = sqlite3.connect(self.database_lueckentext_path)
+
+            # Create cursor
+            cursor = connect.cursor()
+
+            # Create table
+            cursor.execute("""CREATE TABLE IF NOT EXISTS lueckentext_table (
+                    question_difficulty text,
+                    question_category text,
+                    question_type text,
+                    question_title text,
+                    question_description_title text,
+                    question_description_main text,
+                    mix_answers text,
+                    asignment_mode int,
+
+                    definitions_response_1_text text,
+                    definitions_response_1_img_label text,
+                    definitions_response_1_img_path text,
+                    definitions_response_1_img_string_base64_encoded text,
+
+
+
+
+                    terms_response_1_text text,
+                    terms_response_1_img_label text,
+                    terms_response_1_img_path text,
+                    terms_response_1_img_string_base64_encoded text,
+
+
+
+
+                    assignment_pairs_definition_1 text,
+                    assignment_pairs_term_1 text,
+                    assignment_pairs_1_pts int,
+
+
+
+
+
+                    picture_preview_pixel int,
+
+                    description_img_name_1 text,
+                    description_img_data_1 blop,
+                    description_img_path_1 text,
+
+                    description_img_name_2 text,
+                    description_img_data_2 blop,
+                    description_img_path_2 text,
+
+                    description_img_name_3 text,
+                    description_img_data_3 blop,
+                    description_img_path_3 text,
+
+                    test_time text,
+                    var_number int,
+                    res_number int,
+                    question_pool_tag text,
+                    question_author text
+                    )""")
+
+            # Commit Changes
+            connect.commit()
+
+            # Close Connection
+            connect.close()
+
+            print("Neue Lückentext Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
+
+            CreateDatabases.insert_template_to_database_lueckentext(self)
+
+    def insert_template_to_database_lueckentext(self):
+        # Create a database or connect to one
+        connect = sqlite3.connect(self.database_lueckentext_path)
+
+        # Create cursor
+        cursor = connect.cursor()
+
+        # Insert into Table
+        cursor.execute(
+            "INSERT INTO zuordnungsfrage_table VALUES ("
+            ":question_difficulty, :question_category, :question_type, "
+            ":question_title, :question_description_title, :question_description_main, :mix_answers, :assignment_mode, "
+            ":definitions_response_1_text, :definitions_response_1_img_label, :definitions_response_1_img_path, :definitions_response_1_img_string_base64_encoded, "
+
+            ":terms_response_1_text, :terms_response_1_img_label, :terms_response_1_img_path, :terms_response_1_img_string_base64_encoded, "
+
+            ":assignment_pairs_definition_1, :assignment_pairs_term_1, :assignment_pairs_1_pts,"
+
+            ":picture_preview_pixel,"
+            ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
+
+            ":test_time, :var_number, :res_number, :question_pool_tag, :question_author)",
+            {
+                'question_difficulty': "question_difficulty",
+                'question_category': "question_category",
+                'question_type': "question_type",
+
+                'question_title': "question_title",
+                'question_description_title': "question_description_title",
+                'question_description_main': "question_description_main",
+                'mix_answers': "mix_answers",
+                'assignment_mode': "assignment_mode",
+
+                'definitions_response_1_text': "definitions_response_1_text",
+                'definitions_response_1_img_label': "definitions_response_1_img_label",
+                'definitions_response_1_img_path': "definitions_response_1_img_path",
+                'definitions_response_1_img_string_base64_encoded': "definitions_response_1_img_string_base64_encoded",
+
+                'terms_response_1_text': "terms_response_1_text" ,
+
+                'terms_response_1_img_label': "terms_response_1_img_label",
+                'terms_response_1_img_path': "terms_response_1_img_path",
+                'terms_response_1_img_string_base64_encoded': "terms_response_1_img_string_base64_encoded" ,
+
+                'assignment_pairs_definition_1': "assignment_pairs_definition_1",
+                'assignment_pairs_term_1': "assignment_pairs_term_1",
+                'assignment_pairs_1_pts': "assignment_pairs_1_pts" ,
+
+                'picture_preview_pixel': "picture_preview_pixel" ,
+
+
+                'description_img_name_1': "description_img_name_1",
+                'description_img_data_1': "description_img_data_1",
+                'description_img_path_1': "description_img_path_1",
+
+                'description_img_name_2': "description_img_name_2",
+                'description_img_data_2': "description_img_data_2",
+                'description_img_path_2': "description_img_path_2",
+
+                'description_img_name_3': "description_img_name_3",
+                'description_img_data_3': "description_img_data_3",
+                'description_img_path_3': "description_img_path_3",
+
+                'test_time': "test_time",
+                'var_number': "var_number",
+                'res_number': "res_number",
+                'question_pool_tag': "question_pool_tag",
+                'question_author': "question_author"
+            }
+        )
+
+
+        # Commit Changes
+        connect.commit()
+
+        # Close Connection
+        connect.close()
+
+        print("Eintrag \"Vorlage\" zur Lückentext Datenbank hinzugefügt!")
+
 ####### Neue -- TEST-EINSTELLUNGEN --  Datenbank erstellen und befüllen #########
 
     def create_database_test_settings_profiles(self):
