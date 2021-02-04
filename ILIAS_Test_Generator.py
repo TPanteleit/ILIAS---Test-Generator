@@ -159,6 +159,9 @@ class GuiMainWindow:
         self.zuordnungsfrage_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.zuordnungsfrage_tab_ttk, text='Zuordnungsfrage')  # Add the tab
 
+        # ---- Tab for Lueckentext - Questions
+        self.formelfrage_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
+        self.tabControl.add(self.lueckentext_tab_ttk, text='Lueckentext')  # Add the tab
 
         ####### CREATE SCROLLABLE FRAME ON TABS
         # Create a ScrolledFrame widget
@@ -177,7 +180,8 @@ class GuiMainWindow:
         self.scrolledframe_zuordnungsfrage = ScrolledFrame(self.zuordnungsfrage_tab_ttk, width=self.window_width, height=self.window_height)
         self.scrolledframe_zuordnungsfrage.pack(expand=1, fill="both")
 
-
+        self.scrolledframe_zuordnungsfrage = ScrolledFrame(self.lueckentext_tab_ttk, width=self.window_width, height=self.window_height)
+        self.scrolledframe_zuordnungsfrage.pack(expand=1, fill="both")
 
         # Create a frame within the ScrolledFrame
         self.formelfrage_tab = self.scrolledframe_formelfrage.display_widget(Frame)
