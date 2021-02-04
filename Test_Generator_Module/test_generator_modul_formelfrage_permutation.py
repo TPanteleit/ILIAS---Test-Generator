@@ -13,8 +13,8 @@ from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
 import pandas as pd
 from pandas.core.reshape.util import cartesian_product
 import numpy as np
-import re
-
+import re   # RegEx -> handle Regular Expressions
+import decimal
 
 ### Eigene Dateien / Module
 from Test_Generator_Module import test_generator_modul_datenbanken_anzeigen
@@ -2930,7 +2930,7 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
         #_x2 = ["u", "m", "k"]
         #_x3 = ["10^-6", "10^-3", "1000"]self.ff_perm_var_name_1
 
-        self.exponential_to_number_dict={
+        self.exponential_to_number_dict = {
             "10^-30": "0.000000000000000000000000000001",
             "10^-29": "0.00000000000000000000000000001",
             "10^-28": "0.0000000000000000000000000001",
@@ -2992,25 +2992,58 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
             "10^29": "100000000000000000000000000000",
             "10^30": "1000000000000000000000000000000",
         }
+        self.set_precision_from_negative_exponential_dict={
+            "10^-30": "30",
+            "10^-29": "29",
+            "10^-28": "28",
+            "10^-27": "27",
+            "10^-26": "26",
+            "10^-25": "25",
+            "10^-24": "24",
+            "10^-23": "23",
+            "10^-22": "22",
+            "10^-21": "21",
+            "10^-20": "20",
+            "10^-19": "19",
+            "10^-18": "18",
+            "10^-17": "17",
+            "10^-16": "16",
+            "10^-15": "15",
+            "10^-14": "14",
+            "10^-13": "13",
+            "10^-12": "12",
+            "10^-11": "11",
+            "10^-10": "10",
+            "10^-9": "9",
+            "10^-8": "8",
+            "10^-7": "7",
+            "10^-6": "6",
+            "10^-5": "5",
+            "10^-4": "4",
+            "10^-3": "3",
+            "10^-2": "2",
+            "10^-1": "1",
 
-        self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced = "", ""
-        self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced = "", ""
-        self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced = "", ""
-        self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced = "", ""
-        self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced = "", ""
+        }
+
+        self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_var1_prec_replaced = "", "", ""
+        self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_var2_prec_replaced = "", "", ""
+        self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_var3_prec_replaced = "", "", ""
+        self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_var4_prec_replaced = "", "", ""
+        self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_var5_prec_replaced = "", "", ""
         
-        self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced = "", ""
-        self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced = "", ""
+        self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced, self.ffperm_res1_prec_replaced = "", "", ""
+        self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced, self.ffperm_res2_prec_replaced = "", "", ""
         self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced = "", ""
         self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced = "", ""
         self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced = "", ""
 
 
-        perm_var_name_1, perm_var_symbol_1, perm_var_value_1 = self.ff_perm_var_name_1, self.ff_perm_var_symbol_1, self.ff_perm_var_value_1.split(',')
-        perm_var_name_2, perm_var_symbol_2, perm_var_value_2 = self.ff_perm_var_name_2, self.ff_perm_var_symbol_2, self.ff_perm_var_value_2.split(',')
-        perm_var_name_3, perm_var_symbol_3, perm_var_value_3 = self.ff_perm_var_name_3, self.ff_perm_var_symbol_3, self.ff_perm_var_value_3.split(',')
-        perm_var_name_4, perm_var_symbol_4, perm_var_value_4 = self.ff_perm_var_name_4, self.ff_perm_var_symbol_4, self.ff_perm_var_value_4.split(',')
-        perm_var_name_5, perm_var_symbol_5, perm_var_value_5 = self.ff_perm_var_name_5, self.ff_perm_var_symbol_5, self.ff_perm_var_value_5.split(',')
+        perm_var_symbol_1, perm_var_value_1 =  self.ff_perm_var_symbol_1, self.ff_perm_var_value_1.split(',')
+        perm_var_symbol_2, perm_var_value_2 =  self.ff_perm_var_symbol_2, self.ff_perm_var_value_2.split(',')
+        perm_var_symbol_3, perm_var_value_3 =  self.ff_perm_var_symbol_3, self.ff_perm_var_value_3.split(',')
+        perm_var_symbol_4, perm_var_value_4 =  self.ff_perm_var_symbol_4, self.ff_perm_var_value_4.split(',')
+        perm_var_symbol_5, perm_var_value_5 =  self.ff_perm_var_symbol_5, self.ff_perm_var_value_5.split(',')
 
 
         # Hier wird das Permutation Symbol mit Permutation-Werten verknüpft
@@ -3099,118 +3132,223 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
                         # Permutationsvariable in Variablen-Ranges suchen und ersetzen
                         for n in range(len(self.perm_symbol_sammlung)):
+
                             #VAR1 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_min):
                                 self.ffperm_var1_min_replaced = self.ffperm_var1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
+                                
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_max):
-                               self.ffperm_var1_max_replaced = self.ffperm_var1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                self.ffperm_var1_max_replaced = self.ffperm_var1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                                # Anpassung der Präzision (Nachkommastellen)
+                                # Wenn das Symbol in var_max_1 gefunden wurde, welches durch Werte ersetzt werden soll, dann die Werte die eingesetzt werden sollen durchsuchen
+                                # Wird der Wert im Dictionary gefunden, dann wird die var1_prec (Präzision) entsprechend gesetzt und die Schleife beendet
+                                # 10^-1 -> Präzision: 1, 10^-2 -> Präzision: 2,..., 10^-30 -> Präzision: 30 etc.
+                                self.var1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.var1_prec_temp:
+                                        self.ffperm_var1_prec_replaced = self.var1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_var1_prec_replaced = self.ffperm_var1_prec
+
+
+
+
 
                             #VAR2 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_min):
                                 self.ffperm_var2_min_replaced = self.ffperm_var2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_max):
-                               self.ffperm_var2_max_replaced = self.ffperm_var2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                self.ffperm_var2_max_replaced = self.ffperm_var2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.var2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.var2_prec_temp:
+                                        self.ffperm_var2_prec_replaced = self.var2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_var2_prec_replaced = self.ffperm_var2_prec
+                                        
                             #VAR3 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_min):
                                 self.ffperm_var3_min_replaced = self.ffperm_var3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_max):
-                               self.ffperm_var3_max_replaced = self.ffperm_var3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
+                                self.ffperm_var3_max_replaced = self.ffperm_var3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.var3_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.var3_prec_temp:
+                                        self.ffperm_var3_prec_replaced = self.var3_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_var3_prec_replaced = self.ffperm_var3_prec
+                                        
                             #VAR4 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_min):
                                 self.ffperm_var4_min_replaced = self.ffperm_var4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
+            
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_max):
-                               self.ffperm_var4_max_replaced = self.ffperm_var4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
+                                self.ffperm_var4_max_replaced = self.ffperm_var4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.var4_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.var4_prec_temp:
+                                        self.ffperm_var4_prec_replaced = self.var4_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_var4_prec_replaced = self.ffperm_var4_prec
+                                        
                             #VAR5 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_min):
                                 self.ffperm_var5_min_replaced = self.ffperm_var5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_max):
-                               self.ffperm_var5_max_replaced = self.ffperm_var5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                            
-                            
+                                self.ffperm_var5_max_replaced = self.ffperm_var5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+    
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.var5_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.var5_prec_temp:
+                                        self.ffperm_var5_prec_replaced = self.var5_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_var5_prec_replaced = self.ffperm_var5_prec    
+                                                        
                             # PERMUTATION SYMBOLE in RESULT ERSETZEN
-                            
-                            #RES1 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res5_min):
-                                self.ffperm_res5_min_replaced = self.ffperm_res5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res5_max):
-                               self.ffperm_res5_max_replaced = self.ffperm_res5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                            
+
+
                             #RES1 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_min):
                                 self.ffperm_res1_min_replaced = self.ffperm_res1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_max):
-                               self.ffperm_res1_max_replaced = self.ffperm_res1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
+                                self.ffperm_res1_max_replaced = self.ffperm_res1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.res1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.res1_prec_temp:
+                                        self.ffperm_res1_prec_replaced = self.res1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_res1_prec_replaced = self.ffperm_res1_prec
+                            
                             #RES2 - MIN / MAX
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_min):
                                 self.ffperm_res2_min_replaced = self.ffperm_res2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
                             if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_max):
-                               self.ffperm_res2_max_replaced = self.ffperm_res2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            #RES3 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res3_min):
-                                self.ffperm_res3_min_replaced = self.ffperm_res3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res3_max):
-                               self.ffperm_res3_max_replaced = self.ffperm_res3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            #RES4 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res4_min):
-                                self.ffperm_res4_min_replaced = self.ffperm_res4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res4_max):
-                               self.ffperm_res4_max_replaced = self.ffperm_res4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                self.ffperm_res2_max_replaced = self.ffperm_res2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                                
+                                # Anpassung der Präzision (Nachkommastellen)
+                                self.res2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                                for key in self.set_precision_from_negative_exponential_dict:
+                                    if key in self.res2_prec_temp:
+                                        self.ffperm_res2_prec_replaced = self.res2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                        break
+                                    else:
+                                        self.ffperm_res2_prec_replaced = self.ffperm_res2_prec
+                            
 
 
+                            # Anpassung der Formel
+                            self.ffperm_res1_formula_permutation = self.ffperm_res1_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                            self.ffperm_res1_formula_permutation = self.ffperm_res1_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
 
-
-
-
+                            self.ffperm_res2_formula_permutation = self.ffperm_res2_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                            self.ffperm_res2_formula_permutation = self.ffperm_res2_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
 
 
 
+                            #
+                            # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                            # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+                            #
+                            # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                            # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+                            #
+                            # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                            # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
 
-                        self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max = self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced
-                        self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max = self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced
-                        self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max = self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced
-                        self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_res4_min, self.ffperm_res4_max = self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced
-                        self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_res5_min, self.ffperm_res5_max = self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced
+                            # Formeln in der Berechnung, auf 0 setzen wenn nicht gebraucht
+                            # "ID" die permutiert wird, MUSS in der Zeile 1 stehen
+                            # U$x1 -> U1, U3, U2  [1,3,2] muss in Perm_zeile 1 definiert werden
+                            for m in range(len(perm_var_value_1)):
+                                if self.ffperm_res1_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
+                                    self.ffperm_res1_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
+
+                                if self.ffperm_res2_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
+                                    self.ffperm_res2_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
+
+                           # print(self.ffperm_res1_formula_permutation)
+
+                            # Anpassung Fragen-Titel
+                            self.ffperm_question_title_replaced = self.ffperm_question_title + " " + str(k+1)
 
 
+
+
+                        #self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max = self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced
+                        #self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max = self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced
+                        #self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max = self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced
+                        #self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_res4_min, self.ffperm_res4_max = self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced
+                        #self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_res5_min, self.ffperm_res5_max = self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced
+
+                        #self.ffperm_var1_min_replaced = str(eval(self.ffperm_var1_min_replaced))
+                        #self.ffperm_var1_max_replaced = str(eval(self.ffperm_var1_max_replaced))
                         #####
                         #print("WERT von k " + str(k))
                         #self.ffperm_var1_min = self.var_res_min_max_sammlung[self.var_res_min_max_sammlung_dict["ffperm_var1_min"]]
-                        print("NACHHER--------------")
-                        print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+
+                        print("====== NACHHER =============")
+                        print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced)
+                        print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced)
+                        print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced)
+                        print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced)
+                        print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced)
+                        print("xxxxxxxxxxxxxxxxxxxxxx")
+                        print(self.ffperm_res1_formula_permutation)
+                        print("xxxxxxxxxxxxxxxxxxxxxx")
+
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v1', self.ffperm_var1_max_replaced)
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v2', self.ffperm_var2_max_replaced)
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v3', self.ffperm_var3_max_replaced)
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v4', self.ffperm_var4_max_replaced)
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v5', self.ffperm_var5_max_replaced)
+                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('^', "**")
+
+                        print(self.ffperm_res1_formula_permutation_eval, " -----> ", eval(self.ffperm_res1_formula_permutation_eval)  )
+                        self.ffperm_res1_formula_permutation_eval_result = eval(self.ffperm_res1_formula_permutation_eval)
+                        if "e" in str(self.ffperm_res1_formula_permutation_eval_result):
+                            self.exp_value = str(self.ffperm_res1_formula_permutation_eval_result).rsplit('e', 1)
+                            self.exp_value = self.exp_value[1]
+                            print("EXPONENT FOUND", "  ----> ", self.exp_value)
+                            self.ffperm_res1_prec_replaced = abs(int(self.exp_value))+1
+                        else:
+
+                            d = decimal.Decimal(str(self.ffperm_res1_formula_permutation_eval_result))
+                            print(d.as_tuple().exponent,abs(d.as_tuple().exponent) )
+                            self.ffperm_res1_prec_replaced = abs(d.as_tuple().exponent)
+
+                        #print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        #print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        #print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        #print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        #print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
+                        #print("==========================")
 
 
 
 
 
-                        # Anpassung der Formel
-                        self.ffperm_res1_formula_permutation = self.ffperm_res1_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                        self.ffperm_res1_formula_permutation = self.ffperm_res1_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-
-
-                        # Formeln in derBerechnung, auf 0 setzen wenn nicht gebraucht
-                        for m in range(len(perm_var_value_1)):
-                            if perm_var_value_1[m] != perm_var_value_1[k]:
-                                self.ffperm_res1_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
 
                         #print("MAIN")
                         #print(self.ffperm_question_description_main_permutation)
@@ -3310,7 +3448,7 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
                         ### ------------------------------------------------------- XML Einträge mit Werten füllen
                          # Fragen-Titel -- "item title" in xml
-                        item.set('title', self.ffperm_question_title)
+                        item.set('title', self.ffperm_question_title_replaced)
 
                         # Fragen-Titel Beschreibung
                         qticomment.text = self.ffperm_question_description_title
@@ -3365,11 +3503,11 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
 
                         # ----------------------------------------------------------------------- Variable
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v1", self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_var1_prec, self.ffperm_var1_divby, self.ffperm_var1_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v2", self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_var2_prec, self.ffperm_var2_divby, self.ffperm_var2_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v3", self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_var3_prec, self.ffperm_var3_divby, self.ffperm_var3_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v4", self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_var4_prec, self.ffperm_var4_divby, self.ffperm_var4_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v5", self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_var5_prec, self.ffperm_var5_divby, self.ffperm_var5_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v1", self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_var1_prec_replaced, self.ffperm_var1_divby, self.ffperm_var1_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v2", self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_var2_prec_replaced, self.ffperm_var2_divby, self.ffperm_var2_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v3", self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_var3_prec_replaced, self.ffperm_var3_divby, self.ffperm_var3_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v4", self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_var4_prec_replaced, self.ffperm_var4_divby, self.ffperm_var4_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v5", self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_var5_prec_replaced, self.ffperm_var5_divby, self.ffperm_var5_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v6", self.ffperm_var6_min, self.ffperm_var6_max, self.ffperm_var6_prec, self.ffperm_var6_divby, self.ffperm_var6_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v7", self.ffperm_var7_min, self.ffperm_var7_max, self.ffperm_var7_prec, self.ffperm_var7_divby, self.ffperm_var7_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v8", self.ffperm_var8_min, self.ffperm_var8_max, self.ffperm_var8_prec, self.ffperm_var8_divby, self.ffperm_var8_unit)
@@ -3379,8 +3517,8 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
 
                         # ----------------------------------------------------------------------- Solution
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r1", self.ffperm_res1_formula_permutation, self.ffperm_res1_min, self.ffperm_res1_max, self.ffperm_res1_prec, self.ffperm_res1_tol, self.ffperm_res1_points, self.ffperm_res1_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r2", self.ffperm_res2_formula, self.ffperm_res2_min, self.ffperm_res2_max, self.ffperm_res2_prec, self.ffperm_res2_tol, self.ffperm_res2_points, self.ffperm_res2_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r1", self.ffperm_res1_formula_permutation, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced, self.ffperm_res1_prec_replaced, self.ffperm_res1_tol, self.ffperm_res1_points, self.ffperm_res1_unit)
+                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r2", self.ffperm_res2_formula_permutation, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced, self.ffperm_res2_prec_replaced, self.ffperm_res2_tol, self.ffperm_res2_points, self.ffperm_res2_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r3", self.ffperm_res3_formula, self.ffperm_res3_min, self.ffperm_res3_max, self.ffperm_res3_prec, self.ffperm_res3_tol, self.ffperm_res3_points, self.ffperm_res3_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r4", self.ffperm_res4_formula, self.ffperm_res4_min, self.ffperm_res4_max, self.ffperm_res4_prec, self.ffperm_res4_tol, self.ffperm_res4_points, self.ffperm_res4_unit)
                         Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r5", self.ffperm_res5_formula, self.ffperm_res5_min, self.ffperm_res5_max, self.ffperm_res5_prec, self.ffperm_res5_tol, self.ffperm_res5_points, self.ffperm_res5_unit)
@@ -3423,7 +3561,7 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                             self.ffperm_myroot.append(item)
 
                         self.ffperm_mytree.write(self.qti_file_path_output)
-                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title))
+                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title_replaced))
 
 
                 # Wenn keine Permutation gewählt wird
@@ -3646,12 +3784,23 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
         self.ffperm_var_name = ffperm_var_name
         self.ffperm_var_min = str(ffperm_var_min)
+        self.ffperm_var_min_length = ""
         self.ffperm_var_max = str(ffperm_var_max)
+        self.ffperm_var_max_length = ""
         self.ffperm_var_prec = str(ffperm_var_prec)
         self.ffperm_var_divby = str(ffperm_var_divby)
         self.ffperm_var_divby_length = len(str(self.ffperm_var_divby))
         self.ffperm_var_unit = ffperm_var_unit
         self.ffperm_var_unit_length = len(str(self.ffperm_var_unit))
+
+        if self.ffperm_var_min.isdecimal() is False:
+            self.ffperm_var_min_length = len(self.ffperm_var_min)
+
+
+        if self.ffperm_var_max.isdecimal() is False:
+            self.ffperm_var_max_length = len(self.ffperm_var_max)
+
+
 
         qtimetadatafield = ET.SubElement(xml_qtimetadata, 'qtimetadatafield')
         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
@@ -3666,6 +3815,15 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                               "s:8:\"rangemax\";d:" + self.ffperm_var_max + ";" \
                               "s:4:\"unit\";s:" + str(self.ffperm_var_unit_length) + ":\"" + self.ffperm_var_unit + "\";" \
                               "s:9:\"unitvalue\";s:" + str(len(Formelfrage_Permutation.unit_table(self, self.ffperm_var_unit))) + ":\"" + Formelfrage_Permutation.unit_table(self, self.ffperm_var_unit) + "\";" \
+                              "}"
+        elif self.ffperm_var_min.isdecimal() is False and self.ffperm_var_max.isdecimal() is False:
+            fieldentry.text = "a:6:{" \
+                              "s:9:\"precision\";i:" + self.ffperm_var_prec + ";" \
+                              "s:12:\"intprecision\";s:" + str(self.ffperm_var_divby_length) + ":\"" + self.ffperm_var_divby + "\";" \
+                              "s:8:\"rangemin\";s:" + str(self.ffperm_var_min_length) + ":\"" + self.ffperm_var_min + "\";" \
+                              "s:8:\"rangemax\";s:" + str(self.ffperm_var_max_length) + ":\"" + self.ffperm_var_max + "\";" \
+                              "s:4:\"unit\";s:0:\"\";" \
+                              "s:9:\"unitvalue\";s:0:\"\";" \
                               "}"
         else:
             fieldentry.text = "a:6:{" \

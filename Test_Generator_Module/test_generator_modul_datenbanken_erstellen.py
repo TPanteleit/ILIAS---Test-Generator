@@ -2335,7 +2335,6 @@ class Import_Export_Database(CreateDatabases):
 
             self.number_of_excel_entries = 0
             for ff_row in self.dataframe.itertuples():
-                print(ff_row)
                 self.number_of_excel_entries +=1
 
                 self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
