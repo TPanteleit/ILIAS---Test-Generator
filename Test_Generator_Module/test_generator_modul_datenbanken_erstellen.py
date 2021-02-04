@@ -17,6 +17,7 @@ class CreateDatabases:
         self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
         self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
         self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
+        self.database_lueckentext_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_lueckentext_db.db"))
 
 
         self.database_formelfrage_permutation_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_formelfrage_permutation_db.db"))
@@ -28,6 +29,7 @@ class CreateDatabases:
         self.database_singlechoice_exists = os.path.exists(self.database_singlechoice_path)
         self.database_multiplechoice_exists = os.path.exists(self.database_multiplechoice_path)
         self.database_zuordnungsfrage_exists = os.path.exists(self.database_zuordnungsfrage_path)
+        self.database_lueckentext_exists = os.path.exists(self.database_lueckentext_path)
 
         self.database_test_settings_profiles_exists = os.path.exists(self.database_test_settings_profiles_path)
 
@@ -36,6 +38,7 @@ class CreateDatabases:
         print("##    Datenbank -> MultipleChoice:                     " + str(self.database_multiplechoice_exists))
         print("##    Datenbank -> Zuordnungsfrage:                    " + str(self.database_zuordnungsfrage_exists))
         print("##    Datenbank -> Formelfrage_Permutation:            " + str(self.database_formelfrage_permutation_exists))
+        print("##    Datenbank -> Lueckentext:                        " + str(self.database_lueckentext_exists))
         print("##    Datenbank -> Test-Einstellungen_Profile:         " + str(self.database_test_settings_profiles_exists))
         print("\n")
 
@@ -229,19 +232,19 @@ class CreateDatabases:
                     res10_tol int,
                     res10_points int,
                     res10_unit text,
-                    
+
                     description_img_name_1 text,
                     description_img_data_1 blop,
                     description_img_path_1 text,
-                    
+
                     description_img_name_2 text,
                     description_img_data_2 blop,
                     description_img_path_2 text,
-                    
+
                     description_img_name_3 text,
                     description_img_data_3 blop,
                     description_img_path_3 text,
-                    
+
                     test_time text,
                     var_number int,
                     res_number int,
@@ -699,8 +702,8 @@ class CreateDatabases:
                     res10_tol int,
                     res10_points int,
                     res10_unit text,
-                    
-                    
+
+
                     perm_var_symbol_1 text,
                     perm_var_value_1 text,
                     perm_var_symbol_2 text,
@@ -721,20 +724,20 @@ class CreateDatabases:
                     perm_var_value_9 text,
                     perm_var_symbol_10 text,
                     perm_var_value_10 text,
-                    
-                    
+
+
                     description_img_name_1 text,
                     description_img_data_1 blop,
                     description_img_path_1 text,
-                    
+
                     description_img_name_2 text,
                     description_img_data_2 blop,
                     description_img_path_2 text,
-                    
+
                     description_img_name_3 text,
                     description_img_data_3 blop,
                     description_img_path_3 text,
-                    
+
                     test_time text,
                     var_number int,
                     res_number int,
@@ -789,7 +792,7 @@ class CreateDatabases:
             ":res8_name, :res8_min, :res8_max, :res8_prec, :res8_tol, :res8_points, :res8_unit, "
             ":res9_name, :res9_min, :res9_max, :res9_prec, :res9_tol, :res9_points, :res9_unit, "
             ":res10_name, :res10_min, :res10_max, :res10_prec, :res10_tol, :res10_points, :res10_unit, "
-            
+
             ":perm_var_symbol_1, :perm_var_value_1,"
             ":perm_var_symbol_2, :perm_var_value_2,"
             ":perm_var_symbol_3, :perm_var_value_3,"
@@ -800,7 +803,7 @@ class CreateDatabases:
             ":perm_var_symbol_8, :perm_var_value_8,"
             ":perm_var_symbol_9, :perm_var_value_9,"
             ":perm_var_symbol_10, :perm_var_value_10,"
-            
+
             ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
             ":description_img_name_2, :description_img_data_2, :description_img_path_2, "
             ":description_img_name_3, :description_img_data_3, :description_img_path_3, "
@@ -1054,81 +1057,81 @@ class CreateDatabases:
                     question_title text,
                     question_description_title text,
                     question_description_main text,
-                   
+
                     response_1_text text,
                     response_1_pts int,
                     response_1_img_label text,
                     response_1_img_string_base64_encoded text,
                     response_1_img_path text,
-                    
+
                     response_2_text text,
                     response_2_pts int,
                     response_2_img_label text,
                     response_2_img_string_base64_encoded text,
                     response_2_img_path text,
-                    
+
                     response_3_text text,
                     response_3_pts int,
                     response_3_img_label text,
                     response_3_img_string_base64_encoded text,
                     response_3_img_path text,
-                    
+
                     response_4_text text,
                     response_4_pts int,
                     response_4_img_label text,
                     response_4_img_string_base64_encoded text,
                     response_4_img_path text,
-                    
+
                     response_5_text text,
                     response_5_pts int,
                     response_5_img_label text,
                     response_5_img_string_base64_encoded text,
                     response_5_img_path text,
-                    
+
                     response_6_text text,
                     response_6_pts int,
                     response_6_img_label text,
                     response_6_img_string_base64_encoded text,
                     response_6_img_path text,
-                    
+
                     response_7_text text,
                     response_7_pts int,
                     response_7_img_label text,
                     response_7_img_string_base64_encoded text,
                     response_7_img_path text,
-                    
+
                     response_8_text text,
                     response_8_pts int,
                     response_8_img_label text,
                     response_8_img_string_base64_encoded text,
                     response_8_img_path text,
-                    
+
                     response_9_text text,
                     response_9_pts int,
                     response_9_img_label text,
                     response_9_img_string_base64_encoded text,
                     response_9_img_path text,
-                    
+
                     response_10_text text,
                     response_10_pts int,
                     response_10_img_label text,
                     response_10_img_string_base64_encoded text,
                     response_10_img_path text,
-                    
+
                     picture_preview_pixel int,
-                    
+
                     description_img_name_1 text,
                     description_img_data_1 blop,
                     description_img_path_1 text,
-                    
+
                     description_img_name_2 text,
                     description_img_data_2 blop,
                     description_img_path_2 text,
-                    
+
                     description_img_name_3 text,
                     description_img_data_3 blop,
                     description_img_path_3 text,
-                    
+
                     test_time text,
                     var_number int,
                     question_pool_tag text,
@@ -1397,95 +1400,95 @@ class CreateDatabases:
                         question_title text,
                         question_description_title text,
                         question_description_main text,
-                        
+
                         response_1_text text,
                         response_1_pts_correct_answer int,
                         response_1_pts_false_answer int,
                         response_1_img_label text,
                         response_1_img_string_base64_encoded text,
                         response_1_img_path text,
-                        
+
                         response_2_text text,
                         response_2_pts_correct_answer int,
                         response_2_pts_false_answer int,
                         response_2_img_label text,
                         response_2_img_string_base64_encoded text,
                         response_2_img_path text,
-                        
+
                         response_3_text text,
                         response_3_pts_correct_answer int,
                         response_3_pts_false_answer int,
                         response_3_img_label text,
                         response_3_img_string_base64_encoded text,
                         response_3_img_path text,
-                        
+
                         response_4_text text,
                         response_4_pts_correct_answer int,
                         response_4_pts_false_answer int,
                         response_4_img_label text,
                         response_4_img_string_base64_encoded text,
                         response_4_img_path text,
-                        
+
                         response_5_text text,
                         response_5_pts_correct_answer int,
                         response_5_pts_false_answer int,
                         response_5_img_label text,
                         response_5_img_string_base64_encoded text,
                         response_5_img_path text,
-                        
+
                         response_6_text text,
                         response_6_pts_correct_answer int,
                         response_6_pts_false_answer int,
                         response_6_img_label text,
                         response_6_img_string_base64_encoded text,
                         response_6_img_path text,
-                        
+
                         response_7_text text,
                         response_7_pts_correct_answer int,
                         response_7_pts_false_answer int,
                         response_7_img_label text,
                         response_7_img_string_base64_encoded text,
                         response_7_img_path text,
-                        
+
                         response_8_text text,
                         response_8_pts_correct_answer int,
                         response_8_pts_false_answer int,
                         response_8_img_label text,
                         response_8_img_string_base64_encoded text,
                         response_8_img_path text,
-                        
+
                         response_9_text text,
                         response_9_pts_correct_answer int,
                         response_9_pts_false_answer int,
                         response_9_img_label text,
                         response_9_img_string_base64_encoded text,
                         response_9_img_path text,
-                        
+
                         response_10_text text,
                         response_10_pts_correct_answer int,
                         response_10_pts_false_answer int,
                         response_10_img_label text,
                         response_10_img_string_base64_encoded text,
                         response_10_img_path text,
-                        
-                         
+
+
                         picture_preview_pixel int,
-                        
-                        
+
+
                         description_img_name_1 text,
                         description_img_data_1 blop,
                         description_img_path_1 text,
-                        
+
                         description_img_name_2 text,
                         description_img_data_2 blop,
                         description_img_path_2 text,
-                        
+
                         description_img_name_3 text,
                         description_img_data_3 blop,
                         description_img_path_3 text,
-                        
+
                         test_time text,
-                        
+
                         var_number int,
                         question_pool_tag text,
                         question_author text
@@ -1658,168 +1661,168 @@ class CreateDatabases:
                     question_description_main text,
                     mix_answers text,
                     asignment_mode int,
-                    
+
                     definitions_response_1_text text,
                     definitions_response_1_img_label text,
                     definitions_response_1_img_path text,
                     definitions_response_1_img_string_base64_encoded text,
-                    
+
                     definitions_response_2_text text,
                     definitions_response_2_img_label text,
                     definitions_response_2_img_path text,
                     definitions_response_2_img_string_base64_encoded text,
-                    
+
                     definitions_response_3_text text,
                     definitions_response_3_img_label text,
                     definitions_response_3_img_path text,
                     definitions_response_3_img_string_base64_encoded text,
-                    
+
                     definitions_response_4_text text,
                     definitions_response_4_img_label text,
                     definitions_response_4_img_path text,
                     definitions_response_4_img_string_base64_encoded text,
-                    
+
                     definitions_response_5_text text,
                     definitions_response_5_img_label text,
                     definitions_response_5_img_path text,
                     definitions_response_5_img_string_base64_encoded text,
-                    
+
                     definitions_response_6_text text,
                     definitions_response_6_img_label text,
                     definitions_response_6_img_path text,
                     definitions_response_6_img_string_base64_encoded text,
-                    
+
                     definitions_response_7_text text,
                     definitions_response_7_img_label text,
                     definitions_response_7_img_path text,
                     definitions_response_7_img_string_base64_encoded text,
-                    
+
                     definitions_response_8_text text,
                     definitions_response_8_img_label text,
                     definitions_response_8_img_path text,
                     definitions_response_8_img_string_base64_encoded text,
-                    
+
                     definitions_response_9_text text,
                     definitions_response_9_img_label text,
                     definitions_response_9_img_path text,
                     definitions_response_9_img_string_base64_encoded text,
-                    
+
                     definitions_response_10_text text,
                     definitions_response_10_img_label text,
                     definitions_response_10_img_path text,
                     definitions_response_10_img_string_base64_encoded text,
-                    
-                    
-                    
+
+
+
                     terms_response_1_text text,
                     terms_response_1_img_label text,
                     terms_response_1_img_path text,
                     terms_response_1_img_string_base64_encoded text,
-                    
+
                     terms_response_2_text text,
                     terms_response_2_img_label text,
                     terms_response_2_img_path text,
                     terms_response_2_img_string_base64_encoded text,
-                    
+
                     terms_response_3_text text,
                     terms_response_3_img_label text,
                     terms_response_3_img_path text,
                     terms_response_3_img_string_base64_encoded text,
-                    
+
                     terms_response_4_text text,
                     terms_response_4_img_label text,
                     terms_response_4_img_path text,
                     terms_response_4_img_string_base64_encoded text,
-                    
+
                     terms_response_5_text text,
                     terms_response_5_img_label text,
                     terms_response_5_img_path text,
                     terms_response_5_img_string_base64_encoded text,
-                    
+
                     terms_response_6_text text,
                     terms_response_6_img_label text,
                     terms_response_6_img_path text,
                     terms_response_6_img_string_base64_encoded text,
-                    
+
                     terms_response_7_text text,
                     terms_response_7_img_label text,
                     terms_response_7_img_path text,
                     terms_response_7_img_string_base64_encoded text,
-                    
+
                     terms_response_8_text text,
                     terms_response_8_img_label text,
                     terms_response_8_img_path text,
                     terms_response_8_img_string_base64_encoded text,
-                    
+
                     terms_response_9_text text,
                     terms_response_9_img_label text,
                     terms_response_9_img_path text,
                     terms_response_9_img_string_base64_encoded text,
-                    
+
                     terms_response_10_text text,
                     terms_response_10_img_label text,
                     terms_response_10_img_path text,
                     terms_response_10_img_string_base64_encoded text,
-                    
-                
-                    
+
+
+
                     assignment_pairs_definition_1 text,
                     assignment_pairs_term_1 text,
                     assignment_pairs_1_pts int,
-                    
+
                     assignment_pairs_definition_2 text,
                     assignment_pairs_term_2 text,
                     assignment_pairs_2_pts int,
-                    
+
                     assignment_pairs_definition_3 text,
                     assignment_pairs_term_3 text,
                     assignment_pairs_3_pts int,
-                    
+
                     assignment_pairs_definition_4 text,
                     assignment_pairs_term_4 text,
                     assignment_pairs_4_pts int,
-                    
+
                     assignment_pairs_definition_5 text,
                     assignment_pairs_term_5 text,
                     assignment_pairs_5_pts int,
-                    
+
                     assignment_pairs_definition_6 text,
                     assignment_pairs_term_6 text,
                     assignment_pairs_6_pts int,
-                    
+
                     assignment_pairs_definition_7 text,
                     assignment_pairs_term_7 text,
                     assignment_pairs_7_pts int,
-                    
+
                     assignment_pairs_definition_8 text,
                     assignment_pairs_term_8 text,
                     assignment_pairs_8_pts int,
-                    
+
                     assignment_pairs_definition_9 text,
                     assignment_pairs_term_9 text,
                     assignment_pairs_9_pts int,
-                    
+
                     assignment_pairs_definition_10 text,
                     assignment_pairs_term_10 text,
                     assignment_pairs_10_pts int,
-                    
-                    
 
-               
+
+
+
                     picture_preview_pixel int,
-                    
+
                     description_img_name_1 text,
                     description_img_data_1 blop,
                     description_img_path_1 text,
-                    
+
                     description_img_name_2 text,
                     description_img_data_2 blop,
                     description_img_path_2 text,
-                    
+
                     description_img_name_3 text,
                     description_img_data_3 blop,
                     description_img_path_3 text,
-   
+
                     test_time text,
                     var_number int,
                     res_number int,
@@ -2726,7 +2729,7 @@ class Import_Export_Database(CreateDatabases):
                 self.definitions_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_8_img_label', 'definitions_response_8_img_path')
                 self.definitions_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_9_img_label', 'definitions_response_9_img_path')
                 self.definitions_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_10_img_label', 'definitions_response_10_img_path')
-                
+
                 self.terms_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_1_img_label', 'terms_response_1_img_path')
                 self.terms_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_2_img_label', 'terms_response_2_img_path')
                 self.terms_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_3_img_label', 'terms_response_3_img_path')
@@ -2797,7 +2800,7 @@ class Import_Export_Database(CreateDatabases):
                    self.definitions_response_8_img_string_base64_encoded,
                    self.definitions_response_9_img_string_base64_encoded,
                    self.definitions_response_10_img_string_base64_encoded,
-                   
+
                    row.terms_response_1_text,
                    row.terms_response_2_text,
                    row.terms_response_3_text,
