@@ -71,6 +71,8 @@ from Test_Generator_Module import test_generator_modul_formelfrage_permutation
 from Test_Generator_Module import test_generator_modul_singlechoice
 from Test_Generator_Module import test_generator_modul_multiplechoice
 from Test_Generator_Module import test_generator_modul_zuordnungsfrage
+from Test_Generator_Module import test_generator_modul_lueckentext
+from Test_Generator_Module import test_generator_modul_freitext
 
 
 
@@ -160,8 +162,12 @@ class GuiMainWindow:
         self.tabControl.add(self.zuordnungsfrage_tab_ttk, text='Zuordnungsfrage')  # Add the tab
 
         # ---- Tab for Lueckentext - Questions
-        self.formelfrage_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
+        self.lueckentext_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.lueckentext_tab_ttk, text='Lueckentext')  # Add the tab
+
+        # ---- Tab for Freitext - Questions
+        self.freitext_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
+        self.tabControl.add(self.freitext_tab_ttk, text='Freitext')  # Add the tab
 
         ####### CREATE SCROLLABLE FRAME ON TABS
         # Create a ScrolledFrame widget
@@ -180,8 +186,11 @@ class GuiMainWindow:
         self.scrolledframe_zuordnungsfrage = ScrolledFrame(self.zuordnungsfrage_tab_ttk, width=self.window_width, height=self.window_height)
         self.scrolledframe_zuordnungsfrage.pack(expand=1, fill="both")
 
-        self.scrolledframe_zuordnungsfrage = ScrolledFrame(self.lueckentext_tab_ttk, width=self.window_width, height=self.window_height)
-        self.scrolledframe_zuordnungsfrage.pack(expand=1, fill="both")
+        self.scrolledframe_lueckentext = ScrolledFrame(self.lueckentext_tab_ttk, width=self.window_width, height=self.window_height)
+        self.scrolledframe_lueckentext.pack(expand=1, fill="both")
+
+        self.scrolledframe_freitext = ScrolledFrame(self.freitext_tab_ttk, width=self.window_width, height=self.window_height)
+        self.scrolledframe_freitext.pack(expand=1, fill="both")
 
         # Create a frame within the ScrolledFrame
         self.formelfrage_tab = self.scrolledframe_formelfrage.display_widget(Frame)
@@ -189,6 +198,8 @@ class GuiMainWindow:
         self.singlechoice_tab = self.scrolledframe_singlechoice.display_widget(Frame)
         self.multiplechoice_tab = self.scrolledframe_multiplechoice.display_widget(Frame)
         self.zuordnungsfrage_tab = self.scrolledframe_zuordnungsfrage.display_widget(Frame)
+        self.lueckentext_tab = self.scrolledframe_lueckentext.display_widget(Frame)
+        self.freitext_tab = self.scrolledframe_freitext.display_widget(Frame)
 
         self.tabControl.pack(expand=1, fill="both")
 
@@ -205,6 +216,8 @@ class GuiMainWindow:
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_singlechoice(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_multiplechoice(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_zuordnungsfrage(self)
+        test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_lueckentext(self)
+        test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_freitext(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_test_settings_profiles(self)
 
 
@@ -214,6 +227,8 @@ class GuiMainWindow:
         test_generator_modul_multiplechoice.MultipleChoice.__init__(self, app, self.multiplechoice_tab, self.project_root_path)
         test_generator_modul_zuordnungsfrage.Zuordnungsfrage.__init__(self, app, self.zuordnungsfrage_tab, self.project_root_path)
         test_generator_modul_formelfrage_permutation.Formelfrage_Permutation.__init__(self, app, self.formelfrage_permutation_tab, self.project_root_path)
+        test_generator_modul_lueckentext.Lueckentext.__init__(self, app, self.lueckentext_tab, self.project_root_path)
+        test_generator_modul_freitext.Freitext.__init__(self, app, self.freitext_tab, self.project_root_path)
 
 
 
