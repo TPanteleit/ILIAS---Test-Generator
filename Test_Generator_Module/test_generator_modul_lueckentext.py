@@ -33,17 +33,17 @@ class Lueckentext:
 
         self.lueckentext_tab = lueckentext_tab
 
-        self.ft_description_img_name_1 = "EMPTY"
-        self.ft_description_img_name_2 = "EMPTY"
-        self.ft_description_img_name_3 = "EMPTY"
+        self.lt_description_img_name_1 = "EMPTY"
+        self.lt_description_img_name_2 = "EMPTY"
+        self.lt_description_img_name_3 = "EMPTY"
 
-        self.ft_description_img_data_1 = "EMPTY"
-        self.ft_description_img_data_2 = "EMPTY"
-        self.ft_description_img_data_3 = "EMPTY"
+        self.lt_description_img_data_1 = "EMPTY"
+        self.lt_description_img_data_2 = "EMPTY"
+        self.lt_description_img_data_3 = "EMPTY"
 
-        self.ft_description_img_path_1 = "EMPTY"
-        self.ft_description_img_path_2 = "EMPTY"
-        self.ft_description_img_path_3 = "EMPTY"
+        self.lt_description_img_path_1 = "EMPTY"
+        self.lt_description_img_path_2 = "EMPTY"
+        self.lt_description_img_path_3 = "EMPTY"
 
 
 
@@ -52,31 +52,31 @@ class Lueckentext:
         # Pfad des Projekts und des FF-Moduls
         self.project_root_path = project_root_path
         self.lueckentext_files_path = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Formelfrage"))
-        self.lueckentext_files_path_pool_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_ilias_pool_abgabe"))
+        self.lueckentext_files_path_pool_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_ilias_pool_abgabe"))
 
         # Pfad für die Datenbank
         self.database_lueckentext_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_lueckentext_db.db"))
 
         # Pfad für ILIAS-Test Vorlage
-        self.lueckentext_test_qti_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__qti__.xml"))
-        self.lueckentext_test_tst_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__tst__.xml"))
+        self.lueckentext_test_qti_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__qti__.xml"))
+        self.lueckentext_test_tst_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__tst__.xml"))
 
 
         # Pfad für ILIAS-Test Dateien (zum hochladen in ILIAS)
-        self.lueckentext_test_qti_file_path_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_ilias_test_abgabe", "1604407426__0__tst_2040314", "1604407426__0__qti_2040314.xml"))
-        self.lueckentext_test_tst_file_path_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_ilias_test_abgabe", "1604407426__0__tst_2040314", "1604407426__0__tst_2040314.xml"))
-        self.lueckentext_test_img_file_path = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
+        self.lueckentext_test_qti_file_path_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_ilias_test_abgabe", "1604407426__0__tst_2040314", "1604407426__0__qti_2040314.xml"))
+        self.lueckentext_test_tst_file_path_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_ilias_test_abgabe", "1604407426__0__tst_2040314", "1604407426__0__tst_2040314.xml"))
+        self.lueckentext_test_img_file_path = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
 
 
         # Pfad für ILIAS-Pool Vorlage
-        self.lueckentext_pool_qti_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qti__.xml"))
-        self.lueckentext_pool_qpl_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qpl__.xml"))
+        self.lueckentext_pool_qti_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qti__.xml"))
+        self.lueckentext_pool_qpl_file_path_template = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_pool_qti_und_qpl_dateien_vorlage", "ilias_pool_vorlage__qpl__.xml"))
 
 
         # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
         # Die Pfade für die qti.xml und qpl.xml werden erst zur Laufzeit bestimmt.
         # Die Deklaration ist daher unter "class Create_Lueckentext_Pool"
-        self.lueckentext_pool_directory_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "ft_ilias_pool_abgabe"))
+        self.lueckentext_pool_directory_output = os.path.normpath(os.path.join(self.lueckentext_files_path, "lt_ilias_pool_abgabe"))
 
 
 ###################### DATENBANK ENTRIES UND INDEX DICT ERSTELLEN  ###################
@@ -85,21 +85,21 @@ class Lueckentext:
         # Dictionary aus zwei Listen erstellen
         # Auslesen der Lueckentext-Datenbank einträgen
         # Nur die erste Zeile auslesen um einen Zusammenhang zwischen Variablen und Indexen herzustellen
-        self.ft_db_find_entries = []
-        self.ft_db_find_indexes = []
+        self.lt_db_find_entries = []
+        self.lt_db_find_indexes = []
 
         connect = sqlite3.connect(self.database_lueckentext_path)
         cursor = connect.cursor()
         cursor.execute("SELECT * FROM lueckentext_table LIMIT 1")
 
-        ft_db_records = cursor.fetchall()
-        for ft_db_record in ft_db_records:
-            for k in range(len(ft_db_record)):
-                self.ft_db_find_entries.append(str(ft_db_record[k]))
-                self.ft_db_find_indexes.append(int(k))
+        lt_db_records = cursor.fetchall()
+        for lt_db_record in lt_db_records:
+            for k in range(len(lt_db_record)):
+                self.lt_db_find_entries.append(str(lt_db_record[k]))
+                self.lt_db_find_indexes.append(int(k))
 
 
-        self.ft_db_entry_to_index_dict = dict(zip((self.ft_db_find_entries), (self.ft_db_find_indexes)))
+        self.lt_db_entry_to_index_dict = dict(zip((self.lt_db_find_entries), (self.lt_db_find_indexes)))
 
 
 
@@ -109,155 +109,155 @@ class Lueckentext:
 
 
 ############## FRAMES
-        self.ft_frame_ilias_test_title = LabelFrame(self.lueckentext_tab, text="Testname & Autor", padx=5, pady=5)
-        self.ft_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
+        self.lt_frame_ilias_test_title = LabelFrame(self.lueckentext_tab, text="Testname & Autor", padx=5, pady=5)
+        self.lt_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
 
-        self.ft_frame = LabelFrame(self.lueckentext_tab, text="lueckentext", padx=5, pady=5)
-        self.ft_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
+        self.lt_frame = LabelFrame(self.lueckentext_tab, text="lueckentext", padx=5, pady=5)
+        self.lt_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
 
-        self.ft_frame_question_attributes = LabelFrame(self.lueckentext_tab, text="Fragen Attribute", padx=5, pady=5)
-        self.ft_frame_question_attributes.grid(row=2, column=0, padx=10, pady=10, sticky="NE")
+        self.lt_frame_question_attributes = LabelFrame(self.lueckentext_tab, text="Fragen Attribute", padx=5, pady=5)
+        self.lt_frame_question_attributes.grid(row=2, column=0, padx=10, pady=10, sticky="NE")
 
-        self.ft_frame_database = LabelFrame(self.lueckentext_tab, text="Lueckentext-Datenbank", padx=5, pady=5)
-        self.ft_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
+        self.lt_frame_database = LabelFrame(self.lueckentext_tab, text="Lueckentext-Datenbank", padx=5, pady=5)
+        self.lt_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
-        self.ft_frame_create_lueckentext_test = LabelFrame(self.lueckentext_tab, text="LT-Test erstellen", padx=5, pady=5)
-        self.ft_frame_create_lueckentext_test.grid(row=2, column=0, padx=105, pady=120, sticky="NE")
-
-
-        self.ft_frame_taxonomy_settings = LabelFrame(self.lueckentext_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
-        self.ft_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
-
-        self.ft_frame_question_description_functions = LabelFrame(self.lueckentext_tab, text="Fragentext Funktionen", padx=5, pady=5)
-        self.ft_frame_question_description_functions.grid(row=1, column=1, padx=10, pady=10, sticky="NW")
-
-        self.ft_frame_excel_import_export = LabelFrame(self.lueckentext_tab, text="Excel Import/Export", padx=5, pady=5)
-        self.ft_frame_excel_import_export.grid(row=2, column=1, padx=10, pady=10, sticky="NW")
+        self.lt_frame_create_lueckentext_test = LabelFrame(self.lueckentext_tab, text="LT-Test erstellen", padx=5, pady=5)
+        self.lt_frame_create_lueckentext_test.grid(row=2, column=0, padx=105, pady=120, sticky="NE")
 
 
+        self.lt_frame_taxonomy_settings = LabelFrame(self.lueckentext_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
+        self.lt_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
+
+        self.lt_frame_question_description_functions = LabelFrame(self.lueckentext_tab, text="Fragentext Funktionen", padx=5, pady=5)
+        self.lt_frame_question_description_functions.grid(row=1, column=1, padx=10, pady=10, sticky="NW")
+
+        self.lt_frame_excel_import_export = LabelFrame(self.lueckentext_tab, text="Excel Import/Export", padx=5, pady=5)
+        self.lt_frame_excel_import_export.grid(row=2, column=1, padx=10, pady=10, sticky="NW")
 
 
-        self.ft_frame_description_picture = LabelFrame(self.lueckentext_tab, text="Fragen-Text Bild", padx=5, pady=5)
-        self.ft_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
+
+
+        self.lt_frame_description_picture = LabelFrame(self.lueckentext_tab, text="Fragen-Text Bild", padx=5, pady=5)
+        self.lt_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
 
 
 ###################### "Testname & Autor" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
 
-        self.ft_ilias_test_title_label = Label(self.ft_frame_ilias_test_title, text="Name des Tests")
-        self.ft_ilias_test_title_label.grid(row=0, column=0, sticky=W)
+        self.lt_ilias_test_title_label = Label(self.lt_frame_ilias_test_title, text="Name des Tests")
+        self.lt_ilias_test_title_label.grid(row=0, column=0, sticky=W)
 
-        self.ft_ilias_test_title_entry = Entry(self.ft_frame_ilias_test_title, width=60)
-        self.ft_ilias_test_title_entry.grid(row=0, column=1, sticky=W, padx=30)
+        self.lt_ilias_test_title_entry = Entry(self.lt_frame_ilias_test_title, width=60)
+        self.lt_ilias_test_title_entry.grid(row=0, column=1, sticky=W, padx=30)
 
-        self.ft_ilias_test_autor_label = Label(self.ft_frame_ilias_test_title, text="Autor")
-        self.ft_ilias_test_autor_label.grid(row=1, column=0, sticky=W)
+        self.lt_ilias_test_autor_label = Label(self.lt_frame_ilias_test_title, text="Autor")
+        self.lt_ilias_test_autor_label.grid(row=1, column=0, sticky=W)
 
-        self.ft_ilias_test_autor_entry = Entry(self.ft_frame_ilias_test_title, width=60)
-        self.ft_ilias_test_autor_entry.grid(row=1, column=1, sticky=W, padx=30)
+        self.lt_ilias_test_autor_entry = Entry(self.lt_frame_ilias_test_title, width=60)
+        self.lt_ilias_test_autor_entry.grid(row=1, column=1, sticky=W, padx=30)
 
 ###################### "Fragen-Text Bild" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
 
         # Hinzufügen Bild 1
-        self.ft_var_use_image_1 = IntVar()
-        self.ft_check_use_image_1_in_description = Checkbutton(self.ft_frame_question_description_functions, text="Bild 1 hochladen?", variable=self.ft_var_use_image_1, onvalue=1, offvalue=0)
-        self.ft_check_use_image_1_in_description.deselect()
-        self.ft_check_use_image_1_in_description.grid(row=5, column=0, sticky=W, padx=90, pady=(10, 0))
+        self.lt_var_use_image_1 = IntVar()
+        self.lt_check_use_image_1_in_description = Checkbutton(self.lt_frame_question_description_functions, text="Bild 1 hochladen?", variable=self.lt_var_use_image_1, onvalue=1, offvalue=0)
+        self.lt_check_use_image_1_in_description.deselect()
+        self.lt_check_use_image_1_in_description.grid(row=5, column=0, sticky=W, padx=90, pady=(10, 0))
 
         # Hinzufügen Bild 2
-        self.ft_var_use_image_2 = IntVar()
-        self.ft_check_use_image_2_in_description = Checkbutton(self.ft_frame_question_description_functions, text="Bild 2 hochladen?", variable=self.ft_var_use_image_2, onvalue=1, offvalue=0)
-        self.ft_check_use_image_2_in_description.deselect()
-        self.ft_check_use_image_2_in_description.grid(row=6, column=0, sticky=W, padx=90)
+        self.lt_var_use_image_2 = IntVar()
+        self.lt_check_use_image_2_in_description = Checkbutton(self.lt_frame_question_description_functions, text="Bild 2 hochladen?", variable=self.lt_var_use_image_2, onvalue=1, offvalue=0)
+        self.lt_check_use_image_2_in_description.deselect()
+        self.lt_check_use_image_2_in_description.grid(row=6, column=0, sticky=W, padx=90)
 
         # Hinzufügen Bild 3
-        self.ft_var_use_image_3 = IntVar()
-        self.ft_check_use_image_3_in_description = Checkbutton(self.ft_frame_question_description_functions, text="Bild 3 hochladen?", variable=self.ft_var_use_image_3, onvalue=1, offvalue=0)
-        self.ft_check_use_image_3_in_description.deselect()
-        self.ft_check_use_image_3_in_description.grid(row=7, column=0, sticky=W, padx=90)
+        self.lt_var_use_image_3 = IntVar()
+        self.lt_check_use_image_3_in_description = Checkbutton(self.lt_frame_question_description_functions, text="Bild 3 hochladen?", variable=self.lt_var_use_image_3, onvalue=1, offvalue=0)
+        self.lt_check_use_image_3_in_description.deselect()
+        self.lt_check_use_image_3_in_description.grid(row=7, column=0, sticky=W, padx=90)
 
         # Buttons - Bild hinzufügen & Bild löschen
-        #self.ft_add_img_to_description_btn = Button(self.ft_frame_question_description_functions, text="Bild hinzufügen", command=lambda: Lueckentext.lt_add_image_to_description(self, self.ft_var_use_image_1.get(), self.ft_var_use_image_2.get(), self.ft_var_use_image_3.get()))
-       # self.ft_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
+        #self.lt_add_img_to_description_btn = Button(self.lt_frame_question_description_functions, text="Bild hinzufügen", command=lambda: Lueckentext.lt_add_image_to_description(self, self.lt_var_use_image_1.get(), self.lt_var_use_image_2.get(), self.lt_var_use_image_3.get()))
+       # self.lt_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
 
-        self.ft_add_img_to_description_btn = Button(self.ft_frame_question_description_functions, text="Bild hinzufügen", command=lambda: ft_add_image_to_description_and_create_labels())
-        self.ft_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
+        self.lt_add_img_to_description_btn = Button(self.lt_frame_question_description_functions, text="Bild hinzufügen", command=lambda: lt_add_image_to_description_and_create_labels())
+        self.lt_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
 
         # Bild zum Fragentext hinzufügen
-        def ft_add_image_to_description_and_create_labels():
+        def lt_add_image_to_description_and_create_labels():
             # Erstelle Labels
-            self.ft_question_description_img_1_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_1)
-            self.ft_question_description_img_2_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_2)
-            self.ft_question_description_img_3_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_3)
+            self.lt_question_description_img_1_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_1)
+            self.lt_question_description_img_2_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_2)
+            self.lt_question_description_img_3_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_3)
 
 
-            self.ft_description_img_name_1, self.ft_description_img_name_2, self.ft_description_img_name_3, self.ft_description_img_path_1, self.ft_description_img_path_2, self.ft_description_img_path_3, self.ft_question_description_img_1_filename_label, self.ft_question_description_img_2_filename_label, self.ft_question_description_img_3_filename_label = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_image_to_description(
+            self.lt_description_img_name_1, self.lt_description_img_name_2, self.lt_description_img_name_3, self.lt_description_img_path_1, self.lt_description_img_path_2, self.lt_description_img_path_3, self.lt_question_description_img_1_filename_label, self.lt_question_description_img_2_filename_label, self.lt_question_description_img_3_filename_label = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_image_to_description(
                     self,
-                    self.ft_var_use_image_1.get(),
-                    self.ft_var_use_image_2.get(),
-                    self.ft_var_use_image_3.get(),
-                    self.ft_frame_description_picture,
-                    self.ft_description_img_name_1,
-                    self.ft_description_img_name_2,
-                    self.ft_description_img_name_3,
-                    self.ft_description_img_path_1,
-                    self.ft_description_img_path_2,
-                    self.ft_description_img_path_3,
+                    self.lt_var_use_image_1.get(),
+                    self.lt_var_use_image_2.get(),
+                    self.lt_var_use_image_3.get(),
+                    self.lt_frame_description_picture,
+                    self.lt_description_img_name_1,
+                    self.lt_description_img_name_2,
+                    self.lt_description_img_name_3,
+                    self.lt_description_img_path_1,
+                    self.lt_description_img_path_2,
+                    self.lt_description_img_path_3,
                     )
 
 
-        #self.ft_remove_img_from_description_btn = Button(self.ft_frame_question_description_functions, text="Bild entfernen", command=lambda: lueckentext.ft_delete_image_from_description(self, self.ft_var_use_image_1.get(), self.ft_var_use_image_2.get(), self.ft_var_use_image_3.get()))
-        #self.ft_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
+        #self.lt_remove_img_from_description_btn = Button(self.lt_frame_question_description_functions, text="Bild entfernen", command=lambda: lueckentext.lt_delete_image_from_description(self, self.lt_var_use_image_1.get(), self.lt_var_use_image_2.get(), self.lt_var_use_image_3.get()))
+        #self.lt_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
 
-        self.ft_remove_img_from_description_btn = Button(self.ft_frame_question_description_functions, text="Bild entfernen", command=lambda: ft_add_image_to_description_and_delete_labels())
-        self.ft_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
+        self.lt_remove_img_from_description_btn = Button(self.lt_frame_question_description_functions, text="Bild entfernen", command=lambda: lt_add_image_to_description_and_delete_labels())
+        self.lt_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
 
         # Bild aus Fragentext entfernen
-        def ft_add_image_to_description_and_delete_labels():
-            self.ft_description_img_name_1, self.ft_description_img_name_2, self.ft_description_img_name_3 = test_generator_modul_ilias_test_struktur.Additional_Funtions.delete_image_from_description(
-                 self, self.ft_var_use_image_1.get(),
-                 self.ft_var_use_image_2.get(),
-                 self.ft_var_use_image_3.get(),
-                 self.ft_question_description_img_1_filename_label,
-                 self.ft_question_description_img_2_filename_label,
-                 self.ft_question_description_img_3_filename_label,
-                 self.ft_description_img_name_1,
-                 self.ft_description_img_name_2,
-                 self.ft_description_img_name_3,
+        def lt_add_image_to_description_and_delete_labels():
+            self.lt_description_img_name_1, self.lt_description_img_name_2, self.lt_description_img_name_3 = test_generator_modul_ilias_test_struktur.Additional_Funtions.delete_image_from_description(
+                 self, self.lt_var_use_image_1.get(),
+                 self.lt_var_use_image_2.get(),
+                 self.lt_var_use_image_3.get(),
+                 self.lt_question_description_img_1_filename_label,
+                 self.lt_question_description_img_2_filename_label,
+                 self.lt_question_description_img_3_filename_label,
+                 self.lt_description_img_name_1,
+                 self.lt_description_img_name_2,
+                 self.lt_description_img_name_3,
             )
 
 
 
         ###################### "Taxonomie Einstellungen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
-        self.ft_taxonomy_settings_btn = Button(self.ft_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
-        self.ft_taxonomy_settings_btn.grid(row=3, column=0, columnspan = 2, padx=10, sticky="W")
+        self.lt_taxonomy_settings_btn = Button(self.lt_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
+        self.lt_taxonomy_settings_btn.grid(row=3, column=0, columnspan = 2, padx=10, sticky="W")
 
 
 ###################### "Fragen Attribute" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
-        self.ft_question_difficulty_label = Label(self.ft_frame_question_attributes, text="Schwierigkeit")
-        self.ft_question_difficulty_label.grid(row=0, column=0, pady=5, padx=5, sticky=W)
+        self.lt_question_difficulty_label = Label(self.lt_frame_question_attributes, text="Schwierigkeit")
+        self.lt_question_difficulty_label.grid(row=0, column=0, pady=5, padx=5, sticky=W)
 
-        self.ft_question_difficulty_entry = Entry(self.ft_frame_question_attributes, width=15)
-        self.ft_question_difficulty_entry.grid(row=0, column=1, pady=5, padx=5, sticky=W)
+        self.lt_question_difficulty_entry = Entry(self.lt_frame_question_attributes, width=15)
+        self.lt_question_difficulty_entry.grid(row=0, column=1, pady=5, padx=5, sticky=W)
 
-        self.ft_question_category_label = Label(self.ft_frame_question_attributes, text="Fragenkategorie")
-        self.ft_question_category_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
+        self.lt_question_category_label = Label(self.lt_frame_question_attributes, text="Fragenkategorie")
+        self.lt_question_category_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
 
-        self.ft_question_category_entry = Entry(self.ft_frame_question_attributes, width=15)
-        self.ft_question_category_entry.grid(row=1, column=1, pady=5, padx=5, sticky=W)
+        self.lt_question_category_entry = Entry(self.lt_frame_question_attributes, width=15)
+        self.lt_question_category_entry.grid(row=1, column=1, pady=5, padx=5, sticky=W)
 
-        self.ft_question_type_label = Label(self.ft_frame_question_attributes, text="Fragen-Typ")
-        self.ft_question_type_label.grid(row=0, column=2, pady=5, padx=5, sticky=W)
+        self.lt_question_type_label = Label(self.lt_frame_question_attributes, text="Fragen-Typ")
+        self.lt_question_type_label.grid(row=0, column=2, pady=5, padx=5, sticky=W)
 
-        self.ft_question_type_entry = Entry(self.ft_frame_question_attributes, width=15)
-        self.ft_question_type_entry.grid(row=0, column=3, pady=5, padx=5, sticky=W)
-        self.ft_question_type_entry.insert(0, "Lueckentext")
+        self.lt_question_type_entry = Entry(self.lt_frame_question_attributes, width=15)
+        self.lt_question_type_entry.grid(row=0, column=3, pady=5, padx=5, sticky=W)
+        self.lt_question_type_entry.insert(0, "Lueckentext")
 
-        self.ft_question_pool_tag_label = Label(self.ft_frame_question_attributes, text="Pool-Tag")
-        self.ft_question_pool_tag_label.grid(row=1, column=2, pady=5, padx=5, sticky=W)
+        self.lt_question_pool_tag_label = Label(self.lt_frame_question_attributes, text="Pool-Tag")
+        self.lt_question_pool_tag_label.grid(row=1, column=2, pady=5, padx=5, sticky=W)
 
-        self.ft_question_pool_tag_entry = Entry(self.ft_frame_question_attributes, width=15)
-        self.ft_question_pool_tag_entry.grid(row=1, column=3, pady=5, padx=5, sticky=W)
+        self.lt_question_pool_tag_entry = Entry(self.lt_frame_question_attributes, width=15)
+        self.lt_question_pool_tag_entry.grid(row=1, column=3, pady=5, padx=5, sticky=W)
 
 
 
@@ -265,44 +265,44 @@ class Lueckentext:
 ###################### "FF-Test erstellen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         # Button "lueckentext-Test erstellen"
-        self.create_lueckentext_test_btn = Button(self.ft_frame_create_lueckentext_test, text="FF-Test erstellen", command=lambda: Create_Lueckentext_Test.__init__(self, self.ft_db_entry_to_index_dict))
+        self.create_lueckentext_test_btn = Button(self.lt_frame_create_lueckentext_test, text="FF-Test erstellen", command=lambda: Create_Lueckentext_Test.__init__(self, self.lt_db_entry_to_index_dict))
         self.create_lueckentext_test_btn.grid(row=0, column=0, sticky=W)
-        self.create_lueckentext_test_entry = Entry(self.ft_frame_create_lueckentext_test, width=15)
+        self.create_lueckentext_test_entry = Entry(self.lt_frame_create_lueckentext_test, width=15)
         self.create_lueckentext_test_entry.grid(row=0, column=1, sticky=W, padx=0)
 
         # Checkbox "Test-Einstellungen übernehmen?"
-        self.create_test_settings_label = Label(self.ft_frame_create_formelfrage_test, text="Test-Einstellungen übernehmen?")
+        self.create_test_settings_label = Label(self.lt_frame_create_formelfrage_test, text="Test-Einstellungen übernehmen?")
         self.create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
         self.var_test_settings = IntVar()
-        self.check_test_settings = Checkbutton(self.ft_frame_create_formelfrage_test, text="", variable=self.var_test_settings, onvalue=1, offvalue=0)
+        self.check_test_settings = Checkbutton(self.lt_frame_create_formelfrage_test, text="", variable=self.var_test_settings, onvalue=1, offvalue=0)
         self.check_test_settings.deselect()
         self.check_test_settings.grid(row=1, column=1, sticky=W)
 
         # Checkbox "Latex für Fragentext nutzen?"
-        self.ft_use_latex_on_text_label = Label(self.ft_frame_create_formelfrage_test, text="Latex für Fragentext nutzen?")
-        self.ft_use_latex_on_text_label.grid(row=2, column=0, sticky=W, padx=5)
-        self.ft_var_use_latex_on_text_check = IntVar()
-        self.ft_use_latex_on_text_check = Checkbutton(self.ft_frame_create_formelfrage_test, text="", variable=self.ft_var_use_latex_on_text_check, onvalue=1, offvalue=0)
-        self.ft_use_latex_on_text_check.deselect()
-        self.ft_use_latex_on_text_check.grid(row=2, column=1, sticky=W)
+        self.lt_use_latex_on_text_label = Label(self.lt_frame_create_formelfrage_test, text="Latex für Fragentext nutzen?")
+        self.lt_use_latex_on_text_label.grid(row=2, column=0, sticky=W, padx=5)
+        self.lt_var_use_latex_on_text_check = IntVar()
+        self.lt_use_latex_on_text_check = Checkbutton(self.lt_frame_create_formelfrage_test, text="", variable=self.lt_var_use_latex_on_text_check, onvalue=1, offvalue=0)
+        self.lt_use_latex_on_text_check.deselect()
+        self.lt_use_latex_on_text_check.grid(row=2, column=1, sticky=W)
 
 
 
 
         # Checkbox "Alle Einträge aus der DB erzeugen?"
-        self.ft_create_question_pool_all_label = Label(self.ft_frame_create_formelfrage_test, text="Alle Einträge aus der DB erzeugen?")
-        self.ft_create_question_pool_all_label.grid(row=4, column=0, pady=(10,0), padx=5, sticky=W)
-        self.ft_var_create_question_pool_all_check = IntVar()
-        self.ft_create_question_pool_all = Checkbutton(self.ft_frame_create_formelfrage_test, text="", variable=self.ft_var_create_question_pool_all_check, onvalue=1, offvalue=0)
-        #self.ft_var_create_question_pool_all_check.set(0)
-        self.ft_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
+        self.lt_create_question_pool_all_label = Label(self.lt_frame_create_formelfrage_test, text="Alle Einträge aus der DB erzeugen?")
+        self.lt_create_question_pool_all_label.grid(row=4, column=0, pady=(10,0), padx=5, sticky=W)
+        self.lt_var_create_question_pool_all_check = IntVar()
+        self.lt_create_question_pool_all = Checkbutton(self.lt_frame_create_formelfrage_test, text="", variable=self.lt_var_create_question_pool_all_check, onvalue=1, offvalue=0)
+        #self.lt_var_create_question_pool_all_check.set(0)
+        self.lt_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
 
 
 
         # Button "Formelfrage-Fragenpool erstellen"
-        self.create_formelfrage_pool_btn = Button(self.ft_frame_create_formelfrage_test, text="FF-Pool erstellen", command=lambda: Create_Formelfrage_Pool.__init__(self, self.ft_db_entry_to_index_dict, self.ft_var_create_question_pool_all_check.get()))
+        self.create_formelfrage_pool_btn = Button(self.lt_frame_create_formelfrage_test, text="FF-Pool erstellen", command=lambda: Create_Formelfrage_Pool.__init__(self, self.lt_db_entry_to_index_dict, self.lt_var_create_question_pool_all_check.get()))
         self.create_formelfrage_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
-        self.create_formelfrage_pool_entry = Entry(self.ft_frame_create_formelfrage_test, width=15)
+        self.create_formelfrage_pool_entry = Entry(self.lt_frame_create_formelfrage_test, width=15)
         self.create_formelfrage_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
 
 
@@ -311,48 +311,48 @@ class Lueckentext:
 
 
 
-        self.ft_database_show_db_formelfrage_btn = Button(self.ft_frame_database, text="FF - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_path, "formelfrage_table"))
-        self.ft_database_show_db_formelfrage_btn.grid(row=0, column=0, sticky=W, pady=5)
+        self.lt_database_show_db_formelfrage_btn = Button(self.lt_frame_database, text="FF - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_path, "formelfrage_table"))
+        self.lt_database_show_db_formelfrage_btn.grid(row=0, column=0, sticky=W, pady=5)
 
-        self.ft_database_save_id_to_db_formelfrage_btn = Button(self.ft_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage.ft_save_id_to_db(self))
-        self.ft_database_save_id_to_db_formelfrage_btn.grid(row=1, column=0, sticky=W, pady=5)
+        self.lt_database_save_id_to_db_formelfrage_btn = Button(self.lt_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage.lt_save_id_to_db(self))
+        self.lt_database_save_id_to_db_formelfrage_btn.grid(row=1, column=0, sticky=W, pady=5)
 
-        self.ft_database_delete_id_from_db_btn = Button(self.ft_frame_database, text="ID Löschen", command=lambda: Formelfrage.ft_delete_id_from_db(self))
-        self.ft_database_delete_id_from_db_btn.grid(row=6, column=0, sticky=W, pady=5)
-        self.ft_delete_box = Entry(self.ft_frame_database, width=10)
-        self.ft_delete_box.grid(row=6, column=0, padx=80, sticky=W)
+        self.lt_database_delete_id_from_db_btn = Button(self.lt_frame_database, text="ID Löschen", command=lambda: Formelfrage.lt_delete_id_from_db(self))
+        self.lt_database_delete_id_from_db_btn.grid(row=6, column=0, sticky=W, pady=5)
+        self.lt_delete_box = Entry(self.lt_frame_database, width=10)
+        self.lt_delete_box.grid(row=6, column=0, padx=80, sticky=W)
 
-        self.ft_database_new_question_btn = Button(self.ft_frame_database, text="GUI Einträge leeren", command=lambda: Formelfrage.ft_clear_GUI(self))
-        self.ft_database_new_question_btn.grid(row=8, column=0, sticky=W, pady=5)
+        self.lt_database_new_question_btn = Button(self.lt_frame_database, text="GUI Einträge leeren", command=lambda: Formelfrage.lt_clear_GUI(self))
+        self.lt_database_new_question_btn.grid(row=8, column=0, sticky=W, pady=5)
 
-        self.ft_database_edit_btn = Button(self.ft_frame_database, text="Aktuellen Eintrag editieren", command=lambda: Formelfrage.ft_edit_id_from_db(self))
-        self.ft_database_edit_btn.grid(row=3, column=0, sticky=W, pady=5)
+        self.lt_database_edit_btn = Button(self.lt_frame_database, text="Aktuellen Eintrag editieren", command=lambda: Formelfrage.lt_edit_id_from_db(self))
+        self.lt_database_edit_btn.grid(row=3, column=0, sticky=W, pady=5)
 
 
-        self.ft_database_load_id_btn = Button(self.ft_frame_database, text="ID Laden", command=lambda: Formelfrage.ft_load_id_from_db(self, self.ft_db_entry_to_index_dict))
-        self.ft_database_load_id_btn.grid(row=4, column=0, sticky=W, pady=(15,0))
-        self.ft_load_box = Entry(self.ft_frame_database, width=10)
-        self.ft_load_box.grid(row=4, column=0, sticky=W, padx=80, pady=(15,0))
+        self.lt_database_load_id_btn = Button(self.lt_frame_database, text="ID Laden", command=lambda: Formelfrage.lt_load_id_from_db(self, self.lt_db_entry_to_index_dict))
+        self.lt_database_load_id_btn.grid(row=4, column=0, sticky=W, pady=(15,0))
+        self.lt_load_box = Entry(self.lt_frame_database, width=10)
+        self.lt_load_box.grid(row=4, column=0, sticky=W, padx=80, pady=(15,0))
 
 
         # Checkbox - "Fragentext mit Highlighting?"
-        self.ft_highlight_question_text_label = Label(self.ft_frame_database, text="Fragentext mit Highlighting?")
-        self.ft_highlight_question_text_label.grid(row=5, column=0, pady=5, padx=5)
+        self.lt_highlight_question_text_label = Label(self.lt_frame_database, text="Fragentext mit Highlighting?")
+        self.lt_highlight_question_text_label.grid(row=5, column=0, pady=5, padx=5)
 
-        self.ft_var_highlight_question_text = IntVar()
-        self.ft_check_highlight_question_text = Checkbutton(self.ft_frame_database, text="", variable=self.ft_var_highlight_question_text, onvalue=1, offvalue=0)
-        self.ft_check_highlight_question_text.deselect()
-        self.ft_check_highlight_question_text.grid(row=5, column=0, sticky=E)
+        self.lt_var_highlight_question_text = IntVar()
+        self.lt_check_highlight_question_text = Checkbutton(self.lt_frame_database, text="", variable=self.lt_var_highlight_question_text, onvalue=1, offvalue=0)
+        self.lt_check_highlight_question_text.deselect()
+        self.lt_check_highlight_question_text.grid(row=5, column=0, sticky=E)
 
 
         # Checkbox - "Alle DB Einträge löschen?"
-        self.ft_delete_all_label = Label(self.ft_frame_database, text="Alle DB Einträge löschen?")
-        self.ft_delete_all_label.grid(row=7, column=0, pady=5, padx=5)
+        self.lt_delete_all_label = Label(self.lt_frame_database, text="Alle DB Einträge löschen?")
+        self.lt_delete_all_label.grid(row=7, column=0, pady=5, padx=5)
 
-        self.ft_var_delete_all = IntVar()
-        self.ft_check_delete_all = Checkbutton(self.ft_frame_database, text="", variable=self.ft_var_delete_all, onvalue=1, offvalue=0)
-        self.ft_check_delete_all.deselect()
-        self.ft_check_delete_all.grid(row=7, column=0, sticky=E)
+        self.lt_var_delete_all = IntVar()
+        self.lt_check_delete_all = Checkbutton(self.lt_frame_database, text="", variable=self.lt_var_delete_all, onvalue=1, offvalue=0)
+        self.lt_check_delete_all.deselect()
+        self.lt_check_delete_all.grid(row=7, column=0, sticky=E)
 
 
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
@@ -360,69 +360,69 @@ class Lueckentext:
 
 
         # excel_import_btn
-        self.ft_excel_import_to_db_formelfrage_btn = Button(self.ft_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "formelfrage", self.ft_db_entry_to_index_dict))
-        self.ft_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
+        self.lt_excel_import_to_db_formelfrage_btn = Button(self.lt_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "formelfrage", self.lt_db_entry_to_index_dict))
+        self.lt_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.ft_excel_export_to_xlsx_formelfrage_btn = Button(self.ft_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ft_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
-        self.ft_excel_export_to_xlsx_formelfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
+        self.lt_excel_export_to_xlsx_formelfrage_btn = Button(self.lt_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.lt_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
+        self.lt_excel_export_to_xlsx_formelfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
 
         # ILIAS_testfile_import
-        self.ft_import_ilias_testfile_btn = Button(self.ft_frame_excel_import_export, text="ILIAS-Datei importieren",command=lambda: test_generator_modul_ilias_import_test_datei.Import_ILIAS_Datei_in_DB.__init__(self, self.project_root_path))
-        self.ft_import_ilias_testfile_btn.grid(row=2, column=1, sticky=W, pady=(20,0), padx=10)
+        self.lt_import_ilias_testfile_btn = Button(self.lt_frame_excel_import_export, text="ILIAS-Datei importieren",command=lambda: test_generator_modul_ilias_import_test_datei.Import_ILIAS_Datei_in_DB.__init__(self, self.project_root_path))
+        self.lt_import_ilias_testfile_btn.grid(row=2, column=1, sticky=W, pady=(20,0), padx=10)
 
 
 
 
 ###################### "Fragentext Funktionen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
-        self.add_latex_term_btn = Button(self.ft_frame_question_description_functions, text="Text \"Latex\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_latex(self, self.ft_question_description_main_entry))
+        self.add_latex_term_btn = Button(self.lt_frame_question_description_functions, text="Text \"Latex\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_latex(self, self.lt_question_description_main_entry))
         self.add_latex_term_btn.grid(row=1, column=0, padx=10, sticky="W")
 
-        self.set_text_sub_btn = Button(self.ft_frame_question_description_functions, text="Text \"Tiefgestellt\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_sub(self, self.ft_question_description_main_entry))
+        self.set_text_sub_btn = Button(self.lt_frame_question_description_functions, text="Text \"Tiefgestellt\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_sub(self, self.lt_question_description_main_entry))
         self.set_text_sub_btn .grid(row=2, column=0, padx=10, pady=(10, 0), sticky="W")
 
-        self.set_text_sup_btn = Button(self.ft_frame_question_description_functions, text="Text \"Hochgestellt\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_sup(self, self.ft_question_description_main_entry))
+        self.set_text_sup_btn = Button(self.lt_frame_question_description_functions, text="Text \"Hochgestellt\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_sup(self, self.lt_question_description_main_entry))
         self.set_text_sup_btn.grid(row=3, column=0, padx=10, sticky="W")
 
-        self.set_text_italic_btn = Button(self.ft_frame_question_description_functions, text="Text \"Kursiv\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_italic(self, self.ft_question_description_main_entry))
+        self.set_text_italic_btn = Button(self.lt_frame_question_description_functions, text="Text \"Kursiv\"", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.text_italic(self, self.lt_question_description_main_entry))
         self.set_text_italic_btn.grid(row=4, column=0, padx=10, sticky="W")
 
-        self.set_postion_for_picture_1_btn = Button(self.ft_frame_question_description_functions, text="Pos. Bild 1", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_1(self, self.ft_question_description_main_entry))
+        self.set_postion_for_picture_1_btn = Button(self.lt_frame_question_description_functions, text="Pos. Bild 1", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_1(self, self.lt_question_description_main_entry))
         self.set_postion_for_picture_1_btn.grid(row=5, column=0, padx=10, pady=(10, 0), sticky="W")
 
-        self.set_postion_for_picture_2_btn = Button(self.ft_frame_question_description_functions, text="Pos. Bild 2", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_2(self, self.ft_question_description_main_entry))
+        self.set_postion_for_picture_2_btn = Button(self.lt_frame_question_description_functions, text="Pos. Bild 2", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_2(self, self.lt_question_description_main_entry))
         self.set_postion_for_picture_2_btn.grid(row=6, column=0, padx=10,  sticky="W")
 
-        self.set_postion_for_picture_3_btn = Button(self.ft_frame_question_description_functions, text="Pos. Bild 3", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_3(self, self.ft_question_description_main_entry))
+        self.set_postion_for_picture_3_btn = Button(self.lt_frame_question_description_functions, text="Pos. Bild 3", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_3(self, self.lt_question_description_main_entry))
         self.set_postion_for_picture_3_btn.grid(row=7, column=0, padx=10,  sticky="W")
 
 ###################### "Formelfrage" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
-        self.ft_question_author_label = Label(self.ft_frame, text="Fragen-Autor")
-        self.ft_question_author_label.grid(row=0, column=0, sticky=W, pady=(10, 0), padx=10)
-        self.ft_question_author_entry = Entry(self.ft_frame, width=20)
-        self.ft_question_author_entry.grid(row=0, column=1, sticky=W, pady=(10, 0))
+        self.lt_question_author_label = Label(self.lt_frame, text="Fragen-Autor")
+        self.lt_question_author_label.grid(row=0, column=0, sticky=W, pady=(10, 0), padx=10)
+        self.lt_question_author_entry = Entry(self.lt_frame, width=20)
+        self.lt_question_author_entry.grid(row=0, column=1, sticky=W, pady=(10, 0))
 
-        self.ft_question_title_label = Label(self.ft_frame, text="Fragen-Titel")
-        self.ft_question_title_label.grid(row=1, column=0, sticky=W, padx=10, pady=(10, 0))
-        self.ft_question_title_entry = Entry(self.ft_frame, width=60)
-        self.ft_question_title_entry.grid(row=1, column=1,  sticky=W, pady=(10, 0))
+        self.lt_question_title_label = Label(self.lt_frame, text="Fragen-Titel")
+        self.lt_question_title_label.grid(row=1, column=0, sticky=W, padx=10, pady=(10, 0))
+        self.lt_question_title_entry = Entry(self.lt_frame, width=60)
+        self.lt_question_title_entry.grid(row=1, column=1,  sticky=W, pady=(10, 0))
 
-        self.ft_question_description_title_label = Label(self.ft_frame, text="Fragen-Beschreibung")
-        self.ft_question_description_title_label.grid(row=2, column=0, sticky=W, padx=10)
-        self.ft_question_description_title_entry = Entry(self.ft_frame, width=60)
-        self.ft_question_description_title_entry.grid(row=2, column=1, sticky=W)
+        self.lt_question_description_title_label = Label(self.lt_frame, text="Fragen-Beschreibung")
+        self.lt_question_description_title_label.grid(row=2, column=0, sticky=W, padx=10)
+        self.lt_question_description_title_entry = Entry(self.lt_frame, width=60)
+        self.lt_question_description_title_entry.grid(row=2, column=1, sticky=W)
 
-        self.ft_question_textfield_label = Label(self.ft_frame, text="Fragen-Text")
-        self.ft_question_textfield_label.grid(row=3, column=0, sticky=W, padx=10)
+        self.lt_question_textfield_label = Label(self.lt_frame, text="Fragen-Text")
+        self.lt_question_textfield_label.grid(row=3, column=0, sticky=W, padx=10)
 
-        self.ft_bar = Scrollbar(self.ft_frame)
-        self.ft_question_description_main_entry = Text(self.ft_frame, height=6, width=65, font=('Helvetica', 9))
-        self.ft_bar.grid(row=3, column=2, sticky=W)
-        self.ft_question_description_main_entry.grid(row=3, column=1, pady=10, sticky=W)
-        self.ft_bar.config(command=self.ft_question_description_main_entry.yview)
-        self.ft_question_description_main_entry.config(yscrollcommand=self.ft_bar.set)
+        self.lt_bar = Scrollbar(self.lt_frame)
+        self.lt_question_description_main_entry = Text(self.lt_frame, height=6, width=65, font=('Helvetica', 9))
+        self.lt_bar.grid(row=3, column=2, sticky=W)
+        self.lt_question_description_main_entry.grid(row=3, column=1, pady=10, sticky=W)
+        self.lt_bar.config(command=self.lt_question_description_main_entry.yview)
+        self.lt_question_description_main_entry.config(yscrollcommand=self.lt_bar.set)
 
 
 
@@ -431,47 +431,47 @@ class Lueckentext:
         ################### BEARBEITUNGSDAUER
 
 
-        self.ft_processing_time_label = Label(self.ft_frame, text="Bearbeitungsdauer")
-        self.ft_processing_time_label.grid(row=4, column=0, sticky=W, pady=(5, 0), padx=10)
+        self.lt_processing_time_label = Label(self.lt_frame, text="Bearbeitungsdauer")
+        self.lt_processing_time_label.grid(row=4, column=0, sticky=W, pady=(5, 0), padx=10)
 
-        self.ft_processing_time_label = Label(self.ft_frame, text="Std:")
-        self.ft_processing_time_label.grid(row=4, column=1, sticky=W, pady=(5, 0))
-        self.ft_processing_time_label = Label(self.ft_frame, text="Min:")
-        self.ft_processing_time_label.grid(row=4, column=1, sticky=W, padx=70, pady=(5, 0))
-        self.ft_processing_time_label = Label(self.ft_frame, text="Sek:")
-        self.ft_processing_time_label.grid(row=4, column=1, sticky=W, padx=145, pady=(5, 0))
+        self.lt_processing_time_label = Label(self.lt_frame, text="Std:")
+        self.lt_processing_time_label.grid(row=4, column=1, sticky=W, pady=(5, 0))
+        self.lt_processing_time_label = Label(self.lt_frame, text="Min:")
+        self.lt_processing_time_label.grid(row=4, column=1, sticky=W, padx=70, pady=(5, 0))
+        self.lt_processing_time_label = Label(self.lt_frame, text="Sek:")
+        self.lt_processing_time_label.grid(row=4, column=1, sticky=W, padx=145, pady=(5, 0))
 
-        self.ft_processingtime_hours = list(range(24))
-        self.ft_processingtime_minutes = list(range(60))
-        self.ft_processingtime_seconds = list(range(60))
+        self.lt_processingtime_hours = list(range(24))
+        self.lt_processingtime_minutes = list(range(60))
+        self.lt_processingtime_seconds = list(range(60))
 
-        self.ft_proc_hours_box = ttk.Combobox(self.ft_frame, value=self.ft_processingtime_hours, width=2)
-        self.ft_proc_minutes_box = ttk.Combobox(self.ft_frame, value=self.ft_processingtime_minutes, width=2)
-        self.ft_proc_seconds_box = ttk.Combobox(self.ft_frame, value=self.ft_processingtime_seconds, width=2)
+        self.lt_proc_hours_box = ttk.Combobox(self.lt_frame, value=self.lt_processingtime_hours, width=2)
+        self.lt_proc_minutes_box = ttk.Combobox(self.lt_frame, value=self.lt_processingtime_minutes, width=2)
+        self.lt_proc_seconds_box = ttk.Combobox(self.lt_frame, value=self.lt_processingtime_seconds, width=2)
 
-        self.ft_proc_hours_box.current(23)
-        self.ft_proc_minutes_box.current(0)
-        self.ft_proc_seconds_box.current(0)
+        self.lt_proc_hours_box.current(23)
+        self.lt_proc_minutes_box.current(0)
+        self.lt_proc_seconds_box.current(0)
 
         def selected_hours(event):
-            self.selected_hours = self.ft_proc_hours_box.get()
+            self.selected_hours = self.lt_proc_hours_box.get()
 
 
         def selected_minutes(event):
-            self.selected_minutes = self.ft_proc_minutes_box.get()
+            self.selected_minutes = self.lt_proc_minutes_box.get()
 
 
         def selected_seconds(event):
-            self.selected_seconds = self.ft_proc_seconds_box.get()
+            self.selected_seconds = self.lt_proc_seconds_box.get()
 
 
-        self.ft_proc_hours_box.bind("<<ComboboxSelected>>", selected_hours)
-        self.ft_proc_minutes_box.bind("<<ComboboxSelected>>", selected_minutes)
-        self.ft_proc_seconds_box.bind("<<ComboboxSelected>>", selected_seconds)
+        self.lt_proc_hours_box.bind("<<ComboboxSelected>>", selected_hours)
+        self.lt_proc_minutes_box.bind("<<ComboboxSelected>>", selected_minutes)
+        self.lt_proc_seconds_box.bind("<<ComboboxSelected>>", selected_seconds)
 
-        self.ft_proc_hours_box.grid(row=4, column=1, sticky=W, padx=25, pady=(5, 0))
-        self.ft_proc_minutes_box.grid(row=4, column=1, sticky=W, padx=100, pady=(5, 0))
-        self.ft_proc_seconds_box.grid(row=4, column=1, sticky=W, padx=170, pady=(5, 0))
+        self.lt_proc_hours_box.grid(row=4, column=1, sticky=W, padx=25, pady=(5, 0))
+        self.lt_proc_minutes_box.grid(row=4, column=1, sticky=W, padx=100, pady=(5, 0))
+        self.lt_proc_seconds_box.grid(row=4, column=1, sticky=W, padx=170, pady=(5, 0))
 
 
 
@@ -479,33 +479,33 @@ class Lueckentext:
 
         ########################### ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX ##############################
 
-        self.var_min_label = Label(self.ft_frame, text=' Min.')
+        self.var_min_label = Label(self.lt_frame, text=' Min.')
         self.var_min_label.grid(row=5, column=1, sticky=W, pady=(20, 0), padx=60)
 
-        self.var_max_label = Label(self.ft_frame, text=' Max.')
+        self.var_max_label = Label(self.lt_frame, text=' Max.')
         self.var_max_label.grid(row=5, column=1, sticky=W, pady=(20, 0), padx=100)
 
-        self.var_prec_label = Label(self.ft_frame, text=' Präz.')
+        self.var_prec_label = Label(self.lt_frame, text=' Präz.')
         self.var_prec_label.grid(row=5, column=1, sticky=W, pady=(20, 0), padx=140)
 
-        self.var_divby_label = Label(self.ft_frame, text=' Teilbar\ndurch')
+        self.var_divby_label = Label(self.lt_frame, text=' Teilbar\ndurch')
         self.var_divby_label.grid(row=5, column=1, sticky=W, pady=(20, 0), padx=180)
 
-        self.variable1_label = Label(self.ft_frame, text='Variable 1')
-        self.variable2_label = Label(self.ft_frame, text='Variable 2')
-        self.variable3_label = Label(self.ft_frame, text='Variable 3')
-        self.variable4_label = Label(self.ft_frame, text='Variable 4')
-        self.variable5_label = Label(self.ft_frame, text='Variable 5')
-        self.variable6_label = Label(self.ft_frame, text='Variable 6')
-        self.variable7_label = Label(self.ft_frame, text='Variable 7')
-        self.variable8_label = Label(self.ft_frame, text='Variable 8')
-        self.variable9_label = Label(self.ft_frame, text='Variable 9')
-        self.variable10_label = Label(self.ft_frame, text='Variable 10')
-        self.variable11_label = Label(self.ft_frame, text='Variable 11')
-        self.variable12_label = Label(self.ft_frame, text='Variable 12')
-        self.variable13_label = Label(self.ft_frame, text='Variable 13')
-        self.variable14_label = Label(self.ft_frame, text='Variable 14')
-        self.variable15_label = Label(self.ft_frame, text='Variable 15')
+        self.variable1_label = Label(self.lt_frame, text='Variable 1')
+        self.variable2_label = Label(self.lt_frame, text='Variable 2')
+        self.variable3_label = Label(self.lt_frame, text='Variable 3')
+        self.variable4_label = Label(self.lt_frame, text='Variable 4')
+        self.variable5_label = Label(self.lt_frame, text='Variable 5')
+        self.variable6_label = Label(self.lt_frame, text='Variable 6')
+        self.variable7_label = Label(self.lt_frame, text='Variable 7')
+        self.variable8_label = Label(self.lt_frame, text='Variable 8')
+        self.variable9_label = Label(self.lt_frame, text='Variable 9')
+        self.variable10_label = Label(self.lt_frame, text='Variable 10')
+        self.variable11_label = Label(self.lt_frame, text='Variable 11')
+        self.variable12_label = Label(self.lt_frame, text='Variable 12')
+        self.variable13_label = Label(self.lt_frame, text='Variable 13')
+        self.variable14_label = Label(self.lt_frame, text='Variable 14')
+        self.variable15_label = Label(self.lt_frame, text='Variable 15')
 
         # Label für Var1 ist immer aktiv/ zu sehen. Var2-10 werden je nach Auswahl ein-/ausgeblendet
         self.variable1_label.grid(row=6, column=0, sticky=W, padx=20)
@@ -518,95 +518,95 @@ class Lueckentext:
 
         ########################### EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX ##############################
 
-        self.var1_name_entry = Entry(self.ft_frame,  width=6)
-        self.var1_min_entry = Entry(self.ft_frame,  width=6)
-        self.var1_max_entry = Entry(self.ft_frame,  width=6)
-        self.var1_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var1_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var1_name_entry = Entry(self.lt_frame,  width=6)
+        self.var1_min_entry = Entry(self.lt_frame,  width=6)
+        self.var1_max_entry = Entry(self.lt_frame,  width=6)
+        self.var1_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var1_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var2_name_entry = Entry(self.ft_frame,  width=6)
-        self.var2_min_entry = Entry(self.ft_frame,  width=6)
-        self.var2_max_entry = Entry(self.ft_frame,  width=6)
-        self.var2_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var2_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var2_name_entry = Entry(self.lt_frame,  width=6)
+        self.var2_min_entry = Entry(self.lt_frame,  width=6)
+        self.var2_max_entry = Entry(self.lt_frame,  width=6)
+        self.var2_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var2_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var3_name_entry = Entry(self.ft_frame,  width=6)
-        self.var3_min_entry = Entry(self.ft_frame,  width=6)
-        self.var3_max_entry = Entry(self.ft_frame,  width=6)
-        self.var3_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var3_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var3_name_entry = Entry(self.lt_frame,  width=6)
+        self.var3_min_entry = Entry(self.lt_frame,  width=6)
+        self.var3_max_entry = Entry(self.lt_frame,  width=6)
+        self.var3_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var3_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var4_name_entry = Entry(self.ft_frame,  width=6)
-        self.var4_min_entry = Entry(self.ft_frame,  width=6)
-        self.var4_max_entry = Entry(self.ft_frame,  width=6)
-        self.var4_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var4_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var4_name_entry = Entry(self.lt_frame,  width=6)
+        self.var4_min_entry = Entry(self.lt_frame,  width=6)
+        self.var4_max_entry = Entry(self.lt_frame,  width=6)
+        self.var4_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var4_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var5_name_entry = Entry(self.ft_frame,  width=6)
-        self.var5_min_entry = Entry(self.ft_frame,  width=6)
-        self.var5_max_entry = Entry(self.ft_frame,  width=6)
-        self.var5_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var5_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var5_name_entry = Entry(self.lt_frame,  width=6)
+        self.var5_min_entry = Entry(self.lt_frame,  width=6)
+        self.var5_max_entry = Entry(self.lt_frame,  width=6)
+        self.var5_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var5_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var6_name_entry = Entry(self.ft_frame,  width=6)
-        self.var6_min_entry = Entry(self.ft_frame,  width=6)
-        self.var6_max_entry = Entry(self.ft_frame,  width=6)
-        self.var6_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var6_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var6_name_entry = Entry(self.lt_frame,  width=6)
+        self.var6_min_entry = Entry(self.lt_frame,  width=6)
+        self.var6_max_entry = Entry(self.lt_frame,  width=6)
+        self.var6_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var6_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var7_name_entry = Entry(self.ft_frame,  width=6)
-        self.var7_min_entry = Entry(self.ft_frame,  width=6)
-        self.var7_max_entry = Entry(self.ft_frame, width=6)
-        self.var7_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var7_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var7_name_entry = Entry(self.lt_frame,  width=6)
+        self.var7_min_entry = Entry(self.lt_frame,  width=6)
+        self.var7_max_entry = Entry(self.lt_frame, width=6)
+        self.var7_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var7_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var8_name_entry = Entry(self.ft_frame,  width=6)
-        self.var8_min_entry = Entry(self.ft_frame,  width=6)
-        self.var8_max_entry = Entry(self.ft_frame,  width=6)
-        self.var8_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var8_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var8_name_entry = Entry(self.lt_frame,  width=6)
+        self.var8_min_entry = Entry(self.lt_frame,  width=6)
+        self.var8_max_entry = Entry(self.lt_frame,  width=6)
+        self.var8_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var8_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var9_name_entry = Entry(self.ft_frame,  width=6)
-        self.var9_min_entry = Entry(self.ft_frame,  width=6)
-        self.var9_max_entry = Entry(self.ft_frame,  width=6)
-        self.var9_prec_entry = Entry(self.ft_frame,  width=6)
-        self.var9_divby_entry = Entry(self.ft_frame,  width=6)
+        self.var9_name_entry = Entry(self.lt_frame,  width=6)
+        self.var9_min_entry = Entry(self.lt_frame,  width=6)
+        self.var9_max_entry = Entry(self.lt_frame,  width=6)
+        self.var9_prec_entry = Entry(self.lt_frame,  width=6)
+        self.var9_divby_entry = Entry(self.lt_frame,  width=6)
 
-        self.var10_name_entry = Entry(self.ft_frame,  width=6)
-        self.var10_min_entry = Entry(self.ft_frame, width=6)
-        self.var10_max_entry = Entry(self.ft_frame, width=6)
-        self.var10_prec_entry = Entry(self.ft_frame, width=6)
-        self.var10_divby_entry = Entry(self.ft_frame, width=6)
+        self.var10_name_entry = Entry(self.lt_frame,  width=6)
+        self.var10_min_entry = Entry(self.lt_frame, width=6)
+        self.var10_max_entry = Entry(self.lt_frame, width=6)
+        self.var10_prec_entry = Entry(self.lt_frame, width=6)
+        self.var10_divby_entry = Entry(self.lt_frame, width=6)
 
-        self.var11_name_entry = Entry(self.ft_frame,  width=6)
-        self.var11_min_entry = Entry(self.ft_frame, width=6)
-        self.var11_max_entry = Entry(self.ft_frame, width=6)
-        self.var11_prec_entry = Entry(self.ft_frame, width=6)
-        self.var11_divby_entry = Entry(self.ft_frame, width=6)
+        self.var11_name_entry = Entry(self.lt_frame,  width=6)
+        self.var11_min_entry = Entry(self.lt_frame, width=6)
+        self.var11_max_entry = Entry(self.lt_frame, width=6)
+        self.var11_prec_entry = Entry(self.lt_frame, width=6)
+        self.var11_divby_entry = Entry(self.lt_frame, width=6)
 
-        self.var12_name_entry = Entry(self.ft_frame,  width=6)
-        self.var12_min_entry = Entry(self.ft_frame, width=6)
-        self.var12_max_entry = Entry(self.ft_frame, width=6)
-        self.var12_prec_entry = Entry(self.ft_frame, width=6)
-        self.var12_divby_entry = Entry(self.ft_frame, width=6)
+        self.var12_name_entry = Entry(self.lt_frame,  width=6)
+        self.var12_min_entry = Entry(self.lt_frame, width=6)
+        self.var12_max_entry = Entry(self.lt_frame, width=6)
+        self.var12_prec_entry = Entry(self.lt_frame, width=6)
+        self.var12_divby_entry = Entry(self.lt_frame, width=6)
 
-        self.var13_name_entry = Entry(self.ft_frame,  width=6)
-        self.var13_min_entry = Entry(self.ft_frame, width=6)
-        self.var13_max_entry = Entry(self.ft_frame, width=6)
-        self.var13_prec_entry = Entry(self.ft_frame, width=6)
-        self.var13_divby_entry = Entry(self.ft_frame, width=6)
+        self.var13_name_entry = Entry(self.lt_frame,  width=6)
+        self.var13_min_entry = Entry(self.lt_frame, width=6)
+        self.var13_max_entry = Entry(self.lt_frame, width=6)
+        self.var13_prec_entry = Entry(self.lt_frame, width=6)
+        self.var13_divby_entry = Entry(self.lt_frame, width=6)
 
-        self.var14_name_entry = Entry(self.ft_frame,  width=6)
-        self.var14_min_entry = Entry(self.ft_frame, width=6)
-        self.var14_max_entry = Entry(self.ft_frame, width=6)
-        self.var14_prec_entry = Entry(self.ft_frame, width=6)
-        self.var14_divby_entry = Entry(self.ft_frame, width=6)
+        self.var14_name_entry = Entry(self.lt_frame,  width=6)
+        self.var14_min_entry = Entry(self.lt_frame, width=6)
+        self.var14_max_entry = Entry(self.lt_frame, width=6)
+        self.var14_prec_entry = Entry(self.lt_frame, width=6)
+        self.var14_divby_entry = Entry(self.lt_frame, width=6)
 
-        self.var15_name_entry = Entry(self.ft_frame,  width=6)
-        self.var15_min_entry = Entry(self.ft_frame, width=6)
-        self.var15_max_entry = Entry(self.ft_frame, width=6)
-        self.var15_prec_entry = Entry(self.ft_frame, width=6)
-        self.var15_divby_entry = Entry(self.ft_frame, width=6)
+        self.var15_name_entry = Entry(self.lt_frame,  width=6)
+        self.var15_min_entry = Entry(self.lt_frame, width=6)
+        self.var15_max_entry = Entry(self.lt_frame, width=6)
+        self.var15_prec_entry = Entry(self.lt_frame, width=6)
+        self.var15_divby_entry = Entry(self.lt_frame, width=6)
 
 
 
@@ -618,7 +618,7 @@ class Lueckentext:
         self.var1_divby_entry.grid(row=6, column=1, sticky=W, padx=180)
 
         # Wertebereich berechnen für Formel aus Eingabefeld: formula 1
-        self.calculate_value_range_btn = Button(self.ft_frame, text="Wertebereich berechnen",command=lambda: Formelfrage.ft_calculate_value_range_from_formula(self, self.res1_formula_entry.get()))
+        self.calculate_value_range_btn = Button(self.lt_frame, text="Wertebereich berechnen",command=lambda: Formelfrage.lt_calculate_value_range_from_formula(self, self.res1_formula_entry.get()))
         #self.calculate_value_range_btn.grid(row=6, column=1, padx=50, sticky="E")
 
 
@@ -626,296 +626,296 @@ class Lueckentext:
 
         ###########################  EINGABEFELDER-MATRIX (VARIABLEN)  EIN/AUSBLENDEN ##############################
 
-        # Hier werden durch die Funktion "ft_answer_selected" die Variable - Eingabefelder (je nach Wert) ein-/ausgeblendet
+        # Hier werden durch die Funktion "lt_answer_selected" die Variable - Eingabefelder (je nach Wert) ein-/ausgeblendet
 
-        def ft_answer_selected(event):  # "variable" need for comboBox Binding
-
-
-            if self.ft_numbers_of_answers_box.get() == '1':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '2':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '3':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '4':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '5':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '6':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '7':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '8':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '9':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '10':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '11':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '12':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '13':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '14':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
-
-            elif self.ft_numbers_of_answers_box.get() == '15':
-                Formelfrage.ft_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
-                Formelfrage.ft_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "show")
+        def lt_answer_selected(event):  # "variable" need for comboBox Binding
 
 
+            if self.lt_numbers_of_answers_box.get() == '1':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
 
-        self.ft_numbers_of_answers_box_label = Label(self.ft_frame, text="Anzahl der Variablen: ")
-        self.ft_numbers_of_answers_box_label.grid(row=5, column=0, sticky=W, padx=10, pady=(20, 0))
-        self.ft_numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
-        self.ft_numbers_of_answers_box = ttk.Combobox(self.ft_frame, value=self.ft_numbers_of_answers_value, width=3)
-        self.ft_numbers_of_answers_box.bind("<<ComboboxSelected>>", ft_answer_selected)
-        self.ft_numbers_of_answers_box.grid(row=5, column=1, sticky=W, pady=(20, 0))
-        self.ft_numbers_of_answers_box.current(0)
+            elif self.lt_numbers_of_answers_box.get() == '2':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '3':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '4':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '5':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '6':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '7':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '8':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '9':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '10':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '11':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '12':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '13':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "remove")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '14':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "remove")
+
+            elif self.lt_numbers_of_answers_box.get() == '15':
+                Formelfrage.lt_variable_show_or_remove(self, self.variable2_label, self.var2_name_entry, self.var2_min_entry, self.var2_max_entry, self.var2_prec_entry, self.var2_divby_entry, "7", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable3_label, self.var3_name_entry, self.var3_min_entry, self.var3_max_entry, self.var3_prec_entry, self.var3_divby_entry, "8", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable4_label, self.var4_name_entry, self.var4_min_entry, self.var4_max_entry, self.var4_prec_entry, self.var4_divby_entry, "9", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable5_label, self.var5_name_entry, self.var5_min_entry, self.var5_max_entry, self.var5_prec_entry, self.var5_divby_entry, "10", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable6_label, self.var6_name_entry, self.var6_min_entry, self.var6_max_entry, self.var6_prec_entry, self.var6_divby_entry, "11", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable7_label, self.var7_name_entry, self.var7_min_entry, self.var7_max_entry, self.var7_prec_entry, self.var7_divby_entry, "12", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable8_label, self.var8_name_entry, self.var8_min_entry, self.var8_max_entry, self.var8_prec_entry, self.var8_divby_entry, "13", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable9_label, self.var9_name_entry, self.var9_min_entry, self.var9_max_entry, self.var9_prec_entry, self.var9_divby_entry, "14", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable10_label, self.var10_name_entry, self.var10_min_entry, self.var10_max_entry, self.var10_prec_entry, self.var10_divby_entry, "15", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable11_label, self.var11_name_entry, self.var11_min_entry, self.var11_max_entry, self.var11_prec_entry, self.var11_divby_entry, "16", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable12_label, self.var12_name_entry, self.var12_min_entry, self.var12_max_entry, self.var12_prec_entry, self.var12_divby_entry, "17", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable13_label, self.var13_name_entry, self.var13_min_entry, self.var13_max_entry, self.var13_prec_entry, self.var13_divby_entry, "18", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable14_label, self.var14_name_entry, self.var14_min_entry, self.var14_max_entry, self.var14_prec_entry, self.var14_divby_entry, "19", "show")
+                Formelfrage.lt_variable_show_or_remove(self, self.variable15_label, self.var15_name_entry, self.var15_min_entry, self.var15_max_entry, self.var15_prec_entry, self.var15_divby_entry, "20", "show")
+
+
+
+        self.lt_numbers_of_answers_box_label = Label(self.lt_frame, text="Anzahl der Variablen: ")
+        self.lt_numbers_of_answers_box_label.grid(row=5, column=0, sticky=W, padx=10, pady=(20, 0))
+        self.lt_numbers_of_answers_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+        self.lt_numbers_of_answers_box = ttk.Combobox(self.lt_frame, value=self.lt_numbers_of_answers_value, width=3)
+        self.lt_numbers_of_answers_box.bind("<<ComboboxSelected>>", lt_answer_selected)
+        self.lt_numbers_of_answers_box.grid(row=5, column=1, sticky=W, pady=(20, 0))
+        self.lt_numbers_of_answers_box.current(0)
 
 
         ###########################  AUSWAHL DER EINHEITEN FÜR VARIABLEN ---- DERZEIT NICHT AKTIV ##############################
 
         self.select_var_units = ["Unit", "H", "mH", "µH", "nH", "pH", "---", "F", "mF", "µF", "nF", "pF", "---", "MV", "kV", "V", "mV", "µV", "---"]
 
-        self.var1_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var1_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var1_unit_myCombo.current(0)
 
-        self.var2_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var2_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var2_unit_myCombo.current(0)
 
-        self.var3_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var3_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var3_unit_myCombo.current(0)
 
-        self.var4_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var4_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var4_unit_myCombo.current(0)
 
-        self.var5_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var5_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var5_unit_myCombo.current(0)
 
-        self.var6_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var6_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var6_unit_myCombo.current(0)
 
-        self.var7_unit_myCombo = ttk.Combobox(self.ft_frame, value=self.select_var_units, width=5)
+        self.var7_unit_myCombo = ttk.Combobox(self.lt_frame, value=self.select_var_units, width=5)
         self.var7_unit_myCombo.current(0)
 
 
         ########################### ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX ##############################
 
-        self.res_min_label = Label(self.ft_frame, text=' Min.')
-        self.res_max_label = Label(self.ft_frame, text=' Max.')
-        self.res_prec_label = Label(self.ft_frame, text=' Präz.')
-        self.res_tol_label = Label(self.ft_frame, text='  Tol.')
-        self.res_points_label = Label(self.ft_frame, text='Punkte')
-        self.res_formula_label = Label(self.ft_frame, text='Formel')
+        self.res_min_label = Label(self.lt_frame, text=' Min.')
+        self.res_max_label = Label(self.lt_frame, text=' Max.')
+        self.res_prec_label = Label(self.lt_frame, text=' Präz.')
+        self.res_tol_label = Label(self.lt_frame, text='  Tol.')
+        self.res_points_label = Label(self.lt_frame, text='Punkte')
+        self.res_formula_label = Label(self.lt_frame, text='Formel')
 
         self.res_min_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=60)
         self.res_max_label.grid(row=40, column=1, sticky=W, pady=(10, 0), padx=100)
@@ -926,16 +926,16 @@ class Lueckentext:
 
 
 
-        self.result1_label = Label(self.ft_frame, text='Ergebnis 1')
-        self.result2_label = Label(self.ft_frame, text='Ergebnis 2')
-        self.result3_label = Label(self.ft_frame, text='Ergebnis 3')
-        self.result4_label = Label(self.ft_frame, text='Ergebnis 4')
-        self.result5_label = Label(self.ft_frame, text='Ergebnis 5')
-        self.result6_label = Label(self.ft_frame, text='Ergebnis 6')
-        self.result7_label = Label(self.ft_frame, text='Ergebnis 7')
-        self.result8_label = Label(self.ft_frame, text='Ergebnis 8')
-        self.result9_label = Label(self.ft_frame, text='Ergebnis 9')
-        self.result10_label = Label(self.ft_frame, text='Ergebnis 10')
+        self.result1_label = Label(self.lt_frame, text='Ergebnis 1')
+        self.result2_label = Label(self.lt_frame, text='Ergebnis 2')
+        self.result3_label = Label(self.lt_frame, text='Ergebnis 3')
+        self.result4_label = Label(self.lt_frame, text='Ergebnis 4')
+        self.result5_label = Label(self.lt_frame, text='Ergebnis 5')
+        self.result6_label = Label(self.lt_frame, text='Ergebnis 6')
+        self.result7_label = Label(self.lt_frame, text='Ergebnis 7')
+        self.result8_label = Label(self.lt_frame, text='Ergebnis 8')
+        self.result9_label = Label(self.lt_frame, text='Ergebnis 9')
+        self.result10_label = Label(self.lt_frame, text='Ergebnis 10')
 
         # Label für Res1 ist immer aktiv/ zu sehen. Res2-10 werden je nach Auswahl ein-/ausgeblendet
         self.result1_label.grid(row=41, column=0, sticky=W, padx=20)
@@ -945,85 +945,85 @@ class Lueckentext:
 
         ########################### EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX ##############################
 
-        self.res1_name_entry = Entry(self.ft_frame, width=6)
-        self.res1_min_entry = Entry(self.ft_frame, width=6)
-        self.res1_max_entry = Entry(self.ft_frame, width=6)
-        self.res1_prec_entry = Entry(self.ft_frame, width=6)
-        self.res1_tol_entry = Entry(self.ft_frame, width=6)
-        self.res1_points_entry = Entry(self.ft_frame, width=6)
-        self.res1_formula_entry = Entry(self.ft_frame, width=30)
+        self.res1_name_entry = Entry(self.lt_frame, width=6)
+        self.res1_min_entry = Entry(self.lt_frame, width=6)
+        self.res1_max_entry = Entry(self.lt_frame, width=6)
+        self.res1_prec_entry = Entry(self.lt_frame, width=6)
+        self.res1_tol_entry = Entry(self.lt_frame, width=6)
+        self.res1_points_entry = Entry(self.lt_frame, width=6)
+        self.res1_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res2_name_entry = Entry(self.ft_frame, width=6)
-        self.res2_min_entry = Entry(self.ft_frame, width=6)
-        self.res2_max_entry = Entry(self.ft_frame, width=6)
-        self.res2_prec_entry = Entry(self.ft_frame, width=6)
-        self.res2_tol_entry = Entry(self.ft_frame, width=6)
-        self.res2_points_entry = Entry(self.ft_frame, width=6)
-        self.res2_formula_entry = Entry(self.ft_frame, width=30)
+        self.res2_name_entry = Entry(self.lt_frame, width=6)
+        self.res2_min_entry = Entry(self.lt_frame, width=6)
+        self.res2_max_entry = Entry(self.lt_frame, width=6)
+        self.res2_prec_entry = Entry(self.lt_frame, width=6)
+        self.res2_tol_entry = Entry(self.lt_frame, width=6)
+        self.res2_points_entry = Entry(self.lt_frame, width=6)
+        self.res2_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res3_name_entry = Entry(self.ft_frame, width=6)
-        self.res3_min_entry = Entry(self.ft_frame, width=6)
-        self.res3_max_entry = Entry(self.ft_frame, width=6)
-        self.res3_prec_entry = Entry(self.ft_frame, width=6)
-        self.res3_tol_entry = Entry(self.ft_frame, width=6)
-        self.res3_points_entry = Entry(self.ft_frame, width=6)
-        self.res3_formula_entry = Entry(self.ft_frame, width=30)
+        self.res3_name_entry = Entry(self.lt_frame, width=6)
+        self.res3_min_entry = Entry(self.lt_frame, width=6)
+        self.res3_max_entry = Entry(self.lt_frame, width=6)
+        self.res3_prec_entry = Entry(self.lt_frame, width=6)
+        self.res3_tol_entry = Entry(self.lt_frame, width=6)
+        self.res3_points_entry = Entry(self.lt_frame, width=6)
+        self.res3_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res4_name_entry = Entry(self.ft_frame, width=6)
-        self.res4_min_entry = Entry(self.ft_frame, width=6)
-        self.res4_max_entry = Entry(self.ft_frame, width=6)
-        self.res4_prec_entry = Entry(self.ft_frame, width=6)
-        self.res4_tol_entry = Entry(self.ft_frame, width=6)
-        self.res4_points_entry = Entry(self.ft_frame, width=6)
-        self.res4_formula_entry = Entry(self.ft_frame, width=30)
+        self.res4_name_entry = Entry(self.lt_frame, width=6)
+        self.res4_min_entry = Entry(self.lt_frame, width=6)
+        self.res4_max_entry = Entry(self.lt_frame, width=6)
+        self.res4_prec_entry = Entry(self.lt_frame, width=6)
+        self.res4_tol_entry = Entry(self.lt_frame, width=6)
+        self.res4_points_entry = Entry(self.lt_frame, width=6)
+        self.res4_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res5_name_entry = Entry(self.ft_frame, width=6)
-        self.res5_min_entry = Entry(self.ft_frame, width=6)
-        self.res5_max_entry = Entry(self.ft_frame, width=6)
-        self.res5_prec_entry = Entry(self.ft_frame, width=6)
-        self.res5_tol_entry = Entry(self.ft_frame,  width=6)
-        self.res5_points_entry = Entry(self.ft_frame, width=6)
-        self.res5_formula_entry = Entry(self.ft_frame, width=30)
+        self.res5_name_entry = Entry(self.lt_frame, width=6)
+        self.res5_min_entry = Entry(self.lt_frame, width=6)
+        self.res5_max_entry = Entry(self.lt_frame, width=6)
+        self.res5_prec_entry = Entry(self.lt_frame, width=6)
+        self.res5_tol_entry = Entry(self.lt_frame,  width=6)
+        self.res5_points_entry = Entry(self.lt_frame, width=6)
+        self.res5_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res6_name_entry = Entry(self.ft_frame, width=6)
-        self.res6_min_entry = Entry(self.ft_frame, width=6)
-        self.res6_max_entry = Entry(self.ft_frame, width=6)
-        self.res6_prec_entry = Entry(self.ft_frame, width=6)
-        self.res6_tol_entry = Entry(self.ft_frame, width=6)
-        self.res6_points_entry = Entry(self.ft_frame, width=6)
-        self.res6_formula_entry = Entry(self.ft_frame, width=30)
+        self.res6_name_entry = Entry(self.lt_frame, width=6)
+        self.res6_min_entry = Entry(self.lt_frame, width=6)
+        self.res6_max_entry = Entry(self.lt_frame, width=6)
+        self.res6_prec_entry = Entry(self.lt_frame, width=6)
+        self.res6_tol_entry = Entry(self.lt_frame, width=6)
+        self.res6_points_entry = Entry(self.lt_frame, width=6)
+        self.res6_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res7_name_entry = Entry(self.ft_frame, width=6)
-        self.res7_min_entry = Entry(self.ft_frame, width=6)
-        self.res7_max_entry = Entry(self.ft_frame, width=6)
-        self.res7_prec_entry = Entry(self.ft_frame, width=6)
-        self.res7_tol_entry = Entry(self.ft_frame, width=6)
-        self.res7_points_entry = Entry(self.ft_frame, width=6)
-        self.res7_formula_entry = Entry(self.ft_frame, width=30)
+        self.res7_name_entry = Entry(self.lt_frame, width=6)
+        self.res7_min_entry = Entry(self.lt_frame, width=6)
+        self.res7_max_entry = Entry(self.lt_frame, width=6)
+        self.res7_prec_entry = Entry(self.lt_frame, width=6)
+        self.res7_tol_entry = Entry(self.lt_frame, width=6)
+        self.res7_points_entry = Entry(self.lt_frame, width=6)
+        self.res7_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res8_name_entry = Entry(self.ft_frame,  width=6)
-        self.res8_min_entry = Entry(self.ft_frame,  width=6)
-        self.res8_max_entry = Entry(self.ft_frame,  width=6)
-        self.res8_prec_entry = Entry(self.ft_frame,  width=6)
-        self.res8_tol_entry = Entry(self.ft_frame,  width=6)
-        self.res8_points_entry = Entry(self.ft_frame,  width=6)
-        self.res8_formula_entry = Entry(self.ft_frame,  width=30)
+        self.res8_name_entry = Entry(self.lt_frame,  width=6)
+        self.res8_min_entry = Entry(self.lt_frame,  width=6)
+        self.res8_max_entry = Entry(self.lt_frame,  width=6)
+        self.res8_prec_entry = Entry(self.lt_frame,  width=6)
+        self.res8_tol_entry = Entry(self.lt_frame,  width=6)
+        self.res8_points_entry = Entry(self.lt_frame,  width=6)
+        self.res8_formula_entry = Entry(self.lt_frame,  width=30)
 
-        self.res9_name_entry = Entry(self.ft_frame, width=6)
-        self.res9_min_entry = Entry(self.ft_frame, width=6)
-        self.res9_max_entry = Entry(self.ft_frame, width=6)
-        self.res9_prec_entry = Entry(self.ft_frame, width=6)
-        self.res9_tol_entry = Entry(self.ft_frame, width=6)
-        self.res9_points_entry = Entry(self.ft_frame, width=6)
-        self.res9_formula_entry = Entry(self.ft_frame, width=30)
+        self.res9_name_entry = Entry(self.lt_frame, width=6)
+        self.res9_min_entry = Entry(self.lt_frame, width=6)
+        self.res9_max_entry = Entry(self.lt_frame, width=6)
+        self.res9_prec_entry = Entry(self.lt_frame, width=6)
+        self.res9_tol_entry = Entry(self.lt_frame, width=6)
+        self.res9_points_entry = Entry(self.lt_frame, width=6)
+        self.res9_formula_entry = Entry(self.lt_frame, width=30)
 
-        self.res10_name_entry = Entry(self.ft_frame, width=6)
-        self.res10_min_entry = Entry(self.ft_frame, width=6)
-        self.res10_max_entry = Entry(self.ft_frame, width=6)
-        self.res10_prec_entry = Entry(self.ft_frame, width=6)
-        self.res10_tol_entry = Entry(self.ft_frame, width=6)
-        self.res10_points_entry = Entry(self.ft_frame, width=6)
-        self.res10_formula_entry = Entry(self.ft_frame, width=30)
+        self.res10_name_entry = Entry(self.lt_frame, width=6)
+        self.res10_min_entry = Entry(self.lt_frame, width=6)
+        self.res10_max_entry = Entry(self.lt_frame, width=6)
+        self.res10_prec_entry = Entry(self.lt_frame, width=6)
+        self.res10_tol_entry = Entry(self.lt_frame, width=6)
+        self.res10_points_entry = Entry(self.lt_frame, width=6)
+        self.res10_formula_entry = Entry(self.lt_frame, width=30)
 
         # Eingabefelder für Res1 sind immer aktiv/ zu sehen. Res2-10 werden je nach Auswahl ein-/ausgeblendet
         self.res1_name_entry.grid(row=41, column=1, sticky=W)
@@ -1058,137 +1058,137 @@ class Lueckentext:
 
 
 
-        def ft_result_selected(event):  # "variable" need for comboBox Binding
+        def lt_result_selected(event):  # "variable" need for comboBox Binding
 
-            if self.ft_numbers_of_results_box.get() == '1':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
-
-
-            elif self.ft_numbers_of_results_box.get() == '2':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            if self.lt_numbers_of_results_box.get() == '1':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '3':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '2':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '4':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '3':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '5':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '4':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '6':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '5':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '7':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '6':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '8':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '7':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '9':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
+            elif self.lt_numbers_of_results_box.get() == '8':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "remove")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-            elif self.ft_numbers_of_results_box.get() == '10':
-                Formelfrage.ft_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
-                Formelfrage.ft_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "show")
+            elif self.lt_numbers_of_results_box.get() == '9':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "remove")
 
 
-        self.ft_numbers_of_results_box_label = Label(self.ft_frame, text="Anzahl der Ergebnisse: ")
-        self.ft_numbers_of_results_box_label.grid(row=40, column=0, sticky=W, padx=10, pady=(20, 0))
-        self.ft_numbers_of_results_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-        self.ft_numbers_of_results_box = ttk.Combobox(self.ft_frame, value=self.ft_numbers_of_results_value, width=3)
-        self.ft_numbers_of_results_box.current(0)
-        self.ft_numbers_of_results_box.bind("<<ComboboxSelected>>", ft_result_selected)
-        self.ft_numbers_of_results_box.grid(row=40, column=1, sticky=W, pady=(20, 0))
+            elif self.lt_numbers_of_results_box.get() == '10':
+                Formelfrage.lt_result_show_or_remove(self, self.result2_label, self.res2_name_entry, self.res2_min_entry, self.res2_max_entry, self.res2_prec_entry, self.res2_tol_entry, self.res2_points_entry, self.res2_formula_entry, "42", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result3_label, self.res3_name_entry, self.res3_min_entry, self.res3_max_entry, self.res3_prec_entry, self.res3_tol_entry, self.res3_points_entry, self.res3_formula_entry, "43", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result4_label, self.res4_name_entry, self.res4_min_entry, self.res4_max_entry, self.res4_prec_entry, self.res4_tol_entry, self.res4_points_entry, self.res4_formula_entry, "44", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result5_label, self.res5_name_entry, self.res5_min_entry, self.res5_max_entry, self.res5_prec_entry, self.res5_tol_entry, self.res5_points_entry, self.res5_formula_entry, "45", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result6_label, self.res6_name_entry, self.res6_min_entry, self.res6_max_entry, self.res6_prec_entry, self.res6_tol_entry, self.res6_points_entry, self.res6_formula_entry, "46", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result7_label, self.res7_name_entry, self.res7_min_entry, self.res7_max_entry, self.res7_prec_entry, self.res7_tol_entry, self.res7_points_entry, self.res7_formula_entry, "47", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result8_label, self.res8_name_entry, self.res8_min_entry, self.res8_max_entry, self.res8_prec_entry, self.res8_tol_entry, self.res8_points_entry, self.res8_formula_entry, "48", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result9_label, self.res9_name_entry, self.res9_min_entry, self.res9_max_entry, self.res9_prec_entry, self.res9_tol_entry, self.res9_points_entry, self.res9_formula_entry, "49", "show")
+                Formelfrage.lt_result_show_or_remove(self, self.result10_label, self.res10_name_entry, self.res10_min_entry, self.res10_max_entry, self.res10_prec_entry, self.res10_tol_entry, self.res10_points_entry, self.res10_formula_entry, "50", "show")
 
-    def ft_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status):
+
+        self.lt_numbers_of_results_box_label = Label(self.lt_frame, text="Anzahl der Ergebnisse: ")
+        self.lt_numbers_of_results_box_label.grid(row=40, column=0, sticky=W, padx=10, pady=(20, 0))
+        self.lt_numbers_of_results_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        self.lt_numbers_of_results_box = ttk.Combobox(self.lt_frame, value=self.lt_numbers_of_results_value, width=3)
+        self.lt_numbers_of_results_box.current(0)
+        self.lt_numbers_of_results_box.bind("<<ComboboxSelected>>", lt_result_selected)
+        self.lt_numbers_of_results_box.grid(row=40, column=1, sticky=W, pady=(20, 0))
+
+    def lt_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status):
 
             if var_status == "show":
                 var_label.grid(row=int(row_nr), column=0, sticky=W, padx=20)
@@ -1209,7 +1209,7 @@ class Lueckentext:
                 var_divby_entry.grid_remove()
                 # var_unit_myCombo.grid_remove()
 
-    def ft_result_show_or_remove(self, res_label, res_name_entry, res_min_entry, res_max_entry, res_prec_entry, res_tol_entry, res_points_entry, res_formula_entry, row_nr, res_status):
+    def lt_result_show_or_remove(self, res_label, res_name_entry, res_min_entry, res_max_entry, res_prec_entry, res_tol_entry, res_points_entry, res_formula_entry, row_nr, res_status):
 
         if res_status == "show":
             res_label.grid(row=int(row_nr), column=0, sticky=W, padx=20)
@@ -1246,7 +1246,7 @@ class Lueckentext:
         self.selected_unit = self.unit_to_ilias_code[self.var_selected_unit]
         return self.selected_unit
 
-    def ft_replace_character_in_xml_file(self, file_path_qti_xml):
+    def lt_replace_character_in_xml_file(self, file_path_qti_xml):
         # Im Nachgang werden alle "&amp;" wieder gegen "&" getauscht
         # "&" Zeichen kann XML nicht verarbeiten, daher wurde beim schreiben der Texte in die XML "&" gegen "&amp;" getauscht
 
@@ -1262,7 +1262,7 @@ class Lueckentext:
         print("...XML_DATEI_QTI --  \"&amp;\"-ZEICHEN ÜBERARBEITUNG ABGESCHLOSSEN!")
 
     """
-    def ft_add_image_to_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
+    def lt_add_image_to_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
 
         self.check_use_img_1 = check_use_img_1
         self.check_use_img_2 = check_use_img_2
@@ -1270,39 +1270,39 @@ class Lueckentext:
 
         # Bild 1 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_1 == 1:
-            self.ft_description_img_path_1 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_1 = self.ft_description_img_path_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
+            self.lt_description_img_path_1 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.last_char_index_img_1 = self.lt_description_img_path_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
-            self.ft_description_img_name_1= self.ft_description_img_path_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_1 = self.ft_description_img_path_1[-4:]
+            self.lt_description_img_name_1= self.lt_description_img_path_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
+            self.image_format_new_img_1 = self.lt_description_img_path_1[-4:]
 
-            self.ft_question_description_img_1_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_1)
-            self.ft_question_description_img_1_filename_label.grid(row=0, column=1, sticky=W)
+            self.lt_question_description_img_1_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_1)
+            self.lt_question_description_img_1_filename_label.grid(row=0, column=1, sticky=W)
 
-            self.file_image_1 = ImageTk.PhotoImage(Image.open(self.ft_description_img_path_1).resize((100, 100)))
-            self.file_image_1_raw = Image.open(self.ft_description_img_path_1)
+            self.file_image_1 = ImageTk.PhotoImage(Image.open(self.lt_description_img_path_1).resize((100, 100)))
+            self.file_image_1_raw = Image.open(self.lt_description_img_path_1)
             self.file_image_1_width, self.file_image_1_height = self.file_image_1_raw.size
-            self.file_image_1_label = Label(self.ft_frame_description_picture, image=self.file_image_1)
+            self.file_image_1_label = Label(self.lt_frame_description_picture, image=self.file_image_1)
             self.file_image_1_label.image = self.file_image_1
             self.file_image_1_label.grid(row=0, column=2)
 
 
         # Bild 2 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_2 == 1:
-            self.ft_description_img_path_2 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_2 = self.ft_description_img_path_2.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
+            self.lt_description_img_path_2 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.last_char_index_img_2 = self.lt_description_img_path_2.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
-            self.ft_description_img_name_2= self.ft_description_img_path_2[int(self.last_char_index_img_2) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_2 = self.ft_description_img_path_2[-4:]
+            self.lt_description_img_name_2= self.lt_description_img_path_2[int(self.last_char_index_img_2) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
+            self.image_format_new_img_2 = self.lt_description_img_path_2[-4:]
 
-            self.ft_question_description_img_2_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_2)
-            self.ft_question_description_img_2_filename_label.grid(row=1, column=1, sticky=W)
+            self.lt_question_description_img_2_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_2)
+            self.lt_question_description_img_2_filename_label.grid(row=1, column=1, sticky=W)
 
 
-            self.file_image_2 = ImageTk.PhotoImage(Image.open(self.ft_description_img_path_2).resize((100, 100)))
-            self.file_image_2_raw = Image.open(self.ft_description_img_path_2)
+            self.file_image_2 = ImageTk.PhotoImage(Image.open(self.lt_description_img_path_2).resize((100, 100)))
+            self.file_image_2_raw = Image.open(self.lt_description_img_path_2)
             self.file_image_2_width, self.file_image_2_height = self.file_image_2_raw.size
-            self.file_image_2_label = Label(self.ft_frame_description_picture, image=self.file_image_2)
+            self.file_image_2_label = Label(self.lt_frame_description_picture, image=self.file_image_2)
             self.file_image_2_label.image = self.file_image_2
             self.file_image_2_label.grid(row=1, column=2)
 
@@ -1310,45 +1310,45 @@ class Lueckentext:
         # Bild 3 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_3 == 1:
 
-            self.ft_description_img_path_3 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_3 = self.ft_description_img_path_3.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
+            self.lt_description_img_path_3 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.last_char_index_img_3 = self.lt_description_img_path_3.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
-            self.ft_description_img_name_3 = self.ft_description_img_path_3[int(self.last_char_index_img_3) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_3 = self.ft_description_img_path_3[-4:]
-            self.ft_question_description_img_3_filename_label = Label(self.ft_frame_description_picture, text=self.ft_description_img_name_3)
-            self.ft_question_description_img_3_filename_label.grid(row=2, column=1, sticky=W)
+            self.lt_description_img_name_3 = self.lt_description_img_path_3[int(self.last_char_index_img_3) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
+            self.image_format_new_img_3 = self.lt_description_img_path_3[-4:]
+            self.lt_question_description_img_3_filename_label = Label(self.lt_frame_description_picture, text=self.lt_description_img_name_3)
+            self.lt_question_description_img_3_filename_label.grid(row=2, column=1, sticky=W)
 
-            self.file_image_3 = ImageTk.PhotoImage(Image.open(self.ft_description_img_path_3).resize((100, 100)))
-            self.file_image_3_raw = Image.open(self.ft_description_img_path_3)
+            self.file_image_3 = ImageTk.PhotoImage(Image.open(self.lt_description_img_path_3).resize((100, 100)))
+            self.file_image_3_raw = Image.open(self.lt_description_img_path_3)
             self.file_image_3_width, self.file_image_3_height = self.file_image_3_raw.size
-            self.file_image_3_label = Label(self.ft_frame_description_picture, image=self.file_image_3)
+            self.file_image_3_label = Label(self.lt_frame_description_picture, image=self.file_image_3)
             self.file_image_3_label.image = self.file_image_3
             self.file_image_3_label.grid(row=2, column=2)
 
-    def ft_delete_image_from_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
+    def lt_delete_image_from_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
         self.check_use_img_1 = check_use_img_1
         self.check_use_img_2 = check_use_img_2
         self.check_use_img_3 = check_use_img_3
 
         if self.check_use_img_1 == 0:
             #print("0 in 1")
-            self.ft_question_description_img_1_filename_label.grid_remove()
+            self.lt_question_description_img_1_filename_label.grid_remove()
             self.file_image_1_label.grid_remove()
-            self.ft_description_img_name_1="EMPTY"
+            self.lt_description_img_name_1="EMPTY"
 
         if self.check_use_img_2 == 0:
-            self.ft_question_description_img_2_filename_label.grid_remove()
+            self.lt_question_description_img_2_filename_label.grid_remove()
             self.file_image_2_label.grid_remove()
-            self.ft_description_img_name_2="EMPTY"
+            self.lt_description_img_name_2="EMPTY"
             #print("0 in 2")
         if self.check_use_img_3 == 0:
-            self.ft_question_description_img_3_filename_label.grid_remove()
+            self.lt_question_description_img_3_filename_label.grid_remove()
             self.file_image_3_label.grid_remove()
-            self.ft_description_img_name_3 ="EMPTY"
+            self.lt_description_img_name_3 ="EMPTY"
             #print("0 in 3")
     """
     # Wertebereich berechnen für bis zu 4 Variablen
-    def ft_replace_symbols_in_formula(self, formula):
+    def lt_replace_symbols_in_formula(self, formula):
 
         self.formula = formula
 
@@ -1398,7 +1398,7 @@ class Lueckentext:
         print("----------------------")
         return self.formula
 
-    def ft_calculate_value_range_from_formula(self, formula):
+    def lt_calculate_value_range_from_formula(self, formula):
 
         self.var1_in_formula = 0
         self.var2_in_formula = 0
@@ -1412,7 +1412,7 @@ class Lueckentext:
         # Functions
         #self.calc_formula1 = "lambda row: " + str(self.calc_formula1) + ","
 
-        self.expression_test = Formelfrage.ft_replace_symbols_in_formula(self, formula)
+        self.expression_test = Formelfrage.lt_replace_symbols_in_formula(self, formula)
 
         if 'a' in self.expression_test:
             #print("$v1 in der Formel")
@@ -1565,54 +1565,54 @@ class Lueckentext:
 
 
 #############  DATENBANK FUNKTIONEN
-    def ft_save_id_to_db(self):
+    def lt_save_id_to_db(self):
         conn = sqlite3.connect(self.database_formelfrage_path)
         c =conn.cursor()
 
 
 
         # format of duration P0Y0M0DT0H30M0S
-        self.ft_test_time = "P0Y0M0DT" + self.ft_proc_hours_box.get() + "H" + self.ft_proc_minutes_box.get() + "M" + self.ft_proc_seconds_box.get() + "S"
+        self.lt_test_time = "P0Y0M0DT" + self.lt_proc_hours_box.get() + "H" + self.lt_proc_minutes_box.get() + "M" + self.lt_proc_seconds_box.get() + "S"
 
 
         # Bild 1
-        if self.ft_description_img_name_1!= "EMPTY":
+        if self.lt_description_img_name_1!= "EMPTY":
             # read image data in byte format
-            with open(self.ft_description_img_path_1, 'rb') as image_file_1:
-                self.ft_description_img_data_1 = image_file_1.read()
+            with open(self.lt_description_img_path_1, 'rb') as image_file_1:
+                self.lt_description_img_data_1 = image_file_1.read()
 
 
         else:
-            self.ft_description_img_name_1= "EMPTY"
-            self.ft_description_img_path_1 = "EMPTY"
-            self.ft_description_img_data_1 = "EMPTY"
+            self.lt_description_img_name_1= "EMPTY"
+            self.lt_description_img_path_1 = "EMPTY"
+            self.lt_description_img_data_1 = "EMPTY"
 
 
         # Bild 2
-        if self.ft_description_img_name_2!= "EMPTY":
+        if self.lt_description_img_name_2!= "EMPTY":
             # read image data in byte format
-            with open(self.ft_description_img_path_2, 'rb') as image_file_2:
-                self.ft_description_img_data_2 = image_file_2.read()
+            with open(self.lt_description_img_path_2, 'rb') as image_file_2:
+                self.lt_description_img_data_2 = image_file_2.read()
 
 
         else:
-            self.ft_description_img_name_2= "EMPTY"
-            self.ft_description_img_path_2 = "EMPTY"
-            self.ft_description_img_data_2 = "EMPTY"
+            self.lt_description_img_name_2= "EMPTY"
+            self.lt_description_img_path_2 = "EMPTY"
+            self.lt_description_img_data_2 = "EMPTY"
 
 
         # Bild 3
-        if self.ft_description_img_name_3 != "EMPTY":
+        if self.lt_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
-            with open(self.ft_description_img_path_3, 'rb') as image_file_3:
-                self.ft_description_img_data_3 = image_file_3.read()
+            with open(self.lt_description_img_path_3, 'rb') as image_file_3:
+                self.lt_description_img_data_3 = image_file_3.read()
 
 
         else:
-            self.ft_description_img_name_3 = "EMPTY"
-            self.ft_description_img_path_3 = "EMPTY"
-            self.ft_description_img_data_3 = "EMPTY"
+            self.lt_description_img_name_3 = "EMPTY"
+            self.lt_description_img_path_3 = "EMPTY"
+            self.lt_description_img_data_3 = "EMPTY"
 
 
         # Insert into Table
@@ -1653,18 +1653,18 @@ class Lueckentext:
             ":description_img_name_3, :description_img_data_3, :description_img_path_3, "
             ":test_time, :var_number, :res_number, :question_pool_tag, :question_author)",
             {
-                'question_difficulty': self.ft_question_difficulty_entry.get(),
-                'question_category': self.ft_question_category_entry.get(),
-                'question_type': self.ft_question_type_entry.get(),
+                'question_difficulty': self.lt_question_difficulty_entry.get(),
+                'question_category': self.lt_question_category_entry.get(),
+                'question_type': self.lt_question_type_entry.get(),
 
-                'question_title': self.ft_question_title_entry.get(),
-                'question_description_title': self.ft_question_description_title_entry.get(),
+                'question_title': self.lt_question_title_entry.get(),
+                'question_description_title': self.lt_question_description_title_entry.get(),
 
                 # The first part, "1.0" means that the input should be read from line one, character zero (ie: the very first character).
                 # END is an imported constant which is set to the string "end". The END part means to read until the end of the text box is reached.
                 # The only issue with this is that it actually adds a newline to our input. "
                 # "So, in order to fix it we should change END to end-1c(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c would mean delete two characters, and so on."
-                'question_description_main': self.ft_question_description_main_entry.get("1.0", 'end-1c'),
+                'question_description_main': self.lt_question_description_main_entry.get("1.0", 'end-1c'),
 
                 'res1_formula': self.res1_formula_entry.get(),
                 'res2_formula': self.res2_formula_entry.get(),
@@ -1864,275 +1864,275 @@ class Lueckentext:
                 'res10_points': self.res10_points_entry.get(),
                 'res10_unit': "",
 
-                'description_img_name_1': self.ft_description_img_name_1,
-                'description_img_data_1': self.ft_description_img_data_1,
-                'description_img_path_1': self.ft_description_img_path_1,
+                'description_img_name_1': self.lt_description_img_name_1,
+                'description_img_data_1': self.lt_description_img_data_1,
+                'description_img_path_1': self.lt_description_img_path_1,
 
-                'description_img_name_2': self.ft_description_img_name_2,
-                'description_img_data_2': self.ft_description_img_data_2,
-                'description_img_path_2': self.ft_description_img_path_2,
+                'description_img_name_2': self.lt_description_img_name_2,
+                'description_img_data_2': self.lt_description_img_data_2,
+                'description_img_path_2': self.lt_description_img_path_2,
 
-                'description_img_name_3': self.ft_description_img_name_3,
-                'description_img_data_3': self.ft_description_img_data_3,
-                'description_img_path_3': self.ft_description_img_path_3,
+                'description_img_name_3': self.lt_description_img_name_3,
+                'description_img_data_3': self.lt_description_img_data_3,
+                'description_img_path_3': self.lt_description_img_path_3,
 
-                'test_time': self.ft_test_time,
-                'var_number': self.ft_numbers_of_answers_box.get(),
-                'res_number': self.ft_numbers_of_results_box.get(),
-                'question_pool_tag': self.ft_question_pool_tag_entry.get(),
-                'question_author': self.ft_question_author_entry.get()
+                'test_time': self.lt_test_time,
+                'var_number': self.lt_numbers_of_answers_box.get(),
+                'res_number': self.lt_numbers_of_results_box.get(),
+                'question_pool_tag': self.lt_question_pool_tag_entry.get(),
+                'question_author': self.lt_question_author_entry.get()
             }
         )
         conn.commit()
         conn.close()
 
-        print("Neuer Eintrag in die Formelfrage-Datenbank --> Fragentitel: " + str(self.ft_question_title_entry.get()))
+        print("Neuer Eintrag in die Formelfrage-Datenbank --> Fragentitel: " + str(self.lt_question_title_entry.get()))
 
-    def ft_load_id_from_db(self, entry_to_index_dict):
-        self.ft_db_entry_to_index_dict = entry_to_index_dict
+    def lt_load_id_from_db(self, entry_to_index_dict):
+        self.lt_db_entry_to_index_dict = entry_to_index_dict
         conn = sqlite3.connect(self.database_formelfrage_path)
         c = conn.cursor()
-        record_id = self.ft_load_box.get()
+        record_id = self.lt_load_box.get()
         c.execute("SELECT * FROM formelfrage_table WHERE oid =" + record_id)
-        ft_db_records = c.fetchall()
+        lt_db_records = c.fetchall()
 
 
-        Formelfrage.ft_clear_GUI(self)
+        Formelfrage.lt_clear_GUI(self)
 
 
-        for ft_db_record in ft_db_records:
-            self.ft_question_difficulty_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_difficulty']] )
-            self.ft_question_category_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_category']])
+        for lt_db_record in lt_db_records:
+            self.lt_question_difficulty_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_difficulty']] )
+            self.lt_question_category_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_category']])
 
-            self.ft_question_type_entry.delete(0, END)
-            self.ft_question_type_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_type']])
+            self.lt_question_type_entry.delete(0, END)
+            self.lt_question_type_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_type']])
 
-            self.ft_question_title_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_title']])
-            self.ft_question_description_title_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_description_title']])
-            self.ft_question_description_main_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['question_description_main']])
+            self.lt_question_title_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_title']])
+            self.lt_question_description_title_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_description_title']])
+            self.lt_question_description_main_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['question_description_main']])
 
-            self.res1_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_formula']])
-            self.res2_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_formula']])
-            self.res3_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_formula']])
-            self.res4_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_formula']])
-            self.res5_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_formula']])
-            self.res6_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_formula']])
-            self.res7_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_formula']])
-            self.res8_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_formula']])
-            self.res9_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_formula']])
-            self.res10_formula_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_formula']])
+            self.res1_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_formula']])
+            self.res2_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_formula']])
+            self.res3_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_formula']])
+            self.res4_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_formula']])
+            self.res5_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_formula']])
+            self.res6_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_formula']])
+            self.res7_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_formula']])
+            self.res8_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_formula']])
+            self.res9_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_formula']])
+            self.res10_formula_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_formula']])
 
-            self.var1_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var1_name']])
-            self.var1_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var1_min']])
-            self.var1_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var1_max']])
-            self.var1_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var1_prec']])
-            self.var1_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var1_divby']])
-
-
-            self.var2_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var2_name']])
-            self.var2_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var2_min']])
-            self.var2_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var2_max']])
-            self.var2_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var2_prec']])
-            self.var2_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var2_divby']])
+            self.var1_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var1_name']])
+            self.var1_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var1_min']])
+            self.var1_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var1_max']])
+            self.var1_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var1_prec']])
+            self.var1_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var1_divby']])
 
 
-            self.var3_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var3_name']])
-            self.var3_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var3_min']])
-            self.var3_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var3_max']])
-            self.var3_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var3_prec']])
-            self.var3_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var3_divby']])
+            self.var2_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var2_name']])
+            self.var2_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var2_min']])
+            self.var2_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var2_max']])
+            self.var2_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var2_prec']])
+            self.var2_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var2_divby']])
 
 
-            self.var4_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var4_name']])
-            self.var4_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var4_min']])
-            self.var4_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var4_max']])
-            self.var4_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var4_prec']])
-            self.var4_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var4_divby']])
+            self.var3_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var3_name']])
+            self.var3_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var3_min']])
+            self.var3_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var3_max']])
+            self.var3_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var3_prec']])
+            self.var3_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var3_divby']])
 
 
-            self.var5_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var5_name']])
-            self.var5_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var5_min']])
-            self.var5_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var5_max']])
-            self.var5_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var5_prec']])
-            self.var5_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var5_divby']])
+            self.var4_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var4_name']])
+            self.var4_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var4_min']])
+            self.var4_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var4_max']])
+            self.var4_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var4_prec']])
+            self.var4_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var4_divby']])
 
 
-            self.var6_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var6_name']])
-            self.var6_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var6_min']])
-            self.var6_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var6_max']])
-            self.var6_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var6_prec']])
-            self.var6_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var6_divby']])
+            self.var5_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var5_name']])
+            self.var5_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var5_min']])
+            self.var5_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var5_max']])
+            self.var5_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var5_prec']])
+            self.var5_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var5_divby']])
 
 
-            self.var7_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var7_name']])
-            self.var7_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var7_min']])
-            self.var7_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var7_max']])
-            self.var7_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var7_prec']])
-            self.var7_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var7_divby']])
+            self.var6_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var6_name']])
+            self.var6_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var6_min']])
+            self.var6_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var6_max']])
+            self.var6_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var6_prec']])
+            self.var6_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var6_divby']])
 
 
-            self.var8_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var8_name']])
-            self.var8_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var8_min']])
-            self.var8_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var8_max']])
-            self.var8_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var8_prec']])
-            self.var8_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var8_divby']])
+            self.var7_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var7_name']])
+            self.var7_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var7_min']])
+            self.var7_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var7_max']])
+            self.var7_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var7_prec']])
+            self.var7_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var7_divby']])
 
 
-            self.var9_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var9_name']])
-            self.var9_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var9_min']])
-            self.var9_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var9_max']])
-            self.var9_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var9_prec']])
-            self.var9_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var9_divby']])
+            self.var8_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var8_name']])
+            self.var8_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var8_min']])
+            self.var8_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var8_max']])
+            self.var8_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var8_prec']])
+            self.var8_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var8_divby']])
 
 
-            self.var10_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var10_name']])
-            self.var10_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var10_min']])
-            self.var10_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var10_max']])
-            self.var10_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var10_prec']])
-            self.var10_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var10_divby']])
-
-            self.var11_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var11_name']])
-            self.var11_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var11_min']])
-            self.var11_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var11_max']])
-            self.var11_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var11_prec']])
-            self.var11_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var11_divby']])
-
-            self.var12_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var12_name']])
-            self.var12_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var12_min']])
-            self.var12_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var12_max']])
-            self.var12_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var12_prec']])
-            self.var12_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var12_divby']])
-
-            self.var13_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var13_name']])
-            self.var13_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var13_min']])
-            self.var13_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var13_max']])
-            self.var13_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var13_prec']])
-            self.var13_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var13_divby']])
-
-            self.var14_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var14_name']])
-            self.var14_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var14_min']])
-            self.var14_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var14_max']])
-            self.var14_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var14_prec']])
-            self.var14_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var14_divby']])
-
-            self.var15_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var15_name']])
-            self.var15_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var15_min']])
-            self.var15_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var15_max']])
-            self.var15_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var15_prec']])
-            self.var15_divby_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['var15_divby']])
+            self.var9_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var9_name']])
+            self.var9_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var9_min']])
+            self.var9_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var9_max']])
+            self.var9_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var9_prec']])
+            self.var9_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var9_divby']])
 
 
-            self.res1_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_name']])
-            self.res1_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_min']])
-            self.res1_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_max']])
-            self.res1_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_prec']])
-            self.res1_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_tol']])
-            self.res1_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res1_points']])
+            self.var10_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var10_name']])
+            self.var10_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var10_min']])
+            self.var10_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var10_max']])
+            self.var10_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var10_prec']])
+            self.var10_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var10_divby']])
+
+            self.var11_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var11_name']])
+            self.var11_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var11_min']])
+            self.var11_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var11_max']])
+            self.var11_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var11_prec']])
+            self.var11_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var11_divby']])
+
+            self.var12_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var12_name']])
+            self.var12_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var12_min']])
+            self.var12_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var12_max']])
+            self.var12_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var12_prec']])
+            self.var12_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var12_divby']])
+
+            self.var13_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var13_name']])
+            self.var13_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var13_min']])
+            self.var13_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var13_max']])
+            self.var13_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var13_prec']])
+            self.var13_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var13_divby']])
+
+            self.var14_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var14_name']])
+            self.var14_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var14_min']])
+            self.var14_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var14_max']])
+            self.var14_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var14_prec']])
+            self.var14_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var14_divby']])
+
+            self.var15_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var15_name']])
+            self.var15_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var15_min']])
+            self.var15_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var15_max']])
+            self.var15_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var15_prec']])
+            self.var15_divby_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['var15_divby']])
 
 
-            self.res2_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_name']])
-            self.res2_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_min']])
-            self.res2_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_max']])
-            self.res2_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_prec']])
-            self.res2_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_tol']])
-            self.res2_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res2_points']])
+            self.res1_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_name']])
+            self.res1_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_min']])
+            self.res1_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_max']])
+            self.res1_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_prec']])
+            self.res1_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_tol']])
+            self.res1_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res1_points']])
 
 
-            self.res3_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_name']])
-            self.res3_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_min']])
-            self.res3_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_max']])
-            self.res3_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_prec']])
-            self.res3_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_tol']])
-            self.res3_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res3_points']])
+            self.res2_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_name']])
+            self.res2_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_min']])
+            self.res2_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_max']])
+            self.res2_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_prec']])
+            self.res2_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_tol']])
+            self.res2_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res2_points']])
 
 
-            self.res4_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_name']])
-            self.res4_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_min']])
-            self.res4_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_max']])
-            self.res4_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_prec']])
-            self.res4_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_tol']])
-            self.res4_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res4_points']])
+            self.res3_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_name']])
+            self.res3_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_min']])
+            self.res3_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_max']])
+            self.res3_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_prec']])
+            self.res3_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_tol']])
+            self.res3_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res3_points']])
 
 
-            self.res5_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_name']])
-            self.res5_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_min']])
-            self.res5_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_max']])
-            self.res5_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_prec']])
-            self.res5_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_tol']])
-            self.res5_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res5_points']])
+            self.res4_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_name']])
+            self.res4_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_min']])
+            self.res4_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_max']])
+            self.res4_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_prec']])
+            self.res4_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_tol']])
+            self.res4_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res4_points']])
 
 
-            self.res6_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_name']])
-            self.res6_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_min']])
-            self.res6_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_max']])
-            self.res6_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_prec']])
-            self.res6_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_tol']])
-            self.res6_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res6_points']])
+            self.res5_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_name']])
+            self.res5_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_min']])
+            self.res5_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_max']])
+            self.res5_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_prec']])
+            self.res5_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_tol']])
+            self.res5_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res5_points']])
 
 
-            self.res7_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_name']])
-            self.res7_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_min']])
-            self.res7_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_max']])
-            self.res7_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_prec']])
-            self.res7_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_tol']])
-            self.res7_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res7_points']])
+            self.res6_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_name']])
+            self.res6_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_min']])
+            self.res6_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_max']])
+            self.res6_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_prec']])
+            self.res6_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_tol']])
+            self.res6_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res6_points']])
 
 
-            self.res8_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_name']])
-            self.res8_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_min']])
-            self.res8_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_max']])
-            self.res8_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_prec']])
-            self.res8_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_tol']])
-            self.res8_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res8_points']])
+            self.res7_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_name']])
+            self.res7_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_min']])
+            self.res7_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_max']])
+            self.res7_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_prec']])
+            self.res7_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_tol']])
+            self.res7_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res7_points']])
 
 
-            self.res9_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_name']])
-            self.res9_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_min']])
-            self.res9_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_max']])
-            self.res9_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_prec']])
-            self.res9_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_tol']])
-            self.res9_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res9_points']])
+            self.res8_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_name']])
+            self.res8_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_min']])
+            self.res8_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_max']])
+            self.res8_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_prec']])
+            self.res8_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_tol']])
+            self.res8_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res8_points']])
 
 
-            self.res10_name_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_name']])
-            self.res10_min_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_min']])
-            self.res10_max_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_max']])
-            self.res10_prec_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_prec']])
-            self.res10_tol_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_tol']])
-            self.res10_points_entry.insert(END, ft_db_record[self.ft_db_entry_to_index_dict['res10_points']])
+            self.res9_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_name']])
+            self.res9_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_min']])
+            self.res9_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_max']])
+            self.res9_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_prec']])
+            self.res9_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_tol']])
+            self.res9_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res9_points']])
+
+
+            self.res10_name_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_name']])
+            self.res10_min_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_min']])
+            self.res10_max_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_max']])
+            self.res10_prec_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_prec']])
+            self.res10_tol_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_tol']])
+            self.res10_points_entry.insert(END, lt_db_record[self.lt_db_entry_to_index_dict['res10_points']])
 
 
         conn.commit()
         conn.close()
 
 
-        if self.ft_var_highlight_question_text.get() == 1:
-            print("Frage wird MIT Text-Formatierung geladen. --> Fragen-ID: " + str(self.ft_load_box.get()))
-            test_generator_modul_taxonomie_und_textformatierung.Textformatierung.reallocate_text(self, self.ft_question_description_main_entry)
+        if self.lt_var_highlight_question_text.get() == 1:
+            print("Frage wird MIT Text-Formatierung geladen. --> Fragen-ID: " + str(self.lt_load_box.get()))
+            test_generator_modul_taxonomie_und_textformatierung.Textformatierung.reallocate_text(self, self.lt_question_description_main_entry)
 
         else:
-            print("Frage wird OHNE Text-Formatierung geladen. --> Fragen-ID: " + str(self.ft_load_box.get()))
+            print("Frage wird OHNE Text-Formatierung geladen. --> Fragen-ID: " + str(self.lt_load_box.get()))
 
-    def ft_edit_id_from_db(self):
+    def lt_edit_id_from_db(self):
 
 
         conn = sqlite3.connect(self.database_formelfrage_path)
         c = conn.cursor()
-        record_id = self.ft_load_box.get()
+        record_id = self.lt_load_box.get()
 
         # format of duration P0Y0M0DT0H30M0S
-        self.ft_test_time = "P0Y0M0DT" + self.ft_proc_hours_box.get() + "H" + self.ft_proc_minutes_box.get() + "M" + self.ft_proc_seconds_box.get() + "S"
+        self.lt_test_time = "P0Y0M0DT" + self.lt_proc_hours_box.get() + "H" + self.lt_proc_minutes_box.get() + "M" + self.lt_proc_seconds_box.get() + "S"
 
 
-        if self.ft_picture_name != "EMPTY":
+        if self.lt_picture_name != "EMPTY":
             # read image data in byte format
-            with open(self.ft_picture_name, 'rb') as image_file:
-                self.ft_picture_data = image_file.read()
+            with open(self.lt_picture_name, 'rb') as image_file:
+                self.lt_picture_data = image_file.read()
 
 
         else:
-            self.ft_picture_name = "EMPTY"
-            self.ft_picture_data = "EMPTY"
+            self.lt_picture_name = "EMPTY"
+            self.lt_picture_data = "EMPTY"
 
         c.execute("""UPDATE formelfrage_table SET
             question_difficulty = :question_difficulty,
@@ -2356,13 +2356,13 @@ class Lueckentext:
             question_author = :question_author
 
             WHERE oid = :oid""",
-                {'question_difficulty': self.ft_question_difficulty_entry.get(),
-                 'question_category': self.ft_question_category_entry.get(),
-                 'question_type': self.ft_question_type_entry.get(),
+                {'question_difficulty': self.lt_question_difficulty_entry.get(),
+                 'question_category': self.lt_question_category_entry.get(),
+                 'question_type': self.lt_question_type_entry.get(),
 
-                 'question_title': self.ft_question_title_entry.get(),
-                 'question_description_title': self.ft_question_description_title_entry.get(),
-                 'question_description_main': self.ft_question_description_main_entry.get("1.0", 'end-1c'),
+                 'question_title': self.lt_question_title_entry.get(),
+                 'question_description_title': self.lt_question_description_title_entry.get(),
+                 'question_description_main': self.lt_question_description_main_entry.get("1.0", 'end-1c'),
 
                  'res1_formula': self.res1_formula_entry.get(),
                  'res2_formula': self.res2_formula_entry.get(),
@@ -2525,21 +2525,21 @@ class Lueckentext:
                  'res10_points': self.res10_points_entry.get(),
                  'res10_unit': "",
 
-                 'description_img_name_1': self.ft_description_img_name_1,
-                 'description_img_data_1': self.ft_description_img_data_1,
-                 'description_img_path_1': self.ft_description_img_path_1,
+                 'description_img_name_1': self.lt_description_img_name_1,
+                 'description_img_data_1': self.lt_description_img_data_1,
+                 'description_img_path_1': self.lt_description_img_path_1,
 
-                 'description_img_name_2': self.ft_description_img_name_2,
-                 'description_img_data_2': self.ft_description_img_data_2,
-                 'description_img_path_2': self.ft_description_img_path_2,
+                 'description_img_name_2': self.lt_description_img_name_2,
+                 'description_img_data_2': self.lt_description_img_data_2,
+                 'description_img_path_2': self.lt_description_img_path_2,
 
-                 'description_img_name_3': self.ft_description_img_name_3,
-                 'description_img_data_3': self.ft_description_img_data_3,
-                 'description_img_path_3': self.ft_description_img_path_3,
+                 'description_img_name_3': self.lt_description_img_name_3,
+                 'description_img_data_3': self.lt_description_img_data_3,
+                 'description_img_path_3': self.lt_description_img_path_3,
 
-                 'test_time': self.ft_test_time,
-                 'question_pool_tag': self.ft_question_pool_tag_entry.get(),
-                 'question_author': self.ft_question_author_entry.get(),
+                 'test_time': self.lt_test_time,
+                 'question_pool_tag': self.lt_question_pool_tag_entry.get(),
+                 'question_author': self.lt_question_author_entry.get(),
                  'oid': record_id
                  })
 
@@ -2548,19 +2548,19 @@ class Lueckentext:
 
         print("Frage mit ID: '" + record_id + "' editiert")
 
-    def ft_delete_id_from_db(self):
+    def lt_delete_id_from_db(self):
 
-        self.ft_delete_box_id = ""
-        self.ft_delete_box_id = self.ft_delete_box.get()
+        self.lt_delete_box_id = ""
+        self.lt_delete_box_id = self.lt_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ft_delete_box_id, "formelfrage", self.ft_var_delete_all.get(), self.project_root_path, self.ft_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.lt_delete_box_id, "formelfrage", self.lt_var_delete_all.get(), self.project_root_path, self.lt_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
         """
         self.sc_delete_box.delete(0, END)
 
-        self.ft_delete_mult = self.ft_delete_box.get()
-        self.ft_delete_mult_start = self.ft_delete_mult.split('-')[0]
+        self.lt_delete_mult = self.lt_delete_box.get()
+        self.lt_delete_mult_start = self.lt_delete_mult.split('-')[0]
 
-        self.delete_box_split = self.ft_delete_box_id.split(",")
+        self.delete_box_split = self.lt_delete_box_id.split(",")
         self.delete_index_wrong = False
 
         for i in range(len(self.delete_box_split)):
@@ -2568,21 +2568,21 @@ class Lueckentext:
                  print("delete TRUE")
                  self.delete_index_wrong = True
 
-        if self.ft_delete_box_id == "1":
+        if self.lt_delete_box_id == "1":
             print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
 
         elif self.delete_index_wrong == True:
             print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
 
-        elif self.ft_delete_mult_start == "1":
+        elif self.lt_delete_mult_start == "1":
             print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
 
         else:
 
             # Variablen
-            self.ft_delete_list = []
-            self.ft_delete_all_list = []
-            self.ft_delete_index = 0
+            self.lt_delete_list = []
+            self.lt_delete_all_list = []
+            self.lt_delete_index = 0
 
 
 
@@ -2592,20 +2592,20 @@ class Lueckentext:
 
             # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
             # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
-            self.ft_delete_list = self.ft_delete_box.get().split(",")
+            self.lt_delete_list = self.lt_delete_box.get().split(",")
 
 
             # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
             # den String nehmen, und nach Bindestrick "-" splitten
             # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
 
-            self.ft_delete_mult = self.ft_delete_box.get()
-            self.ft_delete_mult_start = self.ft_delete_mult.split('-')[0]
-            self.ft_delete_mult_end = self.ft_delete_mult.split('-')[-1]
-            self.ft_delete_mult_symbol = "-" in self.ft_delete_mult
+            self.lt_delete_mult = self.lt_delete_box.get()
+            self.lt_delete_mult_start = self.lt_delete_mult.split('-')[0]
+            self.lt_delete_mult_end = self.lt_delete_mult.split('-')[-1]
+            self.lt_delete_mult_symbol = "-" in self.lt_delete_mult
 
 
-            if self.ft_var_delete_all.get() == 1:
+            if self.lt_var_delete_all.get() == 1:
                 now = datetime.now()  # current date and time
                 date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
                 actual_time = str(date_time)
@@ -2613,47 +2613,47 @@ class Lueckentext:
                 c.execute("SELECT *, oid FROM formelfrage_table")
                 records = c.fetchall()
                 for record in records:
-                    self.ft_delete_all_list.append(int(record[len(record) - 1]))
+                    self.lt_delete_all_list.append(int(record[len(record) - 1]))
 
                 # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                for i in range(len(self.ft_delete_all_list)):
-                    if self.ft_delete_all_list[i] == 1:
-                        self.ft_delete_index = i
+                for i in range(len(self.lt_delete_all_list)):
+                    if self.lt_delete_all_list[i] == 1:
+                        self.lt_delete_index = i
 
-                self.ft_delete_all_list.pop(self.ft_delete_index)
+                self.lt_delete_all_list.pop(self.lt_delete_index)
 
 
-                for x in range(len(self.ft_delete_all_list)):
-                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.ft_delete_all_list[x]))
+                for x in range(len(self.lt_delete_all_list)):
+                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.lt_delete_all_list[x]))
                 print("All Entries removed!")
 
 
-            elif self.ft_delete_mult_symbol == True:
-                for x in range(int(self.ft_delete_mult_start), int(self.ft_delete_mult_end)+1):
+            elif self.lt_delete_mult_symbol == True:
+                for x in range(int(self.lt_delete_mult_start), int(self.lt_delete_mult_end)+1):
 
                     c.execute("DELETE from formelfrage_table WHERE oid= " + str(x))
                     print("Entry with ID " + str(x) + " removed!")
 
 
             else:
-                for x in range(len(self.ft_delete_list)):
-                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.ft_delete_list[x]))
-                    print("Entry with ID " + str(self.ft_delete_list[x]) + " removed!")
+                for x in range(len(self.lt_delete_list)):
+                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.lt_delete_list[x]))
+                    print("Entry with ID " + str(self.lt_delete_list[x]) + " removed!")
 
-            self.ft_delete_box.delete(0, END)
+            self.lt_delete_box.delete(0, END)
 
             conn.commit()
             conn.close()
         """
 
-    def ft_clear_GUI(self):
-        self.ft_question_difficulty_entry.delete(0, END)
-        self.ft_question_category_entry.delete(0, END)
-        #self.ft_question_type_entry.delete(0, END)
+    def lt_clear_GUI(self):
+        self.lt_question_difficulty_entry.delete(0, END)
+        self.lt_question_category_entry.delete(0, END)
+        #self.lt_question_type_entry.delete(0, END)
 
-        self.ft_question_title_entry.delete(0, END)
-        self.ft_question_description_title_entry.delete(0, END)
-        self.ft_question_description_main_entry.delete('1.0', 'end-1c')
+        self.lt_question_title_entry.delete(0, END)
+        self.lt_question_description_title_entry.delete(0, END)
+        self.lt_question_description_main_entry.delete('1.0', 'end-1c')
 
         self.res1_formula_entry.delete(0, END)
         self.res2_formula_entry.delete(0, END)
@@ -2832,13 +2832,13 @@ class Create_Formelfrage_Questions(Formelfrage):
 
     def __init__(self, db_entry_to_index_dict, ids_in_entry_box, question_type, pool_img_dir, ilias_id_pool_qpl_dir, xml_read_qti_template_path, xml_qti_output_file_path, xml_qpl_output_file_path, max_id_pool_qti_xml, max_id, taxonomy_file_question_pool):
 
-        self.ft_db_entry_to_index_dict = db_entry_to_index_dict
-        self.ft_test_entry_splitted = ids_in_entry_box.split(",")
+        self.lt_db_entry_to_index_dict = db_entry_to_index_dict
+        self.lt_test_entry_splitted = ids_in_entry_box.split(",")
         self.qti_file_path_output = xml_qti_output_file_path
         self.formelfrage_pool_qpl_file_path_output = xml_qpl_output_file_path
-        self.ft_mytree = ET.parse(xml_read_qti_template_path)
-        self.ft_myroot = self.ft_mytree.getroot()
-        self.ft_question_type_test_or_pool = question_type
+        self.lt_mytree = ET.parse(xml_read_qti_template_path)
+        self.lt_myroot = self.lt_mytree.getroot()
+        self.lt_question_type_test_or_pool = question_type
         self.formelfrage_pool_img_file_path = pool_img_dir           # Wird nur bei Erstellung eines Fragen-Pool verwendet. Ordnername wird erst bei Laufzeit erstellt)
 
         self.all_entries_from_db_list = []
@@ -2848,7 +2848,7 @@ class Create_Formelfrage_Questions(Formelfrage):
         self.question_title_list = []
 
         self.ilias_id_pool_qpl_dir = ilias_id_pool_qpl_dir
-        self.ft_file_max_id = max_id
+        self.lt_file_max_id = max_id
         self.taxonomy_file_question_pool = taxonomy_file_question_pool
         self.ilias_id_pool_qti_xml = max_id_pool_qti_xml
 
@@ -2856,322 +2856,322 @@ class Create_Formelfrage_Questions(Formelfrage):
         print("\n")
 
 
-        if self.ft_question_type_test_or_pool == "question_test":
+        if self.lt_question_type_test_or_pool == "question_test":
             print("FORMELFRAGE: ILIAS-TEST WIRD ERSTELLT...  ID: " + str(ids_in_entry_box))
 
         else:
             print("FORMELFRAGE: ILIAS-POOL WIRD ERSTELLT...  ID: " + str(ids_in_entry_box))
 
 
-        # Mit ft_Datenbank verknüpfen
-        connect_ft_db = sqlite3.connect(self.database_formelfrage_path)
-        cursor = connect_ft_db.cursor()
+        # Mit lt_Datenbank verknüpfen
+        connect_lt_db = sqlite3.connect(self.database_formelfrage_path)
+        cursor = connect_lt_db.cursor()
 
 
         # Prüfen ob alle EInträge generiert werden sollen (checkbox gesetzt)
-        if self.ft_var_create_question_pool_all_check.get() == 1:
+        if self.lt_var_create_question_pool_all_check.get() == 1:
             conn = sqlite3.connect(self.database_formelfrage_path)
             c = conn.cursor()
             c.execute("SELECT *, oid FROM formelfrage_table")
 
-            ft_db_records = c.fetchall()
+            lt_db_records = c.fetchall()
 
-            for ft_db_record in ft_db_records:
-                self.all_entries_from_db_list.append(int(ft_db_record[len(ft_db_record) - 1]))
+            for lt_db_record in lt_db_records:
+                self.all_entries_from_db_list.append(int(lt_db_record[len(lt_db_record) - 1]))
 
             self.string_temp = ','.join(map(str, self.all_entries_from_db_list))
-            self.ft_test_entry_splitted = self.string_temp.split(",")
+            self.lt_test_entry_splitted = self.string_temp.split(",")
 
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
-            self.ft_test_entry_splitted.pop(0)
+            self.lt_test_entry_splitted.pop(0)
 
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
         # Datenbank ID wird automatisch bei einem neuen Eintrag erstellt (fortlaufend) und kann nicht beeinflusst werden
         cursor.execute("SELECT *, oid FROM formelfrage_table")
-        ft_db_records = cursor.fetchall()
+        lt_db_records = cursor.fetchall()
 
-        for i in range(len(self.ft_test_entry_splitted)):
-            for ft_db_record in ft_db_records:
-                if str(ft_db_record[len(ft_db_record) - 1]) == self.ft_test_entry_splitted[i]:
-                    for t in range(len(ft_db_record)):
-                        if ft_db_record[self.ft_db_entry_to_index_dict['question_type']].lower() == "formelfrage" or ft_db_record[self.ft_db_entry_to_index_dict['question_type']].lower() == "formel frage":
-                            self.ft_question_difficulty                                                = ft_db_record[self.ft_db_entry_to_index_dict['question_difficulty']]
-                            self.ft_question_category                                                  = ft_db_record[self.ft_db_entry_to_index_dict['question_category']]
-                            self.ft_question_type                                                      = ft_db_record[self.ft_db_entry_to_index_dict['question_type']]
-                            self.ft_question_title                                                     = ft_db_record[self.ft_db_entry_to_index_dict['question_title']].replace('&', "&amp;")
-                            self.ft_question_description_title                                         = ft_db_record[self.ft_db_entry_to_index_dict['question_description_title']].replace('&', "&amp;")
-                            self.ft_question_description_main                                          = ft_db_record[self.ft_db_entry_to_index_dict['question_description_main']]
-                            self.ft_res1_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res1_formula']]
-                            self.ft_res2_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res2_formula']]
-                            self.ft_res3_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res3_formula']]
-                            self.ft_res4_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res4_formula']]
-                            self.ft_res5_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res5_formula']]
-                            self.ft_res6_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res6_formula']]
-                            self.ft_res7_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res7_formula']]
-                            self.ft_res8_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res8_formula']]
-                            self.ft_res9_formula                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res9_formula']]
-                            self.ft_res10_formula                                                      = ft_db_record[self.ft_db_entry_to_index_dict['res10_formula']]
+        for i in range(len(self.lt_test_entry_splitted)):
+            for lt_db_record in lt_db_records:
+                if str(lt_db_record[len(lt_db_record) - 1]) == self.lt_test_entry_splitted[i]:
+                    for t in range(len(lt_db_record)):
+                        if lt_db_record[self.lt_db_entry_to_index_dict['question_type']].lower() == "formelfrage" or lt_db_record[self.lt_db_entry_to_index_dict['question_type']].lower() == "formel frage":
+                            self.lt_question_difficulty                                                = lt_db_record[self.lt_db_entry_to_index_dict['question_difficulty']]
+                            self.lt_question_category                                                  = lt_db_record[self.lt_db_entry_to_index_dict['question_category']]
+                            self.lt_question_type                                                      = lt_db_record[self.lt_db_entry_to_index_dict['question_type']]
+                            self.lt_question_title                                                     = lt_db_record[self.lt_db_entry_to_index_dict['question_title']].replace('&', "&amp;")
+                            self.lt_question_description_title                                         = lt_db_record[self.lt_db_entry_to_index_dict['question_description_title']].replace('&', "&amp;")
+                            self.lt_question_description_main                                          = lt_db_record[self.lt_db_entry_to_index_dict['question_description_main']]
+                            self.lt_res1_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res1_formula']]
+                            self.lt_res2_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res2_formula']]
+                            self.lt_res3_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res3_formula']]
+                            self.lt_res4_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res4_formula']]
+                            self.lt_res5_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res5_formula']]
+                            self.lt_res6_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res6_formula']]
+                            self.lt_res7_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res7_formula']]
+                            self.lt_res8_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res8_formula']]
+                            self.lt_res9_formula                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res9_formula']]
+                            self.lt_res10_formula                                                      = lt_db_record[self.lt_db_entry_to_index_dict['res10_formula']]
 
-                            self.ft_var1_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var1_name']]
-                            self.ft_var1_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var1_min']]
-                            self.ft_var1_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var1_max']]
-                            self.ft_var1_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var1_prec']]
-                            self.ft_var1_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var1_divby']]
-                            self.ft_var1_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var1_unit']]
+                            self.lt_var1_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var1_name']]
+                            self.lt_var1_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var1_min']]
+                            self.lt_var1_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var1_max']]
+                            self.lt_var1_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var1_prec']]
+                            self.lt_var1_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var1_divby']]
+                            self.lt_var1_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var1_unit']]
 
-                            self.ft_var2_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var2_name']]
-                            self.ft_var2_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var2_min']]
-                            self.ft_var2_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var2_max']]
-                            self.ft_var2_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var2_prec']]
-                            self.ft_var2_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var2_divby']]
-                            self.ft_var2_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var2_unit']]
+                            self.lt_var2_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var2_name']]
+                            self.lt_var2_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var2_min']]
+                            self.lt_var2_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var2_max']]
+                            self.lt_var2_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var2_prec']]
+                            self.lt_var2_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var2_divby']]
+                            self.lt_var2_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var2_unit']]
 
-                            self.ft_var3_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var3_name']]
-                            self.ft_var3_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var3_min']]
-                            self.ft_var3_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var3_max']]
-                            self.ft_var3_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var3_prec']]
-                            self.ft_var3_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var3_divby']]
-                            self.ft_var3_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var3_unit']]
+                            self.lt_var3_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var3_name']]
+                            self.lt_var3_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var3_min']]
+                            self.lt_var3_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var3_max']]
+                            self.lt_var3_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var3_prec']]
+                            self.lt_var3_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var3_divby']]
+                            self.lt_var3_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var3_unit']]
 
-                            self.ft_var4_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var4_name']]
-                            self.ft_var4_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var4_min']]
-                            self.ft_var4_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var4_max']]
-                            self.ft_var4_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var4_prec']]
-                            self.ft_var4_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var4_divby']]
-                            self.ft_var4_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var4_unit']]
+                            self.lt_var4_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var4_name']]
+                            self.lt_var4_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var4_min']]
+                            self.lt_var4_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var4_max']]
+                            self.lt_var4_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var4_prec']]
+                            self.lt_var4_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var4_divby']]
+                            self.lt_var4_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var4_unit']]
 
-                            self.ft_var5_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var5_name']]
-                            self.ft_var5_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var5_min']]
-                            self.ft_var5_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var5_max']]
-                            self.ft_var5_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var5_prec']]
-                            self.ft_var5_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var5_divby']]
-                            self.ft_var5_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var5_unit']]
+                            self.lt_var5_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var5_name']]
+                            self.lt_var5_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var5_min']]
+                            self.lt_var5_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var5_max']]
+                            self.lt_var5_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var5_prec']]
+                            self.lt_var5_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var5_divby']]
+                            self.lt_var5_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var5_unit']]
 
-                            self.ft_var6_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var6_name']]
-                            self.ft_var6_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var6_min']]
-                            self.ft_var6_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var6_max']]
-                            self.ft_var6_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var6_prec']]
-                            self.ft_var6_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var6_divby']]
-                            self.ft_var6_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var6_unit']]
+                            self.lt_var6_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var6_name']]
+                            self.lt_var6_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var6_min']]
+                            self.lt_var6_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var6_max']]
+                            self.lt_var6_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var6_prec']]
+                            self.lt_var6_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var6_divby']]
+                            self.lt_var6_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var6_unit']]
 
-                            self.ft_var7_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var7_name']]
-                            self.ft_var7_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var7_min']]
-                            self.ft_var7_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var7_max']]
-                            self.ft_var7_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var7_prec']]
-                            self.ft_var7_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var7_divby']]
-                            self.ft_var7_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var7_unit']]
+                            self.lt_var7_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var7_name']]
+                            self.lt_var7_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var7_min']]
+                            self.lt_var7_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var7_max']]
+                            self.lt_var7_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var7_prec']]
+                            self.lt_var7_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var7_divby']]
+                            self.lt_var7_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var7_unit']]
 
-                            self.ft_var8_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var8_name']]
-                            self.ft_var8_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var8_min']]
-                            self.ft_var8_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var8_max']]
-                            self.ft_var8_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var8_prec']]
-                            self.ft_var8_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var8_divby']]
-                            self.ft_var8_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var8_unit']]
+                            self.lt_var8_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var8_name']]
+                            self.lt_var8_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var8_min']]
+                            self.lt_var8_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var8_max']]
+                            self.lt_var8_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var8_prec']]
+                            self.lt_var8_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var8_divby']]
+                            self.lt_var8_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var8_unit']]
 
-                            self.ft_var9_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var9_name']]
-                            self.ft_var9_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var9_min']]
-                            self.ft_var9_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['var9_max']]
-                            self.ft_var9_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var9_prec']]
-                            self.ft_var9_divby                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var9_divby']]
-                            self.ft_var9_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var9_unit']]
+                            self.lt_var9_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var9_name']]
+                            self.lt_var9_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var9_min']]
+                            self.lt_var9_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['var9_max']]
+                            self.lt_var9_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var9_prec']]
+                            self.lt_var9_divby                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var9_divby']]
+                            self.lt_var9_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var9_unit']]
 
-                            self.ft_var10_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var10_name']]
-                            self.ft_var10_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var10_min']]
-                            self.ft_var10_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var10_max']]
-                            self.ft_var10_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var10_prec']]
-                            self.ft_var10_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var10_divby']]
-                            self.ft_var10_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var10_unit']]
+                            self.lt_var10_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var10_name']]
+                            self.lt_var10_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var10_min']]
+                            self.lt_var10_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var10_max']]
+                            self.lt_var10_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var10_prec']]
+                            self.lt_var10_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var10_divby']]
+                            self.lt_var10_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var10_unit']]
 
-                            self.ft_var11_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var11_name']]
-                            self.ft_var11_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var11_min']]
-                            self.ft_var11_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var11_max']]
-                            self.ft_var11_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var11_prec']]
-                            self.ft_var11_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var11_divby']]
-                            self.ft_var11_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var11_unit']]
+                            self.lt_var11_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var11_name']]
+                            self.lt_var11_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var11_min']]
+                            self.lt_var11_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var11_max']]
+                            self.lt_var11_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var11_prec']]
+                            self.lt_var11_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var11_divby']]
+                            self.lt_var11_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var11_unit']]
 
-                            self.ft_var12_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var12_name']]
-                            self.ft_var12_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var12_min']]
-                            self.ft_var12_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var12_max']]
-                            self.ft_var12_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var12_prec']]
-                            self.ft_var12_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var12_divby']]
-                            self.ft_var12_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var12_unit']]
+                            self.lt_var12_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var12_name']]
+                            self.lt_var12_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var12_min']]
+                            self.lt_var12_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var12_max']]
+                            self.lt_var12_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var12_prec']]
+                            self.lt_var12_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var12_divby']]
+                            self.lt_var12_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var12_unit']]
 
-                            self.ft_var13_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var13_name']]
-                            self.ft_var13_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var13_min']]
-                            self.ft_var13_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var13_max']]
-                            self.ft_var13_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var13_prec']]
-                            self.ft_var13_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var13_divby']]
-                            self.ft_var13_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var13_unit']]
+                            self.lt_var13_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var13_name']]
+                            self.lt_var13_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var13_min']]
+                            self.lt_var13_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var13_max']]
+                            self.lt_var13_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var13_prec']]
+                            self.lt_var13_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var13_divby']]
+                            self.lt_var13_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var13_unit']]
 
-                            self.ft_var14_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var14_name']]
-                            self.ft_var14_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var14_min']]
-                            self.ft_var14_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var14_max']]
-                            self.ft_var14_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var14_prec']]
-                            self.ft_var14_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var14_divby']]
-                            self.ft_var14_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var14_unit']]
+                            self.lt_var14_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var14_name']]
+                            self.lt_var14_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var14_min']]
+                            self.lt_var14_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var14_max']]
+                            self.lt_var14_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var14_prec']]
+                            self.lt_var14_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var14_divby']]
+                            self.lt_var14_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var14_unit']]
 
-                            self.ft_var15_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var15_name']]
-                            self.ft_var15_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var15_min']]
-                            self.ft_var15_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['var15_max']]
-                            self.ft_var15_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var15_prec']]
-                            self.ft_var15_divby                                                        = ft_db_record[self.ft_db_entry_to_index_dict['var15_divby']]
-                            self.ft_var15_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['var15_unit']]
+                            self.lt_var15_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var15_name']]
+                            self.lt_var15_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var15_min']]
+                            self.lt_var15_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['var15_max']]
+                            self.lt_var15_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var15_prec']]
+                            self.lt_var15_divby                                                        = lt_db_record[self.lt_db_entry_to_index_dict['var15_divby']]
+                            self.lt_var15_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['var15_unit']]
 
-                            self.ft_res1_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res1_name']]
-                            self.ft_res1_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res1_min']]
-                            self.ft_res1_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res1_max']]
-                            self.ft_res1_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res1_prec']]
-                            self.ft_res1_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res1_tol']]
-                            self.ft_res1_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res1_points']]
-                            self.ft_res1_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res1_unit']]
+                            self.lt_res1_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res1_name']]
+                            self.lt_res1_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res1_min']]
+                            self.lt_res1_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res1_max']]
+                            self.lt_res1_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res1_prec']]
+                            self.lt_res1_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res1_tol']]
+                            self.lt_res1_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res1_points']]
+                            self.lt_res1_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res1_unit']]
 
-                            self.ft_res2_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res2_name']]
-                            self.ft_res2_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res2_min']]
-                            self.ft_res2_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res2_max']]
-                            self.ft_res2_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res2_prec']]
-                            self.ft_res2_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res2_tol']]
-                            self.ft_res2_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res2_points']]
-                            self.ft_res2_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res2_unit']]
+                            self.lt_res2_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res2_name']]
+                            self.lt_res2_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res2_min']]
+                            self.lt_res2_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res2_max']]
+                            self.lt_res2_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res2_prec']]
+                            self.lt_res2_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res2_tol']]
+                            self.lt_res2_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res2_points']]
+                            self.lt_res2_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res2_unit']]
 
-                            self.ft_res3_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res3_name']]
-                            self.ft_res3_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res3_min']]
-                            self.ft_res3_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res3_max']]
-                            self.ft_res3_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res3_prec']]
-                            self.ft_res3_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res3_tol']]
-                            self.ft_res3_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res3_points']]
-                            self.ft_res3_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res3_unit']]
+                            self.lt_res3_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res3_name']]
+                            self.lt_res3_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res3_min']]
+                            self.lt_res3_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res3_max']]
+                            self.lt_res3_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res3_prec']]
+                            self.lt_res3_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res3_tol']]
+                            self.lt_res3_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res3_points']]
+                            self.lt_res3_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res3_unit']]
 
-                            self.ft_res4_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res4_name']]
-                            self.ft_res4_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res4_min']]
-                            self.ft_res4_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res4_max']]
-                            self.ft_res4_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res4_prec']]
-                            self.ft_res4_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res4_tol']]
-                            self.ft_res4_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res4_points']]
-                            self.ft_res4_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res4_unit']]
+                            self.lt_res4_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res4_name']]
+                            self.lt_res4_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res4_min']]
+                            self.lt_res4_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res4_max']]
+                            self.lt_res4_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res4_prec']]
+                            self.lt_res4_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res4_tol']]
+                            self.lt_res4_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res4_points']]
+                            self.lt_res4_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res4_unit']]
 
-                            self.ft_res5_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res5_name']]
-                            self.ft_res5_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res5_min']]
-                            self.ft_res5_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res5_max']]
-                            self.ft_res5_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res5_prec']]
-                            self.ft_res5_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res5_tol']]
-                            self.ft_res5_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res5_points']]
-                            self.ft_res5_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res5_unit']]
+                            self.lt_res5_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res5_name']]
+                            self.lt_res5_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res5_min']]
+                            self.lt_res5_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res5_max']]
+                            self.lt_res5_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res5_prec']]
+                            self.lt_res5_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res5_tol']]
+                            self.lt_res5_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res5_points']]
+                            self.lt_res5_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res5_unit']]
 
-                            self.ft_res6_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res6_name']]
-                            self.ft_res6_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res6_min']]
-                            self.ft_res6_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res6_max']]
-                            self.ft_res6_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res6_prec']]
-                            self.ft_res6_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res6_tol']]
-                            self.ft_res6_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res6_points']]
-                            self.ft_res6_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res6_unit']]
+                            self.lt_res6_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res6_name']]
+                            self.lt_res6_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res6_min']]
+                            self.lt_res6_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res6_max']]
+                            self.lt_res6_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res6_prec']]
+                            self.lt_res6_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res6_tol']]
+                            self.lt_res6_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res6_points']]
+                            self.lt_res6_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res6_unit']]
 
-                            self.ft_res7_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res7_name']]
-                            self.ft_res7_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res7_min']]
-                            self.ft_res7_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res7_max']]
-                            self.ft_res7_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res7_prec']]
-                            self.ft_res7_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res7_tol']]
-                            self.ft_res7_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res7_points']]
-                            self.ft_res7_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res7_unit']]
+                            self.lt_res7_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res7_name']]
+                            self.lt_res7_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res7_min']]
+                            self.lt_res7_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res7_max']]
+                            self.lt_res7_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res7_prec']]
+                            self.lt_res7_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res7_tol']]
+                            self.lt_res7_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res7_points']]
+                            self.lt_res7_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res7_unit']]
 
-                            self.ft_es8_name                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res8_name']]
-                            self.ft_res8_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res8_min']]
-                            self.ft_res8_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res8_max']]
-                            self.ft_res8_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res8_prec']]
-                            self.ft_res8_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res8_tol']]
-                            self.ft_res8_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res8_points']]
-                            self.ft_res8_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res8_unit']]
+                            self.lt_es8_name                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res8_name']]
+                            self.lt_res8_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res8_min']]
+                            self.lt_res8_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res8_max']]
+                            self.lt_res8_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res8_prec']]
+                            self.lt_res8_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res8_tol']]
+                            self.lt_res8_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res8_points']]
+                            self.lt_res8_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res8_unit']]
 
-                            self.ft_res9_name                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res9_name']]
-                            self.ft_res9_min                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res9_min']]
-                            self.ft_res9_max                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res9_max']]
-                            self.ft_res9_prec                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res9_prec']]
-                            self.ft_res9_tol                                                           = ft_db_record[self.ft_db_entry_to_index_dict['res9_tol']]
-                            self.ft_res9_points                                                        = ft_db_record[self.ft_db_entry_to_index_dict['res9_points']]
-                            self.ft_res9_unit                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res9_unit']]
+                            self.lt_res9_name                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res9_name']]
+                            self.lt_res9_min                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res9_min']]
+                            self.lt_res9_max                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res9_max']]
+                            self.lt_res9_prec                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res9_prec']]
+                            self.lt_res9_tol                                                           = lt_db_record[self.lt_db_entry_to_index_dict['res9_tol']]
+                            self.lt_res9_points                                                        = lt_db_record[self.lt_db_entry_to_index_dict['res9_points']]
+                            self.lt_res9_unit                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res9_unit']]
 
-                            self.ft_res10_name                                                         = ft_db_record[self.ft_db_entry_to_index_dict['res10_name']]
-                            self.ft_res10_min                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res10_min']]
-                            self.ft_res10_max                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res10_max']]
-                            self.ft_res10_prec                                                         = ft_db_record[self.ft_db_entry_to_index_dict['res10_prec']]
-                            self.ft_res10_tol                                                          = ft_db_record[self.ft_db_entry_to_index_dict['res10_tol']]
-                            self.ft_res10_points                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res10_points']]
-                            self.ft_res10_unit                                                         = ft_db_record[self.ft_db_entry_to_index_dict['res10_unit']]
+                            self.lt_res10_name                                                         = lt_db_record[self.lt_db_entry_to_index_dict['res10_name']]
+                            self.lt_res10_min                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res10_min']]
+                            self.lt_res10_max                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res10_max']]
+                            self.lt_res10_prec                                                         = lt_db_record[self.lt_db_entry_to_index_dict['res10_prec']]
+                            self.lt_res10_tol                                                          = lt_db_record[self.lt_db_entry_to_index_dict['res10_tol']]
+                            self.lt_res10_points                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res10_points']]
+                            self.lt_res10_unit                                                         = lt_db_record[self.lt_db_entry_to_index_dict['res10_unit']]
 
-                            self.ft_description_img_name_1	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_name_1']]
-                            self.ft_description_img_data_1	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_data_1']]
-                            self.ft_description_img_path_1	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_path_1']]
-                            self.ft_description_img_name_2	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_name_2']]
-                            self.ft_description_img_data_2	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_data_2']]
-                            self.ft_description_img_path_2	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_path_2']]
-                            self.ft_description_img_name_3	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_name_3']]
-                            self.ft_description_img_data_3	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_data_3']]
-                            self.ft_description_img_path_3	                                           = ft_db_record[self.ft_db_entry_to_index_dict['description_img_path_3']]
+                            self.lt_description_img_name_1	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_name_1']]
+                            self.lt_description_img_data_1	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_data_1']]
+                            self.lt_description_img_path_1	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_path_1']]
+                            self.lt_description_img_name_2	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_name_2']]
+                            self.lt_description_img_data_2	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_data_2']]
+                            self.lt_description_img_path_2	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_path_2']]
+                            self.lt_description_img_name_3	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_name_3']]
+                            self.lt_description_img_data_3	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_data_3']]
+                            self.lt_description_img_path_3	                                           = lt_db_record[self.lt_db_entry_to_index_dict['description_img_path_3']]
 
-                            self.ft_test_time	                                                       = ft_db_record[self.ft_db_entry_to_index_dict['test_time']]
-                            self.ft_var_number	                                                       = ft_db_record[self.ft_db_entry_to_index_dict['var_number']]
-                            self.ft_res_number	                                                       = ft_db_record[self.ft_db_entry_to_index_dict['res_number']]
-                            self.ft_question_pool_tag                                                  = ft_db_record[self.ft_db_entry_to_index_dict['question_pool_tag']]
-                            self.ft_question_author                                                    = ft_db_record[self.ft_db_entry_to_index_dict['question_author']].replace('&', "&amp;")
+                            self.lt_test_time	                                                       = lt_db_record[self.lt_db_entry_to_index_dict['test_time']]
+                            self.lt_var_number	                                                       = lt_db_record[self.lt_db_entry_to_index_dict['var_number']]
+                            self.lt_res_number	                                                       = lt_db_record[self.lt_db_entry_to_index_dict['res_number']]
+                            self.lt_question_pool_tag                                                  = lt_db_record[self.lt_db_entry_to_index_dict['question_pool_tag']]
+                            self.lt_question_author                                                    = lt_db_record[self.lt_db_entry_to_index_dict['question_author']].replace('&', "&amp;")
 
 
-            Create_Formelfrage_Questions.ft_question_structure(self, i)
+            Create_Formelfrage_Questions.lt_question_structure(self, i)
 
-    def ft_question_structure(self, id_nr):
+    def lt_question_structure(self, id_nr):
         """Diese Funktion wandelt die SQL-Einträge in die .xml um, welche anschließend in ILIAS eingespielt werden kann"""
 
 
 
         # VARIABLEN
-        self.ft_response_counter = 0    #wird verwendet zu zählen, wieviele Anworten pro Frage verwendet werden. Bei einer neuer Antwort -> +1
+        self.lt_response_counter = 0    #wird verwendet zu zählen, wieviele Anworten pro Frage verwendet werden. Bei einer neuer Antwort -> +1
 
-        self.ft_question_description_main = test_generator_modul_taxonomie_und_textformatierung.Textformatierung.format_description_text_in_xml(self, self.ft_var_use_latex_on_text_check.get(), self.ft_question_description_main)
+        self.lt_question_description_main = test_generator_modul_taxonomie_und_textformatierung.Textformatierung.format_description_text_in_xml(self, self.lt_var_use_latex_on_text_check.get(), self.lt_question_description_main)
 
 
         # Verbindung zur FF-Datenank
-        ft_connect = sqlite3.connect(self.database_formelfrage_path)
-        ft_cursor = ft_connect.cursor()
+        lt_connect = sqlite3.connect(self.database_formelfrage_path)
+        lt_cursor = lt_connect.cursor()
 
         # Alle Einträge auslesen
-        ft_cursor.execute("SELECT *, oid FROM formelfrage_table")
-        ft_db_records = ft_cursor.fetchall()
+        lt_cursor.execute("SELECT *, oid FROM formelfrage_table")
+        lt_db_records = lt_cursor.fetchall()
 
 
 
-        for ft_db_record in ft_db_records:
+        for lt_db_record in lt_db_records:
 
             # Hier werden die Fragen anhand der ID's erstellt
-            if str(ft_db_record[len(ft_db_record)-1]) == self.ft_test_entry_splitted[id_nr]:
+            if str(lt_db_record[len(lt_db_record)-1]) == self.lt_test_entry_splitted[id_nr]:
 
                 # Hier werden die Fragen anhand der ID's erstellt
-                if str(ft_db_record[len(ft_db_record)-1]) == self.ft_test_entry_splitted[id_nr]:
+                if str(lt_db_record[len(lt_db_record)-1]) == self.lt_test_entry_splitted[id_nr]:
 
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ft_description_img_name_1, self.ft_description_img_data_1, id_nr, self.ft_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ft_description_img_name_2, self.ft_description_img_data_2, id_nr, self.ft_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ft_description_img_name_3, self.ft_description_img_data_3, id_nr, self.ft_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
+                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.lt_description_img_name_1, self.lt_description_img_data_1, id_nr, self.lt_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
+                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.lt_description_img_name_2, self.lt_description_img_data_2, id_nr, self.lt_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
+                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.lt_description_img_name_3, self.lt_description_img_data_3, id_nr, self.lt_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
 
-                        # if self.ft_question_type_test_or_pool == "question_test":
+                        # if self.lt_question_type_test_or_pool == "question_test":
                         #
-                        #     if self.ft_description_img_name_1 != "EMPTY":
-                        #         Create_Formelfrage_Questions.ft_createFolder(self, self.formelfrage_test_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
+                        #     if self.lt_description_img_name_1 != "EMPTY":
+                        #         Create_Formelfrage_Questions.lt_createFolder(self, self.formelfrage_test_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
                         #
                         #         #img wird immer als PNG Datei abgelegt.
-                        #         with open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png", 'wb') as image_file:
-                        #             image_file.write(self.ft_description_img_data_1)
+                        #         with open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png", 'wb') as image_file:
+                        #             image_file.write(self.lt_description_img_data_1)
                         #
-                        #         self.image = Image.open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png")
-                        #         self.image.save(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png")
+                        #         self.image = Image.open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png")
+                        #         self.image.save(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png")
                         #
                         # else:  # image pool
-                        #     if self.ft_description_img_name_1 != "EMPTY":
-                        #         Create_Formelfrage_Questions.ft_createFolder(self, self.formelfrage_pool_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
+                        #     if self.lt_description_img_name_1 != "EMPTY":
+                        #         Create_Formelfrage_Questions.lt_createFolder(self, self.formelfrage_pool_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
                         #
                         #         #img wird immer als PNG Datei abgelegt.
-                        #         with open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png", 'wb') as image_file:
-                        #             image_file.write(self.ft_description_img_data_1)
+                        #         with open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png", 'wb') as image_file:
+                        #             image_file.write(self.lt_description_img_data_1)
                         #
-                        #         self.image = Image.open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png")
-                        #         self.image.save(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ft_description_img_name_1 + ".png")
+                        #         self.image = Image.open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png")
+                        #         self.image.save(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.lt_description_img_name_1 + ".png")
 
 
 
@@ -3182,7 +3182,7 @@ class Create_Formelfrage_Questions(Formelfrage):
 
 
                         # Aufbau für  Fragenstruktur "TEST"
-                        if self.ft_question_type_test_or_pool == "question_test":
+                        if self.lt_question_type_test_or_pool == "question_test":
                             # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
                             questestinterop = ET.Element('questestinterop')
                             assessment = ET.SubElement(questestinterop, 'assessment')
@@ -3222,14 +3222,14 @@ class Create_Formelfrage_Questions(Formelfrage):
 
                         ### ------------------------------------------------------- XML Einträge mit Werten füllen
                          # Fragen-Titel -- "item title" in xml
-                        item.set('title', self.ft_question_title)
+                        item.set('title', self.lt_question_title)
 
                         # Fragen-Titel Beschreibung
-                        qticomment.text = self.ft_question_description_title
+                        qticomment.text = self.lt_question_description_title
 
                         # Testdauer -- "duration" in xml
                         # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-                        duration.text = self.ft_test_time
+                        duration.text = self.lt_test_time
                         if duration.text == "":
                             duration.text = "P0Y0M0DT1H0M0S"
 
@@ -3250,16 +3250,16 @@ class Create_Formelfrage_Questions(Formelfrage):
                         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                         fieldlabel.text = "AUTHOR"
                         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = self.ft_question_author
+                        fieldentry.text = self.lt_question_author
                         # -----------------------------------------------------------------------POINTS
                         qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                         fieldlabel.text = "points"
                         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = str(self.ft_res1_points)
+                        fieldentry.text = str(self.lt_res1_points)
 
                         # Fragentitel einsetzen -- "presentation label" in xml
-                        presentation.set('label', self.ft_question_title)
+                        presentation.set('label', self.lt_question_title)
 
                         # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
                         question_description_mattext.set('texttype', "text/html")
@@ -3267,44 +3267,44 @@ class Create_Formelfrage_Questions(Formelfrage):
                         # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
                         # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
                         question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
-                                                            self, self.ft_description_img_name_1, self.ft_description_img_data_1,
-                                                            self.ft_description_img_name_2, self.ft_description_img_data_2,
-                                                            self.ft_description_img_name_3, self.ft_description_img_data_3,
-                                                            self.ft_question_description_main, question_description_mattext, question_description_material, id_nr)
+                                                            self, self.lt_description_img_name_1, self.lt_description_img_data_1,
+                                                            self.lt_description_img_name_2, self.lt_description_img_data_2,
+                                                            self.lt_description_img_name_3, self.lt_description_img_data_3,
+                                                            self.lt_question_description_main, question_description_mattext, question_description_material, id_nr)
 
 
 
 
                         # ----------------------------------------------------------------------- Variable
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v1", self.ft_var1_min, self.ft_var1_max, self.ft_var1_prec, self.ft_var1_divby, self.ft_var1_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v2", self.ft_var2_min, self.ft_var2_max, self.ft_var2_prec, self.ft_var2_divby, self.ft_var2_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v3", self.ft_var3_min, self.ft_var3_max, self.ft_var3_prec, self.ft_var3_divby, self.ft_var3_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v4", self.ft_var4_min, self.ft_var4_max, self.ft_var4_prec, self.ft_var4_divby, self.ft_var4_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v5", self.ft_var5_min, self.ft_var5_max, self.ft_var5_prec, self.ft_var5_divby, self.ft_var5_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v6", self.ft_var6_min, self.ft_var6_max, self.ft_var6_prec, self.ft_var6_divby, self.ft_var6_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v7", self.ft_var7_min, self.ft_var7_max, self.ft_var7_prec, self.ft_var7_divby, self.ft_var7_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v8", self.ft_var8_min, self.ft_var8_max, self.ft_var8_prec, self.ft_var8_divby, self.ft_var8_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v9", self.ft_var9_min, self.ft_var9_max, self.ft_var9_prec, self.ft_var9_divby, self.ft_var9_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v10", self.ft_var10_min, self.ft_var10_max, self.ft_var10_prec, self.ft_var10_divby, self.ft_var10_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v11", self.ft_var11_min, self.ft_var11_max, self.ft_var11_prec, self.ft_var11_divby, self.ft_var11_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v12", self.ft_var12_min, self.ft_var12_max, self.ft_var12_prec, self.ft_var12_divby, self.ft_var12_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v13", self.ft_var13_min, self.ft_var13_max, self.ft_var13_prec, self.ft_var13_divby, self.ft_var13_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v14", self.ft_var14_min, self.ft_var14_max, self.ft_var14_prec, self.ft_var14_divby, self.ft_var14_unit)
-                        Create_Formelfrage_Questions.ft_question_variables_structure(self, qtimetadata, "$v15", self.ft_var15_min, self.ft_var15_max, self.ft_var15_prec, self.ft_var15_divby, self.ft_var15_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v1", self.lt_var1_min, self.lt_var1_max, self.lt_var1_prec, self.lt_var1_divby, self.lt_var1_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v2", self.lt_var2_min, self.lt_var2_max, self.lt_var2_prec, self.lt_var2_divby, self.lt_var2_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v3", self.lt_var3_min, self.lt_var3_max, self.lt_var3_prec, self.lt_var3_divby, self.lt_var3_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v4", self.lt_var4_min, self.lt_var4_max, self.lt_var4_prec, self.lt_var4_divby, self.lt_var4_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v5", self.lt_var5_min, self.lt_var5_max, self.lt_var5_prec, self.lt_var5_divby, self.lt_var5_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v6", self.lt_var6_min, self.lt_var6_max, self.lt_var6_prec, self.lt_var6_divby, self.lt_var6_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v7", self.lt_var7_min, self.lt_var7_max, self.lt_var7_prec, self.lt_var7_divby, self.lt_var7_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v8", self.lt_var8_min, self.lt_var8_max, self.lt_var8_prec, self.lt_var8_divby, self.lt_var8_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v9", self.lt_var9_min, self.lt_var9_max, self.lt_var9_prec, self.lt_var9_divby, self.lt_var9_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v10", self.lt_var10_min, self.lt_var10_max, self.lt_var10_prec, self.lt_var10_divby, self.lt_var10_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v11", self.lt_var11_min, self.lt_var11_max, self.lt_var11_prec, self.lt_var11_divby, self.lt_var11_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v12", self.lt_var12_min, self.lt_var12_max, self.lt_var12_prec, self.lt_var12_divby, self.lt_var12_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v13", self.lt_var13_min, self.lt_var13_max, self.lt_var13_prec, self.lt_var13_divby, self.lt_var13_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v14", self.lt_var14_min, self.lt_var14_max, self.lt_var14_prec, self.lt_var14_divby, self.lt_var14_unit)
+                        Create_Formelfrage_Questions.lt_question_variables_structure(self, qtimetadata, "$v15", self.lt_var15_min, self.lt_var15_max, self.lt_var15_prec, self.lt_var15_divby, self.lt_var15_unit)
 
 
 
                         # ----------------------------------------------------------------------- Solution
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r1", self.ft_res1_formula, self.ft_res1_min, self.ft_res1_max, self.ft_res1_prec, self.ft_res1_tol, self.ft_res1_points, self.ft_res1_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r2", self.ft_res2_formula, self.ft_res2_min, self.ft_res2_max, self.ft_res2_prec, self.ft_res2_tol, self.ft_res2_points, self.ft_res2_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r3", self.ft_res3_formula, self.ft_res3_min, self.ft_res3_max, self.ft_res3_prec, self.ft_res3_tol, self.ft_res3_points, self.ft_res3_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r4", self.ft_res4_formula, self.ft_res4_min, self.ft_res4_max, self.ft_res4_prec, self.ft_res4_tol, self.ft_res4_points, self.ft_res4_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r5", self.ft_res5_formula, self.ft_res5_min, self.ft_res5_max, self.ft_res5_prec, self.ft_res5_tol, self.ft_res5_points, self.ft_res5_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r6", self.ft_res6_formula, self.ft_res6_min, self.ft_res6_max, self.ft_res6_prec, self.ft_res6_tol, self.ft_res6_points, self.ft_res6_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r7", self.ft_res7_formula, self.ft_res7_min, self.ft_res7_max, self.ft_res7_prec, self.ft_res7_tol, self.ft_res7_points, self.ft_res7_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r8", self.ft_res8_formula, self.ft_res8_min, self.ft_res8_max, self.ft_res8_prec, self.ft_res8_tol, self.ft_res8_points, self.ft_res8_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r9", self.ft_res9_formula, self.ft_res9_min, self.ft_res9_max, self.ft_res9_prec, self.ft_res9_tol, self.ft_res9_points, self.ft_res9_unit)
-                        Create_Formelfrage_Questions.ft_question_results_structure(self, qtimetadata, "$r10", self.ft_res10_formula, self.ft_res10_min, self.ft_res10_max, self.ft_res10_prec, self.ft_res10_tol, self.ft_res10_points, self.ft_res10_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r1", self.lt_res1_formula, self.lt_res1_min, self.lt_res1_max, self.lt_res1_prec, self.lt_res1_tol, self.lt_res1_points, self.lt_res1_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r2", self.lt_res2_formula, self.lt_res2_min, self.lt_res2_max, self.lt_res2_prec, self.lt_res2_tol, self.lt_res2_points, self.lt_res2_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r3", self.lt_res3_formula, self.lt_res3_min, self.lt_res3_max, self.lt_res3_prec, self.lt_res3_tol, self.lt_res3_points, self.lt_res3_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r4", self.lt_res4_formula, self.lt_res4_min, self.lt_res4_max, self.lt_res4_prec, self.lt_res4_tol, self.lt_res4_points, self.lt_res4_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r5", self.lt_res5_formula, self.lt_res5_min, self.lt_res5_max, self.lt_res5_prec, self.lt_res5_tol, self.lt_res5_points, self.lt_res5_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r6", self.lt_res6_formula, self.lt_res6_min, self.lt_res6_max, self.lt_res6_prec, self.lt_res6_tol, self.lt_res6_points, self.lt_res6_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r7", self.lt_res7_formula, self.lt_res7_min, self.lt_res7_max, self.lt_res7_prec, self.lt_res7_tol, self.lt_res7_points, self.lt_res7_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r8", self.lt_res8_formula, self.lt_res8_min, self.lt_res8_max, self.lt_res8_prec, self.lt_res8_tol, self.lt_res8_points, self.lt_res8_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r9", self.lt_res9_formula, self.lt_res9_min, self.lt_res9_max, self.lt_res9_prec, self.lt_res9_tol, self.lt_res9_points, self.lt_res9_unit)
+                        Create_Formelfrage_Questions.lt_question_results_structure(self, qtimetadata, "$r10", self.lt_res10_formula, self.lt_res10_min, self.lt_res10_max, self.lt_res10_prec, self.lt_res10_tol, self.lt_res10_points, self.lt_res10_unit)
 
 
 
@@ -3329,70 +3329,70 @@ class Create_Formelfrage_Questions(Formelfrage):
 
 
                         # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
-                        # Der letzte "Zweig" --> "len(self.ft_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
-                        if self.ft_question_type_test_or_pool == "question_test":
-                            self.ft_myroot[0][len(self.ft_myroot[0]) - 1].append(item)
+                        # Der letzte "Zweig" --> "len(self.lt_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
+                        if self.lt_question_type_test_or_pool == "question_test":
+                            self.lt_myroot[0][len(self.lt_myroot[0]) - 1].append(item)
 
                         # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
                         # Die Frage kann einfach angehangen werden
                         else:
-                            self.ft_myroot.append(item)
+                            self.lt_myroot.append(item)
 
-                        self.ft_mytree.write(self.qti_file_path_output)
-                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.ft_question_title))
+                        self.lt_mytree.write(self.qti_file_path_output)
+                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.lt_question_title))
 
 
 
-        ft_connect.commit()
-        ft_connect.close()
+        lt_connect.commit()
+        lt_connect.close()
 
-        if self.ft_question_type_test_or_pool == "question_pool":
+        if self.lt_question_type_test_or_pool == "question_pool":
             ######  Anpassung der Datei "qpl". Akualisierung des Dateinamens
-            self.qpl_file = os.path.normpath(os.path.join(self.formelfrage_files_path,"ft_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
+            self.qpl_file = os.path.normpath(os.path.join(self.formelfrage_files_path,"lt_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
 
             self.mytree = ET.parse(self.qpl_file)
             self.myroot = self.mytree.getroot()
 
             for ident_id in self.myroot.iter('Identifier'):
-                ident_id.set('Entry', "il_0_qpl_" + str(self.ft_file_max_id+1))
+                ident_id.set('Entry', "il_0_qpl_" + str(self.lt_file_max_id+1))
             self.mytree.write(self.qpl_file)
 
-    def ft_question_variables_structure(self, xml_qtimetadata,  ft_var_name, ft_var_min, ft_var_max, ft_var_prec, ft_var_divby, ft_var_unit):
+    def lt_question_variables_structure(self, xml_qtimetadata,  lt_var_name, lt_var_min, lt_var_max, lt_var_prec, lt_var_divby, lt_var_unit):
 
-        self.ft_var_name = ft_var_name
-        self.ft_var_min = str(ft_var_min)
-        self.ft_var_max = str(ft_var_max)
-        self.ft_var_prec = str(ft_var_prec)
-        self.ft_var_divby = str(ft_var_divby)
-        self.ft_var_divby_length = len(str(self.ft_var_divby))
-        self.ft_var_unit = ft_var_unit
-        self.ft_var_unit_length = len(str(self.ft_var_unit))
+        self.lt_var_name = lt_var_name
+        self.lt_var_min = str(lt_var_min)
+        self.lt_var_max = str(lt_var_max)
+        self.lt_var_prec = str(lt_var_prec)
+        self.lt_var_divby = str(lt_var_divby)
+        self.lt_var_divby_length = len(str(self.lt_var_divby))
+        self.lt_var_unit = lt_var_unit
+        self.lt_var_unit_length = len(str(self.lt_var_unit))
 
         qtimetadatafield = ET.SubElement(xml_qtimetadata, 'qtimetadatafield')
         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = ft_var_name
+        fieldlabel.text = lt_var_name
         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
 
-        if self.ft_var_unit != "":
+        if self.lt_var_unit != "":
             fieldentry.text = "a:6:{" \
-                              "s:9:\"precision\";i:" + self.ft_var_prec + ";" \
-                              "s:12:\"intprecision\";s:" + str(self.ft_var_divby_length) + ":\"" + self.ft_var_divby + "\";" \
-                              "s:8:\"rangemin\";d:" + self.ft_var_min + ";" \
-                              "s:8:\"rangemax\";d:" + self.ft_var_max + ";" \
-                              "s:4:\"unit\";s:" + str(self.ft_var_unit_length) + ":\"" + self.ft_var_unit + "\";" \
-                              "s:9:\"unitvalue\";s:" + str(len(Formelfrage.unit_table(self, self.ft_var_unit))) + ":\"" + Formelfrage.unit_table(self, self.ft_var_unit) + "\";" \
+                              "s:9:\"precision\";i:" + self.lt_var_prec + ";" \
+                              "s:12:\"intprecision\";s:" + str(self.lt_var_divby_length) + ":\"" + self.lt_var_divby + "\";" \
+                              "s:8:\"rangemin\";d:" + self.lt_var_min + ";" \
+                              "s:8:\"rangemax\";d:" + self.lt_var_max + ";" \
+                              "s:4:\"unit\";s:" + str(self.lt_var_unit_length) + ":\"" + self.lt_var_unit + "\";" \
+                              "s:9:\"unitvalue\";s:" + str(len(Formelfrage.unit_table(self, self.lt_var_unit))) + ":\"" + Formelfrage.unit_table(self, self.lt_var_unit) + "\";" \
                               "}"
         else:
             fieldentry.text = "a:6:{" \
-                              "s:9:\"precision\";i:" + self.ft_var_prec + ";" \
-                              "s:12:\"intprecision\";s:" + str(self.ft_var_divby_length) + ":\"" + self.ft_var_divby + "\";" \
-                              "s:8:\"rangemin\";d:" + self.ft_var_min + ";" \
-                              "s:8:\"rangemax\";d:" + self.ft_var_max + ";" \
+                              "s:9:\"precision\";i:" + self.lt_var_prec + ";" \
+                              "s:12:\"intprecision\";s:" + str(self.lt_var_divby_length) + ":\"" + self.lt_var_divby + "\";" \
+                              "s:8:\"rangemin\";d:" + self.lt_var_min + ";" \
+                              "s:8:\"rangemax\";d:" + self.lt_var_max + ";" \
                               "s:4:\"unit\";s:0:\"\";" \
                               "s:9:\"unitvalue\";s:0:\"\";" \
                               "}"
 
-    def ft_question_results_structure(self, xml_qtimetadata, ft_res_name, ft_res_formula, ft_res_min, ft_res_max, ft_res_prec, ft_res_tol, ft_res_points, ft_res_unit):
+    def lt_question_results_structure(self, xml_qtimetadata, lt_res_name, lt_res_formula, lt_res_min, lt_res_max, lt_res_prec, lt_res_tol, lt_res_points, lt_res_unit):
 
         def replace_words_in_formula(formula):
 
@@ -3428,30 +3428,30 @@ class Create_Formelfrage_Questions(Formelfrage):
 
             return formula
 
-        self.ft_res_name = ft_res_name
-        self.ft_res_formula = ft_res_formula
-        self.ft_res_formula_length = len(str(self.ft_res_formula))
-        self.ft_res_min = str(ft_res_min)
-        self.ft_res_min_length = len(str(self.ft_res_min))
-        self.ft_res_max = str(ft_res_max)
-        self.ft_res_max_length = len(str(self.ft_res_max))
-        self.ft_res_prec = str(ft_res_prec)
-        self.ft_res_tol = str(ft_res_tol)
-        self.ft_res_tol_length = len(str(self.ft_res_tol))
+        self.lt_res_name = lt_res_name
+        self.lt_res_formula = lt_res_formula
+        self.lt_res_formula_length = len(str(self.lt_res_formula))
+        self.lt_res_min = str(lt_res_min)
+        self.lt_res_min_length = len(str(self.lt_res_min))
+        self.lt_res_max = str(lt_res_max)
+        self.lt_res_max_length = len(str(self.lt_res_max))
+        self.lt_res_prec = str(lt_res_prec)
+        self.lt_res_tol = str(lt_res_tol)
+        self.lt_res_tol_length = len(str(self.lt_res_tol))
 
-        self.ft_res_points = str(ft_res_points)
-        self.ft_res_unit = ft_res_unit
-        self.ft_res_unit_length = len(str(self.ft_res_unit))
+        self.lt_res_points = str(lt_res_points)
+        self.lt_res_unit = lt_res_unit
+        self.lt_res_unit_length = len(str(self.lt_res_unit))
 
 
         # ILIAS kann nicht mit "$Vx" statt "$vx" umgehen (kleines statt großes "V" für Variablen)
         # Ebenfalls gilt das für $Rx und $rx
         # In der Ergebnisgleichung darf kein "=" verwendet werden! Es erscheint keine Fehlermeldung, jedoch sind die Ergebnisse
         # aus der ILIAS-Berechnung dann immer "0"
-        self.ft_res_formula = replace_words_in_formula(self.ft_res_formula)
-        #self.ft_res_formula = self.ft_res_formula.replace('$V', "$v")
-        #self.ft_res_formula = self.ft_res_formula.replace('$R', "$r")
-        #self.ft_res_formula = self.ft_res_formula.replace('=', " ")
+        self.lt_res_formula = replace_words_in_formula(self.lt_res_formula)
+        #self.lt_res_formula = self.lt_res_formula.replace('$V', "$v")
+        #self.lt_res_formula = self.lt_res_formula.replace('$R', "$r")
+        #self.lt_res_formula = self.lt_res_formula.replace('=', " ")
 
 
 
@@ -3463,20 +3463,20 @@ class Create_Formelfrage_Questions(Formelfrage):
 
         qtimetadatafield = ET.SubElement(xml_qtimetadata, 'qtimetadatafield')
         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = self.ft_res_name
+        fieldlabel.text = self.lt_res_name
         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
 
-        if self.ft_res_unit != "":
+        if self.lt_res_unit != "":
             fieldentry.text = "a:10:{" \
-                              "s:9:\"precision\";i:" + self.ft_res_prec + ";" \
-                              "s:9:\"tolerance\";s:" + self.ft_res_tol_length + ":\"" + self.ft_res_tol + "\";" \
-                              "s:8:\"rangemin\";s:" + self.ft_res_min_length + ":\"" + self.ft_res_min + "\";" \
-                              "s:8:\"rangemax\";s:" + self.ft_res_max_length + ":\"" + self.ft_res_max + "\";" \
-                              "s:6:\"points\";s:1:\"" + self.ft_res_points + "\";" \
-                              "s:7:\"formula\";s:" + self.ft_res_formula_length + ":\"" + self.ft_res_formula + "\";" \
+                              "s:9:\"precision\";i:" + self.lt_res_prec + ";" \
+                              "s:9:\"tolerance\";s:" + self.lt_res_tol_length + ":\"" + self.lt_res_tol + "\";" \
+                              "s:8:\"rangemin\";s:" + self.lt_res_min_length + ":\"" + self.lt_res_min + "\";" \
+                              "s:8:\"rangemax\";s:" + self.lt_res_max_length + ":\"" + self.lt_res_max + "\";" \
+                              "s:6:\"points\";s:1:\"" + self.lt_res_points + "\";" \
+                              "s:7:\"formula\";s:" + self.lt_res_formula_length + ":\"" + self.lt_res_formula + "\";" \
                               "s:6:\"rating\";s:0:\"\";" \
-                              "s:4:\"unit\";s:" + str(self.ft_res_unit_length) + ":\"" + self.ft_res_unit + "\";" \
-                              "s:9:\"unitvalue\";s:" + str(len(Formelfrage.unit_table(self, self.ft_res_unit))) + ":\"" + Formelfrage.unit_table(self, self.ft_res_unit) + "\";" \
+                              "s:4:\"unit\";s:" + str(self.lt_res_unit_length) + ":\"" + self.lt_res_unit + "\";" \
+                              "s:9:\"unitvalue\";s:" + str(len(Formelfrage.unit_table(self, self.lt_res_unit))) + ":\"" + Formelfrage.unit_table(self, self.lt_res_unit) + "\";" \
                               "s:11:\"resultunits\";a:27:{i:0;a:2:{s:4:\"unit\";s:1:\"H\";s:9:\"unitvalue\";s:3:\"125\";}" \
                                                             "i:1;a:2:{s:4:\"unit\";s:2:\"mH\";s:9:\"unitvalue\";s:3:\"126\";}" \
                                                             "i:2;a:2:{s:4:\"unit\";s:3:\"µH\";s:9:\"unitvalue\";s:3:\"127\";}" \
@@ -3508,12 +3508,12 @@ class Create_Formelfrage_Questions(Formelfrage):
 
         else:
             fieldentry.text = "a:10:{" \
-                              "s:9:\"precision\";i:" + self.ft_res_prec + ";" \
-                              "s:9:\"tolerance\";s:" + str(self.ft_res_tol_length) + ":\"" + self.ft_res_tol + "\";" \
-                              "s:8:\"rangemin\";s:" + str(self.ft_res_min_length) + ":\"" + self.ft_res_min + "\";" \
-                              "s:8:\"rangemax\";s:" + str(self.ft_res_max_length) + ":\"" + self.ft_res_max + "\";" \
-                              "s:6:\"points\";s:1:\"" + self.ft_res_points + "\";" \
-                              "s:7:\"formula\";s:" + str(self.ft_res_formula_length) + ":\"" + self.ft_res_formula + "\";" \
+                              "s:9:\"precision\";i:" + self.lt_res_prec + ";" \
+                              "s:9:\"tolerance\";s:" + str(self.lt_res_tol_length) + ":\"" + self.lt_res_tol + "\";" \
+                              "s:8:\"rangemin\";s:" + str(self.lt_res_min_length) + ":\"" + self.lt_res_min + "\";" \
+                              "s:8:\"rangemax\";s:" + str(self.lt_res_max_length) + ":\"" + self.lt_res_max + "\";" \
+                              "s:6:\"points\";s:1:\"" + self.lt_res_points + "\";" \
+                              "s:7:\"formula\";s:" + str(self.lt_res_formula_length) + ":\"" + self.lt_res_formula + "\";" \
                               "s:6:\"rating\";s:0:\"\";" \
                               "s:4:\"unit\";s:0:\"\";" \
                               "s:9:\"unitvalue\";s:0:\"\";" \
@@ -3524,31 +3524,31 @@ class Create_Formelfrage_Questions(Formelfrage):
 
 class Create_Formelfrage_Test(Formelfrage):
     def __init__(self, entry_to_index_dict):
-        self.ft_db_entry_to_index_dict = entry_to_index_dict
+        self.lt_db_entry_to_index_dict = entry_to_index_dict
 
         test_generator_modul_ilias_test_struktur.Create_ILIAS_Test.__init__(self,
-                                                                            self.ft_db_entry_to_index_dict,
+                                                                            self.lt_db_entry_to_index_dict,
                                                                             self.formelfrage_test_tst_file_path_template,
                                                                             self.formelfrage_test_tst_file_path_output,
                                                                             self.formelfrage_test_qti_file_path_template,
                                                                             self.formelfrage_test_qti_file_path_output,
-                                                                            self.ft_ilias_test_title_entry.get(),
+                                                                            self.lt_ilias_test_title_entry.get(),
                                                                             self.create_formelfrage_test_entry.get(),
-                                                                            self.ft_question_type_entry.get(),
+                                                                            self.lt_question_type_entry.get(),
                                                                             )
 
 
 
         # ##### Einlesen der "Formelfrage" _tst_.xml zum ändern des Test-Titel
-        # self.ft_mytree = ET.parse(self.formelfrage_test_tst_file_path_template)
-        # self.ft_myroot = self.ft_mytree.getroot()
+        # self.lt_mytree = ET.parse(self.formelfrage_test_tst_file_path_template)
+        # self.lt_myroot = self.lt_mytree.getroot()
         #
-        # # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = ft_test_vorlage)
-        # for ContentObject in self.ft_myroot.iter('ContentObject'):
+        # # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = lt_test_vorlage)
+        # for ContentObject in self.lt_myroot.iter('ContentObject'):
         #     for MetaData in ContentObject.iter('MetaData'):
         #         for General in MetaData.iter('General'):
         #             for Title in General.iter('Title'):
-        #                 Title.text = self.ft_ilias_test_title_entry.get()
+        #                 Title.text = self.lt_ilias_test_title_entry.get()
         #                 print("Title - Text")
         #                 print(Title.text)
         #                 # .XML Datei kann keine "&" verarbeiten.
@@ -3560,13 +3560,13 @@ class Create_Formelfrage_Test(Formelfrage):
         #
         #
         #     # Sollte kein Namen vergeben werden, wird der Test-Titel auf "DEFAULT" gesetzt
-        #     if Title.text == "ft_test_vorlage" or Title.text == "":
+        #     if Title.text == "lt_test_vorlage" or Title.text == "":
         #         Title.text = "DEFAULT"
         #
         #     # Änderungen der .XML in eine neue Datei schreiben
         #     # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
         #     # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
-        #     self.ft_mytree.write(self.formelfrage_test_tst_file_path_output)
+        #     self.lt_mytree.write(self.formelfrage_test_tst_file_path_output)
         #
         #
         #     print("TST FILE aktualisiert!")
@@ -3574,7 +3574,7 @@ class Create_Formelfrage_Test(Formelfrage):
         #
         #     # Hier wird der Fragen-Test geschrieben
         #     Create_Formelfrage_Questions.__init__(self,
-        #                                           self.ft_db_entry_to_index_dict,
+        #                                           self.lt_db_entry_to_index_dict,
         #                                           self.create_formelfrage_test_entry.get(),
         #                                           "question_test",
         #                                           "img_pool_dir_not_used_for_test",
@@ -3587,15 +3587,15 @@ class Create_Formelfrage_Test(Formelfrage):
         #
         #
         #     # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-        #     Formelfrage.ft_replace_character_in_xml_file(self, self.formelfrage_test_qti_file_path_output)
+        #     Formelfrage.lt_replace_character_in_xml_file(self, self.formelfrage_test_qti_file_path_output)
         #
 
 
 class Create_Formelfrage_Pool(Formelfrage):
 
     def __init__(self, entry_to_index_dict, var_create_all_questions):
-        self.ft_entry_to_index_dict = entry_to_index_dict
-        self.ft_var_create_question_pool_all = var_create_all_questions
+        self.lt_entry_to_index_dict = entry_to_index_dict
+        self.lt_var_create_question_pool_all = var_create_all_questions
 
         # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
         # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
@@ -3604,13 +3604,13 @@ class Create_Formelfrage_Pool(Formelfrage):
                                                                             self.formelfrage_pool_directory_output,
                                                                             self.formelfrage_files_path_pool_output,
                                                                             self.formelfrage_pool_qti_file_path_template,
-                                                                            self.ft_ilias_test_title_entry.get(),
+                                                                            self.lt_ilias_test_title_entry.get(),
                                                                             self.create_formelfrage_pool_entry.get(),
                                                                             "Formelfrage",
                                                                             self.database_formelfrage_path,
                                                                             "formelfrage_table",
-                                                                            self.ft_db_entry_to_index_dict,
-                                                                            self.ft_var_create_question_pool_all
+                                                                            self.lt_db_entry_to_index_dict,
+                                                                            self.lt_var_create_question_pool_all
                                                                             )
 
 
@@ -3618,7 +3618,7 @@ class Create_Formelfrage_Pool(Formelfrage):
     #
     # def __init__(self, entry_to_index_dict):
     #
-    #     self.ft_entry_to_index_dict = entry_to_index_dict
+    #     self.lt_entry_to_index_dict = entry_to_index_dict
     #     self.question_title_list = []
     #     self.question_pool_id_list = []
     #     self.all_entries_from_db_list = []
@@ -3626,15 +3626,15 @@ class Create_Formelfrage_Pool(Formelfrage):
     #
     #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
     #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-    #     #self.ft_folder_new_ID_dir = os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragenpool_qpl_Daten'))
+    #     #self.lt_folder_new_ID_dir = os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragenpool_qpl_Daten'))
     #
     #     self.names = []
     #     self.filename_id = []
     #
     #
-    #     self.ft_list_of_directories = []
-    #     self.ft_list_of_file_IDs = []
-    #     self.ft_filename_with_zip_index = []
+    #     self.lt_list_of_directories = []
+    #     self.lt_list_of_file_IDs = []
+    #     self.lt_filename_with_zip_index = []
     #
     #     self.question_title_list = []
     #     self.question_pool_id_list = []
@@ -3643,43 +3643,43 @@ class Create_Formelfrage_Pool(Formelfrage):
     #
     #
     #     # Ordnernamen in "self.formelfrage_pool_directory_output" auslesen
-    #     self.ft_list_of_directories = os.listdir(self.formelfrage_pool_directory_output)
+    #     self.lt_list_of_directories = os.listdir(self.formelfrage_pool_directory_output)
     #
     #
-    #     for i in range(len(self.ft_list_of_directories)):
-    #         if ".zip" in self.ft_list_of_directories[i]:
-    #             self.ft_filename_with_zip_index.append(i)
+    #     for i in range(len(self.lt_list_of_directories)):
+    #         if ".zip" in self.lt_list_of_directories[i]:
+    #             self.lt_filename_with_zip_index.append(i)
     #
     #
     #
     #
     #
-    #     for j in range(len(self.ft_filename_with_zip_index)):
-    #         self.ft_list_of_directories.pop(self.ft_filename_with_zip_index[j]-j)
+    #     for j in range(len(self.lt_filename_with_zip_index)):
+    #         self.lt_list_of_directories.pop(self.lt_filename_with_zip_index[j]-j)
     #
     #
     #     #Die letzten sieben (7) Zeichen des Orndernamen in eine Liste packen. Die letzten 7 Zeichen geben die ID des Fragenpools an
     #     #Die Ordnernamen für ILIAS sind immer in dem Format: z.B.: 1604407426__0__tst_2040314
     #     #Die ID wird im nachhineie um "1" inkrementiert
-    #     for k in range(len(self.ft_list_of_directories)):
-    #         self.ft_list_of_file_IDs.append(self.ft_list_of_directories[k][-7:])
+    #     for k in range(len(self.lt_list_of_directories)):
+    #         self.lt_list_of_file_IDs.append(self.lt_list_of_directories[k][-7:])
     #
     #
     #     # Alle String Einträge nach "INT" konvertieren um mit der max() funktion die höchste ID herauszufiltern
-    #     self.ft_list_of_file_IDs = list(map(int, self.ft_list_of_file_IDs))
+    #     self.lt_list_of_file_IDs = list(map(int, self.lt_list_of_file_IDs))
     #
-    #     self.ft_file_max_id = str(max(self.ft_list_of_file_IDs)+1)
+    #     self.lt_file_max_id = str(max(self.lt_list_of_file_IDs)+1)
     #
     #
     #     #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
-    #     self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.ft_file_max_id
-    #     self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.ft_file_max_id + ".xml"
-    #     self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.ft_file_max_id + ".xml"
+    #     self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.lt_file_max_id
+    #     self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.lt_file_max_id + ".xml"
+    #     self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.lt_file_max_id + ".xml"
     #     self.ilias_id_pool_img_dir = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "objects"))
     #
     #     self.qpl_file_pool_path_write = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
     #     self.qti_file_pool_path_write = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.formelfrage_pool_img_file_path = os.path.normpath(os.path.join(self.formelfrage_files_path,"ft_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
+    #     self.formelfrage_pool_img_file_path = os.path.normpath(os.path.join(self.formelfrage_files_path,"lt_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
     #
     #     # Pfad für ILIAS-Taxonomie Dateien --> "export.xml"
     #     self.modules_export_file = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Modules', 'TestQuestionPool', 'set_1', 'export.xml'))
@@ -3692,12 +3692,12 @@ class Create_Formelfrage_Pool(Formelfrage):
     #     print(self.ilias_id_pool_qpl_dir)
     #
     #     # Neuen Ordner erstellen
-    #     Create_Formelfrage_Questions.ft_createFolder(self, os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
+    #     Create_Formelfrage_Questions.lt_createFolder(self, os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
     #
     #
     #     # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
     #     # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-    #     Create_Formelfrage_Pool.ft_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
+    #     Create_Formelfrage_Pool.lt_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
     #              os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
     #
     #     # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
@@ -3716,7 +3716,7 @@ class Create_Formelfrage_Pool(Formelfrage):
     #     self.myroot = self.mytree.getroot()
     #
     #     for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         TaxId.set('Id', self.ft_file_max_id)
+    #         TaxId.set('Id', self.lt_file_max_id)
     #
     #     self.mytree.write(self.modules_export_file)
     #
@@ -3737,34 +3737,34 @@ class Create_Formelfrage_Pool(Formelfrage):
     #         #print(ExportItem.attrib.get('Id'))
     #         if ExportItem.attrib.get('Id') != "":
     #             #print(ExportItem.attrib.get('Id'))
-    #             ExportItem.set('Id', self.ft_file_max_id)
+    #             ExportItem.set('Id', self.lt_file_max_id)
     #             break
     #
     #
     #
     #     for object_id in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ObjId'):
-    #         object_id.text = self.ft_file_max_id
+    #         object_id.text = self.lt_file_max_id
     #         break
     #
     #     self.mytree.write(self.taxonomy_export_file)
     #
     #     # Taxonomie-datei "refreshen"
-    #     Create_Formelfrage_Pool.ft_taxonomy_file_refresh(self, self.taxonomy_export_file)
+    #     Create_Formelfrage_Pool.lt_taxonomy_file_refresh(self, self.taxonomy_export_file)
     #
     #
     #     # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
     #     # ilias_id_pol_
-    #     self.formelfrage_pool_qti_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"ft_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.formelfrage_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"ft_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
+    #     self.formelfrage_pool_qti_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"lt_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
+    #     self.formelfrage_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"lt_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
     #
     #
     #
     #     # Hier wird der Fragen_Pool erstellt
-    #     Create_Formelfrage_Questions.__init__(self, self.ft_db_entry_to_index_dict, self.create_formelfrage_pool_entry.get(), "question_pool", self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.formelfrage_pool_qti_file_path_template, self.formelfrage_pool_qti_file_path_output, self.formelfrage_pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.ft_file_max_id, self.taxonomy_file_question_pool)
+    #     Create_Formelfrage_Questions.__init__(self, self.lt_db_entry_to_index_dict, self.create_formelfrage_pool_entry.get(), "question_pool", self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.formelfrage_pool_qti_file_path_template, self.formelfrage_pool_qti_file_path_output, self.formelfrage_pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.lt_file_max_id, self.taxonomy_file_question_pool)
     #
     #
     #     # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-    #     Formelfrage.ft_replace_character_in_xml_file(self, self.formelfrage_pool_qti_file_path_output)
+    #     Formelfrage.lt_replace_character_in_xml_file(self, self.formelfrage_pool_qti_file_path_output)
     #
     #
     #     # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
@@ -3773,13 +3773,13 @@ class Create_Formelfrage_Pool(Formelfrage):
     #     # self.var_create_question_pool_all.get(),   --  Check-Box, "Alle Fragen erstellen?"
     #     # "formelfrage_db.db",                       -- Datenbank-Name
     #     # "formelfrage_table",                       -- Datenbank-Table-Name
-    #     # self.ft_entry_to_index_dict,               -- Dictionionary
+    #     # self.lt_entry_to_index_dict,               -- Dictionionary
     #     # self.taxonomy_file_question_pool,          -- Taxonomie-Datei Ordner Pfad
     #     # self.formelfrage_pool_qti_file_path_output -- QTI-Datei - Pfad
     #
-    #     test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self, self.create_formelfrage_pool_entry.get(), self.var_create_question_pool_all.get(), "formelfrage_db.db", "formelfrage_table", self.ft_entry_to_index_dict, self.taxonomy_file_question_pool, self.formelfrage_pool_qti_file_path_output)
+    #     test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self, self.create_formelfrage_pool_entry.get(), self.var_create_question_pool_all.get(), "formelfrage_db.db", "formelfrage_table", self.lt_entry_to_index_dict, self.taxonomy_file_question_pool, self.formelfrage_pool_qti_file_path_output)
     #
-    # def ft_copytree(self, src, dst, symlinks=False, ignore=None):
+    # def lt_copytree(self, src, dst, symlinks=False, ignore=None):
     #         for item in os.listdir(src):
     #             s = os.path.join(src, item)
     #             d = os.path.join(dst, item)
@@ -3788,7 +3788,7 @@ class Create_Formelfrage_Pool(Formelfrage):
     #             else:
     #                 shutil.copy2(s, d)
     #
-    # def ft_taxonomy_file_refresh(self, file_location):
+    # def lt_taxonomy_file_refresh(self, file_location):
     #     self.file_location = file_location
     #     self.file_location = file_locationf
     #     # print("refresh_file_location: " + str(self.file_location))
