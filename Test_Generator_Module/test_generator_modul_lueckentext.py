@@ -3206,7 +3206,7 @@ class Create_Lueckentext_Questions(Lueckentext):
                                                                                                                    )
 
 
-
+#TODO
                         # Struktur für den Lueckentext - Variableen/Lösungen Teil
                         # Muss für jede Frage neu angelegt/hinzugefügt werden
                         qticomment = ET.SubElement(item, 'qticomment')
@@ -3244,7 +3244,7 @@ class Create_Lueckentext_Questions(Lueckentext):
                         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
                         fieldlabel.text = "QUESTIONTYPE"
                         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "assFormulaQuestion"
+                        fieldentry.text = "CLOZE QUESTION"
                         # -----------------------------------------------------------------------AUTHOR
                         qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
                         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
@@ -3274,7 +3274,7 @@ class Create_Lueckentext_Questions(Lueckentext):
 
 
 
-
+#TODO
                         # ----------------------------------------------------------------------- Variable
                         Create_Lueckentext_Questions.lt_question_variables_structure(self, qtimetadata, "$v1", self.lt_var1_min, self.lt_var1_max, self.lt_var1_prec, self.lt_var1_divby, self.lt_var1_unit)
                         Create_Lueckentext_Questions.lt_question_variables_structure(self, qtimetadata, "$v2", self.lt_var2_min, self.lt_var2_max, self.lt_var2_prec, self.lt_var2_divby, self.lt_var2_unit)
