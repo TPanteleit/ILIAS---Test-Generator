@@ -425,7 +425,7 @@ class SingleChoice:
 
         self.sc_var_mix_questions = StringVar()
         self.sc_check_mix_questions = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_questions,
-                                                  onvalue="1", offvalue="0")
+                                                  onvalue="Yes", offvalue="No")
         self.sc_check_mix_questions.deselect()
         self.sc_check_mix_questions.grid(row=5, column=1, sticky=W, pady=(5, 0))
 
@@ -1377,38 +1377,286 @@ class SingleChoice:
             self.sc_var9_img_label_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_9_img_label']])
             self.sc_var10_img_label_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_label']])
 
-            self.sc_var1_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_1_pts']] )
-            self.sc_var2_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_2_pts']] )
-            self.sc_var3_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_3_pts']] )
-            self.sc_var4_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_4_pts']] )
-            self.sc_var5_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_5_pts']] )
-            self.sc_var6_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_6_pts']] )
-            self.sc_var7_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_7_pts']] )
-            self.sc_var8_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_8_pts']] )
-            self.sc_var9_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_9_pts']] )
-            self.sc_var10_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_10_pts']] )
+            self.sc_var1_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_1_img_string_base64_encoded']])
+            self.sc_var2_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_2_img_string_base64_encoded']])
+            self.sc_var3_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_3_img_string_base64_encoded']])
+            self.sc_var4_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_4_img_string_base64_encoded']])
+            self.sc_var5_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_5_img_string_base64_encoded']])
+            self.sc_var6_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_6_img_string_base64_encoded']])
+            self.sc_var7_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_7_img_string_base64_encoded']])
+            self.sc_var8_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_8_img_string_base64_encoded']])
+            self.sc_var9_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_9_img_string_base64_encoded']])
+            self.sc_var10_img_data_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_string_base64_encoded']])
+
+            self.sc_var1_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_1_img_path']])
+            self.sc_var2_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_2_img_path']])
+            self.sc_var3_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_3_img_path']])
+            self.sc_var4_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_4_img_path']])
+            self.sc_var5_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_5_img_path']])
+            self.sc_var6_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_6_img_path']])
+            self.sc_var7_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_7_img_path']])
+            self.sc_var8_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_8_img_path']])
+            self.sc_var9_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_9_img_path']])
+            self.sc_var10_img_path_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_path']])
+
+            self.sc_var1_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_1_pts']])
+            self.sc_var2_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_2_pts']])
+            self.sc_var3_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_3_pts']])
+            self.sc_var4_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_4_pts']])
+            self.sc_var5_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_5_pts']])
+            self.sc_var6_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_6_pts']])
+            self.sc_var7_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_7_pts']])
+            self.sc_var8_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_8_pts']])
+            self.sc_var9_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_9_pts']])
+            self.sc_var10_points_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['response_10_pts']])
+
+            self.sc_description_img_name_1 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_name_1']]
+            self.sc_description_img_data_1 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_data_1']]
+            self.sc_description_img_path_1 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_path_1']]
+
+            self.sc_description_img_name_2 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_name_2']]
+            self.sc_description_img_data_2 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_data_2']]
+            self.sc_description_img_path_2 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_path_2']]
+
+            self.sc_description_img_name_3 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_name_3']]
+            self.sc_description_img_data_3 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_data_3']]
+            self.sc_description_img_path_3 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_path_3']]
 
 
-
-
-            # self.img_name.insert(END, record[146])
-            # self.img_data.insert(END, record[147])
-
-            #self.test_time_from_db = record[148]
-            #self.var_number = record[149]
-            #self.myCombo.set(record[149])
-            #self.res_number = record[150]
-            #self.myCombo_res.set(record[150])
 
         conn.commit()
         conn.close()
 
-        #SingleChoice.selected_var_from_db(self, self.myCombo.get())
-        #Formelfrage.selected_res_from_db(self, self.myCombo_res.get())
 
 
-    #def sc_edit_id_from_db(self):
 
+    def sc_edit_id_from_db(self):
+        
+        # Verbindung mit der Datenbank
+        conn = sqlite3.connect(self.database_singlechoice_path)
+        c = conn.cursor()
+
+        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
+        record_id = self.sc_load_box.get()
+
+        # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
+        self.sc_test_time = "P0Y0M0DT" + self.sc_proc_hours_box.get() + "H" + self.sc_proc_minutes_box.get() + "M" + self.sc_proc_seconds_box.get() + "S"
+
+        # Ist ein Bild-Name vorhanden, dann das Bild über den Pfad einlesen
+        # Sonst auf "EMPTY" setzen
+        # Bilder werden als byte eingelesen "rb" = read byte
+
+        # Fragen-Text Bild 1
+        if self.sc_description_img_name_1 != "EMPTY":
+            with open( self.sc_description_img_path_1, 'rb') as description_image_file_1:
+                self.sc_description_img_data_1 = description_image_file_1.read()
+        
+        else:
+            self.sc_description_img_name_1 = "EMPTY"
+            self.sc_description_img_data_1 = "EMPTY"
+            self.sc_description_img_path_1 = "EMPTY"
+            
+        # Fragen-Text Bild 2
+        if self.sc_description_img_name_2 != "EMPTY":
+            with open( self.sc_description_img_path_2, 'rb') as description_image_file_2:
+                self.sc_description_img_data_2 = description_image_file_2.read()
+        
+        else:
+            self.sc_description_img_name_2 = "EMPTY"
+            self.sc_description_img_data_2 = "EMPTY"
+            self.sc_description_img_path_2 = "EMPTY"
+        
+        # Fragen-Text Bild 3
+        if self.sc_description_img_name_3 != "EMPTY":
+            with open( self.sc_description_img_path_3, 'rb') as description_image_file_3:
+                self.sc_description_img_data_3 = description_image_file_3.read()
+        
+        else:
+            self.sc_description_img_name_3 = "EMPTY"
+            self.sc_description_img_data_3 = "EMPTY"
+            self.sc_description_img_path_3 = "EMPTY"
+
+
+        c.execute("""UPDATE singlechoice_table SET
+                    question_difficulty = :question_difficulty,
+                    question_category = :question_category,
+                    question_type = :question_type,
+
+                    question_title = :question_title,
+                    question_description_title = :question_description_title,
+                    question_description_main = :question_description_main,
+                    
+                    'response_1_text'= :response_1_text,
+                'response_1_pts'= :response_1_pts,
+                'response_1_img_label'= :response_1_img_label,
+                'response_1_img_string_base64_encoded'= :response_1_img_string_base64_encoded,
+                'response_1_img_path' = :response_1_img_path,
+
+                'response_2_text'= :response_2_text,
+                'response_2_pts'= :response_2_pts,
+                'response_2_img_label'= :response_2_img_label,
+                'response_2_img_string_base64_encoded'= :response_2_img_string_base64_encoded,
+                'response_2_img_path'= :response_2_img_path,
+
+                'response_3_text'= : response_3_text,
+                'response_3_pts'= :response_3_pts,
+                'response_3_img_label'= :response_3_img_label,
+                'response_3_img_string_base64_encoded'= :response_3_img_string_base64_encoded,
+                'response_3_img_path'= :response_3_img_path,
+
+                'response_4_text'= :response_4_text,
+                'response_4_pts'= :response_4_pts,
+                'response_4_img_label'= :response_4_img_label,
+                'response_4_img_string_base64_encoded'= :response_4_img_string_base64_encoded,
+                'response_4_img_path'= :response_4_img_path,
+
+                'response_5_text'= :response_5_text,
+                'response_5_pts'= :response_5_pts,
+                'response_5_img_label'= :response_5_img_label,
+                'response_5_img_string_base64_encoded'= :response_5_img_string_base64_encoded,
+                'response_5_img_path'= :response_5_img_path,
+
+                'response_6_text'= :response_6_text,
+                'response_6_pts'= :response_6_pts,
+                'response_6_img_label'= :response_6_img_label,
+                'response_6_img_string_base64_encoded'= :response_6_img_string_base64_encoded,
+                'response_6_img_path'= :response_6_img_path,
+
+                'response_7_text'= :response_7_text,
+                'response_7_pts'= :response_7_pts,
+                'response_7_img_label'= :response_7_img_label,
+                'response_7_img_string_base64_encoded'= :response_7_img_string_base64_encoded,
+                'response_7_img_path'= :response_7_img_path,
+
+                'response_8_text'= :response_8_text,
+                'response_8_pts'= :response_8_pts,
+                'response_8_img_label'= :response_8_img_label,
+                'response_8_img_string_base64_encoded'= :response_8_img_string_base64_encoded,
+                'response_8_img_path'= :response_8_img_path,
+
+                'response_9_text'= :response_9_text,
+                'response_9_pts'= :response_9_pts,
+                'response_9_img_label'= :response_9_img_label,
+                'response_9_img_string_base64_encoded'= :response_9_img_string_base64_encoded,
+                'response_9_img_path'= :response_9_img_path,
+
+                'response_10_text'= :response_10_text,
+                'response_10_pts'= :response_10_pts,
+                'response_10_img_label'= :response_10_img_label,
+                'response_10_img_string_base64_encoded'= :response_10_img_string_base64_encoded,
+                'response_10_img_path'= :response_10_img_path,
+
+                'picture_preview_pixel'= :'picture_preview_pixel',
+
+                'description_img_name_1'= :description_img_name_1,
+                'description_img_data_1'= :description_img_data_1,
+                'description_img_path_1'= :description_img_path_1,
+
+                'description_img_name_2'= :description_img_name_2,
+                'description_img_data_2'= :description_img_data_2,
+                'description_img_path_2'= :description_img_path_2,
+
+                'description_img_name_3'= :description_img_name_3,
+                'description_img_data_3'= :description_img_data_3,
+                'description_img_path_3'= :description_img_path_3,
+
+                'test_time'= :test_time,
+
+                'var_number'= :var_number,
+                'question_pool_tag'= :question_pool_tag,
+                'question_author'= :question_author
+                
+                WHERE oid = :oid""",
+                {'question_difficulty': self.sc_question_difficulty_entry.get(),
+                 'question_category': self.sc_question_category_entry.get(),
+                 'question_type': self.sc_question_type_entry.get(),
+
+                 'question_title': self.sc_question_title_entry.get(),
+                 'question_description_title': self.sc_question_description_title_entry.get(),
+                 'question_description_main': self.sc_question_description_main_entry.get("1.0", 'end-1c'),
+
+                 'response_1_text': self.sc_var1_answer_entry.get(),
+                 'response_1_pts': self.sc_var1_points_entry.get(),
+                 'response_1_img_label': self.sc_var1_img_label_entry.get(),
+                 'response_1_img_string_base64_encoded': self.sc_var1_img_data_entry.get(),
+                 'response_1_img_path': self.sc_var1_img_path_entry.get(),
+
+                 'response_2_text': self.sc_var2_answer_entry.get(),
+                 'response_2_pts': self.sc_var2_points_entry.get(),
+                 'response_2_img_label': self.sc_var2_img_label_entry.get(),
+                 'response_2_img_string_base64_encoded': self.sc_var2_img_data_entry.get(),
+                 'response_2_img_path': self.sc_var2_img_path_entry.get(),
+
+                 'response_3_text': self.sc_var3_answer_entry.get(),
+                 'response_3_pts': self.sc_var3_points_entry.get(),
+                 'response_3_img_label': self.sc_var3_img_label_entry.get(),
+                 'response_3_img_string_base64_encoded': self.sc_var3_img_data_entry.get(),
+                 'response_3_img_path': self.sc_var3_img_path_entry.get(),
+
+                 'response_4_text': self.sc_var4_answer_entry.get(),
+                 'response_4_pts': self.sc_var4_points_entry.get(),
+                 'response_4_img_label': self.sc_var4_img_label_entry.get(),
+                 'response_4_img_string_base64_encoded': self.sc_var4_img_data_entry.get(),
+                 'response_4_img_path': self.sc_var4_img_path_entry.get(),
+
+                 'response_5_text': self.sc_var5_answer_entry.get(),
+                 'response_5_pts': self.sc_var5_points_entry.get(),
+                 'response_5_img_label': self.sc_var5_img_label_entry.get(),
+                 'response_5_img_string_base64_encoded': self.sc_var5_img_data_entry.get(),
+                 'response_5_img_path': self.sc_var5_img_path_entry.get(),
+
+                 'response_6_text': self.sc_var6_answer_entry.get(),
+                 'response_6_pts': self.sc_var6_points_entry.get(),
+                 'response_6_img_label': self.sc_var6_img_label_entry.get(),
+                 'response_6_img_string_base64_encoded': self.sc_var6_img_data_entry.get(),
+                 'response_6_img_path': self.sc_var6_img_path_entry.get(),
+
+                 'response_7_text': self.sc_var7_answer_entry.get(),
+                 'response_7_pts': self.sc_var7_points_entry.get(),
+                 'response_7_img_label': self.sc_var7_img_label_entry.get(),
+                 'response_7_img_string_base64_encoded': self.sc_var7_img_data_entry.get(),
+                 'response_7_img_path': self.sc_var7_img_path_entry.get(),
+
+                 'response_8_text': self.sc_var8_answer_entry.get(),
+                 'response_8_pts': self.sc_var8_points_entry.get(),
+                 'response_8_img_label': self.sc_var8_img_label_entry.get(),
+                 'response_8_img_string_base64_encoded': self.sc_var8_img_data_entry.get(),
+                 'response_8_img_path': self.sc_var8_img_path_entry.get(),
+
+                 'response_9_text': self.sc_var9_answer_entry.get(),
+                 'response_9_pts': self.sc_var9_points_entry.get(),
+                 'response_9_img_label': self.sc_var9_img_label_entry.get(),
+                 'response_9_img_string_base64_encoded': self.sc_var9_img_data_entry.get(),
+                 'response_9_img_path': self.sc_var9_img_path_entry.get(),
+
+                 'response_10_text': self.sc_var10_answer_entry.get(),
+                 'response_10_pts': self.sc_var10_points_entry.get(),
+                 'response_10_img_label': self.sc_var10_img_label_entry.get(),
+                 'response_10_img_string_base64_encoded': self.sc_var10_img_data_entry.get(),
+                 'response_10_img_path': self.sc_var10_img_path_entry.get(),
+
+                 'picture_preview_pixel': self.sc_picture_preview_pixel_entry.get(),
+
+                 
+                 
+                 'description_img_name_1': self.sc_description_img_name_1,
+                 'description_img_data_1': self.sc_description_img_data_1,
+                 'description_img_path_1': self.sc_description_img_path_1,
+
+                 'description_img_name_2': self.sc_description_img_name_2,
+                 'description_img_data_2': self.sc_description_img_data_2,
+                 'description_img_path_2': self.sc_description_img_path_2,
+
+                 'description_img_name_3': self.sc_description_img_name_3,
+                 'description_img_data_3': self.sc_description_img_data_3,
+                 'description_img_path_3': self.sc_description_img_path_3,
+
+                 'test_time': self.sc_test_time,
+                 'question_pool_tag': self.sc_question_pool_tag_entry.get(),
+                 'question_author': self.sc_question_author_entry.get(),
+                 'oid': record_id
+                 })
+                 
     def sc_delete_id_from_db(self):
 
         self.sc_delete_box_id = ""
@@ -1418,100 +1666,12 @@ class SingleChoice:
 
         self.sc_delete_box.delete(0, END)
 
-        """
-        self.sc_delete_mult = self.sc_delete_box.get()
-        self.sc_delete_mult_start = self.sc_delete_mult.split('-')[0]
 
-        self.sc_delete_box_split = self.sc_delete_box_id.split(",")
-        self.sc_delete_index_wrong = False
-
-        for i in range(len(self.sc_delete_box_split)):
-             if "1" in self.sc_delete_box_split[i] and len(self.sc_delete_box_split[i])==1:
-                 print("delete TRUE")
-                 self.sc_delete_index_wrong = True
-
-        if self.sc_delete_box_id == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.sc_delete_index_wrong == True:
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.sc_delete_mult_start == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        else:
-
-            # Variablen
-            self.sc_delete_list = []
-            self.sc_delete_all_list = []
-            self.sc_delete_index = 0
-
-
-
-            # Zur Datenbank connecten
-            conn = sqlite3.connect(self.database_singlechoice_path)
-            c = conn.cursor()
-
-            # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
-            # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
-            self.sc_delete_list = self.sc_delete_box.get().split(",")
-
-
-            # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
-            # den String nehmen, und nach Bindestrick "-" splitten
-            # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
-
-            self.sc_delete_mult = self.sc_delete_box.get()
-            self.sc_delete_mult_start = self.sc_delete_mult.split('-')[0]
-            self.sc_delete_mult_end = self.sc_delete_mult.split('-')[-1]
-            self.sc_delete_mult_symbol = "-" in self.sc_delete_mult
-
-
-            if self.sc_var_delete_all.get() == 1:
-                now = datetime.now()  # current date and time
-                date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
-                actual_time = str(date_time)
-                #Database.sql_db_to_excel_export(self, "BACKUP_Export_from_SQL__" + str(actual_time) + ".xlsx")
-                c.execute("SELECT *, oid FROM singlechoice_table")
-                records = c.fetchall()
-                for record in records:
-                    self.sc_delete_all_list.append(int(record[len(record) - 1]))
-
-                # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                for i in range(len(self.sc_delete_all_list)):
-                    if self.sc_delete_all_list[i] == 1:
-                        self.sc_delete_index = i
-
-                self.sc_delete_all_list.pop(self.sc_delete_index)
-
-
-                for x in range(len(self.sc_delete_all_list)):
-                    c.execute("DELETE from singlechoice_table WHERE oid= " + str(self.sc_delete_all_list[x]))
-                print("All Entries removed!")
-
-
-            elif self.sc_delete_mult_symbol == True:
-
-                for x in range(int(self.sc_delete_mult_start), int(self.sc_delete_mult_end)+1):
-                    c.execute("DELETE from singlechoice_table WHERE oid= " + str(x))
-                    print("Entry with ID " + str(x) + " removed!")
-
-
-            else:
-                for x in range(len(self.sc_delete_list)):
-                    c.execute("DELETE from singlechoice_table WHERE oid= " + str(self.sc_delete_list[x]))
-                    print("Entry with ID " + str(self.sc_delete_list[x]) + " removed!")
-
-            self.sc_delete_box.delete(0, END)
-
-            conn.commit()
-            conn.close()
-        """
 
     def sc_clear_GUI(self):
         self.sc_question_difficulty_entry.delete(0, END)
         self.sc_question_category_entry.delete(0, END)
-        #self.sc_question_type_entry.delete(0, END)
+        self.sc_question_type_entry.delete(0, END)
 
         self.sc_question_title_entry.delete(0, END)
         self.sc_question_description_title_entry.delete(0, END)
@@ -1574,6 +1734,9 @@ class Create_SingleChoice_Questions(SingleChoice):
         self.sc_file_max_id = max_id
         self.sc_taxonomy_file_question_pool = taxonomy_file_question_pool
         self.sc_ilias_id_pool_qti_xml = max_id_pool_qti_xml
+
+        self.sc_number_of_questions_generated = 1
+
         
         print("\n")
 
@@ -1590,11 +1753,28 @@ class Create_SingleChoice_Questions(SingleChoice):
         connect_sc_db = sqlite3.connect(self.database_singlechoice_path)
         cursor = connect_sc_db.cursor()
 
+        # Prüfen ob alle Einträge generiert werden sollen (checkbox gesetzt)
+        if self.sc_var_create_question_pool_all_check.get() == 1:
+            conn = sqlite3.connect(self.database_singlechoice_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM singlechoice_table")
+
+            sc_db_records = c.fetchall()
+
+            for sc_db_record in sc_db_records:
+                self.all_entries_from_db_list.append(int(sc_db_record[len(sc_db_record) - 1]))
+
+            self.string_temp = ','.join(map(str, self.all_entries_from_db_list))
+            self.sc_test_entry_splitted = self.string_temp.split(",")
+
+            # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
+            self.sc_test_entry_splitted.pop(0)
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
         # Datenbank ID wird automatisch bei einem neuen Eintrag erstellt (fortlaufend) und kann nicht beeinflusst werden
         cursor.execute("SELECT *, oid FROM singlechoice_table")
         sc_db_records = cursor.fetchall()
+
 
         for i in range(len(self.sc_test_entry_splitted)):
             for sc_db_record in sc_db_records:
@@ -1605,7 +1785,6 @@ class Create_SingleChoice_Questions(SingleChoice):
                             # an "sc_db_record[self.sc_db_entry_to_index_dict['question_description_main']]"
                             # darf kein extra "replace('&', "&amp;")",
                             # da bei der Bearbeitung der Frage noch die "&" replaced werden.
-
 
                             self.sc_question_difficulty                     = sc_db_record[self.sc_db_entry_to_index_dict['question_difficulty']]
                             self.sc_question_category                       = sc_db_record[self.sc_db_entry_to_index_dict['question_category']]
@@ -1691,6 +1870,7 @@ class Create_SingleChoice_Questions(SingleChoice):
                             self.sc_question_pool_tag                       = sc_db_record[self.sc_db_entry_to_index_dict['question_pool_tag']]
                             self.sc_question_author                         = sc_db_record[self.sc_db_entry_to_index_dict['question_author']].replace('&', "&amp;")
 
+
             Create_SingleChoice_Questions.sc_question_structure(self, i)
 
 
@@ -1700,7 +1880,7 @@ class Create_SingleChoice_Questions(SingleChoice):
 
         # VARIABLEN
         self.sc_response_counter = 0    #wird verwendet zu zählen, wieviele Anworten pro Frage verwendet werden. Bei einer neuer Antwort -> +1
-        
+
         self.sc_question_description_main = test_generator_modul_taxonomie_und_textformatierung.Textformatierung.format_description_text_in_xml(self, self.sc_var_use_latex_on_text_check.get(), self.sc_question_description_main)
 
 
@@ -1861,7 +2041,8 @@ class Create_SingleChoice_Questions(SingleChoice):
                 # "MCSR --> Singlechoice Identifier für xml datei
                 response_lid.set('ident', "MCSR")
                 response_lid.set('rcardinality', "Single")
-                render_choice.set('shuffle', "Yes")
+                render_choice.set('shuffle', self.sc_var_mix_questions.get())
+
 
 
                 # Antworten erstellen
@@ -1893,8 +2074,8 @@ class Create_SingleChoice_Questions(SingleChoice):
                     self.sc_myroot.append(item)
 
                 self.sc_mytree.write(self.qti_file_path_output)
-                print("SingleChoice Frage erstellt! --> Titel: " + str(self.sc_question_title))
-
+                print(str(self.sc_number_of_questions_generated) + ".) SingleChoice Frage erstellt! ---> Titel: " + str(self.sc_question_title))
+                self.sc_number_of_questions_generated += 1
 
         sc_connect.commit()
         sc_connect.close()
@@ -2031,53 +2212,7 @@ class Create_SingleChoice_Test(SingleChoice):
                                                                             )
 
 
-        # ##### VARIABLES
-        # self.sc_test_entry_splitted = []
-        #
-        #
-        # ##### Einlesen der "SingleChoice" _tst_.xml zum ändern des Test-Titel
-        # self.sc_mytree = ET.parse(self.singlechoice_test_tst_file_path_template)
-        # self.sc_myroot = self.sc_mytree.getroot()
-        #
-        # # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = sc_test_vorlage)
-        # for ContentObject in self.sc_myroot.iter('ContentObject'):
-        #     for MetaData in ContentObject.iter('MetaData'):
-        #         for General in MetaData.iter('General'):
-        #             for Title in General.iter('Title'):
-        #                 Title.text = self.sc_ilias_test_title_entry.get()
-        #                 print("Title - Text")
-        #                 print(Title.text)
-        #                 # .XML Datei kann keine "&" verarbeiten.
-        #                 # "&" muss gegen "&amp" ausgetauscht werden sonst kann Ilias die Datei hinterher nicht verwerten.
-        #                 Title.text = Title.text.replace('&', "&amp;")
-        #
-        #
-        #
-        #
-        #
-        #     # Sollte kein Namen vergeben werden, wird der Test-Titel auf "DEFAULT" gesetzt
-        #     if Title.text == "sc_test_vorlage" or Title.text == "":
-        #         Title.text = "DEFAULT"
-        #
-        #     # Änderungen der .XML in eine neue Datei schreiben
-        #     # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
-        #     # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
-        #     self.sc_mytree.write(self.singlechoice_test_tst_file_path_output)
-        #
-        #
-        #     print("TST FILE aktualisiert!")
-        #     print(self.singlechoice_test_tst_file_path_output)
-        #
-        #     Create_SingleChoice_Questions.__init__(self,
-        #                                            self.sc_db_entry_to_index_dict,
-        #                                            self.create_singlechoice_test_entry.get(),
-        #                                            "question_test",
-        #                                            "img_pool_dir_not_used_for_test",
-        #                                            self.singlechoice_test_qti_file_path_template,
-        #                                            self.singlechoice_test_qti_file_path_output)
-        #
-        #     # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-        #     SingleChoice.sc_replace_character_in_xml_file(self, self.singlechoice_test_qti_file_path_output)
+
 
 class Create_SingleChoice_Pool(SingleChoice):
     def __init__(self, entry_to_index_dict, var_create_all_questions):
@@ -2106,709 +2241,3 @@ class Create_SingleChoice_Pool(SingleChoice):
 
 
 
-    #     self.names = []
-    #     self.filename_id = []
-    #
-    #     self.sc_list_of_directories = []
-    #     self.sc_list_of_file_IDs = []
-    #     self.sc_filename_with_zip_index = []
-    #
-    #     self.sc_question_title_list = []
-    #     self.sc_question_pool_id_list = []
-    #     self.question_title_to_pool_id_dict = {}
-    #     self.question_title_to_item_id_dict = {}
-    #
-    #
-    #     # Ordnernamen in "self.singlechoice_pool_directory_output" auslesen
-    #     self.sc_list_of_directories = os.listdir(self.singlechoice_pool_directory_output)
-    #
-    #
-    #     for i in range(len(self.sc_list_of_directories)):
-    #         if ".zip" in self.sc_list_of_directories[i]:
-    #             self.sc_filename_with_zip_index.append(i)
-    #
-    #
-    #
-    #
-    #
-    #     for j in range(len(self.sc_filename_with_zip_index)):
-    #         self.sc_list_of_directories.pop(self.sc_filename_with_zip_index[j]-j)
-    #
-    #
-    #     #Die letzten sieben (7) Zeichen des Orndernamen in eine Liste packen. Die letzten 7 Zeichen geben die ID des Fragenpools an
-    #     #Die Ordnernamen für ILIAS sind immer in dem Format: z.B.: 1604407426__0__tst_2040314
-    #     #Die ID wird im nachhineie um "1" inkrementiert
-    #     for k in range(len(self.sc_list_of_directories)):
-    #         self.sc_list_of_file_IDs.append(self.sc_list_of_directories[k][-7:])
-    #
-    #
-    #     # Alle String Einträge nach "INT" konvertieren um mit der max() funktion die höchste ID herauszufiltern
-    #     self.sc_list_of_file_IDs = list(map(int, self.sc_list_of_file_IDs))
-    #
-    #     self.sc_file_max_id = str(max(self.sc_list_of_file_IDs)+1)
-    #
-    #
-    #     #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
-    #     self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.sc_file_max_id
-    #     self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.sc_file_max_id + ".xml"
-    #     self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.sc_file_max_id + ".xml"
-    #     self.ilias_id_pool_img_dir = os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, "objects"))
-    #
-    #     self.qpl_file_pool_path_write = os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #     self.qti_file_pool_path_write = os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.singlechoice_pool_img_file_path = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
-    #
-    #     # Pfad für ILIAS-Taxonomie Dateien --> "export.xml"
-    #     self.modules_export_file = os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Modules', 'TestQuestionPool', 'set_1', 'export.xml'))
-    #
-    #
-    #     self.taxonomy_file_question_pool = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.taxonomy_file_writes = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #
-    #     print("###")
-    #     print(self.ilias_id_pool_qpl_dir)
-    #
-    #     # Neuen Ordner erstellen
-    #     Create_SingleChoice_Questions.sc_createFolder(self, os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #
-    #     # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
-    #     # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-    #     Create_SingleChoice_Pool.sc_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
-    #              os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #     # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
-    #     # Anpassung ID für "qti".xml
-    #     os.rename(os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qti_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml)))
-    #
-    #     # Anpassung ID für "qpl".xml
-    #     os.rename(os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qpl_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml)))
-    #
-    #
-    #
-    #     ###### Anpassung der Datei "Modul -> export". Akualisierung des Dateinamens
-    #     self.mytree = ET.parse(self.modules_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         TaxId.set('Id', self.sc_file_max_id)
-    #
-    #     self.mytree.write(self.modules_export_file)
-    #
-    #     with open(self.modules_export_file, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     with open(self.modules_export_file, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-    #
-    #     ######  Anpassung der Datei "Modules -> //... //  -> export.xml". Akualisierung des Dateinamens
-    #     self.taxonomy_export_file = os.path.normpath(os.path.join(self.singlechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.mytree = ET.parse(self.taxonomy_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for ExportItem in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         #print(ExportItem.attrib.get('Id'))
-    #         if ExportItem.attrib.get('Id') != "":
-    #             #print(ExportItem.attrib.get('Id'))
-    #             ExportItem.set('Id', self.sc_file_max_id)
-    #             break
-    #
-    #
-    #
-    #     for object_id in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ObjId'):
-    #         object_id.text = self.sc_file_max_id
-    #         break
-    #
-    #     self.mytree.write(self.taxonomy_export_file)
-    #
-    #     # Taxonomie-datei "refreshen"
-    #     Create_SingleChoice_Pool.sc_taxonomy_file_refresh(self, self.taxonomy_export_file)
-    #
-    #
-    #     # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
-    #     # ilias_id_pol_
-    #     self.singlechoice_pool_qti_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.singlechoice_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #
-    #
-    #
-    #     Create_SingleChoice_Questions.__init__(self, self.sc_db_entry_to_index_dict, self.create_singlechoice_pool_entry.get(), "question_pool", self.ilias_id_pool_img_dir, self.singlechoice_pool_qti_file_path_template, self.singlechoice_pool_qti_file_path_output)
-    #
-    #
-    #
-    #
-    #
-    #
-    # def sc_copytree(self, src, dst, symlinks=False, ignore=None):
-    #         for item in os.listdir(src):
-    #             s = os.path.join(src, item)
-    #             d = os.path.join(dst, item)
-    #             if os.path.isdir(s):
-    #                 shutil.copytree(s, d, symlinks, ignore)
-    #             else:
-    #                 shutil.copy2(s, d)
-    #
-    # def sc_taxonomy_file_refresh(self, file_location):
-    #     self.file_location = file_location
-    #     # print("refresh_file_location: " + str(self.file_location))
-    #     with open(self.file_location, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     xml_str = xml_str.replace('ns2:', 'ds:')
-    #     xml_str = xml_str.replace('ns3:', '')  # replace "x" with "new value for x"
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Entity="tax" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #
-    #     with open(self.file_location, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-    # def sc_create_pool_question(self):
-    #     print("pool question")
-    #
-    # def sc_create_pool_file_qpl(self):
-    #     print("create_pool")
-    #
-    # def sc_replace_characters_pool(self):
-    #     # open xml file to replace specific characters
-    #     with open(self.singlechoice_pool_qpl_file_path_output, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('&amp;', '&')  # replace 'x' with 'new_x'
-    #
-    #     # write to file
-    #     with open(self.singlechoice_pool_qpl_file_path_output, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-
-
-"""
-    # Diese Funktion fügt die möglichen Antworten in die XML Struktur ein
-    # response_sql -> Der Antwort Text aus der SQL-Datenbank (z.B. aus der Spalte "response_1_text)
-    # response_label_xml -> Eintrag gibt die "ID" der Antwort wider. Beginnt bei "0" und wird mit jeder zusätzlichen Antowort inkrementiert
-    def sc_add_answer_to_xml(self, response_sql, section):
-
-        # Struktur für den SingleChoice - Fragen/Antworten Teil  -- HEADER
-        # Muss für jede Frage neu angelegt/hinzugefügt werden
-        item = ET.SubElement(section, 'item')
-        qticomment = ET.SubElement(item, 'qticomment')
-        duration = ET.SubElement(item, 'duration')
-        itemmetadata = ET.SubElement(item, 'itemmetadata')
-        presentation = ET.SubElement(item, 'presentation')
-
-
-        # Struktur für den SingleCHoice - Fragen/Antworten Teil  -- MAIN
-        # Muss für jede Frage neu angelegt/hinzugefügt werden
-        flow = ET.SubElement(presentation, 'flow')
-        question_description_material = ET.SubElement(flow, 'material')
-        question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-        response_lid = ET.SubElement(flow, 'response_lid')
-        render_choice = ET.SubElement(response_lid, 'render_choice')
-        response_label = ET.SubElement(render_choice, 'response_label')
-        question_answer_material = ET.SubElement(response_label, 'material')
-        question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-
-
-        qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-
-
-
-        ### ------------------------------------------------------- XML Einträge mit Werten füllen
-
-        # Fragen-Titel -- "item title" in xml
-        item.set('title', self.sc_question_title.replace('&', "&amp;"))
-
-        # Fragen-Titel Beschreibung
-        qticomment.text = self.sc_question_description_title
-
-        # Testdauer -- "duration" in xml
-        # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-        duration.text = self.sc_test_time
-        if duration.text == "":
-            duration.text = "P0Y0M0DT1H0M0S"
-
-
-
-
-        # Prüfen ob ILIAS Version ausgelesen werden kann
-        # -----------------------------------------------------------------------ILIAS VERSION
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "ILIAS_VERSION"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "5.4.14 2020-07-31"
-        # -----------------------------------------------------------------------QUESTIONTYPE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "QUESTIONTYPE"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "SINGLE CHOICE QUESTION"
-        # -----------------------------------------------------------------------AUTHOR
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "AUTHOR"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        self.sc_autor_replaced = str(self.sc_autor_entry.get())
-        fieldentry.text = self.sc_autor_replaced.replace('&', "&amp;")
-        # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "additional_cont_edit_mode"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "default"
-        # -----------------------------------------------------------------------EXTERNAL_ID
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "externalId"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "5f11d3ed9af3e5.53678796"
-        # -----------------------------------------------------------------------THUMB_SIZE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "thumb_size"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = ""
-        # -----------------------------------------------------------------------FEEDBACK_SETTING
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "feedback_setting"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "2"
-        # -----------------------------------------------------------------------SINGLELINE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "singleline"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "1"
-
-
-        # Fragentitel einsetzen -- "presentation label" in xml
-        presentation.set('label', self.sc_question_title)
-
-
-
-
-        #Fragen-Text -- "mattext_texttype" in xml -- Gibt das Format des Textes an
-        question_description_mattext.set('texttype', "text/html")
-
-
-
-        #Fragen-Text -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-        question_description_mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
-
-
-        # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
-        ###### Auslesen der Anzahl der Antworten
-        if isinstance(self.sc_response_1_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_2_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_3_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_4_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_5_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_6_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_7_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_8_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_9_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-        elif isinstance(self.sc_response_1_text, str) == True:
-            self.sc_response_counter = self.sc_response_counter + 1
-
-
-
-
-        # "MCSR --> Singlechoice Identifier für xml datei
-        response_lid.set('ident', "MCSR")
-        response_lid.set('rcardinality', "Single")
-        render_choice.set('shuffle', "Yes")
-
-
-        for nr in range(self.sc_response_counter):
-            #response_lid = ET.SubElement(flow, 'response_lid')
-            #render_choice = ET.SubElement(response_lid, 'render_choice')
-            response_label = ET.SubElement(render_choice, 'response_label')
-            question_answer_material = ET.SubElement(response_label, 'material')
-            question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-
-            if response_sql != "":
-                response_label.set('ident', str(nr+1))
-                question_answer_mattext.set('texttype', "text/plain")
-                question_answer_mattext.text = response_sql
-
-
-
-
-        # Neues "Item" an xml anhängen
-        self.sc_myroot[0][len(self.sc_myroot[0])-1].append(item)
-
-    #sc_create_question.(self, self.sc_response_1_text)
-
-
-
-        self.sc_mytree.write(self.singlechoice_test_qti_file_path_output)
-        print("SingleChoice Frage erstellt!")
-"""
-
-
-""" # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_1_text, response_label,  self.sc_response_counter, flow)
-            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_2_text, response_label,  self.sc_response_counter, flow)
-            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_3_text, response_label,  self.sc_response_counter, flow)
-            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_4_text, response_label,  self.sc_response_counter, flow)
-            # Create_SingleChoice_Test.sc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.sc_response_5_text, response_label,  self.sc_response_counter, flow)
-
-
-
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             #response_label = ET.SubElement(render_choice, 'response_label')
-             #question_answer_material = ET.SubElement(response_label, 'material')
-             #question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             #Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-             if self.sc_response_1_text != "":
-                 response_label.set('ident', str(self.sc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.sc_response_1_text
-                 self.sc_response_counter = self.sc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 2
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-             if self.sc_response_2_text != "":
-                 response_label.set('ident', str(self.sc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.sc_response_2_text
-                 self.sc_response_counter = self.sc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 3
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-             if self.sc_response_3_text != "":
-                 response_label.set('ident', str(self.sc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.sc_response_3_text
-                 self.sc_response_counter = self.sc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 4
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-             if self.sc_response_4_text != "":
-                 response_label.set('ident', str(self.sc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.sc_response_4_text
-                 self.sc_response_counter = self.sc_response_counter + 1
-
-             # -----------------------------------------------------------------------ANTWORT 4
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.sc_add_answer_to_xml(self, self.sc_response_1_text, response_label, question_answer_mattext, self.sc_response_counter)
-             if self.sc_response_4_text != "":
-                 response_label.set('ident', str(self.sc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.sc_response_4_text
-                 self.sc_response_counter = self.sc_response_counter + 1
-                 
-                 
-                 
-==========================================================
- # # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
-                #
-                # # -----------------------------------------------------------------------ANTWORT 1
-                # #print("1," + str(self.sc_response_1_text + str(isinstance(self.sc_response_1_text, str))))
-                # if self.sc_response_1_text != "":
-                #     response_label = ET.SubElement(render_choice, 'response_label')
-                #     question_answer_material = ET.SubElement(response_label, 'material')
-                #     question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #     response_label.set('ident', str(self.sc_response_counter))
-                #     question_answer_mattext.set('texttype', "text/plain")
-                #     question_answer_mattext.text = self.sc_response_1_text
-                #     if self.sc_response_1_img_string_base64_encoded != "":
-                #         question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-                #
-                #         if str(self.sc_response_1_img_label.rpartition('.')[-1]) == "jpg" or str(self.sc_response_1_img_label.rpartition('.')[-1]) == "jpeg":
-                #             question_answer_matimage.set('imagtype', "image/jpeg")
-                #         elif str(self.sc_response_1_img_label.rpartition('.')[-1]) == "png":
-                #             question_answer_matimage.set('imagtype', "image/png")
-                #         elif str(self.sc_response_1_img_label.rpartition('.')[-1]) == "gif":
-                #             question_answer_matimage.set('imagtype', "image/gif")
-                #         else:
-                #             print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-                #
-                #
-                #         question_answer_matimage.set('label', self.sc_response_1_img_label)
-                #         question_answer_matimage.set('embedded', "base64")
-                #         question_answer_matimage.text = self.sc_response_1_img_string_base64_encoded
-                #
-                #     # --------------------------------------------------------PUNKTE FÜR ANTWORT 1
-                #
-                #     respcondition = ET.SubElement(resprocessing, 'respcondition')
-                #     respcondition.set('continue', "Yes")
-                #
-                #     conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                #     varequal = ET.SubElement(conditionvar, 'varequal')
-                #     varequal.set('respident', "MCSR") # MCSR --> SingleChoice Ident
-                #     varequal.text = str(self.sc_response_counter) # ID der Antwort inkrementiert für jede Antwort
-                #
-                #     setvar = ET.SubElement(respcondition, 'setvar')
-                #     setvar.set('action', "Add")
-                #     setvar.text = str(self.sc_response_1_pts) # Punktevergabe für die Antwort
-                #     displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                #     displayfeedback.set('feedbacktype', "Response")
-                #     displayfeedback.set('linkrefid', "response_" + str(self.sc_response_counter))
-                #     # --------------------------------------------------------ZUSATZ FÜR ANTWORT 1
-                #
-                #     itemfeedback = ET.SubElement(item, 'itemfeedback')
-                #     itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                #     itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                #     itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-                #
-                #     itemfeedback.set('ident',"response_" + str(self.sc_response_counter))
-                #     itemfeedback.set('view', "All")
-                #     itemfeedback_mattext.set('texttype', "text/plain")
-                #
-                #     self.sc_response_counter = self.sc_response_counter + 1
-                # # -----------------------------------------------------------------------ANTWORT 2
-                # #print("2," + str(self.sc_response_2_text + str(isinstance(self.sc_response_2_text, str))))
-                # if self.sc_response_2_text != "":
-                #     response_label = ET.SubElement(render_choice, 'response_label')
-                #     question_answer_material = ET.SubElement(response_label, 'material')
-                #     question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #     response_label.set('ident', str(self.sc_response_counter))
-                #     question_answer_mattext.set('texttype', "text/plain")
-                #     question_answer_mattext.text = self.sc_response_2_text
-                #
-                #     if self.sc_response_2_img_string_base64_encoded != "":
-                #         question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-                #
-                #         if str(self.sc_response_2_img_label.rpartition('.')[-1]) == "jpg" or str(self.sc_response_2_img_label.rpartition('.')[-1]) == "jpeg":
-                #             question_answer_matimage.set('imagtype', "image/jpeg")
-                #         elif str(self.sc_response_2_img_label.rpartition('.')[-1]) == "png":
-                #             question_answer_matimage.set('imagtype', "image/png")
-                #         elif str(self.sc_response_2_img_label.rpartition('.')[-1]) == "gif":
-                #             question_answer_matimage.set('imagtype', "image/gif")
-                #         else:
-                #             print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-                #
-                #
-                #         question_answer_matimage.set('label', self.sc_response_2_img_label)
-                #         question_answer_matimage.set('embedded', "base64")
-                #         question_answer_matimage.text = self.sc_response_2_img_string_base64_encoded
-                #     # --------------------------------------------------------PUNKTE FÜR ANTWORT 2
-                #
-                #     respcondition = ET.SubElement(resprocessing, 'respcondition')
-                #     respcondition.set('continue', "Yes")
-                #
-                #     conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                #     varequal = ET.SubElement(conditionvar, 'varequal')
-                #     varequal.set('respident', "MCSR")  # MCSR --> SingleChoice Ident
-                #     varequal.text = str(self.sc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-                #
-                #     setvar = ET.SubElement(respcondition, 'setvar')
-                #     setvar.set('action', "Add")
-                #     setvar.text = str(self.sc_response_2_pts)  # Punktevergabe für die Antwort
-                #     displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                #     displayfeedback.set('feedbacktype', "Response")
-                #     displayfeedback.set('linkrefid', "response_" + str(self.sc_response_counter))
-                #     # --------------------------------------------------------ZUSATZ FÜR ANTWORT 2
-                #
-                #     itemfeedback = ET.SubElement(item, 'itemfeedback')
-                #     itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                #     itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                #     itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-                #
-                #     itemfeedback.set('ident', "response_" + str(self.sc_response_counter))
-                #     itemfeedback.set('view', "All")
-                #     itemfeedback_mattext.set('texttype', "text/plain")
-                #
-                #     self.sc_response_counter = self.sc_response_counter + 1
-                #
-                #
-                #     # -----------------------------------------------------------------------ANTWORT 3
-                # #print("3," + str(self.sc_response_3_text))
-                # if self.sc_response_3_text != "":
-                #     response_label = ET.SubElement(render_choice, 'response_label')
-                #     question_answer_material = ET.SubElement(response_label, 'material')
-                #     question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #     response_label.set('ident', str(self.sc_response_counter))
-                #     question_answer_mattext.set('texttype', "text/plain")
-                #     question_answer_mattext.text = self.sc_response_3_text
-                #
-                #     if self.sc_response_3_img_string_base64_encoded != "":
-                #         question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-                #
-                #         if str(self.sc_response_3_img_label.rpartition('.')[-1]) == "jpg" or str(self.sc_response_3_img_label.rpartition('.')[-1]) == "jpeg":
-                #             question_answer_matimage.set('imagtype', "image/jpeg")
-                #         elif str(self.sc_response_3_img_label.rpartition('.')[-1]) == "png":
-                #             question_answer_matimage.set('imagtype', "image/png")
-                #         elif str(self.sc_response_3_img_label.rpartition('.')[-1]) == "gif":
-                #             question_answer_matimage.set('imagtype', "image/gif")
-                #         else:
-                #             print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-                #
-                #
-                #         question_answer_matimage.set('label', self.sc_response_3_img_label)
-                #         question_answer_matimage.set('embedded', "base64")
-                #         question_answer_matimage.text = self.sc_response_3_img_string_base64_encoded
-                #
-                #     # --------------------------------------------------------PUNKTE FÜR ANTWORT 3
-                #
-                #     respcondition = ET.SubElement(resprocessing, 'respcondition')
-                #     respcondition.set('continue', "Yes")
-                #
-                #     conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                #     varequal = ET.SubElement(conditionvar, 'varequal')
-                #     varequal.set('respident', "MCSR")  # MCSR --> SingleChoice Ident
-                #     varequal.text = str(self.sc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-                #
-                #     setvar = ET.SubElement(respcondition, 'setvar')
-                #     setvar.set('action', "Add")
-                #     setvar.text = str(self.sc_response_3_pts)  # Punktevergabe für die Antwort
-                #     displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                #     displayfeedback.set('feedbacktype', "Response")
-                #     displayfeedback.set('linkrefid', "response_" + str(self.sc_response_counter))
-                #     # --------------------------------------------------------ZUSATZ FÜR ANTWORT 3
-                #
-                #     itemfeedback = ET.SubElement(item, 'itemfeedback')
-                #     itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                #     itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                #     itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-                #
-                #     itemfeedback.set('ident', "response_" + str(self.sc_response_counter))
-                #     itemfeedback.set('view', "All")
-                #     itemfeedback_mattext.set('texttype', "text/plain")
-                #
-                #     self.sc_response_counter = self.sc_response_counter + 1
-                #
-                #     # -----------------------------------------------------------------------ANTWORT 4
-                # #print("4," + str(self.sc_response_4_text + str(isinstance(self.sc_response_4_text, str))))
-                # if self.sc_response_4_text != "":
-                #     response_label = ET.SubElement(render_choice, 'response_label')
-                #     question_answer_material = ET.SubElement(response_label, 'material')
-                #     question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #     response_label.set('ident', str(self.sc_response_counter))
-                #     question_answer_mattext.set('texttype', "text/plain")
-                #     question_answer_mattext.text = self.sc_response_4_text
-                #
-                #     if self.sc_response_4_img_string_base64_encoded != "":
-                #         question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-                #
-                #         if str(self.sc_response_4_img_label.rpartition('.')[-1]) == "jpg" or str(self.sc_response_4_img_label.rpartition('.')[-1]) == "jpeg":
-                #             question_answer_matimage.set('imagtype', "image/jpeg")
-                #         elif str(self.sc_response_4_img_label.rpartition('.')[-1]) == "png":
-                #             question_answer_matimage.set('imagtype', "image/png")
-                #         elif str(self.sc_response_4_img_label.rpartition('.')[-1]) == "gif":
-                #             question_answer_matimage.set('imagtype', "image/gif")
-                #         else:
-                #             print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-                #
-                #         question_answer_matimage.set('label', self.sc_response_4_img_label)
-                #         question_answer_matimage.set('embedded', "base64")
-                #         question_answer_matimage.text = self.sc_response_4_img_string_base64_encoded
-                #     # --------------------------------------------------------PUNKTE FÜR ANTWORT 4
-                #
-                #     respcondition = ET.SubElement(resprocessing, 'respcondition')
-                #     respcondition.set('continue', "Yes")
-                #
-                #     conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                #     varequal = ET.SubElement(conditionvar, 'varequal')
-                #     varequal.set('respident', "MCSR")  # MCSR --> SingleChoice Ident
-                #     varequal.text = str(self.sc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-                #
-                #     setvar = ET.SubElement(respcondition, 'setvar')
-                #     setvar.set('action', "Add")
-                #     setvar.text = str(self.sc_response_4_pts)  # Punktevergabe für die Antwort
-                #     displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                #     displayfeedback.set('feedbacktype', "Response")
-                #     displayfeedback.set('linkrefid', "response_" + str(self.sc_response_counter))
-                #     # --------------------------------------------------------ZUSATZ FÜR ANTWORT 4
-                #
-                #     itemfeedback = ET.SubElement(item, 'itemfeedback')
-                #     itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                #     itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                #     itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-                #
-                #     itemfeedback.set('ident', "response_" + str(self.sc_response_counter))
-                #     itemfeedback.set('view', "All")
-                #     itemfeedback_mattext.set('texttype', "text/plain")
-                #
-                #     self.sc_response_counter = self.sc_response_counter + 1
-                #
-                #     # -----------------------------------------------------------------------ANTWORT 5
-                # #print("5," + str(self.sc_response_5_text + str(isinstance(self.sc_response_5_text, str))))
-                # if self.sc_response_5_text != "":
-                #     response_label = ET.SubElement(render_choice, 'response_label')
-                #     question_answer_material = ET.SubElement(response_label, 'material')
-                #     question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                #     response_label.set('ident', str(self.sc_response_counter))
-                #     question_answer_mattext.set('texttype', "text/plain")
-                #     question_answer_mattext.text = self.sc_response_5_text
-                #     if self.sc_response_5_img_string_base64_encoded != "":
-                #         question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-                #
-                #         if str(self.sc_response_5_img_label.rpartition('.')[-1]) == "jpg" or str(self.sc_response_5_img_label.rpartition('.')[-1]) == "jpeg":
-                #             question_answer_matimage.set('imagtype', "image/jpeg")
-                #         elif str(self.sc_response_5_img_label.rpartition('.')[-1]) == "png":
-                #             question_answer_matimage.set('imagtype', "image/png")
-                #         elif str(self.sc_response_5_img_label.rpartition('.')[-1]) == "gif":
-                #             question_answer_matimage.set('imagtype', "image/gif")
-                #         else:
-                #             print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-                #
-                #         question_answer_matimage.set('label', self.sc_response_5_img_label)
-                #         question_answer_matimage.set('embedded', "base64")
-                #         question_answer_matimage.text = self.sc_response_5_img_string_base64_encoded
-                #     # --------------------------------------------------------PUNKTE FÜR ANTWORT 5
-                #
-                #     respcondition = ET.SubElement(resprocessing, 'respcondition')
-                #     respcondition.set('continue', "Yes")
-                #
-                #     conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                #     varequal = ET.SubElement(conditionvar, 'varequal')
-                #     varequal.set('respident', "MCSR")  # MCSR --> SingleChoice Ident
-                #     varequal.text = str(self.sc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-                #
-                #     setvar = ET.SubElement(respcondition, 'setvar')
-                #     setvar.set('action', "Add")
-                #     setvar.text = str(self.sc_response_5_pts)  # Punktevergabe für die Antwort
-                #     displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                #     displayfeedback.set('feedbacktype', "Response")
-                #     displayfeedback.set('linkrefid', "response_" + str(self.sc_response_counter))
-                #     # --------------------------------------------------------ZUSATZ FÜR ANTWORT 5
-                #
-                #     itemfeedback = ET.SubElement(item, 'itemfeedback')
-                #     itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                #     itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                #     itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-                #
-                #     itemfeedback.set('ident', "response_" + str(self.sc_response_counter))
-                #     itemfeedback.set('view', "All")
-                #     itemfeedback_mattext.set('texttype', "text/plain")
-                #
-                #     self.sc_response_counter = self.sc_response_counter + 1                 
-"""
