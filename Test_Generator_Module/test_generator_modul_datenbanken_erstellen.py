@@ -2366,7 +2366,7 @@ class Import_Export_Database(CreateDatabases):
 
                                 question_pool_tag= :question_pool_tag,
                                 question_author= :question_author
-                                WHERE oid = :oid""",
+                                WHERE question_title = :question_title""",
                                 {'question_difficulty': sc_row[db_entry_to_index_dict['question_difficulty'] + 1],
                                  'question_category': sc_row[db_entry_to_index_dict['question_category'] + 1],
                                  'question_type': sc_row[db_entry_to_index_dict['question_type'] + 1],
