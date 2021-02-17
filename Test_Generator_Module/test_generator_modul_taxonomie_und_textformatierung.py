@@ -1,11 +1,13 @@
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import *
+from tkinter import messagebox
 from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
 import os
 import pathlib
 import xml.etree.ElementTree as ET
 import sqlite3
+
 
 class Textformatierung:
     def __init__(self):
@@ -876,8 +878,9 @@ class Taxonomie:
         self.tax_nodes_myCombo.destroy()
         Taxonomie.tax_combobox_refresh(self)
 
+    """
     def tax_reallocate(self):
-        print("REALLOCATE")
+        print("Taxonomie wird neu sortiert ")
         self.mytree = ET.parse(self.taxonomy_file_read)
         self.myroot = self.mytree.getroot()
 
@@ -929,7 +932,7 @@ class Taxonomie:
                 if child.attrib['Entity'] == "tax_tree":
                     rec.remove(child)
         self.mytree.write(self.taxonomy_file_write)
-        print("TaxTree Deleted!")
+
 
         ##############################
         # Beim schreiben in die XML Datei müssen konvertierungen vorgenommen werden
@@ -965,10 +968,10 @@ class Taxonomie:
                 if child.attrib['Entity'] == "tax_node_assignment":
                     rec.remove(child)
         self.mytree.write(self.taxonomy_file_write)
-        print("Questions Deleted!")
 
 
-        # TaxTree in Datei schreiben
+
+        # TaxTree in Datei schreiben / aktualisieren
         for i in range(len(self.reallocate_titles)):
 
             if self.reallocate_titles[i] != "delete":
@@ -1003,7 +1006,7 @@ class Taxonomie:
 
                 self.myroot.append(ExportItem)
                 self.mytree.write(self.taxonomy_file_write)
-        print("TaxTree's aktualisiert")
+
 
          # Wiederherstellen der Fragen die nicht auf "00000" gesetzt sind
         for i in range(len(self.reallocate_item_id)):
@@ -1029,15 +1032,18 @@ class Taxonomie:
 
                 self.myroot.append(ExportItem)
                 self.mytree.write(self.taxonomy_file_write)
-        print("Fragen in Nodes aktualisiert")
+
 
         # Beim schreiben in die XML Datei müssen konvertierungen vorgenommen werden
         # Es wird automatisch "ns0" etc. durch Python geschrieben und muss in das ilias Format abgeändert werden
         # Taxonomie-datei "refreshen"
         Taxonomie.tax_file_refresh(self, self.taxonomy_exportXML_file)
 
+        print("...abgeschlossen")
+
+    """
     def tax_reallocate_from_excel(self, file_location):
-        print("REALLOCATE")
+        print("Taxonomie wird überarbeitet...          ", end="", flush=True)
         self.mytree = ET.parse(file_location)
         self.myroot = self.mytree.getroot()
 
@@ -1089,7 +1095,7 @@ class Taxonomie:
                 if child.attrib['Entity'] == "tax_tree":
                     rec.remove(child)
         self.mytree.write(file_location)
-        print("TaxTree Deleted!")
+
 
         ##############################
         # Beim schreiben in die XML Datei müssen konvertierungen vorgenommen werden
@@ -1125,7 +1131,7 @@ class Taxonomie:
                 if child.attrib['Entity'] == "tax_node_assignment":
                     rec.remove(child)
         self.mytree.write(file_location)
-        print("Questions Deleted!")
+
 
 
         # TaxTree in Datei schreiben
@@ -1163,7 +1169,7 @@ class Taxonomie:
 
                 self.myroot.append(ExportItem)
                 self.mytree.write(file_location)
-        print("TaxTree's aktualisiert")
+
 
          # Wiederherstellen der Fragen die nicht auf "00000" gesetzt sind
         for i in range(len(self.reallocate_item_id)):
@@ -1189,12 +1195,15 @@ class Taxonomie:
 
                 self.myroot.append(ExportItem)
                 self.mytree.write(file_location)
-        print("Fragen in Nodes aktualisiert")
+
 
         # Beim schreiben in die XML Datei müssen konvertierungen vorgenommen werden
         # Es wird automatisch "ns0" etc. durch Python geschrieben und muss in das ilias Format abgeändert werden
         # Taxonomie-datei "refreshen"
         Taxonomie.tax_file_refresh(self, file_location)
+        print("abgeschlossen!")
+
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!")
 
     def tax_combobox_refresh (self):
 
@@ -1484,7 +1493,7 @@ class Taxonomie:
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
             self.test_entry_splitted.pop(0)
 
-            print(self.test_entry_splitted)
+
 
         for i in range(len(self.test_entry_splitted)):
             for db_record in db_records:
