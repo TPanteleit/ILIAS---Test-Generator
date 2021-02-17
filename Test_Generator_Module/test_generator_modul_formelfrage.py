@@ -22,16 +22,55 @@ from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
 from Test_Generator_Module import test_generator_modul_taxonomie_und_textformatierung
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
+from Test_Generator_Module import test_generator_modul_zeigerdiagramme
 
 class Formelfrage:
+
+    ############## SET IMAGE VARIABLES
+    ############## DEFINE FORMELFRAGE PATHS
+    ############## FRAMES
+    # add_image_to_description_and_create_labels
+    # add_image_to_description_and_delete_labels
+    ############## BEARBEITUNGSDAUER
+    # selected_hours
+    # selected_minutes
+    # selecteds_seconds
+    ############## ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX
+    ############## EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX
+    # answer_selected
+    ############## AUSWAHL DER EINHEITEN FÜR VARIABLEN ---- DERZEIT NICHT AKTIV
+    ############## ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX
+    ############## EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX
+    ############## EINHEITEN FÜR ERGEBNISSE DERZEIT DEAKTIVIERT
+    # result_selected
+    #____ INIT end
+    # ff_variable_show_or_remove
+    # ff_result_show_or_remove
+    # unit_table
+    # ff_replace_character_in_xml_file
+    # ff_replace_symbols_in_formula
+    # ff_calculate_value_range_from_formula
+    ############## DATENBANK FUNKTIONEN
+    # ff_save_id_to_db
+    # ff_load_id_from_db
+    # ff_edit_id_from_db
+    # ff_delete_id_from_db
+    # ff_load_id_from_db
+    # ff_clear_GUI
+
+
+
     def __init__(self, app, formelfrage_tab, project_root_path):
 
-############## SET IMAGE VARIABLES
+
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
 
         self.formelfrage_tab = formelfrage_tab
 
+
+
+############## SET IMAGE VARIABLES
         self.ff_description_img_name_1 = "EMPTY"
         self.ff_description_img_name_2 = "EMPTY"
         self.ff_description_img_name_3 = "EMPTY"
@@ -53,8 +92,12 @@ class Formelfrage:
         self.formelfrage_files_path = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Formelfrage"))
         self.formelfrage_files_path_pool_output = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_ilias_pool_abgabe"))
 
+        # Name für Datenbank und Tabelle
+        self.ff_database = "ilias_formelfrage_db.db"
+        self.ff_database_table = "formelfrage_table"
+
         # Pfad für die Datenbank
-        self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
+        self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.ff_database))
 
         # Pfad für ILIAS-Test Vorlage
         self.formelfrage_test_qti_file_path_template = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_test_qti_und_tst_dateien_vorlage", "ilias_test_vorlage__qti__.xml"))
@@ -83,13 +126,13 @@ class Formelfrage:
 
         # Dictionary aus zwei Listen erstellen
         # Auslesen der Formelfrage-Datenbank einträgen
-        # Nur die erste Zeile auslesen um einen Zusammenhang zwischen Variablen und Indexen herzustellen
+        # Nur die erste Zeile auslesen (LIMIT 1) um einen Zusammenhang zwischen Variablen und Indexen herzustellen
         self.ff_db_find_entries = []
         self.ff_db_find_indexes = []
 
         connect = sqlite3.connect(self.database_formelfrage_path)
         cursor = connect.cursor()
-        cursor.execute("SELECT * FROM formelfrage_table LIMIT 1")
+        cursor.execute("SELECT * FROM %s LIMIT 1" % self.ff_database_table)
 
         ff_db_records = cursor.fetchall()
         for ff_db_record in ff_db_records:
@@ -99,8 +142,6 @@ class Formelfrage:
 
 
         self.ff_db_entry_to_index_dict = dict(zip((self.ff_db_find_entries), (self.ff_db_find_indexes)))
-
-
 
         connect.commit()
         connect.close()
@@ -134,10 +175,12 @@ class Formelfrage:
         self.ff_frame_excel_import_export.grid(row=2, column=1, padx=10, pady=10, sticky="NW")
 
 
-
-
         self.ff_frame_description_picture = LabelFrame(self.formelfrage_tab, text="Fragen-Text Bild", padx=5, pady=5)
         self.ff_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
+
+        self.ff_frame_vector_diagram = LabelFrame(self.formelfrage_tab, text="Zeigerdiagramme", padx=5, pady=5)
+        self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
+
 
 
 ###################### "Testname & Autor" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
@@ -308,9 +351,7 @@ class Formelfrage:
 
 ###################### "Formelfrage-Datenbank" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
-
-
-        self.ff_database_show_db_formelfrage_btn = Button(self.ff_frame_database, text="FF - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_path, "formelfrage_table"))
+        self.ff_database_show_db_formelfrage_btn = Button(self.ff_frame_database, text="FF - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_path, self.ff_database_table))
         self.ff_database_show_db_formelfrage_btn.grid(row=0, column=0, sticky=W, pady=5)
 
         self.ff_database_save_id_to_db_formelfrage_btn = Button(self.ff_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage.ff_save_id_to_db(self))
@@ -363,7 +404,7 @@ class Formelfrage:
         self.ff_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
+        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
         self.ff_excel_export_to_xlsx_formelfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
 
@@ -396,6 +437,65 @@ class Formelfrage:
         self.set_postion_for_picture_3_btn = Button(self.ff_frame_question_description_functions, text="Pos. Bild 3", command=lambda: test_generator_modul_taxonomie_und_textformatierung.Textformatierung.set_position_for_picture_3(self, self.ff_question_description_main_entry))
         self.set_postion_for_picture_3_btn.grid(row=7, column=0, padx=10,  sticky="W")
 
+###################### "Zeigerdiagramme" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
+
+        self.ff_vector_diagram_type =["Serienschaltung: RL", "Serienschaltung: RC", "Serienschaltung: RLC"]
+        self.ff_vector_diagram_type_box = ttk.Combobox(self.ff_frame_vector_diagram, value=self.ff_vector_diagram_type, width=20)
+        self.ff_vector_diagram_type_box.grid(row=0, column=0, sticky=W, pady=10)
+
+
+        self.ff_vector_diagram_U_label = Label(self.ff_frame_vector_diagram, text='Wert für U:')
+        self.ff_vector_diagram_U_label.grid(row=1, column=0, sticky=W)
+        self.ff_vector_diagram_U_entry = Entry(self.ff_frame_vector_diagram,  width=10)
+        self.ff_vector_diagram_U_entry.grid(row=1, column=0, sticky=W, padx=70)
+
+        self.ff_vector_diagram_R_label = Label(self.ff_frame_vector_diagram, text='Wert für R:')
+        self.ff_vector_diagram_R_label.grid(row=2, column=0, sticky=W)
+        self.ff_vector_diagram_R_entry = Entry(self.ff_frame_vector_diagram,  width=10)
+        self.ff_vector_diagram_R_entry.grid(row=2, column=0, sticky=W, padx=70)
+
+        self.ff_vector_diagram_L_label = Label(self.ff_frame_vector_diagram, text='Wert für L:')
+        self.ff_vector_diagram_L_label.grid(row=3, column=0, sticky=W)
+        self.ff_vector_diagram_L_entry = Entry(self.ff_frame_vector_diagram,  width=10)
+        self.ff_vector_diagram_L_entry.grid(row=3, column=0, sticky=W, padx=70)
+
+        self.ff_vector_diagram_C_label = Label(self.ff_frame_vector_diagram, text='Wert für C:')
+        self.ff_vector_diagram_C_label.grid(row=4, column=0, sticky=W)
+        self.ff_vector_diagram_C_entry = Entry(self.ff_frame_vector_diagram,  width=10)
+        self.ff_vector_diagram_C_entry.grid(row=4, column=0, sticky=W, padx=70)
+
+        self.ff_vector_diagram_freq_label = Label(self.ff_frame_vector_diagram, text='Wert für f:')
+        self.ff_vector_diagram_freq_label.grid(row=5, column=0, sticky=W)
+        self.ff_vector_diagram_freq_entry = Entry(self.ff_frame_vector_diagram,  width=10)
+        self.ff_vector_diagram_freq_entry.grid(row=5, column=0, sticky=W, padx=70)
+
+
+        # Spannung Diagramm erzeugen
+        self.ff_var_create_voltage_vector_diagram = IntVar()
+        self.ff_check_create_voltage_vector_diagram = Checkbutton(self.ff_frame_vector_diagram, text="Spannungsdiagramm generieren", variable=self.ff_var_create_voltage_vector_diagram, onvalue=1, offvalue=0)
+        self.ff_check_create_voltage_vector_diagram.deselect()
+        self.ff_check_create_voltage_vector_diagram.grid(row=1, column=1, sticky=W)
+
+        # Impedanz/Admittanz Diagramm erzeugen
+        self.ff_var_create_impedance_vector_diagram = IntVar()
+        self.ff_check_create_impedance_vector_diagram = Checkbutton(self.ff_frame_vector_diagram, text="Impedanz/Admittanz Diagramm erstellen", variable=self.ff_var_create_impedance_vector_diagram, onvalue=1, offvalue=0)
+        self.ff_check_create_impedance_vector_diagram.deselect()
+        self.ff_check_create_impedance_vector_diagram.grid(row=2, column=1, sticky=W)
+
+
+
+
+
+
+        self.ff_vector_diagram_btn = Button(self.ff_frame_vector_diagram, text="Zeigerdiagramm erstellen", command=lambda: test_generator_modul_zeigerdiagramme.Zeigerdiagramme.__init__(self, self.ff_vector_diagram_type_box.get(),
+                                                                                                                                                                                         self.ff_var_create_voltage_vector_diagram.get(),
+                                                                                                                                                                                         self.ff_var_create_impedance_vector_diagram.get(),
+                                                                                                                                                                                         self.ff_vector_diagram_U_entry.get(),
+                                                                                                                                                                                         self.ff_vector_diagram_R_entry.get(),
+                                                                                                                                                                                         self.ff_vector_diagram_L_entry.get(),
+                                                                                                                                                                                         self.ff_vector_diagram_C_entry.get(),
+                                                                                                                                                                                         self.ff_vector_diagram_freq_entry.get()))
+        self.ff_vector_diagram_btn.grid(row=10, column=0, padx=10, pady=(10, 0), sticky="W")
 ###################### "Formelfrage" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         self.ff_question_author_label = Label(self.ff_frame, text="Fragen-Autor")
@@ -427,7 +527,7 @@ class Formelfrage:
 
 
 
-        ################### BEARBEITUNGSDAUER
+############## BEARBEITUNGSDAUER
 
 
         self.ff_processing_time_label = Label(self.ff_frame, text="Bearbeitungsdauer")
@@ -511,7 +611,7 @@ class Formelfrage:
 
 
 
-        
+
 
 
 
@@ -939,7 +1039,7 @@ class Formelfrage:
         # Label für Res1 ist immer aktiv/ zu sehen. Res2-10 werden je nach Auswahl ein-/ausgeblendet
         self.result1_label.grid(row=41, column=0, sticky=W, padx=20)
 
-        
+
 
 
         ########################### EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX ##############################
@@ -1616,7 +1716,7 @@ class Formelfrage:
 
         # Insert into Table
         c.execute(
-            "INSERT INTO formelfrage_table VALUES ("
+            "INSERT INTO %s VALUES ("
             ":question_difficulty, :question_category, :question_type, "
             ":question_title, :question_description_title, :question_description_main, "
             ":res1_formula, :res2_formula, :res3_formula,  "
@@ -1650,7 +1750,7 @@ class Formelfrage:
             ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
             ":description_img_name_2, :description_img_data_2, :description_img_path_2, "
             ":description_img_name_3, :description_img_data_3, :description_img_path_3, "
-            ":test_time, :var_number, :res_number, :question_pool_tag, :question_author)",
+            ":test_time, :var_number, :res_number, :question_pool_tag, :question_author)" % self.ff_database_table,
             {
                 'question_difficulty': self.ff_question_difficulty_entry.get(),
                 'question_category': self.ff_question_category_entry.get(),
@@ -1880,8 +1980,9 @@ class Formelfrage:
                 'res_number': self.ff_numbers_of_results_box.get(),
                 'question_pool_tag': self.ff_question_pool_tag_entry.get(),
                 'question_author': self.ff_question_author_entry.get()
-            }
-        )
+            })
+
+
         conn.commit()
         conn.close()
 
@@ -1892,7 +1993,7 @@ class Formelfrage:
         conn = sqlite3.connect(self.database_formelfrage_path)
         c = conn.cursor()
         record_id = self.ff_load_box.get()
-        c.execute("SELECT * FROM formelfrage_table WHERE oid =" + record_id)
+        c.execute("SELECT * FROM %s WHERE oid = %s " % (self.ff_database_table, str(record_id)))
         ff_db_records = c.fetchall()
 
 
@@ -2100,6 +2201,18 @@ class Formelfrage:
             self.res10_tol_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['res10_tol']])
             self.res10_points_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['res10_points']])
 
+            self.ff_description_img_name_1 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_name_1']]
+            self.ff_description_img_data_1 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_data_1']]
+            self.ff_description_img_path_1 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_path_1']]
+
+            self.ff_description_img_name_2 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_name_2']]
+            self.ff_description_img_data_2 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_data_2']]
+            self.ff_description_img_path_2 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_path_2']]
+
+            self.ff_description_img_name_3 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_name_3']]
+            self.ff_description_img_data_3 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_data_3']]
+            self.ff_description_img_path_3 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_path_3']]
+
 
         conn.commit()
         conn.close()
@@ -2114,26 +2227,54 @@ class Formelfrage:
 
     def ff_edit_id_from_db(self):
 
-
+        # Verbindung mit der Datenbank
         conn = sqlite3.connect(self.database_formelfrage_path)
         c = conn.cursor()
+
+        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
         record_id = self.ff_load_box.get()
 
-        # format of duration P0Y0M0DT0H30M0S
+        # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
         self.ff_test_time = "P0Y0M0DT" + self.ff_proc_hours_box.get() + "H" + self.ff_proc_minutes_box.get() + "M" + self.ff_proc_seconds_box.get() + "S"
 
+        # Ist ein Bild-Name vorhanden, dann das Bild über den Pfad einlesen
+        # Sonst auf "EMPTY" setzen
+        # Bilder werden als byte eingelesen "rb" = read byte
 
-        if self.ff_picture_name != "EMPTY":
-            # read image data in byte format
-            with open(self.ff_picture_name, 'rb') as image_file:
-                self.ff_picture_data = image_file.read()
-
+        # Fragen-Text Bild 1
+        if self.ff_description_img_name_1 != "EMPTY":
+            with open( self.ff_description_img_path_1, 'rb') as description_image_file_1:
+                self.ff_description_img_data_1 = description_image_file_1.read()
 
         else:
-            self.ff_picture_name = "EMPTY"
-            self.ff_picture_data = "EMPTY"
+            self.ff_description_img_name_1 = "EMPTY"
+            self.ff_description_img_data_1 = "EMPTY"
+            self.ff_description_img_path_1 = "EMPTY"
 
-        c.execute("""UPDATE formelfrage_table SET
+        # Fragen-Text Bild 2
+        if self.ff_description_img_name_2 != "EMPTY":
+            with open( self.ff_description_img_path_2, 'rb') as description_image_file_2:
+                self.ff_description_img_data_2 = description_image_file_2.read()
+
+        else:
+            self.ff_description_img_name_2 = "EMPTY"
+            self.ff_description_img_data_2 = "EMPTY"
+            self.ff_description_img_path_2 = "EMPTY"
+
+        # Fragen-Text Bild 3
+        if self.ff_description_img_name_3 != "EMPTY":
+            with open( self.ff_description_img_path_3, 'rb') as description_image_file_3:
+                self.ff_description_img_data_3 = description_image_file_3.read()
+
+        else:
+            self.ff_description_img_name_3 = "EMPTY"
+            self.ff_description_img_data_3 = "EMPTY"
+            self.ff_description_img_path_3 = "EMPTY"
+
+
+
+
+        c.execute("""UPDATE %s SET
             question_difficulty = :question_difficulty,
             question_category = :question_category,
             question_type = :question_type,
@@ -2354,7 +2495,7 @@ class Formelfrage:
             question_pool_tag = :question_pool_tag,
             question_author = :question_author
             
-            WHERE oid = :oid""",
+            WHERE oid = :oid""" % self.ff_database_table,
                 {'question_difficulty': self.ff_question_difficulty_entry.get(),
                  'question_category': self.ff_question_category_entry.get(),
                  'question_type': self.ff_question_type_entry.get(),
@@ -2443,6 +2584,43 @@ class Formelfrage:
                  'var10_prec': self.var10_prec_entry.get(),
                  'var10_divby': self.var10_divby_entry.get(),
                  'var10_unit': "",
+
+                 'var11_name': self.var11_name_entry.get(),
+                 'var11_min': self.var11_min_entry.get(),
+                 'var11_max': self.var11_max_entry.get(),
+                 'var11_prec': self.var11_prec_entry.get(),
+                 'var11_divby': self.var11_divby_entry.get(),
+                 'var11_unit': "",
+
+                 'var12_name': self.var12_name_entry.get(),
+                 'var12_min': self.var12_min_entry.get(),
+                 'var12_max': self.var12_max_entry.get(),
+                 'var12_prec': self.var12_prec_entry.get(),
+                 'var12_divby': self.var12_divby_entry.get(),
+                 'var12_unit': "",
+
+                 'var13_name': self.var13_name_entry.get(),
+                 'var13_min': self.var13_min_entry.get(),
+                 'var13_max': self.var13_max_entry.get(),
+                 'var13_prec': self.var13_prec_entry.get(),
+                 'var13_divby': self.var13_divby_entry.get(),
+                 'var13_unit': "",
+
+                 'var14_name': self.var14_name_entry.get(),
+                 'var14_min': self.var14_min_entry.get(),
+                 'var14_max': self.var14_max_entry.get(),
+                 'var14_prec': self.var14_prec_entry.get(),
+                 'var14_divby': self.var14_divby_entry.get(),
+                 'var14_unit': "",
+
+                 'var15_name': self.var15_name_entry.get(),
+                 'var15_min': self.var15_min_entry.get(),
+                 'var15_max': self.var15_max_entry.get(),
+                 'var15_prec': self.var15_prec_entry.get(),
+                 'var15_divby': self.var15_divby_entry.get(),
+                 'var15_unit': "",
+
+
 
                  'res1_name': self.res1_name_entry.get(),
                  'res1_min': self.res1_min_entry.get(),
@@ -2552,98 +2730,8 @@ class Formelfrage:
         self.ff_delete_box_id = ""
         self.ff_delete_box_id = self.ff_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, "formelfrage", self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, "formelfrage_db.db", "formelfrage_table", "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
-        """
-        self.sc_delete_box.delete(0, END)
-        
-        self.ff_delete_mult = self.ff_delete_box.get()
-        self.ff_delete_mult_start = self.ff_delete_mult.split('-')[0]
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, "formelfrage", self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
 
-        self.delete_box_split = self.ff_delete_box_id.split(",")
-        self.delete_index_wrong = False
-
-        for i in range(len(self.delete_box_split)):
-             if "1" in self.delete_box_split[i] and len(self.delete_box_split[i])==1:
-                 print("delete TRUE")
-                 self.delete_index_wrong = True
-
-        if self.ff_delete_box_id == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.delete_index_wrong == True:
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.ff_delete_mult_start == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        else:
-
-            # Variablen
-            self.ff_delete_list = []
-            self.ff_delete_all_list = []
-            self.ff_delete_index = 0
-
-
-
-            # Zur Datenbank connecten
-            conn = sqlite3.connect('ilias_formelfrage_db.db')
-            c = conn.cursor()
-
-            # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
-            # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
-            self.ff_delete_list = self.ff_delete_box.get().split(",")
-
-
-            # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
-            # den String nehmen, und nach Bindestrick "-" splitten
-            # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
-
-            self.ff_delete_mult = self.ff_delete_box.get()
-            self.ff_delete_mult_start = self.ff_delete_mult.split('-')[0]
-            self.ff_delete_mult_end = self.ff_delete_mult.split('-')[-1]
-            self.ff_delete_mult_symbol = "-" in self.ff_delete_mult
-
-
-            if self.ff_var_delete_all.get() == 1:
-                now = datetime.now()  # current date and time
-                date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
-                actual_time = str(date_time)
-                #Database.sql_db_to_excel_export(self, "BACKUP_Export_from_SQL__" + str(actual_time) + ".xlsx")
-                c.execute("SELECT *, oid FROM formelfrage_table")
-                records = c.fetchall()
-                for record in records:
-                    self.ff_delete_all_list.append(int(record[len(record) - 1]))
-
-                # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                for i in range(len(self.ff_delete_all_list)):
-                    if self.ff_delete_all_list[i] == 1:
-                        self.ff_delete_index = i
-
-                self.ff_delete_all_list.pop(self.ff_delete_index)
-
-
-                for x in range(len(self.ff_delete_all_list)):
-                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.ff_delete_all_list[x]))
-                print("All Entries removed!")
-
-
-            elif self.ff_delete_mult_symbol == True:
-                for x in range(int(self.ff_delete_mult_start), int(self.ff_delete_mult_end)+1):
-
-                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(x))
-                    print("Entry with ID " + str(x) + " removed!")
-
-
-            else:
-                for x in range(len(self.ff_delete_list)):
-                    c.execute("DELETE from formelfrage_table WHERE oid= " + str(self.ff_delete_list[x]))
-                    print("Entry with ID " + str(self.ff_delete_list[x]) + " removed!")
-
-            self.ff_delete_box.delete(0, END)
-
-            conn.commit()
-            conn.close()
-        """
 
     def ff_clear_GUI(self):
         self.ff_question_difficulty_entry.delete(0, END)
@@ -2828,6 +2916,10 @@ class Formelfrage:
 
 class Create_Formelfrage_Questions(Formelfrage):
 
+    # INIT
+    # ff_question_structure
+    # ff_question_variable_structure
+    # ff_question_results_structure
 
     def __init__(self, db_entry_to_index_dict, ids_in_entry_box, question_type, pool_img_dir, ilias_id_pool_qpl_dir, xml_read_qti_template_path, xml_qti_output_file_path, xml_qpl_output_file_path, max_id_pool_qti_xml, max_id, taxonomy_file_question_pool):
 
@@ -2845,6 +2937,9 @@ class Create_Formelfrage_Questions(Formelfrage):
 
         self.question_pool_id_list = []
         self.question_title_list = []
+
+        self.ff_number_of_questions_generated = 1
+
 
         self.ilias_id_pool_qpl_dir = ilias_id_pool_qpl_dir
         self.ff_file_max_id = max_id
@@ -2867,11 +2962,11 @@ class Create_Formelfrage_Questions(Formelfrage):
         cursor = connect_ff_db.cursor()
 
 
-        # Prüfen ob alle EInträge generiert werden sollen (checkbox gesetzt)
+        # Prüfen ob alle Einträge generiert werden sollen (checkbox gesetzt)
         if self.ff_var_create_question_pool_all_check.get() == 1:
             conn = sqlite3.connect(self.database_formelfrage_path)
             c = conn.cursor()
-            c.execute("SELECT *, oid FROM formelfrage_table")
+            c.execute("SELECT *, oid FROM %s"  % self.ff_database_table)
 
             ff_db_records = c.fetchall()
 
@@ -2887,7 +2982,7 @@ class Create_Formelfrage_Questions(Formelfrage):
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
         # Datenbank ID wird automatisch bei einem neuen Eintrag erstellt (fortlaufend) und kann nicht beeinflusst werden
-        cursor.execute("SELECT *, oid FROM formelfrage_table")
+        cursor.execute("SELECT *, oid FROM %s"  % self.ff_database_table)
         ff_db_records = cursor.fetchall()
 
         for i in range(len(self.ff_test_entry_splitted)):
@@ -3132,7 +3227,7 @@ class Create_Formelfrage_Questions(Formelfrage):
         ff_cursor = ff_connect.cursor()
 
         # Alle Einträge auslesen
-        ff_cursor.execute("SELECT *, oid FROM formelfrage_table")
+        ff_cursor.execute("SELECT *, oid FROM %s" % self.ff_database_table)
         ff_db_records = ff_cursor.fetchall()
 
 
@@ -3142,168 +3237,136 @@ class Create_Formelfrage_Questions(Formelfrage):
             # Hier werden die Fragen anhand der ID's erstellt
             if str(ff_db_record[len(ff_db_record)-1]) == self.ff_test_entry_splitted[id_nr]:
 
-                # Hier werden die Fragen anhand der ID's erstellt
-                if str(ff_db_record[len(ff_db_record)-1]) == self.ff_test_entry_splitted[id_nr]:
-
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_1, self.ff_description_img_data_1, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_2, self.ff_description_img_data_2, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_3, self.ff_description_img_data_3, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
-
-                        # if self.ff_question_type_test_or_pool == "question_test":
-                        #
-                        #     if self.ff_description_img_name_1 != "EMPTY":
-                        #         Create_Formelfrage_Questions.ff_createFolder(self, self.formelfrage_test_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
-                        #
-                        #         #img wird immer als PNG Datei abgelegt.
-                        #         with open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png", 'wb') as image_file:
-                        #             image_file.write(self.ff_description_img_data_1)
-                        #
-                        #         self.image = Image.open(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png")
-                        #         self.image.save(self.formelfrage_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png")
-                        #
-                        # else:  # image pool
-                        #     if self.ff_description_img_name_1 != "EMPTY":
-                        #         Create_Formelfrage_Questions.ff_createFolder(self, self.formelfrage_pool_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
-                        #
-                        #         #img wird immer als PNG Datei abgelegt.
-                        #         with open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png", 'wb') as image_file:
-                        #             image_file.write(self.ff_description_img_data_1)
-                        #
-                        #         self.image = Image.open(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png")
-                        #         self.image.save(self.formelfrage_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ff_description_img_name_1 + ".png")
+                # Bilder für die Beschreibung speichern
+                test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_1, self.ff_description_img_data_1, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
+                test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_2, self.ff_description_img_data_2, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
+                test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_3, self.ff_description_img_data_3, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
 
 
+                # Aufbau für  Fragenstruktur "TEST"
+                if self.ff_question_type_test_or_pool == "question_test":
+                    # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
+                    questestinterop = ET.Element('questestinterop')
+                    assessment = ET.SubElement(questestinterop, 'assessment')
+                    section = ET.SubElement(assessment, 'section')
+                    item = ET.SubElement(section, 'item')
 
-                        r1_rating = "0"
-                        r1_unit = ""
-                        r1_unitvalue = ""
-                        r1_resultunits = ""
+                # Aufbau für  Fragenstruktur "POOL"
+                else:
+                    # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
+                    questestinterop = ET.Element('questestinterop')
+                    item = ET.SubElement(questestinterop, 'item')
 
+                    # Zusatz für Taxonomie-Einstellungen
 
-                        # Aufbau für  Fragenstruktur "TEST"
-                        if self.ff_question_type_test_or_pool == "question_test":
-                            # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                            questestinterop = ET.Element('questestinterop')
-                            assessment = ET.SubElement(questestinterop, 'assessment')
-                            section = ET.SubElement(assessment, 'section')
-                            item = ET.SubElement(section, 'item')
-
-                        # Aufbau für  Fragenstruktur "POOL"
-                        else:
-                            # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                            questestinterop = ET.Element('questestinterop')
-                            item = ET.SubElement(questestinterop, 'item')
-
-                            # Zusatz für Taxonomie-Einstellungen
-
-                            test_generator_modul_ilias_test_struktur.Additional_Funtions.set_taxonomy_for_question(self,
-                                                                                                                   id_nr,
-                                                                                                                   self.number_of_entrys,
-                                                                                                                   item,
-                                                                                                                   self.formelfrage_pool_qpl_file_path_template,
-                                                                                                                   self.formelfrage_pool_qpl_file_path_output
-                                                                                                                   )
+                    test_generator_modul_ilias_test_struktur.Additional_Funtions.set_taxonomy_for_question(self,
+                                                                                                           id_nr,
+                                                                                                           self.number_of_entrys,
+                                                                                                           item,
+                                                                                                           self.formelfrage_pool_qpl_file_path_template,
+                                                                                                           self.formelfrage_pool_qpl_file_path_output
+                                                                                                           )
 
 
 
-                        # Struktur für den Formelfragen - Variableen/Lösungen Teil
-                        # Muss für jede Frage neu angelegt/hinzugefügt werden
-                        qticomment = ET.SubElement(item, 'qticomment')
-                        duration = ET.SubElement(item, 'duration')
-                        itemmetadata = ET.SubElement(item, 'itemmetadata')
-                        presentation = ET.SubElement(item, 'presentation')
+                # Struktur für den Formelfragen - Variableen/Lösungen Teil
+                # Muss für jede Frage neu angelegt/hinzugefügt werden
+                qticomment = ET.SubElement(item, 'qticomment')
+                duration = ET.SubElement(item, 'duration')
+                itemmetadata = ET.SubElement(item, 'itemmetadata')
+                presentation = ET.SubElement(item, 'presentation')
 
-                        flow = ET.SubElement(presentation, 'flow')
-                        question_description_material = ET.SubElement(flow, 'material')
-                        question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-                        qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
+                flow = ET.SubElement(presentation, 'flow')
+                question_description_material = ET.SubElement(flow, 'material')
+                question_description_mattext = ET.SubElement(question_description_material, 'mattext')
+                qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
 
 
-                        ### ------------------------------------------------------- XML Einträge mit Werten füllen
-                         # Fragen-Titel -- "item title" in xml
-                        item.set('title', self.ff_question_title)
+                ### ------------------------------------------------------- XML Einträge mit Werten füllen
+                 # Fragen-Titel -- "item title" in xml
+                item.set('title', self.ff_question_title)
 
-                        # Fragen-Titel Beschreibung
-                        qticomment.text = self.ff_question_description_title
+                # Fragen-Titel Beschreibung
+                qticomment.text = self.ff_question_description_title
 
-                        # Testdauer -- "duration" in xml
-                        # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-                        duration.text = self.ff_test_time
-                        if duration.text == "":
-                            duration.text = "P0Y0M0DT1H0M0S"
+                # Testdauer -- "duration" in xml
+                # wird keine Testzeit eingetragen, wird 1h vorausgewählt
+                duration.text = self.ff_test_time
+                if duration.text == "":
+                    duration.text = "P0Y0M0DT1H0M0S"
 
-                        # -----------------------------------------------------------------------ILIAS VERSION
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "ILIAS_VERSION"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "5.4.10 2020-03-04"
-                        # -----------------------------------------------------------------------QUESTIONTYPE
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "QUESTIONTYPE"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "assFormulaQuestion"
-                        # -----------------------------------------------------------------------AUTHOR
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "AUTHOR"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = self.ff_question_author
-                        # -----------------------------------------------------------------------POINTS
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "points"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = str(self.ff_res1_points)
+                # -----------------------------------------------------------------------ILIAS VERSION
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "ILIAS_VERSION"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "5.4.10 2020-03-04"
+                # -----------------------------------------------------------------------QUESTIONTYPE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "QUESTIONTYPE"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "assFormulaQuestion"
+                # -----------------------------------------------------------------------AUTHOR
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "AUTHOR"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = self.ff_question_author
+                # -----------------------------------------------------------------------POINTS
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "points"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = str(self.ff_res1_points)
 
-                        # Fragentitel einsetzen -- "presentation label" in xml
-                        presentation.set('label', self.ff_question_title)
+                # Fragentitel einsetzen -- "presentation label" in xml
+                presentation.set('label', self.ff_question_title)
 
-                        # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
-                        question_description_mattext.set('texttype', "text/html")
+                # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
+                question_description_mattext.set('texttype', "text/html")
 
-                        # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-                        # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
-                        question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
-                                                            self, self.ff_description_img_name_1, self.ff_description_img_data_1,
-                                                            self.ff_description_img_name_2, self.ff_description_img_data_2,
-                                                            self.ff_description_img_name_3, self.ff_description_img_data_3,
-                                                            self.ff_question_description_main, question_description_mattext, question_description_material, id_nr)
+                # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
+                # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
+                question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
+                                                    self, self.ff_description_img_name_1, self.ff_description_img_data_1,
+                                                    self.ff_description_img_name_2, self.ff_description_img_data_2,
+                                                    self.ff_description_img_name_3, self.ff_description_img_data_3,
+                                                    self.ff_question_description_main, question_description_mattext, question_description_material, id_nr)
 
 
 
 
-                        # ----------------------------------------------------------------------- Variable
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v1", self.ff_var1_min, self.ff_var1_max, self.ff_var1_prec, self.ff_var1_divby, self.ff_var1_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v2", self.ff_var2_min, self.ff_var2_max, self.ff_var2_prec, self.ff_var2_divby, self.ff_var2_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v3", self.ff_var3_min, self.ff_var3_max, self.ff_var3_prec, self.ff_var3_divby, self.ff_var3_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v4", self.ff_var4_min, self.ff_var4_max, self.ff_var4_prec, self.ff_var4_divby, self.ff_var4_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v5", self.ff_var5_min, self.ff_var5_max, self.ff_var5_prec, self.ff_var5_divby, self.ff_var5_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v6", self.ff_var6_min, self.ff_var6_max, self.ff_var6_prec, self.ff_var6_divby, self.ff_var6_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v7", self.ff_var7_min, self.ff_var7_max, self.ff_var7_prec, self.ff_var7_divby, self.ff_var7_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v8", self.ff_var8_min, self.ff_var8_max, self.ff_var8_prec, self.ff_var8_divby, self.ff_var8_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v9", self.ff_var9_min, self.ff_var9_max, self.ff_var9_prec, self.ff_var9_divby, self.ff_var9_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v10", self.ff_var10_min, self.ff_var10_max, self.ff_var10_prec, self.ff_var10_divby, self.ff_var10_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v11", self.ff_var11_min, self.ff_var11_max, self.ff_var11_prec, self.ff_var11_divby, self.ff_var11_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v12", self.ff_var12_min, self.ff_var12_max, self.ff_var12_prec, self.ff_var12_divby, self.ff_var12_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v13", self.ff_var13_min, self.ff_var13_max, self.ff_var13_prec, self.ff_var13_divby, self.ff_var13_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v14", self.ff_var14_min, self.ff_var14_max, self.ff_var14_prec, self.ff_var14_divby, self.ff_var14_unit)
-                        Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v15", self.ff_var15_min, self.ff_var15_max, self.ff_var15_prec, self.ff_var15_divby, self.ff_var15_unit)
+                # ----------------------------------------------------------------------- Variable
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v1", self.ff_var1_min, self.ff_var1_max, self.ff_var1_prec, self.ff_var1_divby, self.ff_var1_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v2", self.ff_var2_min, self.ff_var2_max, self.ff_var2_prec, self.ff_var2_divby, self.ff_var2_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v3", self.ff_var3_min, self.ff_var3_max, self.ff_var3_prec, self.ff_var3_divby, self.ff_var3_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v4", self.ff_var4_min, self.ff_var4_max, self.ff_var4_prec, self.ff_var4_divby, self.ff_var4_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v5", self.ff_var5_min, self.ff_var5_max, self.ff_var5_prec, self.ff_var5_divby, self.ff_var5_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v6", self.ff_var6_min, self.ff_var6_max, self.ff_var6_prec, self.ff_var6_divby, self.ff_var6_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v7", self.ff_var7_min, self.ff_var7_max, self.ff_var7_prec, self.ff_var7_divby, self.ff_var7_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v8", self.ff_var8_min, self.ff_var8_max, self.ff_var8_prec, self.ff_var8_divby, self.ff_var8_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v9", self.ff_var9_min, self.ff_var9_max, self.ff_var9_prec, self.ff_var9_divby, self.ff_var9_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v10", self.ff_var10_min, self.ff_var10_max, self.ff_var10_prec, self.ff_var10_divby, self.ff_var10_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v11", self.ff_var11_min, self.ff_var11_max, self.ff_var11_prec, self.ff_var11_divby, self.ff_var11_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v12", self.ff_var12_min, self.ff_var12_max, self.ff_var12_prec, self.ff_var12_divby, self.ff_var12_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v13", self.ff_var13_min, self.ff_var13_max, self.ff_var13_prec, self.ff_var13_divby, self.ff_var13_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v14", self.ff_var14_min, self.ff_var14_max, self.ff_var14_prec, self.ff_var14_divby, self.ff_var14_unit)
+                Create_Formelfrage_Questions.ff_question_variables_structure(self, qtimetadata, "$v15", self.ff_var15_min, self.ff_var15_max, self.ff_var15_prec, self.ff_var15_divby, self.ff_var15_unit)
 
 
 
-                        # ----------------------------------------------------------------------- Solution
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r1", self.ff_res1_formula, self.ff_res1_min, self.ff_res1_max, self.ff_res1_prec, self.ff_res1_tol, self.ff_res1_points, self.ff_res1_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r2", self.ff_res2_formula, self.ff_res2_min, self.ff_res2_max, self.ff_res2_prec, self.ff_res2_tol, self.ff_res2_points, self.ff_res2_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r3", self.ff_res3_formula, self.ff_res3_min, self.ff_res3_max, self.ff_res3_prec, self.ff_res3_tol, self.ff_res3_points, self.ff_res3_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r4", self.ff_res4_formula, self.ff_res4_min, self.ff_res4_max, self.ff_res4_prec, self.ff_res4_tol, self.ff_res4_points, self.ff_res4_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r5", self.ff_res5_formula, self.ff_res5_min, self.ff_res5_max, self.ff_res5_prec, self.ff_res5_tol, self.ff_res5_points, self.ff_res5_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r6", self.ff_res6_formula, self.ff_res6_min, self.ff_res6_max, self.ff_res6_prec, self.ff_res6_tol, self.ff_res6_points, self.ff_res6_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r7", self.ff_res7_formula, self.ff_res7_min, self.ff_res7_max, self.ff_res7_prec, self.ff_res7_tol, self.ff_res7_points, self.ff_res7_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r8", self.ff_res8_formula, self.ff_res8_min, self.ff_res8_max, self.ff_res8_prec, self.ff_res8_tol, self.ff_res8_points, self.ff_res8_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r9", self.ff_res9_formula, self.ff_res9_min, self.ff_res9_max, self.ff_res9_prec, self.ff_res9_tol, self.ff_res9_points, self.ff_res9_unit)
-                        Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r10", self.ff_res10_formula, self.ff_res10_min, self.ff_res10_max, self.ff_res10_prec, self.ff_res10_tol, self.ff_res10_points, self.ff_res10_unit)
+                # ----------------------------------------------------------------------- Solution
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r1", self.ff_res1_formula, self.ff_res1_min, self.ff_res1_max, self.ff_res1_prec, self.ff_res1_tol, self.ff_res1_points, self.ff_res1_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r2", self.ff_res2_formula, self.ff_res2_min, self.ff_res2_max, self.ff_res2_prec, self.ff_res2_tol, self.ff_res2_points, self.ff_res2_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r3", self.ff_res3_formula, self.ff_res3_min, self.ff_res3_max, self.ff_res3_prec, self.ff_res3_tol, self.ff_res3_points, self.ff_res3_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r4", self.ff_res4_formula, self.ff_res4_min, self.ff_res4_max, self.ff_res4_prec, self.ff_res4_tol, self.ff_res4_points, self.ff_res4_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r5", self.ff_res5_formula, self.ff_res5_min, self.ff_res5_max, self.ff_res5_prec, self.ff_res5_tol, self.ff_res5_points, self.ff_res5_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r6", self.ff_res6_formula, self.ff_res6_min, self.ff_res6_max, self.ff_res6_prec, self.ff_res6_tol, self.ff_res6_points, self.ff_res6_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r7", self.ff_res7_formula, self.ff_res7_min, self.ff_res7_max, self.ff_res7_prec, self.ff_res7_tol, self.ff_res7_points, self.ff_res7_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r8", self.ff_res8_formula, self.ff_res8_min, self.ff_res8_max, self.ff_res8_prec, self.ff_res8_tol, self.ff_res8_points, self.ff_res8_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r9", self.ff_res9_formula, self.ff_res9_min, self.ff_res9_max, self.ff_res9_prec, self.ff_res9_tol, self.ff_res9_points, self.ff_res9_unit)
+                Create_Formelfrage_Questions.ff_question_results_structure(self, qtimetadata, "$r10", self.ff_res10_formula, self.ff_res10_min, self.ff_res10_max, self.ff_res10_prec, self.ff_res10_tol, self.ff_res10_points, self.ff_res10_unit)
 
 
 
@@ -3312,34 +3375,35 @@ class Create_Formelfrage_Questions(Formelfrage):
 
 
 
-                        # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "additional_cont_edit_mode"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "default"
-                        # -----------------------------------------------------------------------EXTERNAL_ID
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "externalId"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "5ea15be69c1e96.43933468"
+                # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "additional_cont_edit_mode"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "default"
+                # -----------------------------------------------------------------------EXTERNAL_ID
+                qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                fieldlabel.text = "externalId"
+                fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                fieldentry.text = "5ea15be69c1e96.43933468"
 
 
 
-                        # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
-                        # Der letzte "Zweig" --> "len(self.ff_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
-                        if self.ff_question_type_test_or_pool == "question_test":
-                            self.ff_myroot[0][len(self.ff_myroot[0]) - 1].append(item)
+                # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
+                # Der letzte "Zweig" --> "len(self.ff_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
+                if self.ff_question_type_test_or_pool == "question_test":
+                    self.ff_myroot[0][len(self.ff_myroot[0]) - 1].append(item)
 
-                        # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
-                        # Die Frage kann einfach angehangen werden
-                        else:
-                            self.ff_myroot.append(item)
+                # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
+                # Die Frage kann einfach angehangen werden
+                else:
+                    self.ff_myroot.append(item)
 
-                        self.ff_mytree.write(self.qti_file_path_output)
-                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.ff_question_title))
+                self.ff_mytree.write(self.qti_file_path_output)
 
+                print(str(self.ff_number_of_questions_generated) + ".) Formelfrage Frage erstellt! ---> Titel: " + str(self.ff_question_title))
+                self.ff_number_of_questions_generated += 1
 
 
         ff_connect.commit()
@@ -3358,6 +3422,7 @@ class Create_Formelfrage_Questions(Formelfrage):
 
     def ff_question_variables_structure(self, xml_qtimetadata,  ff_var_name, ff_var_min, ff_var_max, ff_var_prec, ff_var_divby, ff_var_unit):
 
+        # <------------ INIT ----------->
         self.ff_var_name = ff_var_name
         self.ff_var_min = str(ff_var_min)
         self.ff_var_max = str(ff_var_max)
@@ -3367,11 +3432,13 @@ class Create_Formelfrage_Questions(Formelfrage):
         self.ff_var_unit = ff_var_unit
         self.ff_var_unit_length = len(str(self.ff_var_unit))
 
+        # <------------ FORMELFRAGE VARIABLEN STRUKTUR (in XML) ----------->
         qtimetadatafield = ET.SubElement(xml_qtimetadata, 'qtimetadatafield')
         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
         fieldlabel.text = ff_var_name
         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
 
+        # Mit Einheiten:
         if self.ff_var_unit != "":
             fieldentry.text = "a:6:{" \
                               "s:9:\"precision\";i:" + self.ff_var_prec + ";" \
@@ -3381,6 +3448,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                               "s:4:\"unit\";s:" + str(self.ff_var_unit_length) + ":\"" + self.ff_var_unit + "\";" \
                               "s:9:\"unitvalue\";s:" + str(len(Formelfrage.unit_table(self, self.ff_var_unit))) + ":\"" + Formelfrage.unit_table(self, self.ff_var_unit) + "\";" \
                               "}"
+        # Ohne Einheiten:
         else:
             fieldentry.text = "a:6:{" \
                               "s:9:\"precision\";i:" + self.ff_var_prec + ";" \
@@ -3427,6 +3495,7 @@ class Create_Formelfrage_Questions(Formelfrage):
 
             return formula
 
+        # <------------ INIT ----------->
         self.ff_res_name = ff_res_name
         self.ff_res_formula = ff_res_formula
         self.ff_res_formula_length = len(str(self.ff_res_formula))
@@ -3443,28 +3512,27 @@ class Create_Formelfrage_Questions(Formelfrage):
         self.ff_res_unit_length = len(str(self.ff_res_unit))
 
 
-        # ILIAS kann nicht mit "$Vx" statt "$vx" umgehen (kleines statt großes "V" für Variablen)
-        # Ebenfalls gilt das für $Rx und $rx
-        # In der Ergebnisgleichung darf kein "=" verwendet werden! Es erscheint keine Fehlermeldung, jedoch sind die Ergebnisse
-        # aus der ILIAS-Berechnung dann immer "0"
+        # ILIAS kann nicht mit "$Vx" statt "$vx" oder "$Rx" statt "$rx"  umgehen (kleines statt großes "V" für Variablen)
+        # In der Ergebnisgleichung darf kein "=" verwendet werden! Es erscheint keine Fehlermeldung, jedoch werden die Ergebnisse
+        # aus der ILIAS-Berechnung immer auf "0" gesetzt
         self.ff_res_formula = replace_words_in_formula(self.ff_res_formula)
-        #self.ff_res_formula = self.ff_res_formula.replace('$V', "$v")
-        #self.ff_res_formula = self.ff_res_formula.replace('$R', "$r")
-        #self.ff_res_formula = self.ff_res_formula.replace('=', " ")
 
 
 
+
+        # <------------ FORMELFRAGE ERGEBNIS STRUKTUR (in XML)  ----------->
+        # Hier wird die Struktur des Ergebnis-Teils (z.B. $r1) in XML geschrieben
+        # Wenn der Ergebnisteil mit Einheiten verwendet wird, müssen entsprechend Daten in "resultunits" eingetragen werden
         # s for string length: "9" -> precision = "9" characters
-        # rangemin: "i" for negative numbers, ...
-        #           "d" for (negativ?) float numbers
-        #           "i" for negativ whole numbers
-        #           "s" for positiv whole numbers
+        # rangemin: "s" for read string-like type --> "10*1000"
 
         qtimetadatafield = ET.SubElement(xml_qtimetadata, 'qtimetadatafield')
         fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
         fieldlabel.text = self.ff_res_name
         fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
 
+
+        # Mit Einheiten:
         if self.ff_res_unit != "":
             fieldentry.text = "a:10:{" \
                               "s:9:\"precision\";i:" + self.ff_res_prec + ";" \
@@ -3505,6 +3573,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                                                             "i:26;a:2:{s:4:\"unit\";s:4:\"mOhm\";s:9:\"unitvalue\";s:3:\"151\";}}" \
                               "}"
 
+        # Ohne Einheiten:
         else:
             fieldentry.text = "a:10:{" \
                               "s:9:\"precision\";i:" + self.ff_res_prec + ";" \
@@ -3520,8 +3589,9 @@ class Create_Formelfrage_Questions(Formelfrage):
                               "}"
 
 
-
+# <------------ FORMELFRAGE-TEST ERSTELLEN ----------->
 class Create_Formelfrage_Test(Formelfrage):
+
     def __init__(self, entry_to_index_dict):
         self.ff_db_entry_to_index_dict = entry_to_index_dict
 
@@ -3537,59 +3607,7 @@ class Create_Formelfrage_Test(Formelfrage):
                                                                             )
 
 
-
-        # ##### Einlesen der "Formelfrage" _tst_.xml zum ändern des Test-Titel
-        # self.ff_mytree = ET.parse(self.formelfrage_test_tst_file_path_template)
-        # self.ff_myroot = self.ff_mytree.getroot()
-        #
-        # # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = ff_test_vorlage)
-        # for ContentObject in self.ff_myroot.iter('ContentObject'):
-        #     for MetaData in ContentObject.iter('MetaData'):
-        #         for General in MetaData.iter('General'):
-        #             for Title in General.iter('Title'):
-        #                 Title.text = self.ff_ilias_test_title_entry.get()
-        #                 print("Title - Text")
-        #                 print(Title.text)
-        #                 # .XML Datei kann keine "&" verarbeiten.
-        #                 # "&" muss gegen "&amp" ausgetauscht werden sonst kann Ilias die Datei hinterher nicht verwerten.
-        #                 Title.text = Title.text.replace('&', "&amp;")
-        #
-        #
-        #
-        #
-        #
-        #     # Sollte kein Namen vergeben werden, wird der Test-Titel auf "DEFAULT" gesetzt
-        #     if Title.text == "ff_test_vorlage" or Title.text == "":
-        #         Title.text = "DEFAULT"
-        #
-        #     # Änderungen der .XML in eine neue Datei schreiben
-        #     # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
-        #     # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
-        #     self.ff_mytree.write(self.formelfrage_test_tst_file_path_output)
-        #
-        #
-        #     print("TST FILE aktualisiert!")
-        #     print(self.formelfrage_test_tst_file_path_output)
-        #
-        #     # Hier wird der Fragen-Test geschrieben
-        #     Create_Formelfrage_Questions.__init__(self,
-        #                                           self.ff_db_entry_to_index_dict,
-        #                                           self.create_formelfrage_test_entry.get(),
-        #                                           "question_test",
-        #                                           "img_pool_dir_not_used_for_test",
-        #
-        #                                           self.formelfrage_test_qti_file_path_template,
-        #                                           self.formelfrage_test_qti_file_path_output,
-        #                                           "xml_qpl_output_not_used_for_test",
-        #
-        #
-        #
-        #
-        #     # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-        #     Formelfrage.ff_replace_character_in_xml_file(self, self.formelfrage_test_qti_file_path_output)
-        #
-
-
+# <------------ FORMELFRAGE-POOL ERSTELLEN ----------->
 class Create_Formelfrage_Pool(Formelfrage):
 
     def __init__(self, entry_to_index_dict, var_create_all_questions):
@@ -3607,203 +3625,7 @@ class Create_Formelfrage_Pool(Formelfrage):
                                                                             self.create_formelfrage_pool_entry.get(),
                                                                             "Formelfrage",
                                                                             self.database_formelfrage_path,
-                                                                            "formelfrage_table",
+                                                                            self.ff_database_table,
                                                                             self.ff_db_entry_to_index_dict,
                                                                             self.ff_var_create_question_pool_all
                                                                             )
-
-
-
-    #
-    # def __init__(self, entry_to_index_dict):
-    #
-    #     self.ff_entry_to_index_dict = entry_to_index_dict
-    #     self.question_title_list = []
-    #     self.question_pool_id_list = []
-    #     self.all_entries_from_db_list = []
-    #
-    #
-    #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
-    #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-    #     #self.ff_folder_new_ID_dir = os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragenpool_qpl_Daten'))
-    #
-    #     self.names = []
-    #     self.filename_id = []
-    #
-    #
-    #     self.ff_list_of_directories = []
-    #     self.ff_list_of_file_IDs = []
-    #     self.ff_filename_with_zip_index = []
-    #
-    #     self.question_title_list = []
-    #     self.question_pool_id_list = []
-    #     self.question_title_to_pool_id_dict = {}
-    #     self.question_title_to_item_id_dict = {}
-    #
-    #
-    #     # Ordnernamen in "self.formelfrage_pool_directory_output" auslesen
-    #     self.ff_list_of_directories = os.listdir(self.formelfrage_pool_directory_output)
-    #
-    #
-    #     for i in range(len(self.ff_list_of_directories)):
-    #         if ".zip" in self.ff_list_of_directories[i]:
-    #             self.ff_filename_with_zip_index.append(i)
-    #
-    #
-    #
-    #
-    #
-    #     for j in range(len(self.ff_filename_with_zip_index)):
-    #         self.ff_list_of_directories.pop(self.ff_filename_with_zip_index[j]-j)
-    #
-    #
-    #     #Die letzten sieben (7) Zeichen des Orndernamen in eine Liste packen. Die letzten 7 Zeichen geben die ID des Fragenpools an
-    #     #Die Ordnernamen für ILIAS sind immer in dem Format: z.B.: 1604407426__0__tst_2040314
-    #     #Die ID wird im nachhineie um "1" inkrementiert
-    #     for k in range(len(self.ff_list_of_directories)):
-    #         self.ff_list_of_file_IDs.append(self.ff_list_of_directories[k][-7:])
-    #
-    #
-    #     # Alle String Einträge nach "INT" konvertieren um mit der max() funktion die höchste ID herauszufiltern
-    #     self.ff_list_of_file_IDs = list(map(int, self.ff_list_of_file_IDs))
-    #
-    #     self.ff_file_max_id = str(max(self.ff_list_of_file_IDs)+1)
-    #
-    #
-    #     #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
-    #     self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.ff_file_max_id
-    #     self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.ff_file_max_id + ".xml"
-    #     self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.ff_file_max_id + ".xml"
-    #     self.ilias_id_pool_img_dir = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "objects"))
-    #
-    #     self.qpl_file_pool_path_write = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #     self.qti_file_pool_path_write = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.formelfrage_pool_img_file_path = os.path.normpath(os.path.join(self.formelfrage_files_path,"ff_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
-    #
-    #     # Pfad für ILIAS-Taxonomie Dateien --> "export.xml"
-    #     self.modules_export_file = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Modules', 'TestQuestionPool', 'set_1', 'export.xml'))
-    #
-    #
-    #     self.taxonomy_file_question_pool = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.taxonomy_file_writes = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #
-    #     print("###")
-    #     print(self.ilias_id_pool_qpl_dir)
-    #
-    #     # Neuen Ordner erstellen
-    #     Create_Formelfrage_Questions.ff_createFolder(self, os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #
-    #     # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
-    #     # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-    #     Create_Formelfrage_Pool.ff_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
-    #              os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #     # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
-    #     # Anpassung ID für "qti".xml
-    #     os.rename(os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qti_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml)))
-    #
-    #     # Anpassung ID für "qpl".xml
-    #     os.rename(os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qpl_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml)))
-    #
-    #
-    #
-    #     ###### Anpassung der Datei "Modul -> export". Akualisierung des Dateinamens
-    #     self.mytree = ET.parse(self.modules_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         TaxId.set('Id', self.ff_file_max_id)
-    #
-    #     self.mytree.write(self.modules_export_file)
-    #
-    #     with open(self.modules_export_file, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     with open(self.modules_export_file, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-    #
-    #     ######  Anpassung der Datei "Modules -> //... //  -> export.xml". Akualisierung des Dateinamens
-    #     self.taxonomy_export_file = os.path.normpath(os.path.join(self.formelfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.mytree = ET.parse(self.taxonomy_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for ExportItem in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         #print(ExportItem.attrib.get('Id'))
-    #         if ExportItem.attrib.get('Id') != "":
-    #             #print(ExportItem.attrib.get('Id'))
-    #             ExportItem.set('Id', self.ff_file_max_id)
-    #             break
-    #
-    #
-    #
-    #     for object_id in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ObjId'):
-    #         object_id.text = self.ff_file_max_id
-    #         break
-    #
-    #     self.mytree.write(self.taxonomy_export_file)
-    #
-    #     # Taxonomie-datei "refreshen"
-    #     Create_Formelfrage_Pool.ff_taxonomy_file_refresh(self, self.taxonomy_export_file)
-    #
-    #
-    #     # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
-    #     # ilias_id_pol_
-    #     self.formelfrage_pool_qti_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"ff_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.formelfrage_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.formelfrage_files_path,"ff_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #
-    #
-    #
-    #     # Hier wird der Fragen_Pool erstellt
-    #     Create_Formelfrage_Questions.__init__(self, self.ff_db_entry_to_index_dict, self.create_formelfrage_pool_entry.get(), "question_pool", self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.formelfrage_pool_qti_file_path_template, self.formelfrage_pool_qti_file_path_output, self.formelfrage_pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.ff_file_max_id, self.taxonomy_file_question_pool)
-    #
-    #
-    #     # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-    #     Formelfrage.ff_replace_character_in_xml_file(self, self.formelfrage_pool_qti_file_path_output)
-    #
-    #
-    #     # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
-    #     #
-    #     # self.create_formelfrage_pool_entry.get(),  -- Nimmt die eingetragenen IDs aus der Eingabebox für Fragenpool
-    #     # self.var_create_question_pool_all.get(),   --  Check-Box, "Alle Fragen erstellen?"
-    #     # "formelfrage_db.db",                       -- Datenbank-Name
-    #     # "formelfrage_table",                       -- Datenbank-Table-Name
-    #     # self.ff_entry_to_index_dict,               -- Dictionionary
-    #     # self.taxonomy_file_question_pool,          -- Taxonomie-Datei Ordner Pfad
-    #     # self.formelfrage_pool_qti_file_path_output -- QTI-Datei - Pfad
-    #
-    #     test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self, self.create_formelfrage_pool_entry.get(), self.var_create_question_pool_all.get(), "formelfrage_db.db", "formelfrage_table", self.ff_entry_to_index_dict, self.taxonomy_file_question_pool, self.formelfrage_pool_qti_file_path_output)
-    #
-    # def ff_copytree(self, src, dst, symlinks=False, ignore=None):
-    #         for item in os.listdir(src):
-    #             s = os.path.join(src, item)
-    #             d = os.path.join(dst, item)
-    #             if os.path.isdir(s):
-    #                 shutil.copytree(s, d, symlinks, ignore)
-    #             else:
-    #                 shutil.copy2(s, d)
-    #
-    # def ff_taxonomy_file_refresh(self, file_location):
-    #     self.file_location = file_location
-    #     self.file_location = file_locationf
-    #     # print("refresh_file_location: " + str(self.file_location))
-    #     with open(self.file_location, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     xml_str = xml_str.replace('ns2:', 'ds:')
-    #     xml_str = xml_str.replace('ns3:', '')  # replace "x" with "new value for x"
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Entity="tax" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #
-    #     with open(self.file_location, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-
-
