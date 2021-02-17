@@ -50,8 +50,6 @@ class Create_ILIAS_Test:
         Create_ILIAS_Test.test_structure(self)
 
     def test_structure(self):
-        print("TEST PFAD")
-        print(self.test_qti_file_path_output)
 
         # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = ff_test_vorlage)
         for ContentObject in self.myroot.iter('ContentObject'):
@@ -59,8 +57,6 @@ class Create_ILIAS_Test:
                 for General in MetaData.iter('General'):
                     for Title in General.iter('Title'):
                         Title.text = self.ilias_test_title_entry
-                        print("Title - Text")
-                        print(Title.text)
                         # .XML Datei kann keine "&" verarbeiten.
                         # "&" muss gegen "&amp" ausgetauscht werden sonst kann Ilias die Datei hinterher nicht verwerten.
                         Title.text = Title.text.replace('&', "&amp;")
@@ -114,6 +110,7 @@ class Create_ILIAS_Test:
                                                                                      "file_max_id_not_used_for_ilias_test",
                                                                                      "taxonomy_not_used_for_ilias_test"
                                                                                      )
+
         # Aufruf: Modul -> MultipleChoice -> Test
         elif self.question_type.lower() == "multiplechoice" or self.question_type.lower() == "multiple choice":
             test_generator_modul_multiplechoice.Create_MultipleChoice_Questions.__init__(self,
@@ -129,6 +126,7 @@ class Create_ILIAS_Test:
                                                                                          "file_max_id_not_used_for_ilias_test",
                                                                                          "taxonomy_not_used_for_ilias_test"
                                                                                          )
+
         # Aufruf: Modul -> Zuordnungsfrage -> Test
         elif self.question_type.lower() == "zuordnungsfrage" or self.question_type.lower() == "zuordnungs frage":
             test_generator_modul_zuordnungsfrage.Create_Zuordnungsfrage_Questions.__init__(self,
@@ -144,12 +142,13 @@ class Create_ILIAS_Test:
                                                                                          "file_max_id_not_used_for_ilias_test",
                                                                                          "taxonomy_not_used_for_ilias_test"
                                                                                          )
+
+        # Fragentyp wird nicht unterstützt
         else:
             print("Fragen-Typ ist NICHT \"formelfrage\", \"singlechoice\", \"multiplechoice\" oder \"zuordnungsfrage\"")
 
 
         # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-        print("replaced")
         Additional_Funtions.replace_character_in_xml_file(self, self.test_qti_file_path_output)
 
 
@@ -192,7 +191,7 @@ class Create_ILIAS_Pool:
         # Falls sich keine *.zip Ordner in der "ilias_pool_abgabe" befinden, wird die ID über eine Vorlage (fest hinterlegt) bestimmt.
         # Die Zahl muss 7-stellig sein!
         self.pool_id_file_zip_template = ""
-        print(self.question_type)
+
         if self.question_type == "formelfrage" or self.question_type == "formel frage":
             self.pool_id_file_zip_template = "1115532"
         if self.question_type == "singlechoice" or self.question_type == "single choice":
@@ -291,8 +290,7 @@ class Create_ILIAS_Pool:
         self.taxonomy_file_question_pool = os.path.normpath(os.path.join(self.pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
 
 
-        print("###")
-        print(self.ilias_id_pool_qpl_dir)
+
 
         # Neuen Ordner erstellen
         Additional_Funtions.createFolder(self, os.path.normpath(os.path.join(self.pool_directory_output, self.ilias_id_pool_qpl_dir)))
@@ -366,6 +364,8 @@ class Create_ILIAS_Pool:
 
 
 ######## Hier wird der Fragen_Pool erstellt
+
+        # Aufruf: Modul -> Formelfrage -> Pool
         if self.question_type.lower() == "formelfrage" or self.question_type.lower() == "formel frage":
             test_generator_modul_formelfrage.Create_Formelfrage_Questions.__init__(self,
                                                                                    self.db_entry_to_index_dict,
@@ -381,6 +381,7 @@ class Create_ILIAS_Pool:
                                                                                    self.taxonomy_file_question_pool
                                                                                    )
 
+        # Aufruf: Modul -> SingleChoice -> Pool
         if self.question_type.lower() == "singlechoice" or self.question_type.lower() == "single choice":
             test_generator_modul_singlechoice.Create_SingleChoice_Questions.__init__(self,
                                                                                    self.db_entry_to_index_dict,
@@ -396,6 +397,7 @@ class Create_ILIAS_Pool:
                                                                                    self.taxonomy_file_question_pool
                                                                                    )
 
+        # Aufruf: Modul -> MultipleChoice -> Pool
         if self.question_type.lower() == "multiplechoice" or self.question_type.lower() == "multiple choice":
             test_generator_modul_multiplechoice.Create_MultipleChoice_Questions.__init__(self,
                                                                                    self.db_entry_to_index_dict,
@@ -411,6 +413,7 @@ class Create_ILIAS_Pool:
                                                                                    self.taxonomy_file_question_pool
                                                                                    )
 
+        # Aufruf: Modul -> Zuordnungsfrage -> Pool
         if self.question_type.lower() == "zuordnungsfrage" or self.question_type.lower() == "zuordnungs frage":
             test_generator_modul_zuordnungsfrage.Create_Zuordnungsfrage_Questions.__init__(self,
                                                                                    self.db_entry_to_index_dict,
@@ -426,6 +429,7 @@ class Create_ILIAS_Pool:
                                                                                    self.taxonomy_file_question_pool
                                                                                    )
 
+        # Aufruf: Modul -> Formelfrage_Permutation -> Pool
         if self.question_type.lower() == "formelfrage_perm" or self.question_type.lower() == "formel frage_perm":
             print("STRUKTUR FORMELFRAGE_PERMUTATION")
             test_generator_modul_formelfrage_permutation.Create_formelfrage_permutation_Questions.__init__(self,
@@ -448,13 +452,13 @@ class Create_ILIAS_Pool:
 
         # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
         #
-        # self.create_formelfrage_pool_entry.get(),  -- Nimmt die eingetragenen IDs aus der Eingabebox für Fragenpool
+        # self.create_pool_entry.get(),              -- Nimmt die eingetragenen IDs aus der Eingabebox für Fragenpool
         # self.var_create_question_pool_all.get(),   --  Check-Box, "Alle Fragen erstellen?"
-        # "formelfrage_db.db",                       -- Datenbank-Name
-        # "formelfrage_table",                       -- Datenbank-Table-Name
+        # database_db_name,                          -- Datenbank-Name
+        # database_table,                            -- Datenbank-Table-Name
         # self.ff_entry_to_index_dict,               -- Dictionionary
         # self.taxonomy_file_question_pool,          -- Taxonomie-Datei Ordner Pfad
-        # self.formelfrage_pool_qti_file_path_output -- QTI-Datei - Pfad
+        # self.pool_qti_file_path_output             -- QTI-Datei - Pfad
 
         test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
                                                                                     self.create_pool_entry_ids,
@@ -538,7 +542,7 @@ class Additional_Funtions:
             # Wird eine Bild Position im Fragen Text eingetragen, wird es hier durch das eigentliche Bild ersetzt
             if self.picture_string_name_replace_var in question_description_mattext.split():
 
-                print("Eintrag für Bild Position gefunden! " + str(self.picture_string_name_replace_var) )
+
                 question_description_mattext = question_description_mattext.replace(self.picture_string_name_replace_var, self.picture_in_main)
 
             else:
@@ -591,6 +595,8 @@ class Additional_Funtions:
 
 
     def replace_character_in_xml_file(self, file_path_qti_xml):
+        print("______________________________________________________________________")
+        print("Überarbeite xml_datei_qti --  \"&amp;\"-Zeichen...          ", end="", flush=True)
         # Im Nachgang werden alle "&amp;" wieder gegen "&" getauscht
         # "&" Zeichen kann XML nicht verarbeiten, daher wurde beim schreiben der Texte in die XML "&" gegen "&amp;" getauscht
 
@@ -603,7 +609,7 @@ class Additional_Funtions:
         with open(file_path_qti_xml, 'w') as replaced_xml_file:
             replaced_xml_file.write(xml_str)
 
-        print("...XML_DATEI_QTI --  \"&amp;\"-ZEICHEN ÜBERARBEITUNG ABGESCHLOSSEN!")
+        print("abgeschlossen!")
 
     def copytree(self, src, dst, symlinks=False, ignore=None):
             for item in os.listdir(src):
