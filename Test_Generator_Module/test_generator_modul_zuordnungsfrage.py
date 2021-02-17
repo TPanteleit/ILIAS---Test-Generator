@@ -475,8 +475,8 @@ class Zuordnungsfrage:
         self.mq_mix_answers_label = Label(self.mq_frame, text="Antworten mischen")
         self.mq_mix_answers_label.grid(row=5, column=0, sticky=W, padx=10, pady=(5, 0))
 
-        self.mq_mix_answers_options = ["Nein", "Beides(Terme und Definitionen)", "Nur Terme", "Nur Definitionen"]
-        self.mq_mix_answers_box = ttk.Combobox(self.mq_frame, value=self.mq_mix_answers_options, width=10)
+        self.mq_mix_answers_options = ["Nein", "Beides (Terme und Definitionen)", "Nur Terme", "Nur Definitionen"]
+        self.mq_mix_answers_box = ttk.Combobox(self.mq_frame, value=self.mq_mix_answers_options, width=26)
         self.mq_mix_answers_box.current(0)
 
         def mq_selected_mix_answers_options(event):
@@ -2152,7 +2152,27 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
         connect_mq_db = sqlite3.connect(self.database_zuordnungsfrage_path)
         cursor = connect_mq_db.cursor()
 
+        # Prüfen ob alle Einträge generiert werden sollen (checkbox gesetzt)
+        if self.mq_var_create_question_pool_all_check.get() == 1:
+            conn = sqlite3.connect(self.database_zuordnungsfrage_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM singlechoice_table")
 
+            mq_db_records = c.fetchall()
+
+            for mq_db_record in mq_db_records:
+                self.all_entries_from_db_list.append(int(mq_db_record[len(mq_db_record) - 1]))
+
+            self.string_temp = ','.join(map(str, self.all_entries_from_db_list))
+            self.mq_test_entry_splitted = self.string_temp.split(",")
+
+            # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
+            self.mq_test_entry_splitted.pop(0)
+
+        
+        
+        
+        
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
         # Datenbank ID wird automatimqh bei einem neuen Eintrag erstellt (fortlaufend) und kann nicht beeinflusst werden
         cursor.execute("SELECT *, oid FROM zuordnungsfrage_table")
