@@ -366,7 +366,7 @@ class MultipleChoice:
 
         self.mc_var_mix_questions = StringVar()
         self.mc_check_mix_questions = Checkbutton(self.mc_frame, text="", variable=self.mc_var_mix_questions,
-                                                  onvalue="1", offvalue="0")
+                                                  onvalue="Yes", offvalue="No")
         self.mc_check_mix_questions.deselect()
         self.mc_check_mix_questions.grid(row=5, column=1, sticky=W, pady=(5, 0))
 
@@ -1259,6 +1259,28 @@ class MultipleChoice:
             self.mc_var8_img_label_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_8_img_label']])
             self.mc_var9_img_label_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_9_img_label']])
             self.mc_var10_img_label_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_10_img_label']])
+            
+            self.mc_var1_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_1_img_string_base64_encoded']])
+            self.mc_var2_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_2_img_string_base64_encoded']])
+            self.mc_var3_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_3_img_string_base64_encoded']])
+            self.mc_var4_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_4_img_string_base64_encoded']])
+            self.mc_var5_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_5_img_string_base64_encoded']])
+            self.mc_var6_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_6_img_string_base64_encoded']])
+            self.mc_var7_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_7_img_string_base64_encoded']])
+            self.mc_var8_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_8_img_string_base64_encoded']])
+            self.mc_var9_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_9_img_string_base64_encoded']])
+            self.mc_var10_img_data_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_10_img_string_base64_encoded']])
+
+            self.mc_var1_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_1_img_path']])
+            self.mc_var2_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_2_img_path']])
+            self.mc_var3_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_3_img_path']])
+            self.mc_var4_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_4_img_path']])
+            self.mc_var5_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_5_img_path']])
+            self.mc_var6_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_6_img_path']])
+            self.mc_var7_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_7_img_path']])
+            self.mc_var8_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_8_img_path']])
+            self.mc_var9_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_9_img_path']])
+            self.mc_var10_img_path_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_10_img_path']])
 
             self.mc_var1_points_correct_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_1_pts_correct_answer']])
             self.mc_var2_points_correct_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_2_pts_correct_answer']])
@@ -1282,10 +1304,274 @@ class MultipleChoice:
             self.mc_var9_points_false_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_9_pts_false_answer']])
             self.mc_var10_points_false_entry.insert(END, mc_db_record[self.mc_db_entry_to_index_dict['response_10_pts_false_answer']])
 
+            self.mc_description_img_name_1 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_1']]
+            self.mc_description_img_data_1 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_1']]
+            self.mc_description_img_path_1 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_1']]
+
+            self.mc_description_img_name_2 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_2']]
+            self.mc_description_img_data_2 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_2']]
+            self.mc_description_img_path_2 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_2']]
+
+            self.mc_description_img_name_3 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_3']]
+            self.mc_description_img_data_3 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_3']]
+            self.mc_description_img_path_3 = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_3']]
 
         conn.commit()
         conn.close()
+    
+    def mc_edit_id_from_db(self):
+        
 
+        # Verbindung mit der Datenbank
+        conn = sqlite3.connect(self.database_multiplechoice_path)
+        c = conn.cursor()
+    
+        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
+        record_id = self.mc_load_box.get()
+    
+        # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
+        self.mc_test_time = "P0Y0M0DT" + self.mc_proc_hours_box.get() + "H" + self.mc_proc_minutes_box.get() + "M" + self.mc_proc_seconds_box.get() + "S"
+    
+        # Ist ein Bild-Name vorhanden, dann das Bild über den Pfad einlesen
+        # Sonst auf "EMPTY" setzen
+        # Bilder werden als byte eingelesen "rb" = read byte
+    
+        # Fragen-Text Bild 1
+        if self.mc_description_img_name_1 != "EMPTY":
+            with open(self.mc_description_img_path_1, 'rb') as description_image_file_1:
+                self.mc_description_img_data_1 = description_image_file_1.read()
+    
+        else:
+            self.mc_description_img_name_1 = "EMPTY"
+            self.mc_description_img_data_1 = "EMPTY"
+            self.mc_description_img_path_1 = "EMPTY"
+    
+        # Fragen-Text Bild 2
+        if self.mc_description_img_name_2 != "EMPTY":
+            with open(self.mc_description_img_path_2, 'rb') as description_image_file_2:
+                self.mc_description_img_data_2 = description_image_file_2.read()
+    
+        else:
+            self.mc_description_img_name_2 = "EMPTY"
+            self.mc_description_img_data_2 = "EMPTY"
+            self.mc_description_img_path_2 = "EMPTY"
+    
+        # Fragen-Text Bild 3
+        if self.mc_description_img_name_3 != "EMPTY":
+            with open(self.mc_description_img_path_3, 'rb') as description_image_file_3:
+                self.mc_description_img_data_3 = description_image_file_3.read()
+    
+        else:
+            self.mc_description_img_name_3 = "EMPTY"
+            self.mc_description_img_data_3 = "EMPTY"
+            self.mc_description_img_path_3 = "EMPTY"
+    
+        c.execute("""UPDATE singlechoice_table SET
+                'question_difficulty'= :question_difficulty,
+                'question_category'= :question_category,
+                'question_type'= :question_type,
+
+                'question_title'= :question_title,
+                'question_description_title'= :question_description_title,
+
+                'question_description_main'= :question_description_main,
+                'response_1_text'= :response_1_text,
+                'response_1_pts_correct_answer'= :response_1_pts_correct_answer,
+                'response_1_pts_false_answer'= :response_1_pts_false_answer,
+                'response_1_img_label'= :response_1_img_label,
+                'response_1_img_string_base64_encoded'= :response_1_img_string_base64_encoded,
+                'response_1_img_path'= :response_1_img_path,
+
+                'response_2_text'= :response_2_text,
+                'response_2_pts_correct_answer'= :response_2_pts_correct_answer,
+                'response_2_pts_false_answer'= :response_2_pts_false_answer,
+                'response_2_img_label'= :response_2_img_label,
+                'response_2_img_string_base64_encoded'= :response_2_img_string_base64_encoded,
+                'response_2_img_path'= :response_2_img_path,
+
+                'response_3_text'= : response_3_text,
+                'response_3_pts_correct_answer'= :response_3_pts_correct_answer,
+                'response_3_pts_false_answer'= :response_3_pts_false_answer,
+                'response_3_img_label'= :response_3_img_label,
+                'response_3_img_string_base64_encoded'= :response_3_img_string_base64_encoded,
+                'response_3_img_path'= :response_3_img_path,
+
+                'response_4_text'= :response_4_text,
+                'response_4_pts_correct_answer'= :response_4_pts_correct_answer,
+                'response_4_pts_false_answer'= :response_4_pts_false_answer,
+                'response_4_img_label'= :response_4_img_label,
+                'response_4_img_string_base64_encoded'= :response_4_img_string_base64_encoded,
+                'response_4_img_path'= :response_4_img_path,
+
+                'response_5_text'= :response_5_text,
+                'response_5_pts_correct_answer'= :response_5_pts_correct_answer,
+                'response_5_pts_false_answer'= :response_5_pts_false_answer,
+                'response_5_img_label'= :response_5_img_label,
+                'response_5_img_string_base64_encoded'= :response_5_img_string_base64_encoded,
+                'response_5_img_path'= :response_5_img_path,
+
+                'response_6_text'= :response_6_text,
+                'response_6_pts_correct_answer'= :response_6_pts_correct_answer,
+                'response_6_pts_false_answer'= :response_6_pts_false_answer,
+                'response_6_img_label'= :response_6_img_label,
+                'response_6_img_string_base64_encoded'= :response_6_img_string_base64_encoded,
+                'response_6_img_path'= :response_6_img_path,
+
+                'response_7_text'= :response_7_text,
+                'response_7_pts_correct_answer'= :response_7_pts_correct_answer,
+                'response_7_pts_false_answer'= :response_7_pts_false_answer,
+                'response_7_img_label'= :response_7_img_label,
+                'response_7_img_string_base64_encoded'= :response_7_img_string_base64_encoded,
+                'response_7_img_path'= :response_7_img_path,
+
+                'response_8_text'= :response_8_text,
+                'response_8_pts_correct_answer'= :response_8_pts_correct_answer,
+                'response_8_pts_false_answer'= :response_8_pts_false_answer,
+                'response_8_img_label'= :response_8_img_label,
+                'response_8_img_string_base64_encoded'= :response_8_img_string_base64_encoded,
+                'response_8_img_path'= :response_8_img_path,
+
+                'response_9_text'= :response_9_text,
+                'response_9_pts_correct_answer'= :response_9_pts_correct_answer,
+                'response_9_pts_false_answer'= :response_9_pts_false_answer,
+                'response_9_img_label'= :response_9_img_label,
+                'response_9_img_string_base64_encoded'= :response_9_img_string_base64_encoded,
+                'response_9_img_path'= :response_9_img_path,
+
+                'response_10_text'= :response_10_text,
+                'response_10_pts_correct_answer'= :response_10_pts_correct_answer,
+                'response_10_pts_false_answer'= :response_10_pts_false_answer,
+                'response_10_img_label'= :response_10_img_label,
+                'response_10_img_string_base64_encoded'= :response_10_img_string_base64_encoded,
+                'response_10_img_path'= :response_10_img_path,
+
+                'picture_preview_pixel'= :'picture_preview_pixel',
+
+                'description_img_name_1'= :description_img_name_1,
+                'description_img_data_1'= :description_img_data_1,
+                'description_img_path_1'= :description_img_path_1,
+
+                'description_img_name_2'= :description_img_name_2,
+                'description_img_data_2'= :description_img_data_2,
+                'description_img_path_2'= :description_img_path_2,
+
+                'description_img_name_3'= :description_img_name_3,
+                'description_img_data_3'= :description_img_data_3,
+                'description_img_path_3'= :description_img_path_3,
+
+                'test_time'= :test_time,
+
+                'var_number'= :var_number,
+                'question_pool_tag'= :question_pool_tag,
+                'question_author'= :question_author
+    
+                WHERE oid = :oid""",
+                  {'question_difficulty': self.mc_question_difficulty_entry.get(),
+                'question_category': self.mc_question_category_entry.get(),
+                'question_type': self.mc_question_type_entry.get(),
+
+                'question_title': self.mc_question_title_entry.get(),
+                'question_description_title': self.mc_question_description_title_entry.get(),
+
+                # The first part, "1.0" means that the input should be read from line one, character zero (ie: the very first character).
+                # END is an imported constant which is set to the string "end". The END part means to read until the end of the text box is reached.
+                # The only issue with this is that it actually adds a newline to our input. "
+                # "So, in order to fix it we should change END to end-1c(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c would mean delete two characters, and so on."
+                'question_description_main': self.mc_question_description_main_entry.get("1.0", 'end-1c'),
+
+                # Antwort-Text  in Datenbank-Fach: var_name
+                'response_1_text': self.mc_var1_answer_entry.get(),
+                'response_1_pts_correct_answer': self.mc_var1_points_correct_entry.get(),
+                'response_1_pts_false_answer': self.mc_var1_points_false_entry.get(),
+                'response_1_img_label': self.mc_var1_img_label_entry.get(),
+                'response_1_img_string_base64_encoded':  self.mc_var1_img_data_entry.get(),
+                'response_1_img_path': self.mc_var1_img_path_entry.get(),
+
+                'response_2_text': self.mc_var2_answer_entry.get(),
+                'response_2_pts_correct_answer': self.mc_var2_points_correct_entry.get(),
+                'response_2_pts_false_answer': self.mc_var2_points_false_entry.get(),
+                'response_2_img_label': self.mc_var2_img_label_entry.get(),
+                'response_2_img_string_base64_encoded':  self.mc_var2_img_data_entry.get(),
+                'response_2_img_path': self.mc_var2_img_path_entry.get(),
+
+                'response_3_text': self.mc_var3_answer_entry.get(),
+                'response_3_pts_correct_answer': self.mc_var3_points_correct_entry.get(),
+                'response_3_pts_false_answer': self.mc_var3_points_false_entry.get(),
+                'response_3_img_label': self.mc_var3_img_label_entry.get(),
+                'response_3_img_string_base64_encoded':  self.mc_var3_img_data_entry.get(),
+                'response_3_img_path': self.mc_var3_img_path_entry.get(),
+
+                'response_4_text': self.mc_var4_answer_entry.get(),
+                'response_4_pts_correct_answer': self.mc_var4_points_correct_entry.get(),
+                'response_4_pts_false_answer': self.mc_var4_points_false_entry.get(),
+                'response_4_img_label': self.mc_var4_img_label_entry.get(),
+                'response_4_img_string_base64_encoded':  self.mc_var4_img_data_entry.get(),
+                'response_4_img_path': self.mc_var4_img_path_entry.get(),
+
+                'response_5_text': self.mc_var5_answer_entry.get(),
+                'response_5_pts_correct_answer': self.mc_var5_points_correct_entry.get(),
+                'response_5_pts_false_answer': self.mc_var5_points_false_entry.get(),
+                'response_5_img_label': self.mc_var5_img_label_entry.get(),
+                'response_5_img_string_base64_encoded':  self.mc_var5_img_data_entry.get(),
+                'response_5_img_path': self.mc_var5_img_path_entry.get(),
+
+                'response_6_text': self.mc_var6_answer_entry.get(),
+                'response_6_pts_correct_answer': self.mc_var6_points_correct_entry.get(),
+                'response_6_pts_false_answer': self.mc_var6_points_false_entry.get(),
+                'response_6_img_label': self.mc_var6_img_label_entry.get(),
+                'response_6_img_string_base64_encoded':  self.mc_var6_img_data_entry.get(),
+                'response_6_img_path': self.mc_var6_img_path_entry.get(),
+
+                'response_7_text': self.mc_var7_answer_entry.get(),
+                'response_7_pts_correct_answer': self.mc_var7_points_correct_entry.get(),
+                'response_7_pts_false_answer': self.mc_var7_points_false_entry.get(),
+                'response_7_img_label': self.mc_var7_img_label_entry.get(),
+                'response_7_img_string_base64_encoded':  self.mc_var7_img_data_entry.get(),
+                'response_7_img_path': self.mc_var7_img_path_entry.get(),
+
+                'response_8_text': self.mc_var8_answer_entry.get(),
+                'response_8_pts_correct_answer': self.mc_var8_points_correct_entry.get(),
+                'response_8_pts_false_answer': self.mc_var8_points_false_entry.get(),
+                'response_8_img_label': self.mc_var8_img_label_entry.get(),
+                'response_8_img_string_base64_encoded':  self.mc_var8_img_data_entry.get(),
+                'response_8_img_path': self.mc_var8_img_path_entry.get(),
+
+                'response_9_text': self.mc_var9_answer_entry.get(),
+                'response_9_pts_correct_answer': self.mc_var9_points_correct_entry.get(),
+                'response_9_pts_false_answer': self.mc_var9_points_false_entry.get(),
+                'response_9_img_label': self.mc_var9_img_label_entry.get(),
+                'response_9_img_string_base64_encoded':  self.mc_var9_img_data_entry.get(),
+                'response_9_img_path': self.mc_var9_img_path_entry.get(),
+
+                'response_10_text': self.mc_var10_answer_entry.get(),
+                'response_10_pts_correct_answer': self.mc_var10_points_correct_entry.get(),
+                'response_10_pts_false_answer': self.mc_var10_points_false_entry.get(),
+                'response_10_img_label': self.mc_var10_img_label_entry.get(),
+                'response_10_img_string_base64_encoded':  self.mc_var10_img_data_entry.get(),
+                'response_10_img_path': self.mc_var10_img_path_entry.get(),
+
+                'picture_preview_pixel': self.mc_picture_preview_pixel_entry.get(),
+
+                'description_img_name_1': self.mc_description_img_name_1,
+                'description_img_data_1': self.mc_description_img_data_1,
+                'description_img_path_1': self.mc_description_img_path_1,
+
+                'description_img_name_2': self.mc_description_img_name_2,
+                'description_img_data_2': self.mc_description_img_data_2,
+                'description_img_path_2': self.mc_description_img_path_2,
+
+                'description_img_name_3': self.mc_description_img_name_3,
+                'description_img_data_3': self.mc_description_img_data_3,
+                'description_img_path_3': self.mc_description_img_path_3,
+
+                'test_time': self.mc_test_time,
+
+                'var_number': "",
+                'question_pool_tag': self.mc_question_pool_tag_entry.get(),
+                'question_author': self.mc_question_author_entry.get(),
+                'oid': record_id
+                   })
+    
     def mc_delete_id_from_db(self):
 
         self.mc_delete_box_id = ""
@@ -1388,6 +1674,23 @@ class Create_MultipleChoice_Questions(MultipleChoice):
         # Mit MC_Datenbank verknüpfen
         connect_mc_db = sqlite3.connect(self.database_multiplechoice_path)
         cursor = connect_mc_db.cursor()
+        
+        # Prüfen ob alle Einträge generiert werden sollen (checkbox gesetzt)
+        if self.mc_var_create_question_pool_all_check.get() == 1:
+            conn = sqlite3.connect(self.database_multiplechoice_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM singlechoice_table")
+
+            mc_db_records = c.fetchall()
+
+            for mc_db_record in mc_db_records:
+                self.all_entries_from_db_list.append(int(mc_db_record[len(mc_db_record) - 1]))
+
+            self.string_temp = ','.join(map(str, self.all_entries_from_db_list))
+            self.mc_test_entry_splitted = self.string_temp.split(",")
+
+            # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
+            self.mc_test_entry_splitted.pop(0)
 
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
@@ -1487,9 +1790,11 @@ class Create_MultipleChoice_Questions(MultipleChoice):
                             self.mc_description_img_name_1	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_1']]
                             self.mc_description_img_data_1	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_1']]
                             self.mc_description_img_path_1	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_1']]
+                            
                             self.mc_description_img_name_2	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_2']]
                             self.mc_description_img_data_2	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_2']]
                             self.mc_description_img_path_2	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_2']]
+                            
                             self.mc_description_img_name_3	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_name_3']]
                             self.mc_description_img_data_3	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_data_3']]
                             self.mc_description_img_path_3	                = mc_db_record[self.mc_db_entry_to_index_dict['description_img_path_3']]
@@ -1665,7 +1970,7 @@ class Create_MultipleChoice_Questions(MultipleChoice):
                 # "MCMR --> Multiplechoice Identifier für xml datei
                 response_lid.set('ident', "MCMR")
                 response_lid.set('rcardinality', "Multiple")
-                render_choice.set('shuffle', "Yes")
+                render_choice.set('shuffle', self.mc_var_mix_questions.get())
 
 
                 # Hier die Question_answer_structure einfügen und Antworten erstellen
