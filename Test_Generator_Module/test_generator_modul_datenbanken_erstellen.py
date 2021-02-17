@@ -3,22 +3,67 @@ import os
 import xlsxwriter                       # import/export von excel Dateien
 import pandas as pd
 from tkinter import filedialog
+from tkinter import messagebox
 import pathlib
 import collections.abc as byteobj
 import base64
 from datetime import datetime
 
+
 class CreateDatabases:
 
     def __init__(self, project_root_path):
+
+        # -----Example Python Program to add new columns to an existing SQLite Table-----
+
+        # self.database_formelfrage_path = os.path.normpath(
+        #     os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
+        #
+        # # Make a connection to the SQLite DB
+        #
+        # dbCon = sqlite3.connect(self.database_formelfrage_path)
+
+        # def add_column_to_db(new_entry, new_entry_type):
+        #
+        #     # Obtain a Cursor object to execute SQL statements
+        #     existing_db_entry = ""
+        #
+        #     cur = dbCon.cursor()
+        #
+        #     cur.execute('PRAGMA table_info(formelfrage_table)')
+        #     data = cur.fetchall()
+        #
+        #     for d in data:
+        #         existing_db_entry += str(d[1])
+        #
+        #     if new_entry not in existing_db_entry:
+        #         cur.execute("ALTER TABLE formelfrage_table ADD COLUMN %s %s " % (new_entry, new_entry_type))
+        #
+        #     print("SQL done")
+
+        # add_column_to_db("Address_new0", "INTEGER")
+        # add_column_to_db("Address_new1", "INTEGER")
+        # add_column_to_db("Address_new3", "INTEGER")
+        # add_column_to_db("Address_new2", "INTEGER")
+        # add_column_to_db("Address_new4", "INTEGER")
+        # add_column_to_db("Address_new5", "INTEGER")
+        # add_column_to_db("Address_new7", "INTEGER")
+        # add_column_to_db("Address_new6", "INTEGER")
+        # add_column_to_db("Address_new8", "INTEGER")
+
+
+
+        # close the database connection
+
+        #dbCon.close()
+
+
         self.project_root_path = project_root_path
 
         self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
         self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
         self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
         self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
-
-
         self.database_formelfrage_permutation_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_formelfrage_permutation_db.db"))
         self.database_test_settings_profiles_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "test_settings_profiles_db.db"))
 
@@ -2142,7 +2187,7 @@ class Import_Export_Database(CreateDatabases):
     def excel_import_to_db(self, question_type, db_entry_to_index_dict):
 
 
-        def img_path_to_base64_encoded_string(response_var_label, response_var_path):
+        def img_path_to_base64_encoded_string(response_var_label, response_var_path, row):
 
             # Wenn der Bild_Name ".jpg", ".jpeg", ".png", ".gif" enthält
             # dann öffne den Bild_Pfad (rb = read byte) und speichere als base64 encoded String
@@ -2150,7 +2195,7 @@ class Import_Export_Database(CreateDatabases):
 
                 # Wird ein Bild als base64.b64encode.. eingelesen startet der Bild_String mit "b'"
                 # decode('utf-8') sorgt dafür dass diese zwei character "b'" aus dem String entfernt werden
-                # ilias kann einen Image_String der mit "b'" beginnt nicht verwarbeiten
+                # ilias kann einen Image_String der mit "b'" beginnt nicht verarbeiten
                 with open(row[self.db_entry_to_index_dict[response_var_path] + 1], 'rb') as image_file:
                     base64_encoded_string = base64.b64encode(image_file.read())
                     base64_encoded_string = base64_encoded_string.decode('utf-8')
@@ -2177,6 +2222,10 @@ class Import_Export_Database(CreateDatabases):
         self.sc_description_img_data = ""
         self.mc_description_img_data = ""
 
+        # Auflistung der Fragentitel in Datenbank
+        self.db_entries_list = []
+        self.edited_questions_list = []
+        entry_string = ""
         # Datentypen die von ILIAS unterstützt werden
         self.ilias_image_types = [".jpg", ".jpeg", ".png", ".gif"]
 
@@ -2203,374 +2252,1036 @@ class Import_Export_Database(CreateDatabases):
             if i == (len(self.xlsx_file_column_labels)-2):
                 self.sql_values_question_marks += "?)"
 
+
+
+
         if self.question_type == "singlechoice" or self.question_type == "single choice":
+            print("-------------------------------------")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
             # Mit SingleChoice Datenbank verbinden
             conn = sqlite3.connect(self.database_singlechoice_path)
             c = conn.cursor()
 
-            for row in self.dataframe.itertuples():
+            self.number_of_new_entries_from_excel = 0
+            self.number_of_entries_edited = 0
+            #####
+            query = 'SELECT * FROM singlechoice_table '
+            c.execute(query)
 
-                # # "+1" ist notwendig weil "row" mit '1' anfängt und das DICT mit '0'
-                # if "placeholder" in str(row[self.db_entry_to_index_dict['description_img_data']+1]):
-                #     print("image found! -> " + str(row[self.db_entry_to_index_dict['description_img_path']+1]))
-                #     # read image data in byte format
-                #     with open(row[self.db_entry_to_index_dict['description_img_path']+1], 'rb') as image_file:
-                #         self.sc_description_img_data = image_file.read()
+            database_rows = c.fetchall()
 
+            for database_row in database_rows:
+                entry_string += database_row[db_entry_to_index_dict['question_title']]
+            
+            
+            for sc_row in self.dataframe.itertuples():
 
+                # Wenn exakter Fragentitel bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                if sc_row[db_entry_to_index_dict['question_title']+1] in entry_string:
+                    c.execute(
+                        """UPDATE singlechoice_table SET
+                                question_difficulty = :question_difficulty,
+                                question_category = :question_category,
+                                question_type = :question_type,
+            
+                                question_title = :question_title,
+                                question_description_title = :question_description_title,
+                                question_description_main = :question_description_main,
+                    
+                                response_1_text= :response_1_text,
+                                response_1_pts= :response_1_pts,
+                                response_1_img_label= :response_1_img_label,
+                                response_1_img_string_base64_encoded= :response_1_img_string_base64_encoded,
+                                response_1_img_path = :response_1_img_path,
+                
+                                response_2_text= :response_2_text,
+                                response_2_pts= :response_2_pts,
+                                response_2_img_label= :response_2_img_label,
+                                response_2_img_string_base64_encoded= :response_2_img_string_base64_encoded,
+                                response_2_img_path= :response_2_img_path,
+                
+                                response_3_text= :response_3_text,
+                                response_3_pts= :response_3_pts,
+                                response_3_img_label= :response_3_img_label,
+                                response_3_img_string_base64_encoded= :response_3_img_string_base64_encoded,
+                                response_3_img_path= :response_3_img_path,
+                
+                                response_4_text= :response_4_text,
+                                response_4_pts= :response_4_pts,
+                                response_4_img_label= :response_4_img_label,
+                                response_4_img_string_base64_encoded= :response_4_img_string_base64_encoded,
+                                response_4_img_path= :response_4_img_path,
+                
+                                response_5_text= :response_5_text,
+                                response_5_pts= :response_5_pts,
+                                response_5_img_label= :response_5_img_label,
+                                response_5_img_string_base64_encoded= :response_5_img_string_base64_encoded,
+                                response_5_img_path= :response_5_img_path,
+                
+                                response_6_text= :response_6_text,
+                                response_6_pts= :response_6_pts,
+                                response_6_img_label= :response_6_img_label,
+                                response_6_img_string_base64_encoded= :response_6_img_string_base64_encoded,
+                                response_6_img_path= :response_6_img_path,
+                
+                                response_7_text= :response_7_text,
+                                response_7_pts= :response_7_pts,
+                                response_7_img_label= :response_7_img_label,
+                                response_7_img_string_base64_encoded= :response_7_img_string_base64_encoded,
+                                response_7_img_path= :response_7_img_path,
+                
+                                response_8_text= :response_8_text,
+                                response_8_pts= :response_8_pts,
+                                response_8_img_label= :response_8_img_label,
+                                response_8_img_string_base64_encoded= :response_8_img_string_base64_encoded,
+                                response_8_img_path= :response_8_img_path,
+                
+                                response_9_text= :response_9_text,
+                                response_9_pts= :response_9_pts,
+                                response_9_img_label= :response_9_img_label,
+                                response_9_img_string_base64_encoded= :response_9_img_string_base64_encoded,
+                                response_9_img_path= :response_9_img_path,
+                
+                                response_10_text= :response_10_text,
+                                response_10_pts= :response_10_pts,
+                                response_10_img_label= :response_10_img_label,
+                                response_10_img_string_base64_encoded= :response_10_img_string_base64_encoded,
+                                response_10_img_path= :response_10_img_path,
+                
+                                picture_preview_pixel= :picture_preview_pixel,
+                
+                                description_img_name_1= :description_img_name_1,
+                                description_img_data_1= :description_img_data_1,
+                                description_img_path_1= :description_img_path_1,
+                
+                                description_img_name_2= :description_img_name_2,
+                                description_img_data_2= :description_img_data_2,
+                                description_img_path_2= :description_img_path_2,
+                
+                                description_img_name_3= :description_img_name_3,
+                                description_img_data_3= :description_img_data_3,
+                                description_img_path_3= :description_img_path_3,
+                
+                                test_time= :test_time,
 
+                                question_pool_tag= :question_pool_tag,
+                                question_author= :question_author
+                                WHERE oid = :oid""",
+                                {'question_difficulty': sc_row[db_entry_to_index_dict['question_difficulty'] + 1],
+                                 'question_category': sc_row[db_entry_to_index_dict['question_category'] + 1],
+                                 'question_type': sc_row[db_entry_to_index_dict['question_type'] + 1],
+                
+                                 'question_title': sc_row[db_entry_to_index_dict['question_title'] + 1],
+                                 'question_description_title': sc_row[db_entry_to_index_dict['question_description_title'] + 1],
+                                 'question_description_main': sc_row[db_entry_to_index_dict['question_description_main'] + 1],
+                
+                                 'response_1_text': sc_row[db_entry_to_index_dict['response_1_text'] + 1],
+                                 'response_1_pts': sc_row[db_entry_to_index_dict['response_1_pts'] + 1],
+                                 'response_1_img_label': sc_row[db_entry_to_index_dict['response_1_img_label'] + 1],
+                                 'response_1_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_1_img_string_base64_encoded'] + 1],
+                                 'response_1_img_path': sc_row[db_entry_to_index_dict['response_1_img_path'] + 1],
+                                 
+                                 'response_2_text': sc_row[db_entry_to_index_dict['response_2_text'] + 1],
+                                 'response_2_pts': sc_row[db_entry_to_index_dict['response_2_pts'] + 1],
+                                 'response_2_img_label': sc_row[db_entry_to_index_dict['response_2_img_label'] + 1],
+                                 'response_2_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_2_img_string_base64_encoded'] + 1],
+                                 'response_2_img_path': sc_row[db_entry_to_index_dict['response_2_img_path'] + 1],
+                                 
+                                 'response_3_text': sc_row[db_entry_to_index_dict['response_3_text'] + 1],
+                                 'response_3_pts': sc_row[db_entry_to_index_dict['response_3_pts'] + 1],
+                                 'response_3_img_label': sc_row[db_entry_to_index_dict['response_3_img_label'] + 1],
+                                 'response_3_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_3_img_string_base64_encoded'] + 1],
+                                 'response_3_img_path': sc_row[db_entry_to_index_dict['response_3_img_path'] + 1],
+                                 
+                                 'response_4_text': sc_row[db_entry_to_index_dict['response_4_text'] + 1],
+                                 'response_4_pts': sc_row[db_entry_to_index_dict['response_4_pts'] + 1],
+                                 'response_4_img_label': sc_row[db_entry_to_index_dict['response_4_img_label'] + 1],
+                                 'response_4_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_4_img_string_base64_encoded'] + 1],
+                                 'response_4_img_path': sc_row[db_entry_to_index_dict['response_4_img_path'] + 1],
+                                 
+                                 'response_5_text': sc_row[db_entry_to_index_dict['response_5_text'] + 1],
+                                 'response_5_pts': sc_row[db_entry_to_index_dict['response_5_pts'] + 1],
+                                 'response_5_img_label': sc_row[db_entry_to_index_dict['response_5_img_label'] + 1],
+                                 'response_5_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_5_img_string_base64_encoded'] + 1],
+                                 'response_5_img_path': sc_row[db_entry_to_index_dict['response_5_img_path'] + 1],
+                                 
+                                 'response_6_text': sc_row[db_entry_to_index_dict['response_6_text'] + 1],
+                                 'response_6_pts': sc_row[db_entry_to_index_dict['response_6_pts'] + 1],
+                                 'response_6_img_label': sc_row[db_entry_to_index_dict['response_6_img_label'] + 1],
+                                 'response_6_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_6_img_string_base64_encoded'] + 1],
+                                 'response_6_img_path': sc_row[db_entry_to_index_dict['response_6_img_path'] + 1],
+                                 
+                                 'response_7_text': sc_row[db_entry_to_index_dict['response_7_text'] + 1],
+                                 'response_7_pts': sc_row[db_entry_to_index_dict['response_7_pts'] + 1],
+                                 'response_7_img_label': sc_row[db_entry_to_index_dict['response_7_img_label'] + 1],
+                                 'response_7_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_7_img_string_base64_encoded'] + 1],
+                                 'response_7_img_path': sc_row[db_entry_to_index_dict['response_7_img_path'] + 1],
+                                 
+                                 'response_8_text': sc_row[db_entry_to_index_dict['response_8_text'] + 1],
+                                 'response_8_pts': sc_row[db_entry_to_index_dict['response_8_pts'] + 1],
+                                 'response_8_img_label': sc_row[db_entry_to_index_dict['response_8_img_label'] + 1],
+                                 'response_8_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_8_img_string_base64_encoded'] + 1],
+                                 'response_8_img_path': sc_row[db_entry_to_index_dict['response_8_img_path'] + 1],
+                                 
+                                 'response_9_text': sc_row[db_entry_to_index_dict['response_9_text'] + 1],
+                                 'response_9_pts': sc_row[db_entry_to_index_dict['response_9_pts'] + 1],
+                                 'response_9_img_label': sc_row[db_entry_to_index_dict['response_9_img_label'] + 1],
+                                 'response_9_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_9_img_string_base64_encoded'] + 1],
+                                 'response_9_img_path': sc_row[db_entry_to_index_dict['response_9_img_path'] + 1],
+                                 
+                                 'response_10_text': sc_row[db_entry_to_index_dict['response_10_text'] + 1],
+                                 'response_10_pts': sc_row[db_entry_to_index_dict['response_10_pts'] + 1],
+                                 'response_10_img_label': sc_row[db_entry_to_index_dict['response_10_img_label'] + 1],
+                                 'response_10_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_10_img_string_base64_encoded'] + 1],
+                                 'response_10_img_path': sc_row[db_entry_to_index_dict['response_10_img_path'] + 1],
+                
+                
+                                 'picture_preview_pixel': sc_row[db_entry_to_index_dict['picture_preview_pixel'] + 1],
+                
+                                 
+                                 
+                                 'description_img_name_1': sc_row[db_entry_to_index_dict['description_img_name_1'] + 1],
+                                 'description_img_data_1': sc_row[db_entry_to_index_dict['description_img_data_1'] + 1],
+                                 'description_img_path_1': sc_row[db_entry_to_index_dict['description_img_path_1'] + 1],
+                                 'description_img_name_2': sc_row[db_entry_to_index_dict['description_img_name_2'] + 1],
+                                 'description_img_data_2': sc_row[db_entry_to_index_dict['description_img_data_2'] + 1],
+                                 'description_img_path_2': sc_row[db_entry_to_index_dict['description_img_path_2'] + 1],
+                                 'description_img_name_3': sc_row[db_entry_to_index_dict['description_img_name_3'] + 1],
+                                 'description_img_data_3': sc_row[db_entry_to_index_dict['description_img_data_3'] + 1],
+                                 'description_img_path_3': sc_row[db_entry_to_index_dict['description_img_path_3'] + 1],
+                
+                                 'test_time': sc_row[db_entry_to_index_dict['test_time'] + 1],
+                                 'question_pool_tag': sc_row[db_entry_to_index_dict['question_pool_tag'] + 1],
+                                 'question_author': sc_row[db_entry_to_index_dict['question_author'] + 1],
+                                 'oid': sc_row[-1]
+                                 })
+                    
+                    conn.commit()
+                    
+                    self.edited_questions_list.append(sc_row[db_entry_to_index_dict['question_title'] + 1])
+                    self.number_of_entries_edited += 1
 
-                self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path')
-                self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path')
-                self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path')
-                self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path')
-                self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path')
-                self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path')
-                self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path')
-                self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path')
-                self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path')
-                self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path')
-
-
-                self.sc_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
-                self.sc_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
-                self.sc_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
-
-
-                c.execute("INSERT INTO singlechoice_table VALUES " + self.sql_values_question_marks, (
-                       row.question_difficulty,
-                       row.question_category,
-                       row.question_type,
-                       row.question_title,
-                       row.question_description_title,
-                       row.question_description_main,
-
-                       row.response_1_text,
-                       row.response_2_text,
-                       row.response_3_text,
-                       row.response_4_text,
-                       row.response_5_text,
-                       row.response_6_text,
-                       row.response_7_text,
-                       row.response_8_text,
-                       row.response_9_text,
-                       row.response_10_text,
-
-                       row.response_1_pts,
-                       row.response_2_pts,
-                       row.response_3_pts,
-                       row.response_4_pts,
-                       row.response_5_pts,
-                       row.response_6_pts,
-                       row.response_7_pts,
-                       row.response_8_pts,
-                       row.response_9_pts,
-                       row.response_10_pts,
-
-                       row.response_1_img_label,
-                       row.response_2_img_label,
-                       row.response_3_img_label,
-                       row.response_4_img_label,
-                       row.response_5_img_label,
-                       row.response_6_img_label,
-                       row.response_7_img_label,
-                       row.response_8_img_label,
-                       row.response_9_img_label,
-                       row.response_10_img_label,
-
+                # Wenn Fragentitel nicht vorhanden ist, dann neu in DB importieren
+                else:
+                    self.number_of_new_entries_from_excel += 1
+                    
+                   
+                    self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path', sc_row)
+                    self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path', sc_row)
+                    self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path', sc_row)
+                    self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path', sc_row)
+                    self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path', sc_row)
+                    self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path', sc_row)
+                    self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path', sc_row)
+                    self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path', sc_row)
+                    self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path', sc_row)
+                    self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path', sc_row)
+    
+    
+                    self.sc_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, sc_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
+                    self.sc_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, sc_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
+                    self.sc_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, sc_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
+    
+    
+                    c.execute("INSERT INTO singlechoice_table VALUES " + self.sql_values_question_marks, (
+                       sc_row.question_difficulty,
+                       sc_row.question_category,
+                       sc_row.question_type,
+                       sc_row.question_title,
+                       sc_row.question_description_title,
+                       sc_row.question_description_main,
+    
+                       sc_row.response_1_text,
+                       sc_row.response_1_pts,
+                       sc_row.response_1_img_label,
                        self.response_1_img_string_base64_encoded,
+                       sc_row.response_1_img_path,
+    
+                       sc_row.response_2_text,
+                       sc_row.response_2_pts,
+                       sc_row.response_2_img_label,
                        self.response_2_img_string_base64_encoded,
+                       sc_row.response_2_img_path,
+    
+                       sc_row.response_3_text,
+                       sc_row.response_3_pts,
+                       sc_row.response_3_img_label,
                        self.response_3_img_string_base64_encoded,
+                       sc_row.response_3_img_path,
+    
+                       sc_row.response_4_text,
+                       sc_row.response_4_pts,
+                       sc_row.response_4_img_label,
                        self.response_4_img_string_base64_encoded,
+                       sc_row.response_4_img_path,
+    
+                       sc_row.response_5_text,
+                       sc_row.response_5_pts,
+                       sc_row.response_5_img_label,
                        self.response_5_img_string_base64_encoded,
+                       sc_row.response_5_img_path,
+    
+                       sc_row.response_6_text,
+                       sc_row.response_6_pts,
+                       sc_row.response_6_img_label,
                        self.response_6_img_string_base64_encoded,
+                       sc_row.response_6_img_path,
+    
+                       sc_row.response_7_text,
+                       sc_row.response_7_pts,
+                       sc_row.response_7_img_label,
                        self.response_7_img_string_base64_encoded,
+                       sc_row.response_7_img_path,
+    
+                       sc_row.response_8_text,
+                       sc_row.response_8_pts,
+                       sc_row.response_8_img_label,
                        self.response_8_img_string_base64_encoded,
+                       sc_row.response_8_img_path,
+    
+                       sc_row.response_9_text,
+                       sc_row.response_9_pts,
+                       sc_row.response_9_img_label,
                        self.response_9_img_string_base64_encoded,
+                       sc_row.response_9_img_path,
+    
+                       sc_row.response_10_text,
+                       sc_row.response_10_pts,
+                       sc_row.response_10_img_label,
                        self.response_10_img_string_base64_encoded,
-
-                       row.response_1_img_path,
-                       row.response_2_img_path,
-                       row.response_3_img_path,
-                       row.response_4_img_path,
-                       row.response_5_img_path,
-                       row.response_6_img_path,
-                       row.response_7_img_path,
-                       row.response_8_img_path,
-                       row.response_9_img_path,
-                       row.response_10_img_path,
-
-                       row.picture_preview_pixel,
-
-                       row.description_img_name_1,
+                       sc_row.response_10_img_path,
+    
+                       sc_row.picture_preview_pixel,
+    
+                       sc_row.description_img_name_1,
                        self.sc_description_img_data_1,
-                       row.description_img_path_1,
-
-                       row.description_img_name_2,
+                       sc_row.description_img_path_1,
+    
+                       sc_row.description_img_name_2,
                        self.sc_description_img_data_2,
-                       row.description_img_path_2,
-
-                       row.description_img_name_3,
+                       sc_row.description_img_path_2,
+    
+                       sc_row.description_img_name_3,
                        self.sc_description_img_data_3,
-                       row.description_img_path_3,
-
-                       row.test_time,
-                       row.var_number,
-                       row.question_pool_tag,
-                       row.question_author
+                       sc_row.description_img_path_3,
+    
+                       sc_row.test_time,
+                       sc_row.var_number,
+                       sc_row.question_pool_tag,
+                       sc_row.question_author
                      ))
+        
+        
+        
+                    conn.commit()
 
+            print("... Datei geladen!")
+            print(" ")
+            print("SC_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel), " -- EDITIERT: " + str(self.number_of_entries_edited))
 
+            for i in range(len(self.edited_questions_list)):
+                print("     Frage editiert: ", self.edited_questions_list[i])
 
-            print("Load File: \"" + self.xlsx_path + "\"  ---> in singlechoice_table...done!")
-            print("Excel-Einträge: " + str(len(row)))
-
-            conn.commit()
+            print(" ")
 
         elif self.question_type == "formelfrage" or self.question_type == "formel frage":
-
+            print("-------------------------------------")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
             # Mit Formelfrage Datenbank verbinden
             conn = sqlite3.connect(self.database_formelfrage_path)
             c = conn.cursor()
 
-            self.number_of_excel_entries = 0
+            self.number_of_new_entries_from_excel = 0
+            self.number_of_entries_edited = 0
+            #####
+            query = 'SELECT * FROM formelfrage_table '
+            c.execute(query)
+
+            database_rows = c.fetchall()
+
+            for database_row in database_rows:
+
+                entry_string += database_row[db_entry_to_index_dict['question_title']]
+
+
+
+            #####
+
             for ff_row in self.dataframe.itertuples():
-                self.number_of_excel_entries +=1
-
-                self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
-                self.ff_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
-                self.ff_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
-
-                c.execute("INSERT INTO formelfrage_table VALUES " + self.sql_values_question_marks, (
-                    ff_row.question_difficulty,
-                    ff_row.question_category,
-                    ff_row.question_type,
-                    ff_row.question_title,
-                    ff_row.question_description_title,
-                    ff_row.question_description_main,
-
-                    ff_row.res1_formula,
-                    ff_row.res2_formula,
-                    ff_row.res3_formula,
-                    ff_row.res4_formula,
-                    ff_row.res5_formula,
-                    ff_row.res6_formula,
-                    ff_row.res7_formula,
-                    ff_row.res8_formula,
-                    ff_row.res9_formula,
-                    ff_row.res10_formula,
-
-                    ff_row.var1_name,
-                    ff_row.var1_min,
-                    ff_row.var1_max,
-                    ff_row.var1_prec,
-                    ff_row.var1_divby,
-                    ff_row.var1_unit,
-
-                    ff_row.var2_name,
-                    ff_row.var2_min,
-                    ff_row.var2_max,
-                    ff_row.var2_prec,
-                    ff_row.var2_divby,
-                    ff_row.var2_unit,
-
-                    ff_row.var3_name,
-                    ff_row.var3_min,
-                    ff_row.var3_max,
-                    ff_row.var3_prec,
-                    ff_row.var3_divby,
-                    ff_row.var3_unit,
-
-                    ff_row.var4_name,
-                    ff_row.var4_min,
-                    ff_row.var4_max,
-                    ff_row.var4_prec,
-                    ff_row.var4_divby,
-                    ff_row.var4_unit,
-
-                    ff_row.var5_name,
-                    ff_row.var5_min,
-                    ff_row.var5_max,
-                    ff_row.var5_prec,
-                    ff_row.var5_divby,
-                    ff_row.var5_unit,
-
-                    ff_row.var6_name,
-                    ff_row.var6_min,
-                    ff_row.var6_max,
-                    ff_row.var6_prec,
-                    ff_row.var6_divby,
-                    ff_row.var6_unit,
-
-                    ff_row.var7_name,
-                    ff_row.var7_min,
-                    ff_row.var7_max,
-                    ff_row.var7_prec,
-                    ff_row.var7_divby,
-                    ff_row.var7_unit,
-
-                    ff_row.var8_name,
-                    ff_row.var8_min,
-                    ff_row.var8_max,
-                    ff_row.var8_prec,
-                    ff_row.var8_divby,
-                    ff_row.var8_unit,
-
-                    ff_row.var9_name,
-                    ff_row.var9_min,
-                    ff_row.var9_max,
-                    ff_row.var9_prec,
-                    ff_row.var9_divby,
-                    ff_row.var9_unit,
-
-                    ff_row.var10_name,
-                    ff_row.var10_min,
-                    ff_row.var10_max,
-                    ff_row.var10_prec,
-                    ff_row.var10_divby,
-                    ff_row.var10_unit,
-
-                    ff_row.var11_name,
-                    ff_row.var11_min,
-                    ff_row.var11_max,
-                    ff_row.var11_prec,
-                    ff_row.var11_divby,
-                    ff_row.var11_unit,
-
-                    ff_row.var12_name,
-                    ff_row.var12_min,
-                    ff_row.var12_max,
-                    ff_row.var12_prec,
-                    ff_row.var12_divby,
-                    ff_row.var12_unit,
-
-                    ff_row.var13_name,
-                    ff_row.var13_min,
-                    ff_row.var13_max,
-                    ff_row.var13_prec,
-                    ff_row.var13_divby,
-                    ff_row.var13_unit,
-
-                    ff_row.var14_name,
-                    ff_row.var14_min,
-                    ff_row.var14_max,
-                    ff_row.var14_prec,
-                    ff_row.var14_divby,
-                    ff_row.var14_unit,
-
-                    ff_row.var15_name,
-                    ff_row.var15_min,
-                    ff_row.var15_max,
-                    ff_row.var15_prec,
-                    ff_row.var15_divby,
-                    ff_row.var15_unit,
 
 
-                    ff_row.res1_name,
-                    ff_row.res1_min,
-                    ff_row.res1_max,
-                    ff_row.res1_prec,
-                    ff_row.res1_tol,
-                    ff_row.res1_points,
-                    ff_row.res1_unit,
 
-                    ff_row.res2_name,
-                    ff_row.res2_min,
-                    ff_row.res2_max,
-                    ff_row.res2_prec,
-                    ff_row.res2_tol,
-                    ff_row.res2_points,
-                    ff_row.res2_unit,
+                # Wenn exakter Fragentitel bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                if ff_row[db_entry_to_index_dict['question_title']+1] in entry_string:
+                    c.execute(
+                        """UPDATE formelfrage_table SET
+                                                question_difficulty = :question_difficulty,
+                                                question_category = :question_category,
+                                                question_type = :question_type,
+                                                question_title = :question_title,
+                                                question_description_title = :question_description_title,
+                                                question_description_main = :question_description_main,
+                                                res1_formula = :res1_formula,
+                                                res2_formula = :res2_formula,
+                                                res3_formula = :res3_formula,
+                                                res4_formula = :res4_formula,
+                                                res5_formula = :res5_formula,
+                                                res6_formula = :res6_formula,
+                                                res7_formula = :res7_formula,
+                                                res8_formula = :res8_formula,
+                                                res9_formula = :res9_formula,
+                                                res10_formula = :res10_formula,
+                                                var1_name = :var1_name,
+                                                var1_min = :var1_min,
+                                                var1_max = :var1_max,
+                                                var1_prec = :var1_prec,
+                                                var1_divby = :var1_divby,
+                                                var1_unit = :var1_unit,
+                                                var2_name = :var2_name,
+                                                var2_min = :var2_min,
+                                                var2_max = :var2_max,
+                                                var2_prec = :var2_prec,
+                                                var2_divby = :var2_divby,
+                                                var2_unit = :var2_unit,
+                                                var3_name = :var3_name,
+                                                var3_min = :var3_min,
+                                                var3_max = :var3_max,
+                                                var3_prec = :var3_prec,
+                                                var3_divby = :var3_divby,
+                                                var3_unit = :var3_unit,
+                                                var4_name = :var4_name,
+                                                var4_min = :var4_min,
+                                                var4_max = :var4_max,
+                                                var4_prec = :var4_prec,
+                                                var4_divby = :var4_divby,
+                                                var4_unit = :var4_unit,
+                                                var5_name = :var5_name,
+                                                var5_min = :var5_min,
+                                                var5_max = :var5_max,
+                                                var5_prec = :var5_prec,
+                                                var5_divby = :var5_divby,
+                                                var5_unit = :var5_unit,
+                                                var6_name = :var6_name,
+                                                var6_min = :var6_min,
+                                                var6_max = :var6_max,
+                                                var6_prec = :var6_prec,
+                                                var6_divby = :var6_divby,
+                                                var6_unit = :var6_unit,
+                                                var7_name = :var7_name,
+                                                var7_min = :var7_min,
+                                                var7_max = :var7_max,
+                                                var7_prec = :var7_prec,
+                                                var7_divby = :var7_divby,
+                                                var7_unit = :var7_unit,
+                                                var8_name = :var8_name,
+                                                var8_min = :var8_min,
+                                                var8_max = :var8_max,
+                                                var8_prec = :var8_prec,
+                                                var8_divby = :var8_divby,
+                                                var8_unit = :var8_unit,
+                                                var9_name = :var9_name,
+                                                var9_min = :var9_min,
+                                                var9_max = :var9_max,
+                                                var9_prec = :var9_prec,
+                                                var9_divby = :var9_divby,
+                                                var9_unit = :var9_unit,
+                                                var10_name = :var10_name,
+                                                var10_min = :var10_min,
+                                                var10_max = :var10_max,
+                                                var10_prec = :var10_prec,
+                                                var10_divby = :var10_divby,
+                                                var10_unit = :var10_unit,
+                                                var11_name = :var11_name,
+                                                var11_min = :var11_min,
+                                                var11_max = :var11_max,
+                                                var11_prec = :var11_prec,
+                                                var11_divby = :var11_divby,
+                                                var11_unit = :var11_unit,
+                                                var12_name = :var12_name,
+                                                var12_min = :var12_min,
+                                                var12_max = :var12_max,
+                                                var12_prec = :var12_prec,
+                                                var12_divby = :var12_divby,
+                                                var12_unit = :var12_unit,
+                                                var13_name = :var13_name,
+                                                var13_min = :var13_min,
+                                                var13_max = :var13_max,
+                                                var13_prec = :var13_prec,
+                                                var13_divby = :var13_divby,
+                                                var13_unit = :var13_unit,
+                                                var14_name = :var14_name,
+                                                var14_min = :var14_min,
+                                                var14_max = :var14_max,
+                                                var14_prec = :var14_prec,
+                                                var14_divby = :var14_divby,
+                                                var14_unit = :var14_unit,
+                                                var15_name = :var15_name,
+                                                var15_min = :var15_min,
+                                                var15_max = :var15_max,
+                                                var15_prec = :var15_prec,
+                                                var15_divby = :var15_divby,
+                                                var15_unit = :var15_unit,
+                                                res1_name = :res1_name,
+                                                res1_min = :res1_min,
+                                                res1_max = :res1_max,
+                                                res1_prec = :res1_prec,
+                                                res1_tol = :res1_tol,
+                                                res1_points = :res1_points,
+                                                res1_unit = :res1_unit,
+                                                res2_name = :res2_name,
+                                                res2_min = :res2_min,
+                                                res2_max = :res2_max,
+                                                res2_prec = :res2_prec,
+                                                res2_tol = :res2_tol,
+                                                res2_points = :res2_points,
+                                                res2_unit = :res2_unit,
+                                                res3_name = :res3_name,
+                                                res3_min = :res3_min,
+                                                res3_max = :res3_max,
+                                                res3_prec = :res3_prec,
+                                                res3_tol = :res3_tol,
+                                                res3_points = :res3_points,
+                                                res3_unit = :res3_unit,
+                                                res4_name = :res4_name,
+                                                res4_min = :res4_min,
+                                                res4_max = :res4_max,
+                                                res4_prec = :res4_prec,
+                                                res4_tol = :res4_tol,
+                                                res4_points = :res4_points,
+                                                res4_unit = :res4_unit,
+                                                res5_name = :res5_name,
+                                                res5_min = :res5_min,
+                                                res5_max = :res5_max,
+                                                res5_prec = :res5_prec,
+                                                res5_tol = :res5_tol,
+                                                res5_points = :res5_points,
+                                                res5_unit = :res5_unit,
+                                                res6_name = :res6_name,
+                                                res6_min = :res6_min,
+                                                res6_max = :res6_max,
+                                                res6_prec = :res6_prec,
+                                                res6_tol = :res6_tol,
+                                                res6_points = :res6_points,
+                                                res6_unit = :res6_unit,
+                                                res7_name = :res7_name,
+                                                res7_min = :res7_min,
+                                                res7_max = :res7_max,
+                                                res7_prec = :res7_prec,
+                                                res7_tol = :res7_tol,
+                                                res7_points = :res7_points,
+                                                res7_unit = :res7_unit,
+                                                res8_name = :res8_name,
+                                                res8_min = :res8_min,
+                                                res8_max = :res8_max,
+                                                res8_prec = :res8_prec,
+                                                res8_tol = :res8_tol,
+                                                res8_points = :res8_points,
+                                                res8_unit = :res8_unit,
+                                                res9_name = :res9_name,
+                                                res9_min = :res9_min,
+                                                res9_max = :res9_max,
+                                                res9_prec = :res9_prec,
+                                                res9_tol = :res9_tol,
+                                                res9_points = :res9_points,
+                                                res9_unit = :res9_unit,
+                                                res10_name = :res10_name,
+                                                res10_min = :res10_min,
+                                                res10_max = :res10_max,
+                                                res10_prec = :res10_prec,
+                                                res10_tol = :res10_tol,
+                                                res10_points = :res10_points,
+                                                res10_unit = :res10_unit,
+                                                description_img_name_1 = :description_img_name_1,
+                                                description_img_data_1 = :description_img_data_1,
+                                                description_img_path_1 = :description_img_path_1,
+                                                description_img_name_2 = :description_img_name_2,
+                                                description_img_data_2 = :description_img_data_2,
+                                                description_img_path_2 = :description_img_path_2,
+                                                description_img_name_3 = :description_img_name_3,
+                                                description_img_data_3 = :description_img_data_3,
+                                                description_img_path_3 = :description_img_path_3,
+                                                test_time = :test_time,
+                                                question_pool_tag = :question_pool_tag,
+                                                question_author = :question_author
+                    
+                                                WHERE oid = :oid""",
+                              {'question_difficulty': ff_row[db_entry_to_index_dict['question_difficulty']+1],
+                               'question_category': ff_row[db_entry_to_index_dict['question_category']+1],
+                               'question_type': ff_row[db_entry_to_index_dict['question_type']+1],
+                               'question_title': ff_row[db_entry_to_index_dict['question_title']+1],
+                               'question_description_title': ff_row[db_entry_to_index_dict['question_description_title']+1],
+                               'question_description_main': ff_row[db_entry_to_index_dict['question_description_main']+1],
 
-                    ff_row.res3_name,
-                    ff_row.res3_min,
-                    ff_row.res3_max,
-                    ff_row.res3_prec,
-                    ff_row.res3_tol,
-                    ff_row.res3_points,
-                    ff_row.res3_unit,
+                               'res1_formula': ff_row[db_entry_to_index_dict['res1_formula']+1],
+                               'res2_formula': ff_row[db_entry_to_index_dict['res2_formula']+1],
+                               'res3_formula': ff_row[db_entry_to_index_dict['res3_formula']+1],
+                               'res4_formula': ff_row[db_entry_to_index_dict['res4_formula']+1],
+                               'res5_formula': ff_row[db_entry_to_index_dict['res5_formula']+1],
+                               'res6_formula': ff_row[db_entry_to_index_dict['res6_formula']+1],
+                               'res7_formula': ff_row[db_entry_to_index_dict['res7_formula']+1],
+                               'res8_formula': ff_row[db_entry_to_index_dict['res8_formula']+1],
+                               'res9_formula': ff_row[db_entry_to_index_dict['res9_formula']+1],
+                               'res10_formula': ff_row[db_entry_to_index_dict['res10_formula']+1],
 
-                    ff_row.res4_name,
-                    ff_row.res4_min,
-                    ff_row.res4_max,
-                    ff_row.res4_prec,
-                    ff_row.res4_tol,
-                    ff_row.res4_points,
-                    ff_row.res4_unit,
+                               'var1_name': ff_row[db_entry_to_index_dict['var1_name']+1],
+                               'var1_min': ff_row[db_entry_to_index_dict['var1_min']+1],
+                               'var1_max': ff_row[db_entry_to_index_dict['var1_max']+1],
+                               'var1_prec': ff_row[db_entry_to_index_dict['var1_prec']+1],
+                               'var1_divby': ff_row[db_entry_to_index_dict['var1_divby']+1],
+                               'var1_unit': ff_row[db_entry_to_index_dict['var1_unit']+1],
 
-                    ff_row.res5_name,
-                    ff_row.res5_min,
-                    ff_row.res5_max,
-                    ff_row.res5_prec,
-                    ff_row.res5_tol,
-                    ff_row.res5_points,
-                    ff_row.res5_unit,
+                               'var2_name': ff_row[db_entry_to_index_dict['var2_name'] + 1],
+                               'var2_min': ff_row[db_entry_to_index_dict['var2_min'] + 1],
+                               'var2_max': ff_row[db_entry_to_index_dict['var2_max'] + 1],
+                               'var2_prec': ff_row[db_entry_to_index_dict['var2_prec'] + 1],
+                               'var2_divby': ff_row[db_entry_to_index_dict['var2_divby'] + 1],
+                               'var2_unit': ff_row[db_entry_to_index_dict['var2_unit'] + 1],
 
-                    ff_row.res6_name,
-                    ff_row.res6_min,
-                    ff_row.res6_max,
-                    ff_row.res6_prec,
-                    ff_row.res6_tol,
-                    ff_row.res6_points,
-                    ff_row.res6_unit,
+                               'var3_name': ff_row[db_entry_to_index_dict['var3_name'] + 1],
+                               'var3_min': ff_row[db_entry_to_index_dict['var3_min'] + 1],
+                               'var3_max': ff_row[db_entry_to_index_dict['var3_max'] + 1],
+                               'var3_prec': ff_row[db_entry_to_index_dict['var3_prec'] + 1],
+                               'var3_divby': ff_row[db_entry_to_index_dict['var3_divby'] + 1],
+                               'var3_unit': ff_row[db_entry_to_index_dict['var3_unit'] + 1],
 
-                    ff_row.res7_name,
-                    ff_row.res7_min,
-                    ff_row.res7_max,
-                    ff_row.res7_prec,
-                    ff_row.res7_tol,
-                    ff_row.res7_points,
-                    ff_row.res7_unit,
+                               'var4_name': ff_row[db_entry_to_index_dict['var4_name'] + 1],
+                               'var4_min': ff_row[db_entry_to_index_dict['var4_min'] + 1],
+                               'var4_max': ff_row[db_entry_to_index_dict['var4_max'] + 1],
+                               'var4_prec': ff_row[db_entry_to_index_dict['var4_prec'] + 1],
+                               'var4_divby': ff_row[db_entry_to_index_dict['var4_divby'] + 1],
+                               'var4_unit': ff_row[db_entry_to_index_dict['var4_unit'] + 1],
 
-                    ff_row.res8_name,
-                    ff_row.res8_min,
-                    ff_row.res8_max,
-                    ff_row.res8_prec,
-                    ff_row.res8_tol,
-                    ff_row.res8_points,
-                    ff_row.res8_unit,
+                               'var5_name': ff_row[db_entry_to_index_dict['var5_name'] + 1],
+                               'var5_min': ff_row[db_entry_to_index_dict['var5_min'] + 1],
+                               'var5_max': ff_row[db_entry_to_index_dict['var5_max'] + 1],
+                               'var5_prec': ff_row[db_entry_to_index_dict['var5_prec'] + 1],
+                               'var5_divby': ff_row[db_entry_to_index_dict['var5_divby'] + 1],
+                               'var5_unit': ff_row[db_entry_to_index_dict['var5_unit'] + 1],
 
-                    ff_row.res9_name,
-                    ff_row.res9_min,
-                    ff_row.res9_max,
-                    ff_row.res9_prec,
-                    ff_row.res9_tol,
-                    ff_row.res9_points,
-                    ff_row.res9_unit,
+                               'var6_name': ff_row[db_entry_to_index_dict['var6_name'] + 1],
+                               'var6_min': ff_row[db_entry_to_index_dict['var6_min'] + 1],
+                               'var6_max': ff_row[db_entry_to_index_dict['var6_max'] + 1],
+                               'var6_prec': ff_row[db_entry_to_index_dict['var6_prec'] + 1],
+                               'var6_divby': ff_row[db_entry_to_index_dict['var6_divby'] + 1],
+                               'var6_unit': ff_row[db_entry_to_index_dict['var6_unit'] + 1],
 
-                    ff_row.res10_name,
-                    ff_row.res10_min,
-                    ff_row.res10_max,
-                    ff_row.res10_prec,
-                    ff_row.res10_tol,
-                    ff_row.res10_points,
-                    ff_row.res10_unit,
+                               'var7_name': ff_row[db_entry_to_index_dict['var7_name'] + 1],
+                               'var7_min': ff_row[db_entry_to_index_dict['var7_min'] + 1],
+                               'var7_max': ff_row[db_entry_to_index_dict['var7_max'] + 1],
+                               'var7_prec': ff_row[db_entry_to_index_dict['var7_prec'] + 1],
+                               'var7_divby': ff_row[db_entry_to_index_dict['var7_divby'] + 1],
+                               'var7_unit': ff_row[db_entry_to_index_dict['var7_unit'] + 1],
 
-                    ff_row.description_img_name_1,
-                    self.ff_description_img_data_1,
-                    ff_row.description_img_path_1,
+                               'var8_name': ff_row[db_entry_to_index_dict['var8_name'] + 1],
+                               'var8_min': ff_row[db_entry_to_index_dict['var8_min'] + 1],
+                               'var8_max': ff_row[db_entry_to_index_dict['var8_max'] + 1],
+                               'var8_prec': ff_row[db_entry_to_index_dict['var8_prec'] + 1],
+                               'var8_divby': ff_row[db_entry_to_index_dict['var8_divby'] + 1],
+                               'var8_unit': ff_row[db_entry_to_index_dict['var8_unit'] + 1],
 
-                    ff_row.description_img_name_2,
-                    self.ff_description_img_data_2,
-                    ff_row.description_img_path_2,
+                               'var9_name': ff_row[db_entry_to_index_dict['var9_name'] + 1],
+                               'var9_min': ff_row[db_entry_to_index_dict['var9_min'] + 1],
+                               'var9_max': ff_row[db_entry_to_index_dict['var9_max'] + 1],
+                               'var9_prec': ff_row[db_entry_to_index_dict['var9_prec'] + 1],
+                               'var9_divby': ff_row[db_entry_to_index_dict['var9_divby'] + 1],
+                               'var9_unit': ff_row[db_entry_to_index_dict['var9_unit'] + 1],
 
-                    ff_row.description_img_name_3,
-                    self.ff_description_img_data_3,
-                    ff_row.description_img_path_3,
+                               'var10_name': ff_row[db_entry_to_index_dict['var10_name'] + 1],
+                               'var10_min': ff_row[db_entry_to_index_dict['var10_min'] + 1],
+                               'var10_max': ff_row[db_entry_to_index_dict['var10_max'] + 1],
+                               'var10_prec': ff_row[db_entry_to_index_dict['var10_prec'] + 1],
+                               'var10_divby': ff_row[db_entry_to_index_dict['var10_divby'] + 1],
+                               'var10_unit': ff_row[db_entry_to_index_dict['var10_unit'] + 1],
 
-                    ff_row.test_time,
-                    ff_row.var_number,
-                    ff_row.res_number,
-                    ff_row.question_pool_tag,
-                    ff_row.question_author
-                ))
+                               'var11_name': ff_row[db_entry_to_index_dict['var11_name'] + 1],
+                               'var11_min': ff_row[db_entry_to_index_dict['var11_min'] + 1],
+                               'var11_max': ff_row[db_entry_to_index_dict['var11_max'] + 1],
+                               'var11_prec': ff_row[db_entry_to_index_dict['var11_prec'] + 1],
+                               'var11_divby': ff_row[db_entry_to_index_dict['var11_divby'] + 1],
+                               'var11_unit': ff_row[db_entry_to_index_dict['var11_unit'] + 1],
+
+                               'var12_name': ff_row[db_entry_to_index_dict['var12_name'] + 1],
+                               'var12_min': ff_row[db_entry_to_index_dict['var12_min'] + 1],
+                               'var12_max': ff_row[db_entry_to_index_dict['var12_max'] + 1],
+                               'var12_prec': ff_row[db_entry_to_index_dict['var12_prec'] + 1],
+                               'var12_divby': ff_row[db_entry_to_index_dict['var12_divby'] + 1],
+                               'var12_unit': ff_row[db_entry_to_index_dict['var12_unit'] + 1],
+
+                               'var13_name': ff_row[db_entry_to_index_dict['var13_name'] + 1],
+                               'var13_min': ff_row[db_entry_to_index_dict['var13_min'] + 1],
+                               'var13_max': ff_row[db_entry_to_index_dict['var13_max'] + 1],
+                               'var13_prec': ff_row[db_entry_to_index_dict['var13_prec'] + 1],
+                               'var13_divby': ff_row[db_entry_to_index_dict['var13_divby'] + 1],
+                               'var13_unit': ff_row[db_entry_to_index_dict['var13_unit'] + 1],
+
+                               'var14_name': ff_row[db_entry_to_index_dict['var14_name'] + 1],
+                               'var14_min': ff_row[db_entry_to_index_dict['var14_min'] + 1],
+                               'var14_max': ff_row[db_entry_to_index_dict['var14_max'] + 1],
+                               'var14_prec': ff_row[db_entry_to_index_dict['var14_prec'] + 1],
+                               'var14_divby': ff_row[db_entry_to_index_dict['var14_divby'] + 1],
+                               'var14_unit': ff_row[db_entry_to_index_dict['var14_unit'] + 1],
+
+                               'var15_name': ff_row[db_entry_to_index_dict['var15_name'] + 1],
+                               'var15_min': ff_row[db_entry_to_index_dict['var15_min'] + 1],
+                               'var15_max': ff_row[db_entry_to_index_dict['var15_max'] + 1],
+                               'var15_prec': ff_row[db_entry_to_index_dict['var15_prec'] + 1],
+                               'var15_divby': ff_row[db_entry_to_index_dict['var15_divby'] + 1],
+                               'var15_unit': ff_row[db_entry_to_index_dict['var15_unit'] + 1],
+
+                               'res1_name': ff_row[db_entry_to_index_dict['res1_name'] + 1],
+                               'res1_min': ff_row[db_entry_to_index_dict['res1_min'] + 1],
+                               'res1_max': ff_row[db_entry_to_index_dict['res1_max'] + 1],
+                               'res1_prec': ff_row[db_entry_to_index_dict['res1_prec'] + 1],
+                               'res1_tol': ff_row[db_entry_to_index_dict['res1_tol'] + 1],
+                               'res1_points': ff_row[db_entry_to_index_dict['res1_points'] + 1],
+                               'res1_unit': ff_row[db_entry_to_index_dict['res1_unit'] + 1],
+
+                               'res2_name': ff_row[db_entry_to_index_dict['res2_name'] + 1],
+                               'res2_min': ff_row[db_entry_to_index_dict['res2_min'] + 1],
+                               'res2_max': ff_row[db_entry_to_index_dict['res2_max'] + 1],
+                               'res2_prec': ff_row[db_entry_to_index_dict['res2_prec'] + 1],
+                               'res2_tol': ff_row[db_entry_to_index_dict['res2_tol'] + 1],
+                               'res2_points': ff_row[db_entry_to_index_dict['res2_points'] + 1],
+                               'res2_unit': ff_row[db_entry_to_index_dict['res2_unit'] + 1],
+
+                               'res3_name': ff_row[db_entry_to_index_dict['res3_name'] + 1],
+                               'res3_min': ff_row[db_entry_to_index_dict['res3_min'] + 1],
+                               'res3_max': ff_row[db_entry_to_index_dict['res3_max'] + 1],
+                               'res3_prec': ff_row[db_entry_to_index_dict['res3_prec'] + 1],
+                               'res3_tol': ff_row[db_entry_to_index_dict['res3_tol'] + 1],
+                               'res3_points': ff_row[db_entry_to_index_dict['res3_points'] + 1],
+                               'res3_unit': ff_row[db_entry_to_index_dict['res3_unit'] + 1],
+
+                               'res4_name': ff_row[db_entry_to_index_dict['res4_name'] + 1],
+                               'res4_min': ff_row[db_entry_to_index_dict['res4_min'] + 1],
+                               'res4_max': ff_row[db_entry_to_index_dict['res4_max'] + 1],
+                               'res4_prec': ff_row[db_entry_to_index_dict['res4_prec'] + 1],
+                               'res4_tol': ff_row[db_entry_to_index_dict['res4_tol'] + 1],
+                               'res4_points': ff_row[db_entry_to_index_dict['res4_points'] + 1],
+                               'res4_unit': ff_row[db_entry_to_index_dict['res4_unit'] + 1],
+
+                               'res5_name': ff_row[db_entry_to_index_dict['res5_name'] + 1],
+                               'res5_min': ff_row[db_entry_to_index_dict['res5_min'] + 1],
+                               'res5_max': ff_row[db_entry_to_index_dict['res5_max'] + 1],
+                               'res5_prec': ff_row[db_entry_to_index_dict['res5_prec'] + 1],
+                               'res5_tol': ff_row[db_entry_to_index_dict['res5_tol'] + 1],
+                               'res5_points': ff_row[db_entry_to_index_dict['res5_points'] + 1],
+                               'res5_unit': ff_row[db_entry_to_index_dict['res5_unit'] + 1],
+
+                               'res6_name': ff_row[db_entry_to_index_dict['res6_name'] + 1],
+                               'res6_min': ff_row[db_entry_to_index_dict['res6_min'] + 1],
+                               'res6_max': ff_row[db_entry_to_index_dict['res6_max'] + 1],
+                               'res6_prec': ff_row[db_entry_to_index_dict['res6_prec'] + 1],
+                               'res6_tol': ff_row[db_entry_to_index_dict['res6_tol'] + 1],
+                               'res6_points': ff_row[db_entry_to_index_dict['res6_points'] + 1],
+                               'res6_unit': ff_row[db_entry_to_index_dict['res6_unit'] + 1],
+
+                               'res7_name': ff_row[db_entry_to_index_dict['res7_name'] + 1],
+                               'res7_min': ff_row[db_entry_to_index_dict['res7_min'] + 1],
+                               'res7_max': ff_row[db_entry_to_index_dict['res7_max'] + 1],
+                               'res7_prec': ff_row[db_entry_to_index_dict['res7_prec'] + 1],
+                               'res7_tol': ff_row[db_entry_to_index_dict['res7_tol'] + 1],
+                               'res7_points': ff_row[db_entry_to_index_dict['res7_points'] + 1],
+                               'res7_unit': ff_row[db_entry_to_index_dict['res7_unit'] + 1],
+
+                               'res8_name': ff_row[db_entry_to_index_dict['res8_name'] + 1],
+                               'res8_min': ff_row[db_entry_to_index_dict['res8_min'] + 1],
+                               'res8_max': ff_row[db_entry_to_index_dict['res8_max'] + 1],
+                               'res8_prec': ff_row[db_entry_to_index_dict['res8_prec'] + 1],
+                               'res8_tol': ff_row[db_entry_to_index_dict['res8_tol'] + 1],
+                               'res8_points': ff_row[db_entry_to_index_dict['res8_points'] + 1],
+                               'res8_unit': ff_row[db_entry_to_index_dict['res8_unit'] + 1],
+
+                               'res9_name': ff_row[db_entry_to_index_dict['res9_name'] + 1],
+                               'res9_min': ff_row[db_entry_to_index_dict['res9_min'] + 1],
+                               'res9_max': ff_row[db_entry_to_index_dict['res9_max'] + 1],
+                               'res9_prec': ff_row[db_entry_to_index_dict['res9_prec'] + 1],
+                               'res9_tol': ff_row[db_entry_to_index_dict['res9_tol'] + 1],
+                               'res9_points': ff_row[db_entry_to_index_dict['res9_points'] + 1],
+                               'res9_unit': ff_row[db_entry_to_index_dict['res9_unit'] + 1],
+
+                               'res10_name': ff_row[db_entry_to_index_dict['res10_name'] + 1],
+                               'res10_min': ff_row[db_entry_to_index_dict['res10_min'] + 1],
+                               'res10_max': ff_row[db_entry_to_index_dict['res10_max'] + 1],
+                               'res10_prec': ff_row[db_entry_to_index_dict['res10_prec'] + 1],
+                               'res10_tol': ff_row[db_entry_to_index_dict['res10_tol'] + 1],
+                               'res10_points': ff_row[db_entry_to_index_dict['res10_points'] + 1],
+                               'res10_unit': ff_row[db_entry_to_index_dict['res10_unit'] + 1],
+
+                               'description_img_name_1': ff_row[db_entry_to_index_dict['description_img_name_1'] + 1],
+                               'description_img_data_1': ff_row[db_entry_to_index_dict['description_img_data_1'] + 1],
+                               'description_img_path_1': ff_row[db_entry_to_index_dict['description_img_path_1'] + 1],
+
+                               'description_img_name_2': ff_row[db_entry_to_index_dict['description_img_name_2'] + 1],
+                               'description_img_data_2': ff_row[db_entry_to_index_dict['description_img_data_2'] + 1],
+                               'description_img_path_2': ff_row[db_entry_to_index_dict['description_img_path_2'] + 1],
+
+                               'description_img_name_3': ff_row[db_entry_to_index_dict['description_img_name_3'] + 1],
+                               'description_img_data_3': ff_row[db_entry_to_index_dict['description_img_data_3'] + 1],
+                               'description_img_path_3': ff_row[db_entry_to_index_dict['description_img_path_3'] + 1],
+
+                               'test_time': ff_row[db_entry_to_index_dict['test_time'] + 1],
+                               'question_pool_tag': ff_row[db_entry_to_index_dict['question_pool_tag'] + 1],
+                               'question_author': ff_row[db_entry_to_index_dict['question_author'] + 1],
+                               'oid': ff_row[-1]
+                               })
+
+                    conn.commit()
 
 
-                conn.commit()
+                    self.edited_questions_list.append(ff_row[db_entry_to_index_dict['question_title']+1])
+                    self.number_of_entries_edited += 1
+
+                # Wenn Fragentitel nicht vorhanden ist, dann neu in DB importieren
+                else:
+                    self.number_of_new_entries_from_excel += 1
+
+                    # Bilder auslesen
+                    self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
+                    self.ff_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
+                    self.ff_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
 
 
-            print("Load File: \"" + self.xlsx_path + "\" in formelfrage_table...done!")
-            print("Excel-Einträge: " + str(self.number_of_excel_entries))
+
+                    c.execute("INSERT INTO formelfrage_table VALUES " + self.sql_values_question_marks, (
+                        ff_row.question_difficulty,
+                        ff_row.question_category,
+                        ff_row.question_type,
+                        ff_row.question_title,
+                        ff_row.question_description_title,
+                        ff_row.question_description_main,
+
+                        ff_row.res1_formula,
+                        ff_row.res2_formula,
+                        ff_row.res3_formula,
+                        ff_row.res4_formula,
+                        ff_row.res5_formula,
+                        ff_row.res6_formula,
+                        ff_row.res7_formula,
+                        ff_row.res8_formula,
+                        ff_row.res9_formula,
+                        ff_row.res10_formula,
+
+                        ff_row.var1_name,
+                        ff_row.var1_min,
+                        ff_row.var1_max,
+                        ff_row.var1_prec,
+                        ff_row.var1_divby,
+                        ff_row.var1_unit,
+
+                        ff_row.var2_name,
+                        ff_row.var2_min,
+                        ff_row.var2_max,
+                        ff_row.var2_prec,
+                        ff_row.var2_divby,
+                        ff_row.var2_unit,
+
+                        ff_row.var3_name,
+                        ff_row.var3_min,
+                        ff_row.var3_max,
+                        ff_row.var3_prec,
+                        ff_row.var3_divby,
+                        ff_row.var3_unit,
+
+                        ff_row.var4_name,
+                        ff_row.var4_min,
+                        ff_row.var4_max,
+                        ff_row.var4_prec,
+                        ff_row.var4_divby,
+                        ff_row.var4_unit,
+
+                        ff_row.var5_name,
+                        ff_row.var5_min,
+                        ff_row.var5_max,
+                        ff_row.var5_prec,
+                        ff_row.var5_divby,
+                        ff_row.var5_unit,
+
+                        ff_row.var6_name,
+                        ff_row.var6_min,
+                        ff_row.var6_max,
+                        ff_row.var6_prec,
+                        ff_row.var6_divby,
+                        ff_row.var6_unit,
+
+                        ff_row.var7_name,
+                        ff_row.var7_min,
+                        ff_row.var7_max,
+                        ff_row.var7_prec,
+                        ff_row.var7_divby,
+                        ff_row.var7_unit,
+
+                        ff_row.var8_name,
+                        ff_row.var8_min,
+                        ff_row.var8_max,
+                        ff_row.var8_prec,
+                        ff_row.var8_divby,
+                        ff_row.var8_unit,
+
+                        ff_row.var9_name,
+                        ff_row.var9_min,
+                        ff_row.var9_max,
+                        ff_row.var9_prec,
+                        ff_row.var9_divby,
+                        ff_row.var9_unit,
+
+                        ff_row.var10_name,
+                        ff_row.var10_min,
+                        ff_row.var10_max,
+                        ff_row.var10_prec,
+                        ff_row.var10_divby,
+                        ff_row.var10_unit,
+
+                        ff_row.var11_name,
+                        ff_row.var11_min,
+                        ff_row.var11_max,
+                        ff_row.var11_prec,
+                        ff_row.var11_divby,
+                        ff_row.var11_unit,
+
+                        ff_row.var12_name,
+                        ff_row.var12_min,
+                        ff_row.var12_max,
+                        ff_row.var12_prec,
+                        ff_row.var12_divby,
+                        ff_row.var12_unit,
+
+                        ff_row.var13_name,
+                        ff_row.var13_min,
+                        ff_row.var13_max,
+                        ff_row.var13_prec,
+                        ff_row.var13_divby,
+                        ff_row.var13_unit,
+
+                        ff_row.var14_name,
+                        ff_row.var14_min,
+                        ff_row.var14_max,
+                        ff_row.var14_prec,
+                        ff_row.var14_divby,
+                        ff_row.var14_unit,
+
+                        ff_row.var15_name,
+                        ff_row.var15_min,
+                        ff_row.var15_max,
+                        ff_row.var15_prec,
+                        ff_row.var15_divby,
+                        ff_row.var15_unit,
+
+
+                        ff_row.res1_name,
+                        ff_row.res1_min,
+                        ff_row.res1_max,
+                        ff_row.res1_prec,
+                        ff_row.res1_tol,
+                        ff_row.res1_points,
+                        ff_row.res1_unit,
+
+                        ff_row.res2_name,
+                        ff_row.res2_min,
+                        ff_row.res2_max,
+                        ff_row.res2_prec,
+                        ff_row.res2_tol,
+                        ff_row.res2_points,
+                        ff_row.res2_unit,
+
+                        ff_row.res3_name,
+                        ff_row.res3_min,
+                        ff_row.res3_max,
+                        ff_row.res3_prec,
+                        ff_row.res3_tol,
+                        ff_row.res3_points,
+                        ff_row.res3_unit,
+
+                        ff_row.res4_name,
+                        ff_row.res4_min,
+                        ff_row.res4_max,
+                        ff_row.res4_prec,
+                        ff_row.res4_tol,
+                        ff_row.res4_points,
+                        ff_row.res4_unit,
+
+                        ff_row.res5_name,
+                        ff_row.res5_min,
+                        ff_row.res5_max,
+                        ff_row.res5_prec,
+                        ff_row.res5_tol,
+                        ff_row.res5_points,
+                        ff_row.res5_unit,
+
+                        ff_row.res6_name,
+                        ff_row.res6_min,
+                        ff_row.res6_max,
+                        ff_row.res6_prec,
+                        ff_row.res6_tol,
+                        ff_row.res6_points,
+                        ff_row.res6_unit,
+
+                        ff_row.res7_name,
+                        ff_row.res7_min,
+                        ff_row.res7_max,
+                        ff_row.res7_prec,
+                        ff_row.res7_tol,
+                        ff_row.res7_points,
+                        ff_row.res7_unit,
+
+                        ff_row.res8_name,
+                        ff_row.res8_min,
+                        ff_row.res8_max,
+                        ff_row.res8_prec,
+                        ff_row.res8_tol,
+                        ff_row.res8_points,
+                        ff_row.res8_unit,
+
+                        ff_row.res9_name,
+                        ff_row.res9_min,
+                        ff_row.res9_max,
+                        ff_row.res9_prec,
+                        ff_row.res9_tol,
+                        ff_row.res9_points,
+                        ff_row.res9_unit,
+
+                        ff_row.res10_name,
+                        ff_row.res10_min,
+                        ff_row.res10_max,
+                        ff_row.res10_prec,
+                        ff_row.res10_tol,
+                        ff_row.res10_points,
+                        ff_row.res10_unit,
+
+                        ff_row.description_img_name_1,
+                        self.ff_description_img_data_1,
+                        ff_row.description_img_path_1,
+
+                        ff_row.description_img_name_2,
+                        self.ff_description_img_data_2,
+                        ff_row.description_img_path_2,
+
+                        ff_row.description_img_name_3,
+                        self.ff_description_img_data_3,
+                        ff_row.description_img_path_3,
+
+                        ff_row.test_time,
+                        ff_row.var_number,
+                        ff_row.res_number,
+                        ff_row.question_pool_tag,
+                        ff_row.question_author
+                    ))
+
+
+                    conn.commit()
+
+
+            #print("Load File: \"" + self.xlsx_path + "\" in formelfrage_table...done!")
+
+
+            print("... Datei geladen!")
+            print(" ")
+            print("FF_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel), " -- EDITIERT: " + str(self.number_of_entries_edited))
+
+            for i in range(len(self.edited_questions_list)):
+                print("     Frage editiert: ",self.edited_questions_list[i])
+            print(" ")
+
 
         elif self.question_type == "multiplechoice" or self.question_type == "multiple choice":
 
@@ -2590,16 +3301,16 @@ class Import_Export_Database(CreateDatabases):
 
 
 
-                self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path')
-                self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path')
-                self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path')
-                self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path')
-                self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path')
-                self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path')
-                self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path')
-                self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path')
-                self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path')
-                self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path')
+                self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path', row)
+                self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path', row)
+                self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path', row)
+                self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path', row)
+                self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path', row)
+                self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path', row)
+                self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path', row)
+                self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path', row)
+                self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path', row)
+                self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path', row)
 
 
                 self.mc_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
@@ -2616,69 +3327,73 @@ class Import_Export_Database(CreateDatabases):
                    row.question_description_main,
 
                    row.response_1_text,
-                   row.response_2_text,
-                   row.response_3_text,
-                   row.response_4_text,
-                   row.response_5_text,
-                   row.response_6_text,
-                   row.response_7_text,
-                   row.response_8_text,
-                   row.response_9_text,
-                   row.response_10_text,
-
                    row.response_1_pts_correct_answer,
-                   row.response_2_pts_correct_answer,
-                   row.response_3_pts_correct_answer,
-                   row.response_4_pts_correct_answer,
-                   row.response_5_pts_correct_answer,
-                   row.response_6_pts_correct_answer,
-                   row.response_7_pts_correct_answer,
-                   row.response_8_pts_correct_answer,
-                   row.response_9_pts_correct_answer,
-                   row.response_10_pts_correct_answer,
-
                    row.response_1_pts_false_answer,
-                   row.response_2_pts_false_answer,
-                   row.response_3_pts_false_answer,
-                   row.response_4_pts_false_answer,
-                   row.response_5_pts_false_answer,
-                   row.response_6_pts_false_answer,
-                   row.response_7_pts_false_answer,
-                   row.response_8_pts_false_answer,
-                   row.response_9_pts_false_answer,
-                   row.response_10_pts_false_answer,
-
                    row.response_1_img_label,
-                   row.response_2_img_label,
-                   row.response_3_img_label,
-                   row.response_4_img_label,
-                   row.response_5_img_label,
-                   row.response_6_img_label,
-                   row.response_7_img_label,
-                   row.response_8_img_label,
-                   row.response_9_img_label,
-                   row.response_10_img_label,
-
                    self.response_1_img_string_base64_encoded,
-                   self.response_2_img_string_base64_encoded,
-                   self.response_3_img_string_base64_encoded,
-                   self.response_4_img_string_base64_encoded,
-                   self.response_5_img_string_base64_encoded,
-                   self.response_6_img_string_base64_encoded,
-                   self.response_7_img_string_base64_encoded,
-                   self.response_8_img_string_base64_encoded,
-                   self.response_9_img_string_base64_encoded,
-                   self.response_10_img_string_base64_encoded,
-
                    row.response_1_img_path,
+
+                   row.response_2_text,
+                   row.response_2_pts_correct_answer,
+                   row.response_2_pts_false_answer,
+                   row.response_2_img_label,
+                   self.response_2_img_string_base64_encoded,
                    row.response_2_img_path,
+
+                   row.response_3_text,
+                   row.response_3_pts_correct_answer,
+                   row.response_3_pts_false_answer,
+                   row.response_3_img_label,
+                   self.response_3_img_string_base64_encoded,
                    row.response_3_img_path,
+
+                   row.response_4_text,
+                   row.response_4_pts_correct_answer,
+                   row.response_4_pts_false_answer,
+                   row.response_4_img_label,
+                   self.response_4_img_string_base64_encoded,
                    row.response_4_img_path,
+
+                   row.response_5_text,
+                   row.response_5_pts_correct_answer,
+                   row.response_5_pts_false_answer,
+                   row.response_5_img_label,
+                   self.response_5_img_string_base64_encoded,
                    row.response_5_img_path,
+
+                   row.response_6_text,
+                   row.response_6_pts_correct_answer,
+                   row.response_6_pts_false_answer,
+                   row.response_6_img_label,
+                   self.response_6_img_string_base64_encoded,
                    row.response_6_img_path,
+
+                   row.response_7_text,
+                   row.response_7_pts_correct_answer,
+                   row.response_7_pts_false_answer,
+                   row.response_7_img_label,
+                   self.response_7_img_string_base64_encoded,
                    row.response_7_img_path,
+
+                   row.response_8_text,
+                   row.response_8_pts_correct_answer,
+                   row.response_8_pts_false_answer,
+                   row.response_8_img_label,
+                   self.response_8_img_string_base64_encoded,
                    row.response_8_img_path,
+
+                   row.response_9_text,
+                   row.response_9_pts_correct_answer,
+                   row.response_9_pts_false_answer,
+                   row.response_9_img_label,
+                   self.response_9_img_string_base64_encoded,
                    row.response_9_img_path,
+
+                   row.response_10_text,
+                   row.response_10_pts_correct_answer,
+                   row.response_10_pts_false_answer,
+                   row.response_10_img_label,
+                   self.response_10_img_string_base64_encoded,
                    row.response_10_img_path,
 
                    row.picture_preview_pixel,
@@ -2707,7 +3422,6 @@ class Import_Export_Database(CreateDatabases):
                 print("Excel-Einträge: " + str(len(row)))
 
 
-
         elif self.question_type == "zuordnungsfrage" or self.question_type == "zuordnungs frage":
 
             # Mit Zuordnungsfrage Datenbank verbinden
@@ -2716,27 +3430,27 @@ class Import_Export_Database(CreateDatabases):
 
             for row in self.dataframe.itertuples():
 
-                self.definitions_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_1_img_label', 'definitions_response_1_img_path')
-                self.definitions_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_2_img_label', 'definitions_response_2_img_path')
-                self.definitions_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_3_img_label', 'definitions_response_3_img_path')
-                self.definitions_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_4_img_label', 'definitions_response_4_img_path')
-                self.definitions_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_5_img_label', 'definitions_response_5_img_path')
-                self.definitions_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_6_img_label', 'definitions_response_6_img_path')
-                self.definitions_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_7_img_label', 'definitions_response_7_img_path')
-                self.definitions_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_8_img_label', 'definitions_response_8_img_path')
-                self.definitions_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_9_img_label', 'definitions_response_9_img_path')
-                self.definitions_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_10_img_label', 'definitions_response_10_img_path')
+                self.definitions_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_1_img_label', 'definitions_response_1_img_path', row)
+                self.definitions_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_2_img_label', 'definitions_response_2_img_path', row)
+                self.definitions_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_3_img_label', 'definitions_response_3_img_path', row)
+                self.definitions_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_4_img_label', 'definitions_response_4_img_path', row)
+                self.definitions_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_5_img_label', 'definitions_response_5_img_path', row)
+                self.definitions_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_6_img_label', 'definitions_response_6_img_path', row)
+                self.definitions_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_7_img_label', 'definitions_response_7_img_path', row)
+                self.definitions_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_8_img_label', 'definitions_response_8_img_path', row)
+                self.definitions_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_9_img_label', 'definitions_response_9_img_path', row)
+                self.definitions_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_10_img_label', 'definitions_response_10_img_path', row)
                 
-                self.terms_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_1_img_label', 'terms_response_1_img_path')
-                self.terms_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_2_img_label', 'terms_response_2_img_path')
-                self.terms_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_3_img_label', 'terms_response_3_img_path')
-                self.terms_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_4_img_label', 'terms_response_4_img_path')
-                self.terms_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_5_img_label', 'terms_response_5_img_path')
-                self.terms_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_6_img_label', 'terms_response_6_img_path')
-                self.terms_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_7_img_label', 'terms_response_7_img_path')
-                self.terms_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_8_img_label', 'terms_response_8_img_path')
-                self.terms_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_9_img_label', 'terms_response_9_img_path')
-                self.terms_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_10_img_label', 'terms_response_10_img_path')
+                self.terms_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_1_img_label', 'terms_response_1_img_path', row)
+                self.terms_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_2_img_label', 'terms_response_2_img_path', row)
+                self.terms_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_3_img_label', 'terms_response_3_img_path', row)
+                self.terms_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_4_img_label', 'terms_response_4_img_path', row)
+                self.terms_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_5_img_label', 'terms_response_5_img_path', row)
+                self.terms_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_6_img_label', 'terms_response_6_img_path', row)
+                self.terms_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_7_img_label', 'terms_response_7_img_path', row)
+                self.terms_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_8_img_label', 'terms_response_8_img_path', row)
+                self.terms_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_9_img_label', 'terms_response_9_img_path', row)
+                self.terms_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_10_img_label', 'terms_response_10_img_path', row)
 
 
                 self.mq_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
@@ -2758,116 +3472,148 @@ class Import_Export_Database(CreateDatabases):
                    row.assignment_mode,
 
                    row.definitions_response_1_text,
-                   row.definitions_response_2_text,
-                   row.definitions_response_3_text,
-                   row.definitions_response_4_text,
-                   row.definitions_response_5_text,
-                   row.definitions_response_6_text,
-                   row.definitions_response_7_text,
-                   row.definitions_response_8_text,
-                   row.definitions_response_9_text,
-                   row.definitions_response_10_text,
                    row.definitions_response_1_img_label,
-                   row.definitions_response_2_img_label,
-                   row.definitions_response_3_img_label,
-                   row.definitions_response_4_img_label,
-                   row.definitions_response_5_img_label,
-                   row.definitions_response_6_img_label,
-                   row.definitions_response_7_img_label,
-                   row.definitions_response_8_img_label,
-                   row.definitions_response_9_img_label,
-                   row.definitions_response_10_img_label,
                    row.definitions_response_1_img_path,
-                   row.definitions_response_2_img_path,
-                   row.definitions_response_3_img_path,
-                   row.definitions_response_4_img_path,
-                   row.definitions_response_5_img_path,
-                   row.definitions_response_6_img_path,
-                   row.definitions_response_7_img_path,
-                   row.definitions_response_8_img_path,
-                   row.definitions_response_9_img_path,
-                   row.definitions_response_10_img_path,
                    self.definitions_response_1_img_string_base64_encoded,
+
+                   row.definitions_response_2_text,
+                   row.definitions_response_2_img_label,
+                   row.definitions_response_2_img_path,
                    self.definitions_response_2_img_string_base64_encoded,
+
+                   row.definitions_response_3_text,
+                   row.definitions_response_3_img_label,
+                   row.definitions_response_3_img_path,
                    self.definitions_response_3_img_string_base64_encoded,
+
+                   row.definitions_response_4_text,
+                   row.definitions_response_4_img_label,
+                   row.definitions_response_4_img_path,
                    self.definitions_response_4_img_string_base64_encoded,
+
+                   row.definitions_response_5_text,
+                   row.definitions_response_5_img_label,
+                   row.definitions_response_5_img_path,
                    self.definitions_response_5_img_string_base64_encoded,
+
+                   row.definitions_response_6_text,
+                   row.definitions_response_6_img_label,
+                   row.definitions_response_6_img_path,
                    self.definitions_response_6_img_string_base64_encoded,
+
+                   row.definitions_response_7_text,
+                   row.definitions_response_7_img_label,
+                   row.definitions_response_7_img_path,
                    self.definitions_response_7_img_string_base64_encoded,
+
+                   row.definitions_response_8_text,
+                   row.definitions_response_8_img_label,
+                   row.definitions_response_8_img_path,
                    self.definitions_response_8_img_string_base64_encoded,
+
+                   row.definitions_response_9_text,
+                   row.definitions_response_9_img_label,
+                   row.definitions_response_9_img_path,
                    self.definitions_response_9_img_string_base64_encoded,
+
+                   row.definitions_response_10_text,
+                   row.definitions_response_10_img_label,
+                   row.definitions_response_10_img_path,
                    self.definitions_response_10_img_string_base64_encoded,
+
+
                    
                    row.terms_response_1_text,
-                   row.terms_response_2_text,
-                   row.terms_response_3_text,
-                   row.terms_response_4_text,
-                   row.terms_response_5_text,
-                   row.terms_response_6_text,
-                   row.terms_response_7_text,
-                   row.terms_response_8_text,
-                   row.terms_response_9_text,
-                   row.terms_response_10_text,
                    row.terms_response_1_img_label,
-                   row.terms_response_2_img_label,
-                   row.terms_response_3_img_label,
-                   row.terms_response_4_img_label,
-                   row.terms_response_5_img_label,
-                   row.terms_response_6_img_label,
-                   row.terms_response_7_img_label,
-                   row.terms_response_8_img_label,
-                   row.terms_response_9_img_label,
-                   row.terms_response_10_img_label,
                    row.terms_response_1_img_path,
-                   row.terms_response_2_img_path,
-                   row.terms_response_3_img_path,
-                   row.terms_response_4_img_path,
-                   row.terms_response_5_img_path,
-                   row.terms_response_6_img_path,
-                   row.terms_response_7_img_path,
-                   row.terms_response_8_img_path,
-                   row.terms_response_9_img_path,
-                   row.terms_response_10_img_path,
                    self.terms_response_1_img_string_base64_encoded,
+
+                   row.terms_response_2_text,
+                   row.terms_response_2_img_label,
+                   row.terms_response_2_img_path,
                    self.terms_response_2_img_string_base64_encoded,
+
+                   row.terms_response_3_text,
+                   row.terms_response_3_img_label,
+                   row.terms_response_3_img_path,
                    self.terms_response_3_img_string_base64_encoded,
+
+                   row.terms_response_4_text,
+                   row.terms_response_4_img_label,
+                   row.terms_response_4_img_path,
                    self.terms_response_4_img_string_base64_encoded,
+
+                   row.terms_response_5_text,
+                   row.terms_response_5_img_label,
+                   row.terms_response_5_img_path,
                    self.terms_response_5_img_string_base64_encoded,
+
+                   row.terms_response_6_text,
+                   row.terms_response_6_img_label,
+                   row.terms_response_6_img_path,
                    self.terms_response_6_img_string_base64_encoded,
+
+                   row.terms_response_7_text,
+                   row.terms_response_7_img_label,
+                   row.terms_response_7_img_path,
                    self.terms_response_7_img_string_base64_encoded,
+
+                   row.terms_response_8_text,
+                   row.terms_response_8_img_label,
+                   row.terms_response_8_img_path,
                    self.terms_response_8_img_string_base64_encoded,
+
+                   row.terms_response_9_text,
+                   row.terms_response_9_img_label,
+                   row.terms_response_9_img_path,
                    self.terms_response_9_img_string_base64_encoded,
+
+                   row.terms_response_10_text,
+                   row.terms_response_10_img_label,
+                   row.terms_response_10_img_path,
                    self.terms_response_10_img_string_base64_encoded,
 
+
+
+
                    row.assignment_pairs_definition_1,
-                   row.assignment_pairs_definition_2,
-                   row.assignment_pairs_definition_3,
-                   row.assignment_pairs_definition_4,
-                   row.assignment_pairs_definition_5,
-                   row.assignment_pairs_definition_6,
-                   row.assignment_pairs_definition_7,
-                   row.assignment_pairs_definition_8,
-                   row.assignment_pairs_definition_9,
-                   row.assignment_pairs_definition_10,
                    row.assignment_pairs_term_1,
-                   row.assignment_pairs_term_2,
-                   row.assignment_pairs_term_3,
-                   row.assignment_pairs_term_4,
-                   row.assignment_pairs_term_5,
-                   row.assignment_pairs_term_6,
-                   row.assignment_pairs_term_7,
-                   row.assignment_pairs_term_8,
-                   row.assignment_pairs_term_9,
-                   row.assignment_pairs_term_10,
                    row.assignment_pairs_pts_1,
+
+                   row.assignment_pairs_definition_2,
+                   row.assignment_pairs_term_2,
                    row.assignment_pairs_pts_2,
+
+                   row.assignment_pairs_definition_3,
+                   row.assignment_pairs_term_3,
                    row.assignment_pairs_pts_3,
+
+                   row.assignment_pairs_definition_4,
+                   row.assignment_pairs_term_4,
                    row.assignment_pairs_pts_4,
+
+                   row.assignment_pairs_definition_5,
+                   row.assignment_pairs_term_5,
                    row.assignment_pairs_pts_5,
+
+                   row.assignment_pairs_definition_6,
+                   row.assignment_pairs_term_6,
                    row.assignment_pairs_pts_6,
+
+                   row.assignment_pairs_definition_7,
+                   row.assignment_pairs_term_7,
                    row.assignment_pairs_pts_7,
+
+                   row.assignment_pairs_definition_8,
+                   row.assignment_pairs_term_8,
                    row.assignment_pairs_pts_8,
+
+                   row.assignment_pairs_definition_9,
+                   row.assignment_pairs_term_9,
                    row.assignment_pairs_pts_9,
+
+                   row.assignment_pairs_definition_10,
+                   row.assignment_pairs_term_10,
                    row.assignment_pairs_pts_10,
 
                    row.picture_preview_pixel,
@@ -2898,6 +3644,9 @@ class Import_Export_Database(CreateDatabases):
 
 
         conn.close()
+
+        # Bestätigungsfenster für Import
+        messagebox.showinfo("Excel-Datei importieren", "Einträge wurden importiert!")
 
     def excel_import_placeholder_to_data(self, row, excel_description_img_data_index, excel_description_img_path_index):
 
@@ -2999,7 +3748,7 @@ class Import_Export_Database(CreateDatabases):
                     #column_index += 1
 
                 # Wenn kein Typ "BLOB", aber Länge des Strings sehr groß ist (64encoded image string)
-                if isinstance(column_data,byteobj.ByteString) == False and len(str(column_data)) > 300 and str(column_data).count(' ') < 10 :
+                if isinstance(column_data,byteobj.ByteString) == False and len(str(column_data)) > 40 and str(column_data).count(' ') < 3 :
 
                     # Wenn Fragen-Typ ---> "ZUORDNUNGSFRAGE"
                     if row[self.db_entry_to_index_dict['question_type']].lower() == "zuordnungsfrage":
@@ -3022,13 +3771,15 @@ class Import_Export_Database(CreateDatabases):
                         if self.picture_definitions_answer_index <= 10:
                             self.dict_entry_string = 'response_%s_img_label' % (str(self.sc_picture_answer_index))
 
+
                             if str(row[self.db_entry_to_index_dict[self.dict_entry_string]]) != "EMPTY":
+
                                 column_data = str(row[self.db_entry_to_index_dict[self.dict_entry_string]])  + " - img_data_string_placeholder"
                                 self.sc_picture_answer_index += 1
 
                     excel_sheet.write(row_index, column_index, column_data, body_cell_format)
 
-
+                # Bilder für Fragen-Text
                 if isinstance(column_data, byteobj.ByteString) == True:
                     column_data = str(row[self.db_entry_to_index_dict['description_img_name_' + str(self.picture_index)]]) + " - img_data_string_placeholder"
                     image_data = row[self.db_entry_to_index_dict['description_img_data_' + str(self.picture_index)]]
@@ -3058,9 +3809,13 @@ class Import_Export_Database(CreateDatabases):
 
         print(str(row_index) + ' rows written successfully to ' + excel.filename)
 
+        messagebox.showinfo("Datenbank exportieren", "Datenbank wurde exportiert!")
 
 class Delete_Entry_from_Database:
     def __init__(self, modul_delete_box_id, question_type, modul_var_delete_all, project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
+
+
+
 
         self.question_type = question_type.lower()
         self.modul_var_delete_all = modul_var_delete_all
@@ -3123,30 +3878,38 @@ class Delete_Entry_from_Database:
 
 
             if self.modul_var_delete_all == 1:
-                now = datetime.now()  # current date and time
-                date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
-                actual_time = str(date_time)
-                self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
 
-                Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
+                # Alle Fragen in der DB löschen - popup
+                # showinfo, showwarning, showerror, askquestion, askokcancel, askyesno
+                self.response_delete_all = messagebox.askquestion("Alle Einträge in der DB löschen", "Sollen ALLE Einträge aus der DB gelöscht werden?")
 
-                c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
-                records = c.fetchall()
-                for record in records:
-                    self.modul_delete_all_list.append(int(record[len(record) - 1]))
+                if self.response_delete_all == "yes":
+                    now = datetime.now()  # current date and time
+                    date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
+                    actual_time = str(date_time)
+                    self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
 
-                # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                for i in range(len(self.modul_delete_all_list)):
-                    if self.modul_delete_all_list[i] == 1:
-                        self.modul_delete_index = i
+                    Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
 
-                self.modul_delete_all_list.pop(self.modul_delete_index)
+                    c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
+                    records = c.fetchall()
+                    for record in records:
+                        self.modul_delete_all_list.append(int(record[len(record) - 1]))
+
+                    # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
+                    for i in range(len(self.modul_delete_all_list)):
+                        if self.modul_delete_all_list[i] == 1:
+                            self.modul_delete_index = i
+
+                    self.modul_delete_all_list.pop(self.modul_delete_index)
 
 
-                for x in range(len(self.modul_delete_all_list)):
-                    c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_all_list[x])))
-                print(self.question_type.upper() + ": All Entries removed!")
+                    for x in range(len(self.modul_delete_all_list)):
+                        c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_all_list[x])))
+                    print(self.question_type.upper() + ": All Entries removed!")
 
+                else:
+                    print("Vorgang abgebrochen")
 
             elif self.modul_delete_mult_symbol == True:
 
