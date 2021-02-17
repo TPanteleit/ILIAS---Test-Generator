@@ -53,19 +53,15 @@
 
 
 
-
+# Import
 from tkinter import *
 from tkinter import ttk
 from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
-import os
-import sys
-import os.path
 import pathlib
 
 
-### Ilias-Tool Module
-
-from Test_Generator_Module import test_generator_modul_datenbanken_erstellen  # Modul zum erstellen von notwendigen Datenbanken
+### Test-Generator Module
+from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
 from Test_Generator_Module import test_generator_modul_formelfrage
 from Test_Generator_Module import test_generator_modul_formelfrage_permutation
 from Test_Generator_Module import test_generator_modul_singlechoice
@@ -76,91 +72,49 @@ from Test_Generator_Module import test_generator_modul_zuordnungsfrage
 
 class GuiMainWindow:
 
-
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
         master.title('ilias - Test-Generator v2.0')
 
-
-        # --------------------------    Set PATH for Project
-
-        self.project_root_path = pathlib.Path().absolute()
-        self.img_file_path_create_folder = os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragentest_tst_Daten', '1590475954__0__tst_1944463', 'objects'))
-        self.img_file_path = os.path.normpath(os.path.join(self.project_root_path,'ILIAS-Fragentest_tst_Daten', '1590475954__0__tst_1944463', 'objects'))
-        self.emtpy_xml_file_path_read = os.path.normpath(os.path.join(self.project_root_path, 'empty_xml_files', 'empty_xml.xml'))
-        self.ilias_questionpool_for_import = os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragenpool_zum_Import'))
-
-
-
-        #
-        # # --------------------------    Check if Files are in correct position
-        # print("\n")
-        # print("##    Project Files inside this Project Folder?")
-        # print("##")
-        # print("##    Testfragen -> orig_tst_file:                     " + str(os.path.exists(self.tst_file_path_read)))
-        # print("##    Testfragen -> orig_qti_file:                     " + str(os.path.exists(self.qti_file_path_read)))
-        # print("##    Testfragen -> 1590475954__0__tst_1944463.xml:    " + str(os.path.exists(self.tst_file_path_write)))
-        # print("##    Testfragen -> 1590475954__0__qti_1944463.xml:    " + str(os.path.exists(self.qti_file_path_write)))
-        # print("##    Poolfragen -> orig_qpl_file:                     " + str(os.path.exists(self.qpl_file_pool_path_read)))
-        # print("##    Poolfragen -> orig_qti_file:                     " + str(os.path.exists(self.qti_file_pool_path_read)))
-        # print("##    Poolfragen -> Vorlage_für_Fragenpool:            " + str(os.path.exists(os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')))))
-        # print("-------------------------------------------------------")
-
-
-
-
-
-        # --------------------------   Set size of windows
-        # Main-window
+        # Fenstergröße für die Module setzen
         self.window_width = 800
         self.window_height = 800
 
-        # Main-window
-        self.multiplechoice_width = 800
-        self.multiplechoice_height = 800
-
-        # Database-window
-        self.database_width = 800
-        self.database_height = 800
-
-        # Settings-window
-        self.settings_width = 800
-        self.settings_height = 800
-
-        # Taxonomy-window
-        self.taxonomy_width = 1000
-        self.taxonomy_height = 800
+        # Projektpfad auslesen. Der Projektpfad ist der Ordner in dem das Programm ausgeführt wird.
+        self.project_root_path = pathlib.Path().absolute()
 
 
-
-        # <------------ CREATE TABS AND TABCONTROL ----------->
-
+        # <------------ ERSTELLEN VON TABS UND TAB_CONTROL ----------->
+        # Durch tabControl können die einzelnen Tabs dargestellt und ausgewählt werden
         self.tabControl = ttk.Notebook(app)  # Create Tab Control
 
 
-        # ---- Tab for Formula - Questions
+        # ---- Tab für Fragentyp: Formelfrage
         self.formelfrage_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.formelfrage_tab_ttk, text='Formelfrage')  # Add the tab
 
-        # ---- Tab for Formula permutation - Questions
+        # ---- Tab für Fragentyp: Formelfrage_Permutation
         self.formelfrage_permutation_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.formelfrage_permutation_tab_ttk, text='Formelfrage Permutation')  # Add the tab
 
-        # ---- Tab for Single Choice - Questions
+        # ---- Tab für Fragentyp: SingleChoice
         self.singlechoice_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.singlechoice_tab_ttk, text='Single Choice')  # Add the tab
 
-        # ---- Tab for Multiple Choice - Questions
+        # ---- Tab für Fragentyp: MultipleChoice
         self.multiplechoice_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.multiplechoice_tab_ttk, text='Multiple Choice')  # Add the tab
 
-        # ---- Tab for MatchingQuestion - Questions
+        # ---- Tab für Fragentyp: Zuordnungsfrage (Matching Question)
         self.zuordnungsfrage_tab_ttk = ttk.Frame(self.tabControl)  # Create a tab
         self.tabControl.add(self.zuordnungsfrage_tab_ttk, text='Zuordnungsfrage')  # Add the tab
 
 
-        ####### CREATE SCROLLABLE FRAME ON TABS
+        # <------------ CREATE SCROLLABLE FRAME ON TABS ----------->
+        # Um in der GUI, Fenster mit Bildlaufleiste (Scroll-Balken) verwenden zu können, wird die Bibliothek "tkScrolledFrame" verwendet.
+        # Es werden zusätzliche Rahmen erstellt, in welcher letztlich die Labels/Buttons und der Scroll-Balken platziert werden
+
         # Create a ScrolledFrame widget
         self.scrolledframe_formelfrage = ScrolledFrame(self.formelfrage_tab_ttk, width=self.window_width, height=self.window_height)
         self.scrolledframe_formelfrage.pack(expand=1, fill="both")
@@ -178,7 +132,6 @@ class GuiMainWindow:
         self.scrolledframe_zuordnungsfrage.pack(expand=1, fill="both")
 
 
-
         # Create a frame within the ScrolledFrame
         self.formelfrage_tab = self.scrolledframe_formelfrage.display_widget(Frame)
         self.formelfrage_permutation_tab = self.scrolledframe_formelfrage_permutation.display_widget(Frame)
@@ -186,15 +139,14 @@ class GuiMainWindow:
         self.multiplechoice_tab = self.scrolledframe_multiplechoice.display_widget(Frame)
         self.zuordnungsfrage_tab = self.scrolledframe_zuordnungsfrage.display_widget(Frame)
 
+
+        # Tab-Control platzieren
         self.tabControl.pack(expand=1, fill="both")
 
 
 
-
-        # ---Init Variable Matrix
-
-
-        ####    ----- Create Databases ---
+        # <------------ ERSTELLEN VON DATENBANKEN ----------->
+        # Bei Programmstart wird für jeden Fragen-Typ eine Datenbank erstellt, wenn keine vorhanden ist.
         test_generator_modul_datenbanken_erstellen.CreateDatabases.__init__(self, self.project_root_path)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_formelfrage(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_formelfrage_permutation(self)
@@ -203,8 +155,13 @@ class GuiMainWindow:
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_zuordnungsfrage(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_test_settings_profiles(self)
 
+        # <------------ ERSTELLEN VON DATENBANKEN ----------->
+        # Bei Programmstart wird für jeden Fragen-Typ eine Datenbank erstellt, wenn keine vorhanden ist.
 
-        #Formelfrage_GUI.__init__(self)
+
+
+        # <------------ MODULE INITIALISIEREN ----------->
+        # Durch den Aufruf wird das Modul aktiviert und kann in der GUI über den Reiter ausgewählt werden.
         test_generator_modul_formelfrage.Formelfrage.__init__(self, app, self.formelfrage_tab, self.project_root_path)
         test_generator_modul_singlechoice.SingleChoice.__init__(self, app, self.singlechoice_tab, self.project_root_path)
         test_generator_modul_multiplechoice.MultipleChoice.__init__(self, app, self.multiplechoice_tab, self.project_root_path)
