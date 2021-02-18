@@ -3486,6 +3486,8 @@ class Create_Formelfrage_Questions(Formelfrage):
                 "ARCTANH": "arctanh",
                 "ATANH": "atanh",
                 "SQRT": "sqrt",
+                "Wurzel": "sqrt",
+                "wurzel": "sqrt",
                 "ABS": "abs",
                 "LN": "ln",
                 "LOG": "log"
