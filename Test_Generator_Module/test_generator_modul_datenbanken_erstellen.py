@@ -2,12 +2,14 @@ import sqlite3
 import os
 import xlsxwriter                       # import/export von excel Dateien
 import pandas as pd
+from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 import pathlib
 import collections.abc as byteobj
 import base64
 from datetime import datetime
+
 
 
 class CreateDatabases:
@@ -2205,14 +2207,20 @@ class Import_Export_Database(CreateDatabases):
 
         self.question_type = question_type.lower()
         self.db_entry_to_index_dict = db_entry_to_index_dict
+
         ################################  IMPORT SINGLECHOICE EXCEL FILE TO DB  #################################
 
-
-
-
-
         self.xlsx_path = filedialog.askopenfilename(initialdir=pathlib.Path().absolute(), title="Select a File")
-        self.xlsx_data = pd.read_excel(self.xlsx_path)
+
+        # Wenn in dem Pfad zur Datei ".ods" enthalten ist, wird eine entsprechende "engine" zum
+        # richtigen einlesen der Tabelle verwendet (für OpenOffice und LibreOffice)
+
+        if ".ods" in self.xlsx_path:
+            self.xlsx_data = pd.read_excel(self.xlsx_path, engine="odf")
+
+        # Enthält der Pfad kein ".ods" wird davon ausgegangen, dass es sich um eine Excel-Datei handelt
+        else:
+            self.xlsx_data = pd.read_excel(self.xlsx_path)
 
         self.xlsx_file_column_labels = []
         self.sql_values_question_marks = "("
@@ -2269,14 +2277,15 @@ class Import_Export_Database(CreateDatabases):
             c.execute(query)
 
             database_rows = c.fetchall()
-
+            
+            # Alle Fragen-Titel der Datenbank-Einträge in einer String zusammen fassen
             for database_row in database_rows:
                 entry_string += database_row[db_entry_to_index_dict['question_title']]
             
             
             for sc_row in self.dataframe.itertuples():
 
-                # Wenn exakter Fragentitel bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                # Wenn exakter Fragentitel im String gefunden wird und der Titel somit bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
                 if sc_row[db_entry_to_index_dict['question_title']+1] in entry_string:
                     c.execute(
                         """UPDATE singlechoice_table SET
@@ -2366,6 +2375,7 @@ class Import_Export_Database(CreateDatabases):
 
                                 question_pool_tag= :question_pool_tag,
                                 question_author= :question_author
+                               
                                 WHERE question_title = :question_title""",
                                 {'question_difficulty': sc_row[db_entry_to_index_dict['question_difficulty'] + 1],
                                  'question_category': sc_row[db_entry_to_index_dict['question_category'] + 1],
@@ -2443,9 +2453,11 @@ class Import_Export_Database(CreateDatabases):
                                  'description_img_name_1': sc_row[db_entry_to_index_dict['description_img_name_1'] + 1],
                                  'description_img_data_1': sc_row[db_entry_to_index_dict['description_img_data_1'] + 1],
                                  'description_img_path_1': sc_row[db_entry_to_index_dict['description_img_path_1'] + 1],
+
                                  'description_img_name_2': sc_row[db_entry_to_index_dict['description_img_name_2'] + 1],
                                  'description_img_data_2': sc_row[db_entry_to_index_dict['description_img_data_2'] + 1],
                                  'description_img_path_2': sc_row[db_entry_to_index_dict['description_img_path_2'] + 1],
+
                                  'description_img_name_3': sc_row[db_entry_to_index_dict['description_img_name_3'] + 1],
                                  'description_img_data_3': sc_row[db_entry_to_index_dict['description_img_data_3'] + 1],
                                  'description_img_path_3': sc_row[db_entry_to_index_dict['description_img_path_3'] + 1],
@@ -2599,19 +2611,15 @@ class Import_Export_Database(CreateDatabases):
 
             database_rows = c.fetchall()
 
+            # Alle Fragen-Titel der Datenbank-Einträge in einer String zusammen fassen
             for database_row in database_rows:
-
                 entry_string += database_row[db_entry_to_index_dict['question_title']]
-
-
 
             #####
 
             for ff_row in self.dataframe.itertuples():
 
-
-
-                # Wenn exakter Fragentitel bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                # Wenn exakter Fragentitel im String gefunden wird und der Titel somit bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
                 if ff_row[db_entry_to_index_dict['question_title']+1] in entry_string:
                     c.execute(
                         """UPDATE formelfrage_table SET
@@ -2804,7 +2812,7 @@ class Import_Export_Database(CreateDatabases):
                                                 question_pool_tag = :question_pool_tag,
                                                 question_author = :question_author
                     
-                                                WHERE oid = :oid""",
+                                                WHERE question_title = :question_title""",
                               {'question_difficulty': ff_row[db_entry_to_index_dict['question_difficulty']+1],
                                'question_category': ff_row[db_entry_to_index_dict['question_category']+1],
                                'question_type': ff_row[db_entry_to_index_dict['question_type']+1],
@@ -3040,7 +3048,6 @@ class Import_Export_Database(CreateDatabases):
                     self.ff_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
                     self.ff_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
                     self.ff_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, ff_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
-
 
 
                     c.execute("INSERT INTO formelfrage_table VALUES " + self.sql_values_question_marks, (
@@ -3284,369 +3291,979 @@ class Import_Export_Database(CreateDatabases):
 
 
         elif self.question_type == "multiplechoice" or self.question_type == "multiple choice":
-
+            print("-------------------------------------")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            
             # Mit MultipleChoice Datenbank verbinden
             conn = sqlite3.connect(self.database_multiplechoice_path)
             c = conn.cursor()
 
-            for row in self.dataframe.itertuples():
+            self.number_of_new_entries_from_excel = 0
+            self.number_of_entries_edited = 0
+            #####
+            query = 'SELECT * FROM multiplechoice_table '
+            c.execute(query)
 
-                # # "+1" ist notwendig weil "row" mit '1' anfängt und das DICT mit '0'
-                # if "placeholder" in str(row[self.db_entry_to_index_dict['description_img_data']+1]):
-                #     print("image found! -> " + str(row[self.db_entry_to_index_dict['description_img_path']+1]))
-                #     # read image data in byte format
-                #     with open(row[self.db_entry_to_index_dict['description_img_path']+1], 'rb') as image_file:
-                #         self.sc_description_img_data = image_file.read()
+            database_rows = c.fetchall()
+
+            # Alle Fragen-Titel der Datenbank-Einträge in einer String zusammen fassen
+            for database_row in database_rows:
+                entry_string += database_row[db_entry_to_index_dict['question_title']]
+            
+            for mc_row in self.dataframe.itertuples():
+
+                # Wenn exakter Fragentitel im String gefunden wird und der Titel somit bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                if mc_row[db_entry_to_index_dict['question_title'] + 1] in entry_string:
+                    c.execute(
+                        """UPDATE multiplechoice_table SET
+                                question_difficulty= :question_difficulty,
+                                question_category= :question_category,
+                                question_type= :question_type,
+                
+                                question_title= :question_title,
+                                question_description_title= :question_description_title,
+                
+                                question_description_main= :question_description_main,
+                                response_1_text= :response_1_text,
+                                response_1_pts_correct_answer= :response_1_pts_correct_answer,
+                                response_1_pts_false_answer= :response_1_pts_false_answer,
+                                response_1_img_label= :response_1_img_label,
+                                response_1_img_string_base64_encoded= :response_1_img_string_base64_encoded,
+                                response_1_img_path= :response_1_img_path,
+                
+                                response_2_text= :response_2_text,
+                                response_2_pts_correct_answer= :response_2_pts_correct_answer,
+                                response_2_pts_false_answer= :response_2_pts_false_answer,
+                                response_2_img_label= :response_2_img_label,
+                                response_2_img_string_base64_encoded= :response_2_img_string_base64_encoded,
+                                response_2_img_path= :response_2_img_path,
+                
+                                response_3_text= : response_3_text,
+                                response_3_pts_correct_answer= :response_3_pts_correct_answer,
+                                response_3_pts_false_answer= :response_3_pts_false_answer,
+                                response_3_img_label= :response_3_img_label,
+                                response_3_img_string_base64_encoded= :response_3_img_string_base64_encoded,
+                                response_3_img_path= :response_3_img_path,
+                
+                                response_4_text= :response_4_text,
+                                response_4_pts_correct_answer= :response_4_pts_correct_answer,
+                                response_4_pts_false_answer= :response_4_pts_false_answer,
+                                response_4_img_label= :response_4_img_label,
+                                response_4_img_string_base64_encoded= :response_4_img_string_base64_encoded,
+                                response_4_img_path= :response_4_img_path,
+                
+                                response_5_text= :response_5_text,
+                                response_5_pts_correct_answer= :response_5_pts_correct_answer,
+                                response_5_pts_false_answer= :response_5_pts_false_answer,
+                                response_5_img_label= :response_5_img_label,
+                                response_5_img_string_base64_encoded= :response_5_img_string_base64_encoded,
+                                response_5_img_path= :response_5_img_path,
+                
+                                response_6_text= :response_6_text,
+                                response_6_pts_correct_answer= :response_6_pts_correct_answer,
+                                response_6_pts_false_answer= :response_6_pts_false_answer,
+                                response_6_img_label= :response_6_img_label,
+                                response_6_img_string_base64_encoded= :response_6_img_string_base64_encoded,
+                                response_6_img_path= :response_6_img_path,
+                
+                                response_7_text= :response_7_text,
+                                response_7_pts_correct_answer= :response_7_pts_correct_answer,
+                                response_7_pts_false_answer= :response_7_pts_false_answer,
+                                response_7_img_label= :response_7_img_label,
+                                response_7_img_string_base64_encoded= :response_7_img_string_base64_encoded,
+                                response_7_img_path= :response_7_img_path,
+                
+                                response_8_text= :response_8_text,
+                                response_8_pts_correct_answer= :response_8_pts_correct_answer,
+                                response_8_pts_false_answer= :response_8_pts_false_answer,
+                                response_8_img_label= :response_8_img_label,
+                                response_8_img_string_base64_encoded= :response_8_img_string_base64_encoded,
+                                response_8_img_path= :response_8_img_path,
+                
+                                response_9_text= :response_9_text,
+                                response_9_pts_correct_answer= :response_9_pts_correct_answer,
+                                response_9_pts_false_answer= :response_9_pts_false_answer,
+                                response_9_img_label= :response_9_img_label,
+                                response_9_img_string_base64_encoded= :response_9_img_string_base64_encoded,
+                                response_9_img_path= :response_9_img_path,
+                
+                                response_10_text= :response_10_text,
+                                response_10_pts_correct_answer= :response_10_pts_correct_answer,
+                                response_10_pts_false_answer= :response_10_pts_false_answer,
+                                response_10_img_label= :response_10_img_label,
+                                response_10_img_string_base64_encoded= :response_10_img_string_base64_encoded,
+                                response_10_img_path= :response_10_img_path,
+                
+                                picture_preview_pixel= :picture_preview_pixel,
+                
+                                description_img_name_1= :description_img_name_1,
+                                description_img_data_1= :description_img_data_1,
+                                description_img_path_1= :description_img_path_1,
+                
+                                description_img_name_2= :description_img_name_2,
+                                description_img_data_2= :description_img_data_2,
+                                description_img_path_2= :description_img_path_2,
+                
+                                description_img_name_3= :description_img_name_3,
+                                description_img_data_3= :description_img_data_3,
+                                description_img_path_3= :description_img_path_3,
+                
+                                test_time= :test_time,
+                
+                                var_number= :var_number,
+                                question_pool_tag= :question_pool_tag,
+                                question_author= :question_author
+    
+                                WHERE question_title = :question_title""",
+
+                                # "+1" ist notwendig weil "mc_row" mit '1' anfängt und das DICT mit '0'
+                                {'question_difficulty': mc_row[db_entry_to_index_dict['question_difficulty'] + 1],
+                                 'question_category': mc_row[db_entry_to_index_dict['question_category'] + 1],
+                                 'question_type': mc_row[db_entry_to_index_dict['question_type'] + 1],
+                
+                                 'question_title': mc_row[db_entry_to_index_dict['question_title'] + 1],
+                                 'question_description_title': mc_row[db_entry_to_index_dict['question_description_title'] + 1],
+                                 'question_description_main': mc_row[db_entry_to_index_dict['question_description_main'] + 1],
+                                
+
+                                'response_1_text':                       mc_row[db_entry_to_index_dict['response_1_text'] + 1],
+                                'response_1_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_1_pts_correct_answer'] + 1],
+                                'response_1_pts_false_answer':           mc_row[db_entry_to_index_dict['response_1_pts_false_answer'] + 1],
+                                'response_1_img_label':                  mc_row[db_entry_to_index_dict['response_1_img_label'] + 1],
+                                'response_1_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_1_img_string_base64_encoded'] + 1],
+                                'response_1_img_path':                   mc_row[db_entry_to_index_dict['response_1_img_path'] + 1],
+                                
+                                'response_2_text':                       mc_row[db_entry_to_index_dict['response_2_text'] + 1],
+                                'response_2_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_2_pts_correct_answer'] + 1],
+                                'response_2_pts_false_answer':           mc_row[db_entry_to_index_dict['response_2_pts_false_answer'] + 1],
+                                'response_2_img_label':                  mc_row[db_entry_to_index_dict['response_2_img_label'] + 1],
+                                'response_2_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_2_img_string_base64_encoded'] + 1],
+                                'response_2_img_path':                   mc_row[db_entry_to_index_dict['response_2_img_path'] + 1],
+                                 
+                                'response_3_text':                       mc_row[db_entry_to_index_dict['response_3_text'] + 1],
+                                'response_3_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_3_pts_correct_answer'] + 1],
+                                'response_3_pts_false_answer':           mc_row[db_entry_to_index_dict['response_3_pts_false_answer'] + 1],
+                                'response_3_img_label':                  mc_row[db_entry_to_index_dict['response_3_img_label'] + 1],
+                                'response_3_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_3_img_string_base64_encoded'] + 1],
+                                'response_3_img_path':                   mc_row[db_entry_to_index_dict['response_3_img_path'] + 1],
+                                 
+                                'response_4_text':                       mc_row[db_entry_to_index_dict['response_4_text'] + 1],
+                                'response_4_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_4_pts_correct_answer'] + 1],
+                                'response_4_pts_false_answer':           mc_row[db_entry_to_index_dict['response_4_pts_false_answer'] + 1],
+                                'response_4_img_label':                  mc_row[db_entry_to_index_dict['response_4_img_label'] + 1],
+                                'response_4_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_4_img_string_base64_encoded'] + 1],
+                                'response_4_img_path':                   mc_row[db_entry_to_index_dict['response_4_img_path'] + 1],
+                                 
+                                'response_5_text':                       mc_row[db_entry_to_index_dict['response_5_text'] + 1],
+                                'response_5_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_5_pts_correct_answer'] + 1],
+                                'response_5_pts_false_answer':           mc_row[db_entry_to_index_dict['response_5_pts_false_answer'] + 1],
+                                'response_5_img_label':                  mc_row[db_entry_to_index_dict['response_5_img_label'] + 1],
+                                'response_5_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_5_img_string_base64_encoded'] + 1],
+                                'response_5_img_path':                   mc_row[db_entry_to_index_dict['response_5_img_path'] + 1],
+                                 
+                                'response_6_text':                       mc_row[db_entry_to_index_dict['response_6_text'] + 1],
+                                'response_6_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_6_pts_correct_answer'] + 1],
+                                'response_6_pts_false_answer':           mc_row[db_entry_to_index_dict['response_6_pts_false_answer'] + 1],
+                                'response_6_img_label':                  mc_row[db_entry_to_index_dict['response_6_img_label'] + 1],
+                                'response_6_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_6_img_string_base64_encoded'] + 1],
+                                'response_6_img_path':                   mc_row[db_entry_to_index_dict['response_6_img_path'] + 1],
+                                 
+                                'response_7_text':                       mc_row[db_entry_to_index_dict['response_7_text'] + 1],
+                                'response_7_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_7_pts_correct_answer'] + 1],
+                                'response_7_pts_false_answer':           mc_row[db_entry_to_index_dict['response_7_pts_false_answer'] + 1],
+                                'response_7_img_label':                  mc_row[db_entry_to_index_dict['response_7_img_label'] + 1],
+                                'response_7_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_7_img_string_base64_encoded'] + 1],
+                                'response_7_img_path':                   mc_row[db_entry_to_index_dict['response_7_img_path'] + 1],
+                                 
+                                'response_8_text':                       mc_row[db_entry_to_index_dict['response_8_text'] + 1],
+                                'response_8_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_8_pts_correct_answer'] + 1],
+                                'response_8_pts_false_answer':           mc_row[db_entry_to_index_dict['response_8_pts_false_answer'] + 1],
+                                'response_8_img_label':                  mc_row[db_entry_to_index_dict['response_8_img_label'] + 1],
+                                'response_8_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_8_img_string_base64_encoded'] + 1],
+                                'response_8_img_path':                   mc_row[db_entry_to_index_dict['response_8_img_path'] + 1],
+                                 
+                                'response_9_text':                       mc_row[db_entry_to_index_dict['response_9_text'] + 1],
+                                'response_9_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_9_pts_correct_answer'] + 1],
+                                'response_9_pts_false_answer':           mc_row[db_entry_to_index_dict['response_9_pts_false_answer'] + 1],
+                                'response_9_img_label':                  mc_row[db_entry_to_index_dict['response_9_img_label'] + 1],
+                                'response_9_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_9_img_string_base64_encoded'] + 1],
+                                'response_9_img_path':                   mc_row[db_entry_to_index_dict['response_9_img_path'] + 1],
+                                 
+                                'response_10_text':                       mc_row[db_entry_to_index_dict['response_10_text'] + 1],
+                                'response_10_pts_correct_answer':         mc_row[db_entry_to_index_dict['response_10_pts_correct_answer'] + 1],
+                                'response_10_pts_false_answer':           mc_row[db_entry_to_index_dict['response_10_pts_false_answer'] + 1],
+                                'response_10_img_label':                  mc_row[db_entry_to_index_dict['response_10_img_label'] + 1],
+                                'response_10_img_string_base64_encoded':  mc_row[db_entry_to_index_dict['response_10_img_string_base64_encoded'] + 1],
+                                'response_10_img_path':                   mc_row[db_entry_to_index_dict['response_10_img_path'] + 1],
+                                
+                                
+                                'picture_preview_pixel': mc_row[db_entry_to_index_dict['picture_preview_pixel'] + 1],
+                                
+                                'description_img_name_1': mc_row[db_entry_to_index_dict['description_img_name_1'] + 1],
+                                'description_img_data_1': mc_row[db_entry_to_index_dict['description_img_data_1'] + 1],
+                                'description_img_path_1': mc_row[db_entry_to_index_dict['description_img_path_1'] + 1],
+                                
+                                'description_img_name_2': mc_row[db_entry_to_index_dict['description_img_name_2'] + 1],
+                                'description_img_data_2': mc_row[db_entry_to_index_dict['description_img_data_2'] + 1],
+                                'description_img_path_2': mc_row[db_entry_to_index_dict['description_img_path_2'] + 1],
+                                
+                                'description_img_name_3': mc_row[db_entry_to_index_dict['description_img_name_3'] + 1],
+                                'description_img_data_3': mc_row[db_entry_to_index_dict['description_img_data_3'] + 1],
+                                'description_img_path_3': mc_row[db_entry_to_index_dict['description_img_path_3'] + 1],
+                                
+                                'test_time': mc_row[db_entry_to_index_dict['test_time'] + 1],
+                                'question_pool_tag': mc_row[db_entry_to_index_dict['question_pool_tag'] + 1],
+                                'question_author': mc_row[db_entry_to_index_dict['question_author'] + 1],
+                                'oid': mc_row[-1]
+                                })
+
+                    conn.commit()
+
+                    self.edited_questions_list.append(mc_row[db_entry_to_index_dict['question_title'] + 1])
+                    self.number_of_entries_edited += 1
 
 
+    
+                # Wenn Fragentitel nicht vorhanden ist, dann neu in DB importieren
+                else:
+                    self.number_of_new_entries_from_excel += 1
+                    self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path', mc_row)
+                    self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path', mc_row)
+                    self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path', mc_row)
+                    self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path', mc_row)
+                    self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path', mc_row)
+                    self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path', mc_row)
+                    self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path', mc_row)
+                    self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path', mc_row)
+                    self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path', mc_row)
+                    self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path', mc_row)
+        
+        
+                    self.mc_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, mc_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
+                    self.mc_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, mc_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
+                    self.mc_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, mc_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
+        
+        
+                    c.execute("INSERT INTO multiplechoice_table VALUES " + self.sql_values_question_marks, (
+                       mc_row.question_difficulty,
+                       mc_row.question_category,
+                       mc_row.question_type,
+                       mc_row.question_title,
+                       mc_row.question_description_title,
+                       mc_row.question_description_main,
+        
+                       mc_row.response_1_text,
+                       mc_row.response_1_pts_correct_answer,
+                       mc_row.response_1_pts_false_answer,
+                       mc_row.response_1_img_label,
+                       self.response_1_img_string_base64_encoded,
+                       mc_row.response_1_img_path,
+        
+                       mc_row.response_2_text,
+                       mc_row.response_2_pts_correct_answer,
+                       mc_row.response_2_pts_false_answer,
+                       mc_row.response_2_img_label,
+                       self.response_2_img_string_base64_encoded,
+                       mc_row.response_2_img_path,
+        
+                       mc_row.response_3_text,
+                       mc_row.response_3_pts_correct_answer,
+                       mc_row.response_3_pts_false_answer,
+                       mc_row.response_3_img_label,
+                       self.response_3_img_string_base64_encoded,
+                       mc_row.response_3_img_path,
+        
+                       mc_row.response_4_text,
+                       mc_row.response_4_pts_correct_answer,
+                       mc_row.response_4_pts_false_answer,
+                       mc_row.response_4_img_label,
+                       self.response_4_img_string_base64_encoded,
+                       mc_row.response_4_img_path,
+        
+                       mc_row.response_5_text,
+                       mc_row.response_5_pts_correct_answer,
+                       mc_row.response_5_pts_false_answer,
+                       mc_row.response_5_img_label,
+                       self.response_5_img_string_base64_encoded,
+                       mc_row.response_5_img_path,
+        
+                       mc_row.response_6_text,
+                       mc_row.response_6_pts_correct_answer,
+                       mc_row.response_6_pts_false_answer,
+                       mc_row.response_6_img_label,
+                       self.response_6_img_string_base64_encoded,
+                       mc_row.response_6_img_path,
+        
+                       mc_row.response_7_text,
+                       mc_row.response_7_pts_correct_answer,
+                       mc_row.response_7_pts_false_answer,
+                       mc_row.response_7_img_label,
+                       self.response_7_img_string_base64_encoded,
+                       mc_row.response_7_img_path,
+        
+                       mc_row.response_8_text,
+                       mc_row.response_8_pts_correct_answer,
+                       mc_row.response_8_pts_false_answer,
+                       mc_row.response_8_img_label,
+                       self.response_8_img_string_base64_encoded,
+                       mc_row.response_8_img_path,
+        
+                       mc_row.response_9_text,
+                       mc_row.response_9_pts_correct_answer,
+                       mc_row.response_9_pts_false_answer,
+                       mc_row.response_9_img_label,
+                       self.response_9_img_string_base64_encoded,
+                       mc_row.response_9_img_path,
+        
+                       mc_row.response_10_text,
+                       mc_row.response_10_pts_correct_answer,
+                       mc_row.response_10_pts_false_answer,
+                       mc_row.response_10_img_label,
+                       self.response_10_img_string_base64_encoded,
+                       mc_row.response_10_img_path,
+        
+                       mc_row.picture_preview_pixel,
+        
+                       mc_row.description_img_name_1,
+                       self.mc_description_img_data_1,
+                       mc_row.description_img_path_1,
+        
+                       mc_row.description_img_name_2,
+                       self.mc_description_img_data_2,
+                       mc_row.description_img_path_2,
+        
+                       mc_row.description_img_name_3,
+                       self.mc_description_img_data_3,
+                       mc_row.description_img_path_3,
+        
+                       mc_row.test_time,
+                       mc_row.var_number,
+                       mc_row.question_pool_tag,
+                       mc_row.question_author
+                    ))
+        
+                    conn.commit()
+        
+                    print("Load File: \"" + self.xlsx_path + "\"  ---> in multiplechoice_table...done!")
+                    print("Excel-Einträge: " + str(len(mc_row)))
 
+            print("... Datei geladen!")
+            print(" ")
+            print("MC_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel),
+                  " -- EDITIERT: " + str(self.number_of_entries_edited))
 
-                self.response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('response_1_img_label', 'response_1_img_path', row)
-                self.response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('response_2_img_label', 'response_2_img_path', row)
-                self.response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('response_3_img_label', 'response_3_img_path', row)
-                self.response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('response_4_img_label', 'response_4_img_path', row)
-                self.response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('response_5_img_label', 'response_5_img_path', row)
-                self.response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('response_6_img_label', 'response_6_img_path', row)
-                self.response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('response_7_img_label', 'response_7_img_path', row)
-                self.response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('response_8_img_label', 'response_8_img_path', row)
-                self.response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('response_9_img_label', 'response_9_img_path', row)
-                self.response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('response_10_img_label', 'response_10_img_path', row)
+            for i in range(len(self.edited_questions_list)):
+                print("     Frage editiert: ", self.edited_questions_list[i])
 
-
-                self.mc_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
-                self.mc_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
-                self.mc_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
-
-
-                c.execute("INSERT INTO multiplechoice_table VALUES " + self.sql_values_question_marks, (
-                   row.question_difficulty,
-                   row.question_category,
-                   row.question_type,
-                   row.question_title,
-                   row.question_description_title,
-                   row.question_description_main,
-
-                   row.response_1_text,
-                   row.response_1_pts_correct_answer,
-                   row.response_1_pts_false_answer,
-                   row.response_1_img_label,
-                   self.response_1_img_string_base64_encoded,
-                   row.response_1_img_path,
-
-                   row.response_2_text,
-                   row.response_2_pts_correct_answer,
-                   row.response_2_pts_false_answer,
-                   row.response_2_img_label,
-                   self.response_2_img_string_base64_encoded,
-                   row.response_2_img_path,
-
-                   row.response_3_text,
-                   row.response_3_pts_correct_answer,
-                   row.response_3_pts_false_answer,
-                   row.response_3_img_label,
-                   self.response_3_img_string_base64_encoded,
-                   row.response_3_img_path,
-
-                   row.response_4_text,
-                   row.response_4_pts_correct_answer,
-                   row.response_4_pts_false_answer,
-                   row.response_4_img_label,
-                   self.response_4_img_string_base64_encoded,
-                   row.response_4_img_path,
-
-                   row.response_5_text,
-                   row.response_5_pts_correct_answer,
-                   row.response_5_pts_false_answer,
-                   row.response_5_img_label,
-                   self.response_5_img_string_base64_encoded,
-                   row.response_5_img_path,
-
-                   row.response_6_text,
-                   row.response_6_pts_correct_answer,
-                   row.response_6_pts_false_answer,
-                   row.response_6_img_label,
-                   self.response_6_img_string_base64_encoded,
-                   row.response_6_img_path,
-
-                   row.response_7_text,
-                   row.response_7_pts_correct_answer,
-                   row.response_7_pts_false_answer,
-                   row.response_7_img_label,
-                   self.response_7_img_string_base64_encoded,
-                   row.response_7_img_path,
-
-                   row.response_8_text,
-                   row.response_8_pts_correct_answer,
-                   row.response_8_pts_false_answer,
-                   row.response_8_img_label,
-                   self.response_8_img_string_base64_encoded,
-                   row.response_8_img_path,
-
-                   row.response_9_text,
-                   row.response_9_pts_correct_answer,
-                   row.response_9_pts_false_answer,
-                   row.response_9_img_label,
-                   self.response_9_img_string_base64_encoded,
-                   row.response_9_img_path,
-
-                   row.response_10_text,
-                   row.response_10_pts_correct_answer,
-                   row.response_10_pts_false_answer,
-                   row.response_10_img_label,
-                   self.response_10_img_string_base64_encoded,
-                   row.response_10_img_path,
-
-                   row.picture_preview_pixel,
-
-                   row.description_img_name_1,
-                   self.mc_description_img_data_1,
-                   row.description_img_path_1,
-
-                   row.description_img_name_2,
-                   self.mc_description_img_data_2,
-                   row.description_img_path_2,
-
-                   row.description_img_name_3,
-                   self.mc_description_img_data_3,
-                   row.description_img_path_3,
-
-                   row.test_time,
-                   row.var_number,
-                   row.question_pool_tag,
-                   row.question_author
-                ))
-
-                conn.commit()
-
-                print("Load File: \"" + self.xlsx_path + "\"  ---> in multiplechoice_table...done!")
-                print("Excel-Einträge: " + str(len(row)))
-
+            print(" ")
 
         elif self.question_type == "zuordnungsfrage" or self.question_type == "zuordnungs frage":
-
+            print("-------------------------------------")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            
             # Mit Zuordnungsfrage Datenbank verbinden
             conn = sqlite3.connect(self.database_zuordnungsfrage_path)
             c = conn.cursor()
 
-            for row in self.dataframe.itertuples():
+            self.number_of_new_entries_from_excel = 0
+            self.number_of_entries_edited = 0
+            #####
+            query = 'SELECT * FROM zuordnungsfrage_table '
+            c.execute(query)
 
-                self.definitions_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_1_img_label', 'definitions_response_1_img_path', row)
-                self.definitions_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_2_img_label', 'definitions_response_2_img_path', row)
-                self.definitions_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_3_img_label', 'definitions_response_3_img_path', row)
-                self.definitions_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_4_img_label', 'definitions_response_4_img_path', row)
-                self.definitions_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_5_img_label', 'definitions_response_5_img_path', row)
-                self.definitions_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_6_img_label', 'definitions_response_6_img_path', row)
-                self.definitions_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_7_img_label', 'definitions_response_7_img_path', row)
-                self.definitions_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_8_img_label', 'definitions_response_8_img_path', row)
-                self.definitions_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_9_img_label', 'definitions_response_9_img_path', row)
-                self.definitions_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_10_img_label', 'definitions_response_10_img_path', row)
-                
-                self.terms_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_1_img_label', 'terms_response_1_img_path', row)
-                self.terms_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_2_img_label', 'terms_response_2_img_path', row)
-                self.terms_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_3_img_label', 'terms_response_3_img_path', row)
-                self.terms_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_4_img_label', 'terms_response_4_img_path', row)
-                self.terms_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_5_img_label', 'terms_response_5_img_path', row)
-                self.terms_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_6_img_label', 'terms_response_6_img_path', row)
-                self.terms_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_7_img_label', 'terms_response_7_img_path', row)
-                self.terms_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_8_img_label', 'terms_response_8_img_path', row)
-                self.terms_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_9_img_label', 'terms_response_9_img_path', row)
-                self.terms_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_10_img_label', 'terms_response_10_img_path', row)
+            database_rows = c.fetchall()
+
+            # Alle Fragen-Titel der Datenbank-Einträge in einer String zusammen fassen
+            for database_row in database_rows:
+                entry_string += database_row[db_entry_to_index_dict['question_title']]
+            
+            for mq_row in self.dataframe.itertuples():
+
+                # Wenn exakter Fragentitel im String gefunden wird und der Titel somit bereits in DB vorhanden ist, dann editieren und keine neue Frage hinzufügen
+                if mq_row[db_entry_to_index_dict['question_title'] + 1] in entry_string:
+                    c.execute(
+                        """UPDATE zuordnungsfrage_table SET
+                                    question_difficulty = :question_difficulty,
+                                    question_category = :question_category,
+                                    question_type = :question_type,
+                    
+                                    question_title = :question_title,
+                                    question_description_title = :question_description_title,
+                                    question_description_main = :question_description_main,
+                                    
+                                    mix_answers = :mix_answers,
+                                    assignment_mode = :assignment_mode,
+                    
+                                    definitions_response_1_text = :definitions_response_1_text,
+                                    definitions_response_1_img_label = :definitions_response_1_img_label,
+                                    definitions_response_1_img_path = :definitions_response_1_img_path,
+                                    definitions_response_1_img_string_base64_encoded = :definitions_response_1_img_string_base64_encoded,
+                                    
+                                    definitions_response_2_text = :definitions_response_2_text,
+                                    definitions_response_2_img_label = :definitions_response_2_img_label,
+                                    definitions_response_2_img_path = :definitions_response_2_img_path,
+                                    definitions_response_2_img_string_base64_encoded = :definitions_response_2_img_string_base64_encoded,
+                                    
+                                    definitions_response_3_text = :definitions_response_3_text,
+                                    definitions_response_3_img_label = :definitions_response_3_img_label,
+                                    definitions_response_3_img_path = :definitions_response_3_img_path,
+                                    definitions_response_3_img_string_base64_encoded = :definitions_response_3_img_string_base64_encoded,
+                                    
+                                    definitions_response_4_text = :definitions_response_4_text,
+                                    definitions_response_4_img_label = :definitions_response_4_img_label,
+                                    definitions_response_4_img_path = :definitions_response_4_img_path,
+                                    definitions_response_4_img_string_base64_encoded = :definitions_response_4_img_string_base64_encoded,
+                                    
+                                    definitions_response_5_text = :definitions_response_5_text,
+                                    definitions_response_5_img_label = :definitions_response_5_img_label,
+                                    definitions_response_5_img_path = :definitions_response_5_img_path,
+                                    definitions_response_5_img_string_base64_encoded = :definitions_response_5_img_string_base64_encoded,
+                                    
+                                    definitions_response_6_text = :definitions_response_6_text,
+                                    definitions_response_6_img_label = :definitions_response_6_img_label,
+                                    definitions_response_6_img_path = :definitions_response_6_img_path,
+                                    definitions_response_6_img_string_base64_encoded = :definitions_response_6_img_string_base64_encoded,
+                                    
+                                    definitions_response_7_text = :definitions_response_7_text,
+                                    definitions_response_7_img_label = :definitions_response_7_img_label,
+                                    definitions_response_7_img_path = :definitions_response_7_img_path,
+                                    definitions_response_7_img_string_base64_encoded = :definitions_response_7_img_string_base64_encoded,
+                                    
+                                    definitions_response_8_text = :definitions_response_8_text,
+                                    definitions_response_8_img_label = :definitions_response_8_img_label,
+                                    definitions_response_8_img_path = :definitions_response_8_img_path,
+                                    definitions_response_8_img_string_base64_encoded = :definitions_response_8_img_string_base64_encoded,
+                                    
+                                    definitions_response_9_text = :definitions_response_9_text,
+                                    definitions_response_9_img_label = :definitions_response_9_img_label,
+                                    definitions_response_9_img_path = :definitions_response_9_img_path,
+                                    definitions_response_9_img_string_base64_encoded = :definitions_response_9_img_string_base64_encoded,
+                                    
+                                    definitions_response_10_text = :definitions_response_10_text,
+                                    definitions_response_10_img_label = :definitions_response_10_img_label,
+                                    definitions_response_10_img_path = :definitions_response_10_img_path,
+                                    definitions_response_10_img_string_base64_encoded = :definitions_response_10_img_string_base64_encoded,
+                                    
+                                    
+                    
+                                    terms_response_1_text = :terms_response_1_text,
+                                    terms_response_1_img_label = :terms_response_1_img_label,
+                                    terms_response_1_img_path = :terms_response_1_img_path,
+                                    terms_response_1_img_string_base64_encoded = :terms_response_1_img_string_base64_encoded,
+                                    
+                                    terms_response_2_text = :terms_response_2_text,
+                                    terms_response_2_img_label = :terms_response_2_img_label,
+                                    terms_response_2_img_path = :terms_response_2_img_path,
+                                    terms_response_2_img_string_base64_encoded = :terms_response_2_img_string_base64_encoded,
+                                    
+                                    terms_response_3_text = :terms_response_3_text,
+                                    terms_response_3_img_label = :terms_response_3_img_label,
+                                    terms_response_3_img_path = :terms_response_3_img_path,
+                                    terms_response_3_img_string_base64_encoded = :terms_response_3_img_string_base64_encoded,
+                                    
+                                    terms_response_4_text = :terms_response_4_text,
+                                    terms_response_4_img_label = :terms_response_4_img_label,
+                                    terms_response_4_img_path = :terms_response_4_img_path,
+                                    terms_response_4_img_string_base64_encoded = :terms_response_4_img_string_base64_encoded,
+                                    
+                                    terms_response_5_text = :terms_response_5_text,
+                                    terms_response_5_img_label = :terms_response_5_img_label,
+                                    terms_response_5_img_path = :terms_response_5_img_path,
+                                    terms_response_5_img_string_base64_encoded = :terms_response_5_img_string_base64_encoded,
+                                    
+                                    terms_response_6_text = :terms_response_6_text,
+                                    terms_response_6_img_label = :terms_response_6_img_label,
+                                    terms_response_6_img_path = :terms_response_6_img_path,
+                                    terms_response_6_img_string_base64_encoded = :terms_response_6_img_string_base64_encoded,
+                                    
+                                    terms_response_7_text = :terms_response_7_text,
+                                    terms_response_7_img_label = :terms_response_7_img_label,
+                                    terms_response_7_img_path = :terms_response_7_img_path,
+                                    terms_response_7_img_string_base64_encoded = :terms_response_7_img_string_base64_encoded,
+                                    
+                                    terms_response_8_text = :terms_response_8_text,
+                                    terms_response_8_img_label = :terms_response_8_img_label,
+                                    terms_response_8_img_path = :terms_response_8_img_path,
+                                    terms_response_8_img_string_base64_encoded = :terms_response_8_img_string_base64_encoded,
+                                    
+                                    terms_response_9_text = :terms_response_9_text,
+                                    terms_response_9_img_label = :terms_response_9_img_label,
+                                    terms_response_9_img_path = :terms_response_9_img_path,
+                                    terms_response_9_img_string_base64_encoded = :terms_response_9_img_string_base64_encoded,
+                                    
+                                    terms_response_10_text = :terms_response_10_text,
+                                    terms_response_10_img_label = :terms_response_10_img_label,
+                                    terms_response_10_img_path = :terms_response_10_img_path,
+                                    terms_response_10_img_string_base64_encoded = :terms_response_10_img_string_base64_encoded,
+                                    
+                    
+                                    assignment_pairs_definition_1 = :assignment_pairs_definition_1,
+                                    assignment_pairs_term_1 = :assignment_pairs_term_1,
+                                    assignment_pairs_1_pts = :assignment_pairs_1_pts,
+                                    
+                                    assignment_pairs_definition_2 = :assignment_pairs_definition_2,
+                                    assignment_pairs_term_2 = :assignment_pairs_term_2,
+                                    assignment_pairs_2_pts = :assignment_pairs_2_pts,
+                                    
+                                    assignment_pairs_definition_3 = :assignment_pairs_definition_3,
+                                    assignment_pairs_term_3 = :assignment_pairs_term_3,
+                                    assignment_pairs_3_pts = :assignment_pairs_3_pts,
+                                    
+                                    assignment_pairs_definition_4 = :assignment_pairs_definition_4,
+                                    assignment_pairs_term_4 = :assignment_pairs_term_4,
+                                    assignment_pairs_4_pts = :assignment_pairs_4_pts,
+                                    
+                                    assignment_pairs_definition_5 = :assignment_pairs_definition_5,
+                                    assignment_pairs_term_5 = :assignment_pairs_term_5,
+                                    assignment_pairs_5_pts = :assignment_pairs_5_pts,
+                                    
+                                    assignment_pairs_definition_6 = :assignment_pairs_definition_6,
+                                    assignment_pairs_term_6 = :assignment_pairs_term_6,
+                                    assignment_pairs_6_pts = :assignment_pairs_6_pts,
+                                    
+                                    assignment_pairs_definition_7 = :assignment_pairs_definition_7,
+                                    assignment_pairs_term_7 = :assignment_pairs_term_7,
+                                    assignment_pairs_7_pts = :assignment_pairs_7_pts,
+                                    
+                                    assignment_pairs_definition_8 = :assignment_pairs_definition_8,
+                                    assignment_pairs_term_8 = :assignment_pairs_term_8,
+                                    assignment_pairs_8_pts = :assignment_pairs_8_pts,
+                                    
+                                    assignment_pairs_definition_9 = :assignment_pairs_definition_9,
+                                    assignment_pairs_term_9 = :assignment_pairs_term_9,
+                                    assignment_pairs_9_pts = :assignment_pairs_9_pts,
+                                    
+                                    assignment_pairs_definition_10 = :assignment_pairs_definition_10,
+                                    assignment_pairs_term_10 = :assignment_pairs_term_10,
+                                    assignment_pairs_10_pts = :assignment_pairs_10_pts,
+                                    
+                    
+                                    picture_preview_pixel = :picture_preview_pixel,
+                    
+                    
+                                    description_img_name_1 = :description_img_name_1,
+                                    description_img_data_1 = :description_img_data_1,
+                                    description_img_path_1 = :description_img_path_1,
+                    
+                                    description_img_name_2 = :description_img_name_2,
+                                    description_img_data_2 = :description_img_data_2,
+                                    description_img_path_2 = :description_img_path_2,
+                    
+                                    description_img_name_3 = :description_img_name_3,
+                                    description_img_data_3 = :description_img_data_3,
+                                    description_img_path_3 = :description_img_path_3,
+                    
+                                    test_time = :test_time,
+                                    question_pool_tag = :question_pool_tag,
+                                    question_author = :question_author
+                                    
+                                    WHERE question_title = :question_title""",
+                               {'question_difficulty': mq_row[db_entry_to_index_dict['question_difficulty'] + 1],
+                                'question_category': mq_row[db_entry_to_index_dict['question_category'] + 1],
+                                'question_type': mq_row[db_entry_to_index_dict['question_type'] + 1],
+
+                                'question_title': mq_row[db_entry_to_index_dict['question_title'] + 1],
+                                'question_description_title': mq_row[db_entry_to_index_dict['question_description_title'] + 1],
+                                'question_description_main': mq_row[db_entry_to_index_dict['question_description_main'] + 1],
+
+                                'mix_answers': mq_row[db_entry_to_index_dict['mix_answers'] + 1],
+                                'assignment_mode': mq_row[db_entry_to_index_dict['assignment_mode'] + 1],
+
+                                'definitions_response_1_text':                        mq_row[db_entry_to_index_dict['definitions_response_1_text'] + 1],
+                                'definitions_response_1_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_1_img_label'] + 1],
+                                'definitions_response_1_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_1_img_path'] + 1],
+                                'definitions_response_1_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_1_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_2_text':                        mq_row[db_entry_to_index_dict['definitions_response_2_text'] + 1],
+                                'definitions_response_2_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_2_img_label'] + 1],
+                                'definitions_response_2_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_2_img_path'] + 1],
+                                'definitions_response_2_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_2_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_3_text':                        mq_row[db_entry_to_index_dict['definitions_response_3_text'] + 1],
+                                'definitions_response_3_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_3_img_label'] + 1],
+                                'definitions_response_3_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_3_img_path'] + 1],
+                                'definitions_response_3_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_3_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_4_text':                        mq_row[db_entry_to_index_dict['definitions_response_4_text'] + 1],
+                                'definitions_response_4_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_4_img_label'] + 1],
+                                'definitions_response_4_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_4_img_path'] + 1],
+                                'definitions_response_4_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_4_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_5_text':                        mq_row[db_entry_to_index_dict['definitions_response_5_text'] + 1],
+                                'definitions_response_5_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_5_img_label'] + 1],
+                                'definitions_response_5_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_5_img_path'] + 1],
+                                'definitions_response_5_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_5_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_6_text':                        mq_row[db_entry_to_index_dict['definitions_response_6_text'] + 1],
+                                'definitions_response_6_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_6_img_label'] + 1],
+                                'definitions_response_6_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_6_img_path'] + 1],
+                                'definitions_response_6_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_6_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_7_text':                        mq_row[db_entry_to_index_dict['definitions_response_7_text'] + 1],
+                                'definitions_response_7_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_7_img_label'] + 1],
+                                'definitions_response_7_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_7_img_path'] + 1],
+                                'definitions_response_7_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_7_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_8_text':                        mq_row[db_entry_to_index_dict['definitions_response_8_text'] + 1],
+                                'definitions_response_8_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_8_img_label'] + 1],
+                                'definitions_response_8_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_8_img_path'] + 1],
+                                'definitions_response_8_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_8_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_9_text':                        mq_row[db_entry_to_index_dict['definitions_response_9_text'] + 1],
+                                'definitions_response_9_img_label':                   mq_row[db_entry_to_index_dict['definitions_response_9_img_label'] + 1],
+                                'definitions_response_9_img_path':                    mq_row[db_entry_to_index_dict['definitions_response_9_img_path'] + 1],
+                                'definitions_response_9_img_string_base64_encoded':   mq_row[db_entry_to_index_dict['definitions_response_9_img_string_base64_encoded'] + 1],
+
+                                'definitions_response_10_text':                       mq_row[db_entry_to_index_dict['definitions_response_10_text'] + 1],
+                                'definitions_response_10_img_label':                  mq_row[db_entry_to_index_dict['definitions_response_10_img_label'] + 1],
+                                'definitions_response_10_img_path':                   mq_row[db_entry_to_index_dict['definitions_response_10_img_path'] + 1],
+                                'definitions_response_10_img_string_base64_encoded':  mq_row[db_entry_to_index_dict['definitions_response_10_img_string_base64_encoded'] + 1],
+
+                                'terms_response_1_text':                              mq_row[db_entry_to_index_dict['terms_response_1_text'] + 1],
+                                'terms_response_1_img_label':                         mq_row[db_entry_to_index_dict['terms_response_1_img_label'] + 1],
+                                'terms_response_1_img_path':                          mq_row[db_entry_to_index_dict['terms_response_1_img_path'] + 1],
+                                'terms_response_1_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_1_img_string_base64_encoded'] + 1],
+
+                                'terms_response_2_text':                              mq_row[db_entry_to_index_dict['terms_response_2_text'] + 1],
+                                'terms_response_2_img_label':                         mq_row[db_entry_to_index_dict['terms_response_2_img_label'] + 1],
+                                'terms_response_2_img_path':                          mq_row[db_entry_to_index_dict['terms_response_2_img_path'] + 1],
+                                'terms_response_2_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_2_img_string_base64_encoded'] + 1],
+
+                                'terms_response_3_text':                              mq_row[db_entry_to_index_dict['terms_response_3_text'] + 1],
+                                'terms_response_3_img_label':                         mq_row[db_entry_to_index_dict['terms_response_3_img_label'] + 1],
+                                'terms_response_3_img_path':                          mq_row[db_entry_to_index_dict['terms_response_3_img_path'] + 1],
+                                'terms_response_3_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_3_img_string_base64_encoded'] + 1],
+
+                                'terms_response_4_text':                              mq_row[db_entry_to_index_dict['terms_response_4_text'] + 1],
+                                'terms_response_4_img_label':                         mq_row[db_entry_to_index_dict['terms_response_4_img_label'] + 1],
+                                'terms_response_4_img_path':                          mq_row[db_entry_to_index_dict['terms_response_4_img_path'] + 1],
+                                'terms_response_4_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_4_img_string_base64_encoded'] + 1],
+
+                                'terms_response_5_text':                              mq_row[db_entry_to_index_dict['terms_response_5_text'] + 1],
+                                'terms_response_5_img_label':                         mq_row[db_entry_to_index_dict['terms_response_5_img_label'] + 1],
+                                'terms_response_5_img_path':                          mq_row[db_entry_to_index_dict['terms_response_5_img_path'] + 1],
+                                'terms_response_5_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_5_img_string_base64_encoded'] + 1],
+
+                                'terms_response_6_text':                              mq_row[db_entry_to_index_dict['terms_response_6_text'] + 1],
+                                'terms_response_6_img_label':                         mq_row[db_entry_to_index_dict['terms_response_6_img_label'] + 1],
+                                'terms_response_6_img_path':                          mq_row[db_entry_to_index_dict['terms_response_6_img_path'] + 1],
+                                'terms_response_6_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_6_img_string_base64_encoded'] + 1],
+
+                                'terms_response_7_text':                              mq_row[db_entry_to_index_dict['terms_response_7_text'] + 1],
+                                'terms_response_7_img_label':                         mq_row[db_entry_to_index_dict['terms_response_7_img_label'] + 1],
+                                'terms_response_7_img_path':                          mq_row[db_entry_to_index_dict['terms_response_7_img_path'] + 1],
+                                'terms_response_7_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_7_img_string_base64_encoded'] + 1],
+
+                                'terms_response_8_text':                              mq_row[db_entry_to_index_dict['terms_response_8_text'] + 1],
+                                'terms_response_8_img_label':                         mq_row[db_entry_to_index_dict['terms_response_8_img_label'] + 1],
+                                'terms_response_8_img_path':                          mq_row[db_entry_to_index_dict['terms_response_8_img_path'] + 1],
+                                'terms_response_8_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_8_img_string_base64_encoded'] + 1],
+
+                                'terms_response_9_text':                              mq_row[db_entry_to_index_dict['terms_response_9_text'] + 1],
+                                'terms_response_9_img_label':                         mq_row[db_entry_to_index_dict['terms_response_9_img_label'] + 1],
+                                'terms_response_9_img_path':                          mq_row[db_entry_to_index_dict['terms_response_9_img_path'] + 1],
+                                'terms_response_9_img_string_base64_encoded':         mq_row[db_entry_to_index_dict['terms_response_9_img_string_base64_encoded'] + 1],
+
+                                'terms_response_10_text':                             mq_row[db_entry_to_index_dict['terms_response_10_text'] + 1],
+                                'terms_response_10_img_label':                        mq_row[db_entry_to_index_dict['terms_response_10_img_label'] + 1],
+                                'terms_response_10_img_path':                         mq_row[db_entry_to_index_dict['terms_response_10_img_path'] + 1],
+                                'terms_response_10_img_string_base64_encoded':        mq_row[db_entry_to_index_dict['terms_response_10_img_string_base64_encoded'] + 1],
 
 
-                self.mq_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
-                self.mq_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
-                self.mq_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
+                                'assignment_pairs_definition_1':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_1'] + 1],
+                                'assignment_pairs_term_1':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_1'] + 1],
+                                'assignment_pairs_1_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_1_pts'] + 1],
+
+                                'assignment_pairs_definition_2':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_2'] + 1],
+                                'assignment_pairs_term_2':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_2'] + 1],
+                                'assignment_pairs_2_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_2_pts'] + 1],
+
+                                'assignment_pairs_definition_3':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_3'] + 1],
+                                'assignment_pairs_term_3':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_3'] + 1],
+                                'assignment_pairs_3_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_3_pts'] + 1],
+
+                                'assignment_pairs_definition_4':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_4'] + 1],
+                                'assignment_pairs_term_4':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_4'] + 1],
+                                'assignment_pairs_4_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_4_pts'] + 1],
+
+                                'assignment_pairs_definition_5':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_5'] + 1],
+                                'assignment_pairs_term_5':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_5'] + 1],
+                                'assignment_pairs_5_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_5_pts'] + 1],
+
+                                'assignment_pairs_definition_6':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_6'] + 1],
+                                'assignment_pairs_term_6':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_6'] + 1],
+                                'assignment_pairs_6_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_6_pts'] + 1],
+
+                                'assignment_pairs_definition_7':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_7'] + 1],
+                                'assignment_pairs_term_7':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_7'] + 1],
+                                'assignment_pairs_7_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_7_pts'] + 1],
+
+                                'assignment_pairs_definition_8':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_8'] + 1],
+                                'assignment_pairs_term_8':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_8'] + 1],
+                                'assignment_pairs_8_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_8_pts'] + 1],
+
+                                'assignment_pairs_definition_9':                      mq_row[db_entry_to_index_dict['assignment_pairs_definition_9'] + 1],
+                                'assignment_pairs_term_9':                            mq_row[db_entry_to_index_dict['assignment_pairs_term_9'] + 1],
+                                'assignment_pairs_9_pts':                             mq_row[db_entry_to_index_dict['assignment_pairs_9_pts'] + 1],
+
+                                'assignment_pairs_definition_10':                     mq_row[db_entry_to_index_dict['assignment_pairs_definition_10'] + 1],
+                                'assignment_pairs_term_10':                           mq_row[db_entry_to_index_dict['assignment_pairs_term_10'] + 1],
+                                'assignment_pairs_10_pts':                            mq_row[db_entry_to_index_dict['assignment_pairs_10_pts'] + 1],
+
+
+                                'picture_preview_pixel':                              mq_row[db_entry_to_index_dict['picture_preview_pixel'] + 1],
+
+                                'description_img_name_1':                             mq_row[db_entry_to_index_dict['description_img_name_1'] + 1],
+                                'description_img_data_1':                             mq_row[db_entry_to_index_dict['description_img_data_1'] + 1],
+                                'description_img_path_1':                             mq_row[db_entry_to_index_dict['description_img_path_1'] + 1],
+
+                                'description_img_name_2':                             mq_row[db_entry_to_index_dict['description_img_name_2'] + 1],
+                                'description_img_data_2':                             mq_row[db_entry_to_index_dict['description_img_data_2'] + 1],
+                                'description_img_path_2':                             mq_row[db_entry_to_index_dict['description_img_path_2'] + 1],
+
+                                'description_img_name_3':                             mq_row[db_entry_to_index_dict['description_img_name_3'] + 1],
+                                'description_img_data_3':                             mq_row[db_entry_to_index_dict['description_img_data_3'] + 1],
+                                'description_img_path_3':                             mq_row[db_entry_to_index_dict['description_img_path_3'] + 1],
+
+
+                                'test_time': mq_row[db_entry_to_index_dict['test_time'] + 1],
+                                'question_pool_tag': mq_row[db_entry_to_index_dict['question_pool_tag'] + 1],
+                                'question_author': mq_row[db_entry_to_index_dict['question_author'] + 1],
+                                'oid': mq_row[-1]
+
+                                })
+
+                    conn.commit()
+
+                    self.edited_questions_list.append(mq_row[db_entry_to_index_dict['question_title'] + 1])
+                    self.number_of_entries_edited += 1
+                else:
+                    self.number_of_new_entries_from_excel += 1
+
+                    self.definitions_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_1_img_label', 'definitions_response_1_img_path', mq_row)
+                    self.definitions_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_2_img_label', 'definitions_response_2_img_path', mq_row)
+                    self.definitions_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_3_img_label', 'definitions_response_3_img_path', mq_row)
+                    self.definitions_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_4_img_label', 'definitions_response_4_img_path', mq_row)
+                    self.definitions_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_5_img_label', 'definitions_response_5_img_path', mq_row)
+                    self.definitions_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_6_img_label', 'definitions_response_6_img_path', mq_row)
+                    self.definitions_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_7_img_label', 'definitions_response_7_img_path', mq_row)
+                    self.definitions_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_8_img_label', 'definitions_response_8_img_path', mq_row)
+                    self.definitions_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_9_img_label', 'definitions_response_9_img_path', mq_row)
+                    self.definitions_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('definitions_response_10_img_label', 'definitions_response_10_img_path', mq_row)
+
+                    self.terms_response_1_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_1_img_label', 'terms_response_1_img_path', mq_row)
+                    self.terms_response_2_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_2_img_label', 'terms_response_2_img_path', mq_row)
+                    self.terms_response_3_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_3_img_label', 'terms_response_3_img_path', mq_row)
+                    self.terms_response_4_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_4_img_label', 'terms_response_4_img_path', mq_row)
+                    self.terms_response_5_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_5_img_label', 'terms_response_5_img_path', mq_row)
+                    self.terms_response_6_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_6_img_label', 'terms_response_6_img_path', mq_row)
+                    self.terms_response_7_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_7_img_label', 'terms_response_7_img_path', mq_row)
+                    self.terms_response_8_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_8_img_label', 'terms_response_8_img_path', mq_row)
+                    self.terms_response_9_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_9_img_label', 'terms_response_9_img_path', mq_row)
+                    self.terms_response_10_img_string_base64_encoded = img_path_to_base64_encoded_string('terms_response_10_img_label', 'terms_response_10_img_path', mq_row)
+
+
+                    self.mq_description_img_data_1 = Import_Export_Database.excel_import_placeholder_to_data(self, mq_row, self.db_entry_to_index_dict['description_img_data_1'], self.db_entry_to_index_dict['description_img_path_1'])
+                    self.mq_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, mq_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
+                    self.mq_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, mq_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
 
 
 
 
-                c.execute("INSERT INTO multiplechoice_table VALUES " + self.sql_values_question_marks, (
-                   row.question_difficulty,
-                   row.question_category,
-                   row.question_type,
-                   row.question_title,
-                   row.question_description_title,
-                   row.question_description_main,
+                    c.execute("INSERT INTO zuordnungsfrage_table VALUES " + self.sql_values_question_marks, (
+                       mq_row.question_difficulty,
+                       mq_row.question_category,
+                       mq_row.question_type,
+                       mq_row.question_title,
+                       mq_row.question_description_title,
+                       mq_row.question_description_main,
 
-                   row.mix_answers,
-                   row.assignment_mode,
+                       mq_row.mix_answers,
+                       mq_row.assignment_mode,
 
-                   row.definitions_response_1_text,
-                   row.definitions_response_1_img_label,
-                   row.definitions_response_1_img_path,
-                   self.definitions_response_1_img_string_base64_encoded,
+                       mq_row.definitions_response_1_text,
+                       mq_row.definitions_response_1_img_label,
+                       mq_row.definitions_response_1_img_path,
+                       self.definitions_response_1_img_string_base64_encoded,
 
-                   row.definitions_response_2_text,
-                   row.definitions_response_2_img_label,
-                   row.definitions_response_2_img_path,
-                   self.definitions_response_2_img_string_base64_encoded,
+                       mq_row.definitions_response_2_text,
+                       mq_row.definitions_response_2_img_label,
+                       mq_row.definitions_response_2_img_path,
+                       self.definitions_response_2_img_string_base64_encoded,
 
-                   row.definitions_response_3_text,
-                   row.definitions_response_3_img_label,
-                   row.definitions_response_3_img_path,
-                   self.definitions_response_3_img_string_base64_encoded,
+                       mq_row.definitions_response_3_text,
+                       mq_row.definitions_response_3_img_label,
+                       mq_row.definitions_response_3_img_path,
+                       self.definitions_response_3_img_string_base64_encoded,
 
-                   row.definitions_response_4_text,
-                   row.definitions_response_4_img_label,
-                   row.definitions_response_4_img_path,
-                   self.definitions_response_4_img_string_base64_encoded,
+                       mq_row.definitions_response_4_text,
+                       mq_row.definitions_response_4_img_label,
+                       mq_row.definitions_response_4_img_path,
+                       self.definitions_response_4_img_string_base64_encoded,
 
-                   row.definitions_response_5_text,
-                   row.definitions_response_5_img_label,
-                   row.definitions_response_5_img_path,
-                   self.definitions_response_5_img_string_base64_encoded,
+                       mq_row.definitions_response_5_text,
+                       mq_row.definitions_response_5_img_label,
+                       mq_row.definitions_response_5_img_path,
+                       self.definitions_response_5_img_string_base64_encoded,
 
-                   row.definitions_response_6_text,
-                   row.definitions_response_6_img_label,
-                   row.definitions_response_6_img_path,
-                   self.definitions_response_6_img_string_base64_encoded,
+                       mq_row.definitions_response_6_text,
+                       mq_row.definitions_response_6_img_label,
+                       mq_row.definitions_response_6_img_path,
+                       self.definitions_response_6_img_string_base64_encoded,
 
-                   row.definitions_response_7_text,
-                   row.definitions_response_7_img_label,
-                   row.definitions_response_7_img_path,
-                   self.definitions_response_7_img_string_base64_encoded,
+                       mq_row.definitions_response_7_text,
+                       mq_row.definitions_response_7_img_label,
+                       mq_row.definitions_response_7_img_path,
+                       self.definitions_response_7_img_string_base64_encoded,
 
-                   row.definitions_response_8_text,
-                   row.definitions_response_8_img_label,
-                   row.definitions_response_8_img_path,
-                   self.definitions_response_8_img_string_base64_encoded,
+                       mq_row.definitions_response_8_text,
+                       mq_row.definitions_response_8_img_label,
+                       mq_row.definitions_response_8_img_path,
+                       self.definitions_response_8_img_string_base64_encoded,
 
-                   row.definitions_response_9_text,
-                   row.definitions_response_9_img_label,
-                   row.definitions_response_9_img_path,
-                   self.definitions_response_9_img_string_base64_encoded,
+                       mq_row.definitions_response_9_text,
+                       mq_row.definitions_response_9_img_label,
+                       mq_row.definitions_response_9_img_path,
+                       self.definitions_response_9_img_string_base64_encoded,
 
-                   row.definitions_response_10_text,
-                   row.definitions_response_10_img_label,
-                   row.definitions_response_10_img_path,
-                   self.definitions_response_10_img_string_base64_encoded,
-
-
-                   
-                   row.terms_response_1_text,
-                   row.terms_response_1_img_label,
-                   row.terms_response_1_img_path,
-                   self.terms_response_1_img_string_base64_encoded,
-
-                   row.terms_response_2_text,
-                   row.terms_response_2_img_label,
-                   row.terms_response_2_img_path,
-                   self.terms_response_2_img_string_base64_encoded,
-
-                   row.terms_response_3_text,
-                   row.terms_response_3_img_label,
-                   row.terms_response_3_img_path,
-                   self.terms_response_3_img_string_base64_encoded,
-
-                   row.terms_response_4_text,
-                   row.terms_response_4_img_label,
-                   row.terms_response_4_img_path,
-                   self.terms_response_4_img_string_base64_encoded,
-
-                   row.terms_response_5_text,
-                   row.terms_response_5_img_label,
-                   row.terms_response_5_img_path,
-                   self.terms_response_5_img_string_base64_encoded,
-
-                   row.terms_response_6_text,
-                   row.terms_response_6_img_label,
-                   row.terms_response_6_img_path,
-                   self.terms_response_6_img_string_base64_encoded,
-
-                   row.terms_response_7_text,
-                   row.terms_response_7_img_label,
-                   row.terms_response_7_img_path,
-                   self.terms_response_7_img_string_base64_encoded,
-
-                   row.terms_response_8_text,
-                   row.terms_response_8_img_label,
-                   row.terms_response_8_img_path,
-                   self.terms_response_8_img_string_base64_encoded,
-
-                   row.terms_response_9_text,
-                   row.terms_response_9_img_label,
-                   row.terms_response_9_img_path,
-                   self.terms_response_9_img_string_base64_encoded,
-
-                   row.terms_response_10_text,
-                   row.terms_response_10_img_label,
-                   row.terms_response_10_img_path,
-                   self.terms_response_10_img_string_base64_encoded,
+                       mq_row.definitions_response_10_text,
+                       mq_row.definitions_response_10_img_label,
+                       mq_row.definitions_response_10_img_path,
+                       self.definitions_response_10_img_string_base64_encoded,
 
 
 
+                       mq_row.terms_response_1_text,
+                       mq_row.terms_response_1_img_label,
+                       mq_row.terms_response_1_img_path,
+                       self.terms_response_1_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_1,
-                   row.assignment_pairs_term_1,
-                   row.assignment_pairs_pts_1,
+                       mq_row.terms_response_2_text,
+                       mq_row.terms_response_2_img_label,
+                       mq_row.terms_response_2_img_path,
+                       self.terms_response_2_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_2,
-                   row.assignment_pairs_term_2,
-                   row.assignment_pairs_pts_2,
+                       mq_row.terms_response_3_text,
+                       mq_row.terms_response_3_img_label,
+                       mq_row.terms_response_3_img_path,
+                       self.terms_response_3_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_3,
-                   row.assignment_pairs_term_3,
-                   row.assignment_pairs_pts_3,
+                       mq_row.terms_response_4_text,
+                       mq_row.terms_response_4_img_label,
+                       mq_row.terms_response_4_img_path,
+                       self.terms_response_4_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_4,
-                   row.assignment_pairs_term_4,
-                   row.assignment_pairs_pts_4,
+                       mq_row.terms_response_5_text,
+                       mq_row.terms_response_5_img_label,
+                       mq_row.terms_response_5_img_path,
+                       self.terms_response_5_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_5,
-                   row.assignment_pairs_term_5,
-                   row.assignment_pairs_pts_5,
+                       mq_row.terms_response_6_text,
+                       mq_row.terms_response_6_img_label,
+                       mq_row.terms_response_6_img_path,
+                       self.terms_response_6_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_6,
-                   row.assignment_pairs_term_6,
-                   row.assignment_pairs_pts_6,
+                       mq_row.terms_response_7_text,
+                       mq_row.terms_response_7_img_label,
+                       mq_row.terms_response_7_img_path,
+                       self.terms_response_7_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_7,
-                   row.assignment_pairs_term_7,
-                   row.assignment_pairs_pts_7,
+                       mq_row.terms_response_8_text,
+                       mq_row.terms_response_8_img_label,
+                       mq_row.terms_response_8_img_path,
+                       self.terms_response_8_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_8,
-                   row.assignment_pairs_term_8,
-                   row.assignment_pairs_pts_8,
+                       mq_row.terms_response_9_text,
+                       mq_row.terms_response_9_img_label,
+                       mq_row.terms_response_9_img_path,
+                       self.terms_response_9_img_string_base64_encoded,
 
-                   row.assignment_pairs_definition_9,
-                   row.assignment_pairs_term_9,
-                   row.assignment_pairs_pts_9,
-
-                   row.assignment_pairs_definition_10,
-                   row.assignment_pairs_term_10,
-                   row.assignment_pairs_pts_10,
-
-                   row.picture_preview_pixel,
-
-                   row.description_img_name_1,
-                   self.mq_description_img_data_1,
-                   row.description_img_path_1,
-
-                   row.description_img_name_2,
-                   self.mq_description_img_data_2,
-                   row.description_img_path_2,
-
-                   row.description_img_name_3,
-                   self.mq_description_img_data_3,
-                   row.description_img_path_3,
-
-                   row.test_time,
-                   row.var_number,
-                   row.res_number,
-                   row.question_pool_tag,
-                   row.question_author
-                ))
-
-                conn.commit()
-
-                print("Load File: \"" + self.xlsx_path + "\"  ---> in zuordnungsfrage_table...done!")
-                print("Excel-Einträge: " + str(len(row)))
+                       mq_row.terms_response_10_text,
+                       mq_row.terms_response_10_img_label,
+                       mq_row.terms_response_10_img_path,
+                       self.terms_response_10_img_string_base64_encoded,
 
 
-        conn.close()
 
-        # Bestätigungsfenster für Import
-        messagebox.showinfo("Excel-Datei importieren", "Einträge wurden importiert!")
+
+                       mq_row.assignment_pairs_definition_1,
+                       mq_row.assignment_pairs_term_1,
+                       mq_row.assignment_pairs_pts_1,
+
+                       mq_row.assignment_pairs_definition_2,
+                       mq_row.assignment_pairs_term_2,
+                       mq_row.assignment_pairs_pts_2,
+
+                       mq_row.assignment_pairs_definition_3,
+                       mq_row.assignment_pairs_term_3,
+                       mq_row.assignment_pairs_pts_3,
+
+                       mq_row.assignment_pairs_definition_4,
+                       mq_row.assignment_pairs_term_4,
+                       mq_row.assignment_pairs_pts_4,
+
+                       mq_row.assignment_pairs_definition_5,
+                       mq_row.assignment_pairs_term_5,
+                       mq_row.assignment_pairs_pts_5,
+
+                       mq_row.assignment_pairs_definition_6,
+                       mq_row.assignment_pairs_term_6,
+                       mq_row.assignment_pairs_pts_6,
+
+                       mq_row.assignment_pairs_definition_7,
+                       mq_row.assignment_pairs_term_7,
+                       mq_row.assignment_pairs_pts_7,
+
+                       mq_row.assignment_pairs_definition_8,
+                       mq_row.assignment_pairs_term_8,
+                       mq_row.assignment_pairs_pts_8,
+
+                       mq_row.assignment_pairs_definition_9,
+                       mq_row.assignment_pairs_term_9,
+                       mq_row.assignment_pairs_pts_9,
+
+                       mq_row.assignment_pairs_definition_10,
+                       mq_row.assignment_pairs_term_10,
+                       mq_row.assignment_pairs_pts_10,
+
+                       mq_row.picture_preview_pixel,
+
+                       mq_row.description_img_name_1,
+                       self.mq_description_img_data_1,
+                       mq_row.description_img_path_1,
+
+                       mq_row.description_img_name_2,
+                       self.mq_description_img_data_2,
+                       mq_row.description_img_path_2,
+
+                       mq_row.description_img_name_3,
+                       self.mq_description_img_data_3,
+                       mq_row.description_img_path_3,
+
+                       mq_row.test_time,
+                       mq_row.var_number,
+                       mq_row.res_number,
+                       mq_row.question_pool_tag,
+                       mq_row.question_author
+                    ))
+
+                    conn.commit()
+
+            print("... Datei geladen!")
+            print(" ")
+            print("MQ_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel),
+                  " -- EDITIERT: " + str(self.number_of_entries_edited))
+
+            for i in range(len(self.edited_questions_list)):
+                print("     Frage editiert: ", self.edited_questions_list[i])
+
+            print(" ")
+
+
+            conn.close()
+
+            # Bestätigungsfenster für Import
+            messagebox.showinfo("Excel-Datei importieren", "Einträge wurden importiert!")
 
     def excel_import_placeholder_to_data(self, row, excel_description_img_data_index, excel_description_img_path_index):
 
@@ -3670,6 +4287,11 @@ class Import_Export_Database(CreateDatabases):
 
 
     def excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
+
+    ##################
+
+    ##################
+
         self.xlsx_workbook_name = xlsx_workbook_name
         self.database_path = database_path
         self.database_table_name = database_table_name
@@ -3677,10 +4299,22 @@ class Import_Export_Database(CreateDatabases):
         self.project_root_path = project_root_path
         self.db_entry_to_index_dict = db_entry_to_index_dict
 
+        # Abfrage in welchem Format die Datenbank exportiert wrden soll
+        # Messagebox liefert ein "Standard" Abfragefenster mit der Möglichkeit "Ja" / "Nein" auszuwählen
+        # Die Rückgabewerte dieser Box sind entsprechend "Yes" / "No"
+        self.export_filetype_choice = messagebox.askquestion("Datenbank exportieren", "Datenbank als XLSX-Dateiformat exportieren?\n(\"Nein\" exportiert die Datei im ODS-Dateiformat)")
+
+        print("_______", self.export_filetype_choice)
+
+        if self.export_filetype_choice == "yes":
+            self.xlsx_workbook_name += ".xlsx"
+
+        else:
+            self.xlsx_workbook_name += ".ods"
 
         # Datenbank-Name lautet z.B.: ilias_singlechoice_db.db
         # durch den Zusatz [:-3] werden die letzten 3 Zeichen gelöscht
-        self.database_dir_name = "ilias_" + str(database_name[:-3])
+        self.database_dir_name = str(database_name[:-3])
         self.database_dir_name += "_images"
 
 
