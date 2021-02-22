@@ -192,13 +192,13 @@ class Create_ILIAS_Pool:
         # Die Zahl muss 7-stellig sein!
         self.pool_id_file_zip_template = ""
 
-        if self.question_type == "formelfrage" or self.question_type == "formel frage":
+        if self.question_type == "formelfrage":
             self.pool_id_file_zip_template = "1115532"
-        if self.question_type == "singlechoice" or self.question_type == "single choice":
+        if self.question_type == "singlechoice":
             self.pool_id_file_zip_template = "2225532"
-        if self.question_type == "multiplechoice" or self.question_type == "multiple choice":
+        if self.question_type == "multiplechoice":
             self.pool_id_file_zip_template = "3335532"
-        if self.question_type == "zuordnungsfrage" or self.question_type == "zordnungs frage":
+        if self.question_type == "zuordnungsfrage":
             self.pool_id_file_zip_template = "4445532"
         if self.question_type == "formelfrage_perm" or self.question_type == "formelfrage_permutation":
             self.pool_id_file_zip_template = "9995532"
