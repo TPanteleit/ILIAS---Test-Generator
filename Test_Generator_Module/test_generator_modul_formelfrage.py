@@ -64,13 +64,25 @@ class Formelfrage:
 
 
 
-        # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
+
 
         self.formelfrage_tab = formelfrage_tab
 
+############## SET QUESTION_TYPE SPECIFIC NAMES FOR DATABASE AND WORBOOK/SHEET
+        # Name des Fragentyps
+        self.ff_question_type_name = "formelfrage"
 
+        # Name für Datenbank und Tabelle
+        self.ff_database = "ilias_formelfrage_db.db"
+        self.ff_database_table = "formelfrage_table"
+
+        # Name für Tabellenkalulations-Datei und Tabelle
+        self.ff_xlsx_workbook_name = "Formelfrage_DB_export_file"
+        self.ff_xlsx_worksheet_name = "Formelfrage - Database"
 
 ############## SET IMAGE VARIABLES
+
+        # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
         self.ff_description_img_name_1 = "EMPTY"
         self.ff_description_img_name_2 = "EMPTY"
         self.ff_description_img_name_3 = "EMPTY"
@@ -91,10 +103,6 @@ class Formelfrage:
         self.project_root_path = project_root_path
         self.formelfrage_files_path = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Formelfrage"))
         self.formelfrage_files_path_pool_output = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_ilias_pool_abgabe"))
-
-        # Name für Datenbank und Tabelle
-        self.ff_database = "ilias_formelfrage_db.db"
-        self.ff_database_table = "formelfrage_table"
 
         # Pfad für die Datenbank
         self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.ff_database))
@@ -218,9 +226,6 @@ class Formelfrage:
         self.ff_check_use_image_3_in_description.grid(row=7, column=0, sticky=W, padx=90)
 
         # Buttons - Bild hinzufügen & Bild löschen
-        #self.ff_add_img_to_description_btn = Button(self.ff_frame_question_description_functions, text="Bild hinzufügen", command=lambda: Formelfrage.ff_add_image_to_description(self, self.ff_var_use_image_1.get(), self.ff_var_use_image_2.get(), self.ff_var_use_image_3.get()))
-       # self.ff_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
-
         self.ff_add_img_to_description_btn = Button(self.ff_frame_question_description_functions, text="Bild hinzufügen", command=lambda: ff_add_image_to_description_and_create_labels())
         self.ff_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
 
@@ -245,10 +250,6 @@ class Formelfrage:
                     self.ff_description_img_path_2,
                     self.ff_description_img_path_3,
                     )
-
-
-        #self.ff_remove_img_from_description_btn = Button(self.ff_frame_question_description_functions, text="Bild entfernen", command=lambda: Formelfrage.ff_delete_image_from_description(self, self.ff_var_use_image_1.get(), self.ff_var_use_image_2.get(), self.ff_var_use_image_3.get()))
-        #self.ff_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
 
         self.ff_remove_img_from_description_btn = Button(self.ff_frame_question_description_functions, text="Bild entfernen", command=lambda: ff_add_image_to_description_and_delete_labels())
         self.ff_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
@@ -396,15 +397,16 @@ class Formelfrage:
 
 
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
-        self.table_name = "Formelfrage_DB_export.xlsx"
+
+
 
 
         # excel_import_btn
-        self.ff_excel_import_to_db_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "formelfrage", self.ff_db_entry_to_index_dict))
+        self.ff_excel_import_to_db_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.ff_question_type_name, self.ff_db_entry_to_index_dict))
         self.ff_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database"))
+        self.ff_excel_export_to_xlsx_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, self.ff_xlsx_workbook_name, self.ff_xlsx_worksheet_name))
         self.ff_excel_export_to_xlsx_formelfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
 
@@ -2730,7 +2732,7 @@ class Formelfrage:
         self.ff_delete_box_id = ""
         self.ff_delete_box_id = self.ff_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, "formelfrage", self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.ff_delete_box_id, self.ff_question_type_name, self.ff_var_delete_all.get(), self.project_root_path, self.ff_db_entry_to_index_dict, self.database_formelfrage_path, self.ff_database, self.ff_database_table, "Formelfrage_DB_export_file.xlsx", "Formelfrage - Database")
 
 
     def ff_clear_GUI(self):
@@ -2989,7 +2991,7 @@ class Create_Formelfrage_Questions(Formelfrage):
             for ff_db_record in ff_db_records:
                 if str(ff_db_record[len(ff_db_record) - 1]) == self.ff_test_entry_splitted[i]:
                     for t in range(len(ff_db_record)):
-                        if ff_db_record[self.ff_db_entry_to_index_dict['question_type']].lower() == "formelfrage" or ff_db_record[self.ff_db_entry_to_index_dict['question_type']].lower() == "formel frage":
+                        if ff_db_record[self.ff_db_entry_to_index_dict['question_type']].lower() == self.ff_question_type_name.lower():
                             self.ff_question_difficulty                                                = ff_db_record[self.ff_db_entry_to_index_dict['question_difficulty']]
                             self.ff_question_category                                                  = ff_db_record[self.ff_db_entry_to_index_dict['question_category']]
                             self.ff_question_type                                                      = ff_db_record[self.ff_db_entry_to_index_dict['question_type']]
@@ -3625,7 +3627,7 @@ class Create_Formelfrage_Pool(Formelfrage):
                                                                             self.formelfrage_pool_qti_file_path_template,
                                                                             self.ff_ilias_test_title_entry.get(),
                                                                             self.create_formelfrage_pool_entry.get(),
-                                                                            "Formelfrage",
+                                                                            self.ff_question_type_name,
                                                                             self.database_formelfrage_path,
                                                                             self.ff_database_table,
                                                                             self.ff_db_entry_to_index_dict,

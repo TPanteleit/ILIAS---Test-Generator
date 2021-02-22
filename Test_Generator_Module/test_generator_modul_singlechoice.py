@@ -25,20 +25,32 @@ class SingleChoice:
     def __init__(self, app, singlechoice_tab, project_root_path):
         self.singlechoice_tab = singlechoice_tab
 
+############## SET QUESTION_TYPE SPECIFIC NAMES FOR DATABASE AND WORBOOK/SHEET
+        # Name des Fragentyps
+        self.sc_question_type_name = "singlechoice"
 
-        self.sc_description_img_name_1, self.sc_description_img_data_1, self.sc_description_img_path_1 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_2, self.sc_description_img_data_2, self.sc_description_img_path_2 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_3, self.sc_description_img_data_3, self.sc_description_img_path_3 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_4, self.sc_description_img_data_4, self.sc_description_img_path_4 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_5, self.sc_description_img_data_5, self.sc_description_img_path_5 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_6, self.sc_description_img_data_6, self.sc_description_img_path_6 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_7, self.sc_description_img_data_7, self.sc_description_img_path_7 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_8, self.sc_description_img_data_8, self.sc_description_img_path_8 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_9, self.sc_description_img_data_9, self.sc_description_img_path_9 = "EMPTY", "EMPTY", "EMPTY"
-        self.sc_description_img_name_10, self.sc_description_img_data_10, self.sc_description_img_path_10 = "EMPTY", "EMPTY", "EMPTY"
+        # Name für Datenbank und Tabelle
+        self.sc_database = "ilias_singlechoice_db.db"
+        self.sc_database_table = "singlechoice_table"
 
+        # Name für Tabellenkalulations-Datei und Tabelle
+        self.sc_xlsx_workbook_name = "SingleChoice_DB_export_file"
+        self.sc_xlsx_worksheet_name = "SingleChoice - Database"
 
+############## SET IMAGE VARIABLES
 
+        # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
+        self.sc_description_img_name_1 = "EMPTY"
+        self.sc_description_img_data_1 = "EMPTY"
+        self.sc_description_img_path_1 = "EMPTY"
+
+        self.sc_description_img_name_2 = "EMPTY"
+        self.sc_description_img_data_2 = "EMPTY"
+        self.sc_description_img_path_2 = "EMPTY"
+
+        self.sc_description_img_name_3 = "EMPTY"
+        self.sc_description_img_data_3 = "EMPTY"
+        self.sc_description_img_path_3 = "EMPTY"
 
 
 ############## DEFINE SINGLECHOICE PATHS
@@ -102,30 +114,6 @@ class SingleChoice:
 
 
 ############## FRAMES
-        # self.sc_frame_ilias_test_title = LabelFrame(self.singlechoice_tab, text="Testname & Autor", padx=5, pady=5)
-        # self.sc_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
-        #
-        # self.sc_frame = LabelFrame(self.singlechoice_tab, text="Single Choice", padx=5, pady=5)
-        # self.sc_frame.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
-        #
-        # self.sc_frame_question_attributes = LabelFrame(self.singlechoice_tab, text="Fragen Attribute", padx=5, pady=5)
-        # self.sc_frame_question_attributes.grid(row=9, column=0, padx=170, pady=10, sticky="NW")
-        #
-        # self.sc_frame_question_description_functions = LabelFrame(self.singlechoice_tab, text="Fragentext Funktionen", padx=5, pady=5)
-        # self.sc_frame_question_description_functions.grid(row=9, column=0, padx=10, pady=10, sticky="NW")
-        #
-        # self.sc_frame_database = LabelFrame(self.singlechoice_tab, text="SingleChoice-Datenbank", padx=5, pady=5)
-        # self.sc_frame_database.grid(row=10, column=0, padx=10, pady=10, sticky=NW)
-        #
-        # self.sc_frame_create_singlechoice_test = LabelFrame(self.singlechoice_tab, text="SingleChoice-Test erstellen", padx=5, pady=5)
-        # self.sc_frame_create_singlechoice_test.grid(row=10, column=0, padx=0, pady=10, sticky="NE")
-        #
-        # self.sc_frame_excel_import_export = LabelFrame(self.singlechoice_tab, text="Excel Import/Export", padx=5, pady=5)
-        # self.sc_frame_excel_import_export.grid(row=9, column=0, padx=40, pady=10, sticky="NE")
-        #
-        # self.sc_frame_description_picture = LabelFrame(self.singlechoice_tab, text="Beschreibung-Text Bild", padx=5, pady=5)
-        # self.sc_frame_description_picture.grid(row=1, column=1, padx=10, pady=10, sticky=NW)
-
 
         self.sc_frame_ilias_test_title = LabelFrame(self.singlechoice_tab, text="Testname & Autor", padx=5, pady=5)
         self.sc_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
@@ -751,15 +739,13 @@ class SingleChoice:
         self.sc_check_delete_all.grid(row=7, column=0, sticky=E)
 
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
-        self.table_name = "SingleChoice_DB_export.xlsx"
-
 
         #excel_import_btn
-        self.sc_excel_import_to_db_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "singlechoice", self.sc_db_entry_to_index_dict))
+        self.sc_excel_import_to_db_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.sc_question_type_name, self.sc_db_entry_to_index_dict))
         self.sc_excel_import_to_db_singlechoice_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_db.db", "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database"))
+        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, self.sc_database, self.sc_database_table, self.sc_xlsx_workbook_name, self.sc_xlsx_worksheet_name))
         self.sc_excel_export_to_xlsx_singlechoice_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import
@@ -1662,7 +1648,7 @@ class SingleChoice:
         self.sc_delete_box_id = ""
         self.sc_delete_box_id = self.sc_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.sc_delete_box_id, "singlechoice", self.sc_var_delete_all.get(), self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_db.db", "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.sc_delete_box_id, self.sc_question_type_name, self.sc_var_delete_all.get(), self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, "singlechoice_db.db", "singlechoice_table", "SingleChoice_DB_export_file.xlsx", "Singlechoice - Database")
 
         self.sc_delete_box.delete(0, END)
 
@@ -1780,7 +1766,7 @@ class Create_SingleChoice_Questions(SingleChoice):
             for sc_db_record in sc_db_records:
                 if str(sc_db_record[len(sc_db_record) - 1]) == self.sc_test_entry_splitted[i]:
                     for t in range(len(sc_db_record)):
-                        if sc_db_record[self.sc_db_entry_to_index_dict['question_type']].lower() == "singlechoice" or sc_db_record[self.sc_db_entry_to_index_dict['question_type']].lower() == "single choice":
+                        if sc_db_record[self.sc_db_entry_to_index_dict['question_type']].lower() == self.sc_question_type_name.lower():
 
                             # an "sc_db_record[self.sc_db_entry_to_index_dict['question_description_main']]"
                             # darf kein extra "replace('&', "&amp;")",
@@ -2229,9 +2215,9 @@ class Create_SingleChoice_Pool(SingleChoice):
                                                                             self.singlechoice_pool_qti_file_path_template,
                                                                             self.sc_ilias_test_title_entry.get(),
                                                                             self.create_singlechoice_pool_entry.get(),
-                                                                            "Singlechoice",
+                                                                            self.sc_question_type_name,
                                                                             self.database_singlechoice_path,
-                                                                            "singlechoice_table",
+                                                                            self.sc_database_table,
                                                                             self.sc_db_entry_to_index_dict,
                                                                             self.sc_var_create_question_pool_all
                                                                             )

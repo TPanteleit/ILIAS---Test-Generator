@@ -24,7 +24,22 @@ from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
 class MultipleChoice:
     def __init__(self, app, multiplechoice_tab, project_root_path):
         self.multiplechoice_tab = multiplechoice_tab
-        
+
+############## SET QUESTION_TYPE SPECIFIC NAMES FOR DATABASE AND WORBOOK/SHEET
+        # Name des Fragentyps
+        self.mc_question_type_name = "multiplechoice"
+
+        # Name für Datenbank und Tabelle
+        self.mc_database = "ilias_multiplechoice_db.db"
+        self.mc_database_table = "multiplechoice_table"
+
+        # Name für Tabellenkalulations-Datei und Tabelle
+        self.mc_xlsx_workbook_name = "MultipleChoice_DB_export_file"
+        self.mc_xlsx_worksheet_name = "MultipleChoice - Database"
+
+############## SET IMAGE VARIABLES
+
+    # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
         self.mc_description_img_name_1 = "EMPTY"
         self.mc_description_img_name_2 = "EMPTY"
         self.mc_description_img_name_3 = "EMPTY"
@@ -93,26 +108,6 @@ class MultipleChoice:
         connect.close()
 
 ############## FRAMES
-        # self.mc_frame_ilias_test_title = LabelFrame(self.multiplechoice_tab, text="Testname & Autor", padx=5, pady=5)
-        # self.mc_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky=NW)
-        # 
-        # self.mc_frame = LabelFrame(self.multiplechoice_tab, text="Multiple Choice", padx=5, pady=5)
-        # self.mc_frame.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
-        # 
-        # self.mc_frame_question_attributes = LabelFrame(self.multiplechoice_tab, text="Fragen Attribute", padx=5, pady=5)
-        # self.mc_frame_question_attributes.grid(row=9, column=0, padx=170, pady=10, sticky="NW")
-        # 
-        # self.mc_frame_question_description_functions = LabelFrame(self.multiplechoice_tab, text="Fragentext Funktionen", padx=5, pady=5)
-        # self.mc_frame_question_description_functions.grid(row=9, column=0, padx=10, pady=10, sticky="NW")
-        # 
-        # self.mc_frame_database = LabelFrame(self.multiplechoice_tab, text="MultipleChoice-Datenbank", padx=5, pady=5)
-        # self.mc_frame_database.grid(row=10, column=0, padx=10, pady=10, sticky=NW)
-        # 
-        # self.mc_frame_create_multiplechoice_test = LabelFrame(self.multiplechoice_tab, text="MultipleChoice-Test erstellen", padx=5, pady=5)
-        # self.mc_frame_create_multiplechoice_test.grid(row=10, column=0, padx=0, pady=10, sticky="NE")
-        # 
-        # self.mc_frame_excel_import_export = LabelFrame(self.multiplechoice_tab, text="Excel Import/Export", padx=5, pady=5)
-        # self.mc_frame_excel_import_export.grid(row=9, column=0, padx=40, pady=10, sticky="NE")
 
         self.mc_frame_ilias_test_title = LabelFrame(self.multiplechoice_tab, text="Testname & Autor", padx=5, pady=5)
         self.mc_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
@@ -715,11 +710,11 @@ class MultipleChoice:
 
 
         #excel_import_btn
-        self.excel_xlsx_import_btn = Button(self.mc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "multiplechoice", self.mc_db_entry_to_index_dict))
+        self.excel_xlsx_import_btn = Button(self.mc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mc_question_type_name, self.mc_db_entry_to_index_dict))
         self.excel_xlsx_import_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.excel_xlsx_export_btn = Button(self.mc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database"))
+        self.excel_xlsx_export_btn = Button(self.mc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, self.mc_database, self.mc_database_table, self.mc_xlsx_workbook_name, self.mc_xlsx_worksheet_name))
         self.excel_xlsx_export_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import
@@ -1366,7 +1361,7 @@ class MultipleChoice:
             self.mc_description_img_data_3 = "EMPTY"
             self.mc_description_img_path_3 = "EMPTY"
     
-        c.execute("""UPDATE singlechoice_table SET
+        c.execute("""UPDATE multiplechoice_table SET
                 'question_difficulty'= :question_difficulty,
                 'question_category'= :question_category,
                 'question_type'= :question_type,
@@ -1577,7 +1572,7 @@ class MultipleChoice:
         self.mc_delete_box_id = ""
         self.mc_delete_box_id = self.mc_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, "multiplechoice", self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, self.mc_question_type_name, self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database")
         
         self.mc_delete_box.delete(0, END)
 
@@ -1702,7 +1697,7 @@ class Create_MultipleChoice_Questions(MultipleChoice):
             for mc_db_record in mc_db_records:
                 if str(mc_db_record[len(mc_db_record) - 1]) == self.mc_test_entry_splitted[i]:
                     for t in range(len(mc_db_record)):
-                        if mc_db_record[self.mc_db_entry_to_index_dict['question_type']].lower() == "multiplechoice" or mc_db_record[self.mc_db_entry_to_index_dict['question_type']].lower() == "multiple choice":
+                        if mc_db_record[self.mc_db_entry_to_index_dict['question_type']].lower() == self.mc_question_type_name:
                             
                             # an "db_record[self.sc_db_entry_to_index_dict['question_description_main']]"
                             # darf kein extra "replace('&', "&amp;")",
@@ -2524,24 +2519,7 @@ class Create_MultipleChoice_Test(MultipleChoice):
                                                                             self.mc_question_type_entry.get(),
                                                                             )
 
-            # # Änderungen der .XML in eine neue Datei schreiben
-            # # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
-            # # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
-            # self.mc_mytree.write(self.multiplechoice_test_tst_file_path_output)
-            #
-            #
-            # print("TST FILE aktualisiert!")
-            # print(self.multiplechoice_test_tst_file_path_output)
-            #
-            # Create_MultipleChoice_Questions.__init__(self,
-            #                           self.mc_db_entry_to_index_dict,
-            #                           self.create_multiplechoice_test_entry.get(),
-            #                           "question_test",
-            #                           self.multiplechoice_test_qti_file_path_template,
-            #                           self.multiplechoice_test_qti_file_path_output)
-            #
-            # # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-            # SingleChoice.sc_replace_character_in_xml_file(self, self.multiplechoice_test_qti_file_path_output)
+
 
 class Create_MultipleChoice_Pool(MultipleChoice):
     def __init__(self, entry_to_index_dict, var_create_all_questions):
@@ -2558,437 +2536,11 @@ class Create_MultipleChoice_Pool(MultipleChoice):
                                                                             self.multiplechoice_pool_qti_file_path_template,
                                                                             self.mc_ilias_test_title_entry.get(),
                                                                             self.create_multiplechoice_pool_entry.get(),
-                                                                            "Multiplechoice",
+                                                                            self.mc_question_type_name,
                                                                             self.database_multiplechoice_path,
-                                                                            "multiplechoice_table",
+                                                                            self.mc_database_table,
                                                                             self.mc_db_entry_to_index_dict,
                                                                             self.mc_var_create_question_pool_all)
 
 
 
-    #     self.names = []
-    #     self.filename_id = []
-    #
-    #     self.mc_list_of_directories = []
-    #     self.mc_list_of_file_IDs = []
-    #     self.mc_filename_with_zip_index = []
-    #
-    #     self.question_title_list = []
-    #     self.question_pool_id_list = []
-    #     self.question_title_to_pool_id_dict = {}
-    #     self.question_title_to_item_id_dict = {}
-    #
-    #
-    #     # Ordnernamen in "self.multiplechoice_pool_directory_output" auslesen
-    #     self.mc_list_of_directories = os.listdir(self.multiplechoice_pool_directory_output)
-    #
-    #
-    #     for i in range(len(self.mc_list_of_directories)):
-    #         if ".zip" in self.mc_list_of_directories[i]:
-    #             self.mc_filename_with_zip_index.append(i)
-    #
-    #     for j in range(len(self.mc_filename_with_zip_index)):
-    #         self.mc_list_of_directories.pop(self.mc_filename_with_zip_index[j])
-    #
-    #
-    #     print
-    #
-    #     #Die letzten sieben (7) Zeichen des Orndernamen in eine Liste packen. Die letzten 7 Zeichen geben die ID des Fragenpools an
-    #     #Die Ordnernamen für ILIAS sind immer in dem Format: z.B.: 1604407426__0__tst_2040314
-    #     #Die ID wird im nachhineie um "1" inkrementiert
-    #     for k in range(len(self.mc_list_of_directories)):
-    #         self.mc_list_of_file_IDs.append(self.mc_list_of_directories[k][-7:])
-    #
-    #
-    #     # Alle String Einträge nach "INT" konvertieren um mit der max() funktion die höchste ID herauszufiltern
-    #     self.mc_list_of_file_IDs = list(map(int, self.mc_list_of_file_IDs))
-    #
-    #     self.mc_file_max_id = str(max(self.mc_list_of_file_IDs)+1)
-    #
-    #
-    #     #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
-    #     self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.mc_file_max_id
-    #     self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.mc_file_max_id + ".xml"
-    #     self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.mc_file_max_id + ".xml"
-    #
-    #     self.qpl_file_pool_path_write = os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #     self.qti_file_pool_path_write = os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #
-    #     # Pfad für ILIAS-Taxonomie Dateien --> "export.xml"
-    #     self.modules_export_file = os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Modules', 'TestQuestionPool', 'set_1', 'export.xml'))
-    #
-    #
-    #     self.taxonomy_file_question_pool = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.taxonomy_file_writes = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #
-    #     print("###")
-    #     print(self.ilias_id_pool_qpl_dir)
-    #
-    #     # Neuen Ordner erstellen
-    #     Create_MultipleChoice_Pool.mc_createFolder(self, os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #
-    #     # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
-    #     # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-    #     Create_MultipleChoice_Pool.mc_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
-    #              os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-    #
-    #     # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
-    #     # Anpassung ID für "qti".xml
-    #     os.rename(os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qti_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml)))
-    #
-    #     # Anpassung ID für "qpl".xml
-    #     os.rename(os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qpl_2074808.xml")),
-    #               os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml)))
-    #
-    #
-    #
-    #     ###### Anpassung der Datei "Modul -> export". Akualisierung des Dateinamens
-    #     self.mytree = ET.parse(self.modules_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         TaxId.set('Id', self.mc_file_max_id)
-    #
-    #     self.mytree.write(self.modules_export_file)
-    #
-    #     with open(self.modules_export_file, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     with open(self.modules_export_file, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-    #
-    #     ######  Anpassung der Datei "Modules -> //... //  -> export.xml". Akualisierung des Dateinamens
-    #     self.taxonomy_export_file = os.path.normpath(os.path.join(self.multiplechoice_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-    #     self.mytree = ET.parse(self.taxonomy_export_file)
-    #     self.myroot = self.mytree.getroot()
-    #
-    #     for ExportItem in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-    #         #print(ExportItem.attrib.get('Id'))
-    #         if ExportItem.attrib.get('Id') != "":
-    #             #print(ExportItem.attrib.get('Id'))
-    #             ExportItem.set('Id', self.mc_file_max_id)
-    #             break
-    #
-    #
-    #
-    #     for object_id in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ObjId'):
-    #         object_id.text = self.mc_file_max_id
-    #         break
-    #
-    #     self.mytree.write(self.taxonomy_export_file)
-    #
-    #     # Taxonomie-datei "refreshen"
-    #     Create_MultipleChoice_Pool.mc_taxonomy_file_refresh(self, self.taxonomy_export_file)
-    #
-    #
-    #     # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
-    #     # ilias_id_pol_
-    #     self.multiplechoice_pool_qti_file_path_output = os.path.normpath(os.path.join(self.multiplechoice_files_path,"mc_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-    #     self.multiplechoice_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.multiplechoice_files_path,"mc_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-    #
-    #
-    #
-    #     Create_MultipleChoice_Questions.__init__(self, self.mc_db_entry_to_index_dict, self.create_multiplechoice_pool_entry.get(), "question_pool", self.multiplechoice_pool_qti_file_path_template, self.multiplechoice_pool_qti_file_path_output)
-    #
-    #
-    #
-    #
-    # def mc_createFolder(self, directory):
-    #     try:
-    #         if not os.path.exists(directory):
-    #             os.makedirs(directory)
-    #     except OSError:
-    #         print('Error: Creating directory. ' + directory)
-    #
-    # def mc_copytree(self, src, dst, symlinks=False, ignore=None):
-    #         for item in os.listdir(src):
-    #             s = os.path.join(src, item)
-    #             d = os.path.join(dst, item)
-    #             if os.path.isdir(s):
-    #                 shutil.copytree(s, d, symlinks, ignore)
-    #             else:
-    #                 shutil.copy2(s, d)
-    #
-    # def mc_taxonomy_file_refresh(self, file_location):
-    #     self.file_location = file_location
-    #     # print("refresh_file_location: " + str(self.file_location))
-    #     with open(self.file_location, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     xml_str = xml_str.replace('ns2:', 'ds:')
-    #     xml_str = xml_str.replace('ns3:', '')  # replace "x" with "new value for x"
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Entity="tax" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #
-    #     with open(self.file_location, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    #
-    #
-    # def mc_create_pool_question(self):
-    #     print("pool question")
-    #
-    # def mc_create_pool_file_qpl(self):
-    #     print("create_pool")
-    #
-    # def mc_replace_characters_pool(self):
-    #     # open xml file to replace specific characters
-    #     with open(self.multiplechoice_pool_qpl_file_path_output, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('&amp;', '&')  # replace 'x' with 'new_x'
-    #
-    #     # write to file
-    #     with open(self.multiplechoice_pool_qpl_file_path_output, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-"""
-    # Diese Funktion fügt die möglichen Antworten in die XML Struktur ein
-    # response_sql -> Der Antwort Text aus der SQL-Datenbank (z.B. aus der Spalte "response_1_text)
-    # response_label_xml -> Eintrag gibt die "ID" der Antwort wider. Beginnt bei "0" und wird mit jeder zusätzlichen Antowort inkrementiert
-    def mc_add_answer_to_xml(self, response_sql, section):
-
-        # Struktur für den SingleChoice - Fragen/Antworten Teil  -- HEADER
-        # Muss für jede Frage neu angelegt/hinzugefügt werden
-        item = ET.SubElement(section, 'item')
-        qticomment = ET.SubElement(item, 'qticomment')
-        duration = ET.SubElement(item, 'duration')
-        itemmetadata = ET.SubElement(item, 'itemmetadata')
-        presentation = ET.SubElement(item, 'presentation')
-
-
-        # Struktur für den SingleCHoice - Fragen/Antworten Teil  -- MAIN
-        # Muss für jede Frage neu angelegt/hinzugefügt werden
-        flow = ET.SubElement(presentation, 'flow')
-        question_description_material = ET.SubElement(flow, 'material')
-        question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-        response_lid = ET.SubElement(flow, 'response_lid')
-        render_choice = ET.SubElement(response_lid, 'render_choice')
-        response_label = ET.SubElement(render_choice, 'response_label')
-        question_answer_material = ET.SubElement(response_label, 'material')
-        question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-
-
-        qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-
-
-
-        ### ------------------------------------------------------- XML Einträge mit Werten füllen
-
-        # Fragen-Titel -- "item title" in xml
-        item.set('title', self.mc_question_title.replace('&', "&amp;"))
-
-        # Fragen-Titel Beschreibung
-        qticomment.text = self.mc_question_description_title
-
-        # Testdauer -- "duration" in xml
-        # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-        duration.text = self.mc_test_time
-        if duration.text == "":
-            duration.text = "P0Y0M0DT1H0M0S"
-
-
-
-
-        # Prüfen ob ILIAS Version ausgelesen werden kann
-        # -----------------------------------------------------------------------ILIAS VERSION
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "ILIAS_VERSION"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "5.4.14 2020-07-31"
-        # -----------------------------------------------------------------------QUESTIONTYPE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "QUESTIONTYPE"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "SINGLE CHOICE QUESTION"
-        # -----------------------------------------------------------------------AUTHOR
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "AUTHOR"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        self.mc_autor_replaced = str(self.mc_autor_entry.get())
-        fieldentry.text = self.mc_autor_replaced.replace('&', "&amp;")
-        # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "additional_cont_edit_mode"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "default"
-        # -----------------------------------------------------------------------EXTERNAL_ID
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "externalId"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "5f11d3ed9af3e5.53678796"
-        # -----------------------------------------------------------------------THUMB_SIZE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "thumb_size"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = ""
-        # -----------------------------------------------------------------------FEEDBACK_SETTING
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "feedback_setting"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "2"
-        # -----------------------------------------------------------------------SINGLELINE
-        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-        fieldlabel.text = "singleline"
-        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-        fieldentry.text = "1"
-
-
-        # Fragentitel einsetzen -- "presentation label" in xml
-        presentation.set('label', self.mc_question_title)
-
-
-
-
-        #Fragen-Text -- "mattext_texttype" in xml -- Gibt das Format des Textes an
-        question_description_mattext.set('texttype', "text/html")
-
-
-
-        #Fragen-Text -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-        question_description_mattext.text = "<p>" + "TEST - Was kommt in der Natur vor?" + "</p>"
-
-
-        # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (SINGLECHOICE)
-        ###### Auslesen der Anzahl der Antworten
-        if isinstance(self.mc_response_1_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_2_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_3_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_4_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_5_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_6_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_7_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_8_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_9_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-        elif isinstance(self.mc_response_1_text, str) == True:
-            self.mc_response_counter = self.mc_response_counter + 1
-
-
-
-
-        # "MCSR --> Singlechoice Identifier für xml datei
-        response_lid.set('ident', "MCSR")
-        response_lid.set('rcardinality', "Single")
-        render_choice.set('shuffle', "Yes")
-
-
-        for nr in range(self.mc_response_counter):
-            #response_lid = ET.SubElement(flow, 'response_lid')
-            #render_choice = ET.SubElement(response_lid, 'render_choice')
-            response_label = ET.SubElement(render_choice, 'response_label')
-            question_answer_material = ET.SubElement(response_label, 'material')
-            question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-
-            if response_sql != "":
-                response_label.set('ident', str(nr+1))
-                question_answer_mattext.set('texttype', "text/plain")
-                question_answer_mattext.text = response_sql
-
-
-
-
-        # Neues "Item" an xml anhängen
-        self.mc_myroot[0][len(self.mc_myroot[0])-1].append(item)
-
-    #mc_create_question.(self, self.mc_response_1_text)
-
-
-
-        self.mc_mytree.write(self.multiplechoice_test_qti_file_path_output)
-        print("SingleChoice Frage erstellt!")
-"""
-
-
-
-""" # Create_SingleChoice_Test.mc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.mc_response_1_text, response_label,  self.mc_response_counter, flow)
-            # Create_SingleChoice_Test.mc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.mc_response_2_text, response_label,  self.mc_response_counter, flow)
-            # Create_SingleChoice_Test.mc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.mc_response_3_text, response_label,  self.mc_response_counter, flow)
-            # Create_SingleChoice_Test.mc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.mc_response_4_text, response_label,  self.mc_response_counter, flow)
-            # Create_SingleChoice_Test.mc_add_answer_to_xml(self, presentation, question_description_mattext, response_lid, render_choice,  self.mc_response_5_text, response_label,  self.mc_response_counter, flow)
-
-
-
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             #response_label = ET.SubElement(render_choice, 'response_label')
-             #question_answer_material = ET.SubElement(response_label, 'material')
-             #question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             #Create_SingleChoice_Test.mc_add_answer_to_xml(self, self.mc_response_1_text, response_label, question_answer_mattext, self.mc_response_counter)
-             if self.mc_response_1_text != "":
-                 response_label.set('ident', str(self.mc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.mc_response_1_text
-                 self.mc_response_counter = self.mc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 2
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.mc_add_answer_to_xml(self, self.mc_response_1_text, response_label, question_answer_mattext, self.mc_response_counter)
-             if self.mc_response_2_text != "":
-                 response_label.set('ident', str(self.mc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.mc_response_2_text
-                 self.mc_response_counter = self.mc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 3
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.mc_add_answer_to_xml(self, self.mc_response_1_text, response_label, question_answer_mattext, self.mc_response_counter)
-             if self.mc_response_3_text != "":
-                 response_label.set('ident', str(self.mc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.mc_response_3_text
-                 self.mc_response_counter = self.mc_response_counter + 1
-             # -----------------------------------------------------------------------ANTWORT 4
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.mc_add_answer_to_xml(self, self.mc_response_1_text, response_label, question_answer_mattext, self.mc_response_counter)
-             if self.mc_response_4_text != "":
-                 response_label.set('ident', str(self.mc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.mc_response_4_text
-                 self.mc_response_counter = self.mc_response_counter + 1
-
-             # -----------------------------------------------------------------------ANTWORT 4
-             #response_lid = ET.SubElement(flow, 'response_lid')
-             #render_choice = ET.SubElement(response_lid, 'render_choice')
-             response_label = ET.SubElement(render_choice, 'response_label')
-             question_answer_material = ET.SubElement(response_label, 'material')
-             question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-             # Create_SingleChoice_Test.mc_add_answer_to_xml(self, self.mc_response_1_text, response_label, question_answer_mattext, self.mc_response_counter)
-             if self.mc_response_4_text != "":
-                 response_label.set('ident', str(self.mc_response_counter))
-                 question_answer_mattext.set('texttype', "text/plain")
-                 question_answer_mattext.text = self.mc_response_4_text
-                 self.mc_response_counter = self.mc_response_counter + 1
-"""

@@ -24,9 +24,23 @@ from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
 class Zuordnungsfrage:
     def __init__(self, app, zuordnungsfrage_tab, project_root_path):
 
-
         self.zuordnungsfrage_tab = zuordnungsfrage_tab
 
+############## SET QUESTION_TYPE SPECIFIC NAMES FOR DATABASE AND WORBOOK/SHEET
+        # Name des Fragentyps
+        self.mq_question_type_name = "zuordnungsfrage"
+
+        # Name für Datenbank und Tabelle
+        self.mq_database = "ilias_zuordnungsfrage_db.db"
+        self.mq_database_table = "zuordnungsfrage_table"
+
+        # Name für Tabellenkalulations-Datei und Tabelle
+        self.mq_xlsx_workbook_name = "Zuordnungsfrage_DB_export_file"
+        self.mq_xlsx_worksheet_name = "Zuordnungsfrage - Database"
+
+############## SET IMAGE VARIABLES
+
+        # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
         self.mq_description_img_name_1 = "EMPTY"
         self.mq_description_img_name_2 = "EMPTY"
         self.mq_description_img_name_3 = "EMPTY"
@@ -379,15 +393,13 @@ class Zuordnungsfrage:
         self.mq_check_delete_all.grid(row=7, column=0, sticky=E)
 
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
-        self.table_name = "Zuordnungsfrage_DB_export.xlsx"
-
 
         #excel_import_btn
-        self.mq_excel_import_to_db_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "Zuordnungsfrage", self.mq_db_entry_to_index_dict))
+        self.mq_excel_import_to_db_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mq_question_type_name, self.mq_db_entry_to_index_dict))
         self.mq_excel_import_to_db_zuordnungsfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.mq_excel_export_to_xlsx_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_db.db", "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database"))
+        self.mq_excel_export_to_xlsx_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, self.mq_database, self.mq_database_table, self.mq_xlsx_workbook_name, self.mq_xlsx_worksheet_name))
         self.mq_excel_export_to_xlsx_zuordnungsfrage_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import
@@ -2009,8 +2021,343 @@ class Zuordnungsfrage:
             if mq_db_record[self.mq_db_entry_to_index_dict['assignment_pairs_term_10']] != "":
                 self.mq_assignment_pairs_terms_10_box.current(self.assignment_pairs_terms_to_int_dict[mq_db_record[self.mq_db_entry_to_index_dict['assignment_pairs_term_10']]])
 
+    def mq_edit_id_from_db(self):
+
+        # Verbindung mit der Datenbank
+        conn = sqlite3.connect(self.database_zuordnungsfrage_path)
+        c = conn.cursor()
+
+        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
+        record_id = self.mq_load_box.get()
+
+        # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
+        self.mq_test_time = "P0Y0M0DT" + self.mq_proc_hours_box.get() + "H" + self.mq_proc_minutes_box.get() + "M" + self.mq_proc_seconds_box.get() + "S"
+
+        # Ist ein Bild-Name vorhanden, dann das Bild über den Pfad einlesen
+        # Sonst auf "EMPTY" setzen
+        # Bilder werden als byte eingelesen "rb" = read byte
+
+        # Fragen-Text Bild 1
+        if self.mq_description_img_name_1 != "EMPTY":
+            with open(self.mq_description_img_path_1, 'rb') as description_image_file_1:
+                self.mq_description_img_data_1 = description_image_file_1.read()
+
+        else:
+            self.mq_description_img_name_1 = "EMPTY"
+            self.mq_description_img_data_1 = "EMPTY"
+            self.mq_description_img_path_1 = "EMPTY"
+
+        # Fragen-Text Bild 2
+        if self.mq_description_img_name_2 != "EMPTY":
+            with open(self.mq_description_img_path_2, 'rb') as description_image_file_2:
+                self.mq_description_img_data_2 = description_image_file_2.read()
+
+        else:
+            self.mq_description_img_name_2 = "EMPTY"
+            self.mq_description_img_data_2 = "EMPTY"
+            self.mq_description_img_path_2 = "EMPTY"
+
+        # Fragen-Text Bild 3
+        if self.mq_description_img_name_3 != "EMPTY":
+            with open(self.mq_description_img_path_3, 'rb') as description_image_file_3:
+                self.mq_description_img_data_3 = description_image_file_3.read()
+
+        else:
+            self.mq_description_img_name_3 = "EMPTY"
+            self.mq_description_img_data_3 = "EMPTY"
+            self.mq_description_img_path_3 = "EMPTY"
+
+        c.execute("""UPDATE zuordnungsfrage_table SET
+                question_difficulty = :question_difficulty,
+                question_category = :question_category,
+                question_type = :question_type,
+
+                question_title = :question_title,
+                question_description_title = :question_description_title,
+                question_description_main = :question_description_main,
+                mix_answers = :mix_answers,
+                assignment_mode = :assignment_mode,
+
+                definitions_response_1_text = :definitions_response_1_text,
+                definitions_response_2_text = :definitions_response_2_text,
+                definitions_response_3_text = :definitions_response_3_text,
+                definitions_response_4_text = :definitions_response_4_text,
+                definitions_response_5_text = :definitions_response_5_text,
+                definitions_response_6_text = :definitions_response_6_text,
+                definitions_response_7_text = :definitions_response_7_text,
+                definitions_response_8_text = :definitions_response_8_text,
+                definitions_response_9_text = :definitions_response_9_text,
+                definitions_response_10_text = :definitions_response_10_text,
+                definitions_response_1_img_label = :definitions_response_1_img_label,
+                definitions_response_2_img_label = :definitions_response_2_img_label,
+                definitions_response_3_img_label = :definitions_response_3_img_label,
+                definitions_response_4_img_label = :definitions_response_4_img_label,
+                definitions_response_5_img_label = :definitions_response_5_img_label,
+                definitions_response_6_img_label = :definitions_response_6_img_label,
+                definitions_response_7_img_label = :definitions_response_7_img_label,
+                definitions_response_8_img_label = :definitions_response_8_img_label,
+                definitions_response_9_img_label = :definitions_response_9_img_label,
+                definitions_response_10_img_label = :definitions_response_10_img_label,
+                definitions_response_1_img_path = :definitions_response_1_img_path,
+                definitions_response_2_img_path = :definitions_response_2_img_path,
+                definitions_response_3_img_path = :definitions_response_3_img_path,
+                definitions_response_4_img_path = :definitions_response_4_img_path,
+                definitions_response_5_img_path = :definitions_response_5_img_path,
+                definitions_response_6_img_path = :definitions_response_6_img_path,
+                definitions_response_7_img_path = :definitions_response_7_img_path,
+                definitions_response_8_img_path = :definitions_response_8_img_path,
+                definitions_response_9_img_path = :definitions_response_9_img_path,
+                definitions_response_10_img_path = :definitions_response_10_img_path,
+                definitions_response_1_img_string_base64_encoded = :definitions_response_1_img_string_base64_encoded,
+                definitions_response_2_img_string_base64_encoded = :definitions_response_2_img_string_base64_encoded,
+                definitions_response_3_img_string_base64_encoded = :definitions_response_3_img_string_base64_encoded,
+                definitions_response_4_img_string_base64_encoded = :definitions_response_4_img_string_base64_encoded,
+                definitions_response_5_img_string_base64_encoded = :definitions_response_5_img_string_base64_encoded,
+                definitions_response_6_img_string_base64_encoded = :definitions_response_6_img_string_base64_encoded,
+                definitions_response_7_img_string_base64_encoded = :definitions_response_7_img_string_base64_encoded,
+                definitions_response_8_img_string_base64_encoded = :definitions_response_8_img_string_base64_encoded,
+                definitions_response_9_img_string_base64_encoded = :definitions_response_9_img_string_base64_encoded,
+                definitions_response_10_img_string_base64_encoded = :definitions_response_10_img_string_base64_encoded,
+
+                terms_response_1_text = :terms_response_1_text ,
+                terms_response_2_text = :terms_response_2_text,
+                terms_response_3_text = :terms_response_3_text,
+                terms_response_4_text = :terms_response_4_text,
+                terms_response_5_text = :terms_response_5_text,
+                terms_response_6_text = :terms_response_6_text,
+                terms_response_7_text = :terms_response_7_text,
+                terms_response_8_text = :terms_response_8_text,
+                terms_response_9_text = :terms_response_9_text,
+                terms_response_10_text = :terms_response_10_text,
+                terms_response_1_img_label = :terms_response_1_img_label,
+                terms_response_2_img_label = :terms_response_2_img_label,
+                terms_response_3_img_label = :terms_response_3_img_label,
+                terms_response_4_img_label = :terms_response_4_img_label,
+                terms_response_5_img_label = :terms_response_5_img_label,
+                terms_response_6_img_label = :terms_response_6_img_label,
+                terms_response_7_img_label = :terms_response_7_img_label,
+                terms_response_8_img_label = :terms_response_8_img_label,
+                terms_response_9_img_label = :terms_response_9_img_label,
+                terms_response_10_img_label = :terms_response_10_img_label,
+                terms_response_1_img_path = :terms_response_1_img_path,
+                terms_response_2_img_path = :terms_response_2_img_path,
+                terms_response_3_img_path = :terms_response_3_img_path,
+                terms_response_4_img_path = :terms_response_4_img_path,
+                terms_response_5_img_path = :terms_response_5_img_path,
+                terms_response_6_img_path = :terms_response_6_img_path,
+                terms_response_7_img_path = :terms_response_7_img_path,
+                terms_response_8_img_path = :terms_response_8_img_path,
+                terms_response_9_img_path = :terms_response_9_img_path,
+                terms_response_10_img_path = :terms_response_10_img_path,
+                terms_response_1_img_string_base64_encoded = :terms_response_1_img_string_base64_encoded ,
+                terms_response_2_img_string_base64_encoded = :terms_response_2_img_string_base64_encoded,
+                terms_response_3_img_string_base64_encoded = :terms_response_3_img_string_base64_encoded,
+                terms_response_4_img_string_base64_encoded = :terms_response_4_img_string_base64_encoded,
+                terms_response_5_img_string_base64_encoded = :terms_response_5_img_string_base64_encoded,
+                terms_response_6_img_string_base64_encoded = :terms_response_6_img_string_base64_encoded,
+                terms_response_7_img_string_base64_encoded = :terms_response_7_img_string_base64_encoded,
+                terms_response_8_img_string_base64_encoded = :terms_response_8_img_string_base64_encoded,
+                terms_response_9_img_string_base64_encoded = :terms_response_9_img_string_base64_encoded,
+                terms_response_10_img_string_base64_encoded = :terms_response_10_img_string_base64_encoded,
+
+                assignment_pairs_definition_1 = :assignment_pairs_definition_1,
+                assignment_pairs_definition_2 = :assignment_pairs_definition_2,
+                assignment_pairs_definition_3 = :assignment_pairs_definition_3,
+                assignment_pairs_definition_4 = :assignment_pairs_definition_4,
+                assignment_pairs_definition_5 = :assignment_pairs_definition_5,
+                assignment_pairs_definition_6 = :assignment_pairs_definition_6,
+                assignment_pairs_definition_7 = :assignment_pairs_definition_7,
+                assignment_pairs_definition_8 = :assignment_pairs_definition_8,
+                assignment_pairs_definition_9 = :assignment_pairs_definition_9,
+                assignment_pairs_definition_10 = :assignment_pairs_definition_10,
+                assignment_pairs_term_1 = :assignment_pairs_term_1,
+                assignment_pairs_term_2 = :assignment_pairs_term_2,
+                assignment_pairs_term_3 = :assignment_pairs_term_3,
+                assignment_pairs_term_4 = :assignment_pairs_term_4,
+                assignment_pairs_term_5 = :assignment_pairs_term_5,
+                assignment_pairs_term_6 = :assignment_pairs_term_6,
+                assignment_pairs_term_7 = :assignment_pairs_term_7,
+                assignment_pairs_term_8 = :assignment_pairs_term_8,
+                assignment_pairs_term_9 = :assignment_pairs_term_9,
+                assignment_pairs_term_10 = :assignment_pairs_term_10,
+                assignment_pairs_1_pts = :assignment_pairs_1_pts ,
+                assignment_pairs_2_pts = :assignment_pairs_2_pts ,
+                assignment_pairs_3_pts = :assignment_pairs_3_pts ,
+                assignment_pairs_4_pts = :assignment_pairs_4_pts ,
+                assignment_pairs_5_pts = :assignment_pairs_5_pts ,
+                assignment_pairs_6_pts = :assignment_pairs_6_pts ,
+                assignment_pairs_7_pts = :assignment_pairs_7_pts ,
+                assignment_pairs_8_pts = :assignment_pairs_8_pts ,
+                assignment_pairs_9_pts = :assignment_pairs_9_pts ,
+                assignment_pairs_10_pts = :assignment_pairs_10_pts ,
+
+                picture_preview_pixel = :picture_preview_pixel ,
+
+
+                description_img_name_1 = :description_img_name_1,
+                description_img_data_1 = :description_img_data_1,
+                description_img_path_1 = :description_img_path_1,
+
+                description_img_name_2 = :description_img_name_2,
+                description_img_data_2 = :description_img_data_2,
+                description_img_path_2 = :description_img_path_2,
+
+                description_img_name_3 = :description_img_name_3,
+                description_img_data_3 = :description_img_data_3,
+                description_img_path_3 = :description_img_path_3,
+
+                test_time = :test_time,
+                question_pool_tag = :question_pool_tag,
+                question_author = :question_author
             
-            
+                WHERE oid = :oid""",
+                {
+                      'question_difficulty': self.mq_question_difficulty_entry.get(),
+                      'question_category': self.mq_question_category_entry.get(),
+                      'question_type': self.mq_question_type_entry.get(),
+                      'question_title': self.mq_question_title_entry.get(),
+                      'question_description_title': self.mq_question_description_title_entry.get(),
+
+                      # The first part, "1.0" means that the input should be read from line one, character zero (ie: the very first character).
+                      # END is an imported constant which is set to the string "end". The END part means to read until the end of the text box is reached.
+                      # The only issue with this is that it actually adds a newline to our input. "
+                      # "So, in order to fix it we should change END to end-1c(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c would mean delete two characters, and so on."
+                      'question_description_main': self.mq_question_description_main_entry.get("1.0", 'end-1c'),
+
+                      'mix_answers': self.mq_mix_answers_box.get(),
+                      'assignment_mode': self.selected_matching_option.get(),
+
+                      'definitions_response_1_text': self.mq_definitions_var1_answer_entry.get(),
+                      'definitions_response_2_text': self.mq_definitions_var2_answer_entry.get(),
+                      'definitions_response_3_text': self.mq_definitions_var3_answer_entry.get(),
+                      'definitions_response_4_text': self.mq_definitions_var4_answer_entry.get(),
+                      'definitions_response_5_text': self.mq_definitions_var5_answer_entry.get(),
+                      'definitions_response_6_text': self.mq_definitions_var6_answer_entry.get(),
+                      'definitions_response_7_text': self.mq_definitions_var7_answer_entry.get(),
+                      'definitions_response_8_text': self.mq_definitions_var8_answer_entry.get(),
+                      'definitions_response_9_text': self.mq_definitions_var9_answer_entry.get(),
+                      'definitions_response_10_text': self.mq_definitions_var10_answer_entry.get(),
+                      'definitions_response_1_img_label': self.mq_definitions_var1_img_label_entry.get(),
+                      'definitions_response_2_img_label': self.mq_definitions_var2_img_label_entry.get(),
+                      'definitions_response_3_img_label': self.mq_definitions_var3_img_label_entry.get(),
+                      'definitions_response_4_img_label': self.mq_definitions_var4_img_label_entry.get(),
+                      'definitions_response_5_img_label': self.mq_definitions_var5_img_label_entry.get(),
+                      'definitions_response_6_img_label': self.mq_definitions_var6_img_label_entry.get(),
+                      'definitions_response_7_img_label': self.mq_definitions_var7_img_label_entry.get(),
+                      'definitions_response_8_img_label': self.mq_definitions_var8_img_label_entry.get(),
+                      'definitions_response_9_img_label': self.mq_definitions_var9_img_label_entry.get(),
+                      'definitions_response_10_img_label': self.mq_definitions_var10_img_label_entry.get(),
+                      'definitions_response_1_img_path': self.mq_definitions_var1_img_path_entry.get(),
+                      'definitions_response_2_img_path': self.mq_definitions_var2_img_path_entry.get(),
+                      'definitions_response_3_img_path': self.mq_definitions_var3_img_path_entry.get(),
+                      'definitions_response_4_img_path': self.mq_definitions_var4_img_path_entry.get(),
+                      'definitions_response_5_img_path': self.mq_definitions_var5_img_path_entry.get(),
+                      'definitions_response_6_img_path': self.mq_definitions_var6_img_path_entry.get(),
+                      'definitions_response_7_img_path': self.mq_definitions_var7_img_path_entry.get(),
+                      'definitions_response_8_img_path': self.mq_definitions_var8_img_path_entry.get(),
+                      'definitions_response_9_img_path': self.mq_definitions_var9_img_path_entry.get(),
+                      'definitions_response_10_img_path': self.mq_definitions_var10_img_path_entry.get(),
+                      'definitions_response_1_img_string_base64_encoded': self.mq_definitions_var1_img_data_entry.get(),
+                      'definitions_response_2_img_string_base64_encoded': self.mq_definitions_var2_img_data_entry.get(),
+                      'definitions_response_3_img_string_base64_encoded': self.mq_definitions_var3_img_data_entry.get(),
+                      'definitions_response_4_img_string_base64_encoded': self.mq_definitions_var4_img_data_entry.get(),
+                      'definitions_response_5_img_string_base64_encoded': self.mq_definitions_var5_img_data_entry.get(),
+                      'definitions_response_6_img_string_base64_encoded': self.mq_definitions_var6_img_data_entry.get(),
+                      'definitions_response_7_img_string_base64_encoded': self.mq_definitions_var7_img_data_entry.get(),
+                      'definitions_response_8_img_string_base64_encoded': self.mq_definitions_var8_img_data_entry.get(),
+                      'definitions_response_9_img_string_base64_encoded': self.mq_definitions_var9_img_data_entry.get(),
+                      'definitions_response_10_img_string_base64_encoded': self.mq_definitions_var10_img_data_entry.get(),
+
+                      'terms_response_1_text': self.mq_terms_var1_answer_entry.get(),
+                      'terms_response_2_text': self.mq_terms_var2_answer_entry.get(),
+                      'terms_response_3_text': self.mq_terms_var3_answer_entry.get(),
+                      'terms_response_4_text': self.mq_terms_var4_answer_entry.get(),
+                      'terms_response_5_text': self.mq_terms_var5_answer_entry.get(),
+                      'terms_response_6_text': self.mq_terms_var6_answer_entry.get(),
+                      'terms_response_7_text': self.mq_terms_var7_answer_entry.get(),
+                      'terms_response_8_text': self.mq_terms_var8_answer_entry.get(),
+                      'terms_response_9_text': self.mq_terms_var9_answer_entry.get(),
+                      'terms_response_10_text': self.mq_terms_var10_answer_entry.get(),
+                      'terms_response_1_img_label': self.mq_terms_var1_img_label_entry.get(),
+                      'terms_response_2_img_label': self.mq_terms_var2_img_label_entry.get(),
+                      'terms_response_3_img_label': self.mq_terms_var3_img_label_entry.get(),
+                      'terms_response_4_img_label': self.mq_terms_var4_img_label_entry.get(),
+                      'terms_response_5_img_label': self.mq_terms_var5_img_label_entry.get(),
+                      'terms_response_6_img_label': self.mq_terms_var6_img_label_entry.get(),
+                      'terms_response_7_img_label': self.mq_terms_var7_img_label_entry.get(),
+                      'terms_response_8_img_label': self.mq_terms_var8_img_label_entry.get(),
+                      'terms_response_9_img_label': self.mq_terms_var9_img_label_entry.get(),
+                      'terms_response_10_img_label': self.mq_terms_var10_img_label_entry.get(),
+                      'terms_response_1_img_path': self.mq_terms_var1_img_path_entry.get(),
+                      'terms_response_2_img_path': self.mq_terms_var2_img_path_entry.get(),
+                      'terms_response_3_img_path': self.mq_terms_var3_img_path_entry.get(),
+                      'terms_response_4_img_path': self.mq_terms_var4_img_path_entry.get(),
+                      'terms_response_5_img_path': self.mq_terms_var5_img_path_entry.get(),
+                      'terms_response_6_img_path': self.mq_terms_var6_img_path_entry.get(),
+                      'terms_response_7_img_path': self.mq_terms_var7_img_path_entry.get(),
+                      'terms_response_8_img_path': self.mq_terms_var8_img_path_entry.get(),
+                      'terms_response_9_img_path': self.mq_terms_var9_img_path_entry.get(),
+                      'terms_response_10_img_path': self.mq_terms_var10_img_path_entry.get(),
+                      'terms_response_1_img_string_base64_encoded': self.mq_terms_var1_img_data_entry.get(),
+                      'terms_response_2_img_string_base64_encoded': self.mq_terms_var2_img_data_entry.get(),
+                      'terms_response_3_img_string_base64_encoded': self.mq_terms_var3_img_data_entry.get(),
+                      'terms_response_4_img_string_base64_encoded': self.mq_terms_var4_img_data_entry.get(),
+                      'terms_response_5_img_string_base64_encoded': self.mq_terms_var5_img_data_entry.get(),
+                      'terms_response_6_img_string_base64_encoded': self.mq_terms_var6_img_data_entry.get(),
+                      'terms_response_7_img_string_base64_encoded': self.mq_terms_var7_img_data_entry.get(),
+                      'terms_response_8_img_string_base64_encoded': self.mq_terms_var8_img_data_entry.get(),
+                      'terms_response_9_img_string_base64_encoded': self.mq_terms_var9_img_data_entry.get(),
+                      'terms_response_10_img_string_base64_encoded': self.mq_terms_var10_img_data_entry.get(),
+
+                      'assignment_pairs_definition_1': self.mq_assignment_pairs_definitions_1_box.get(),
+                      'assignment_pairs_definition_2': self.mq_assignment_pairs_definitions_2_box.get(),
+                      'assignment_pairs_definition_3': self.mq_assignment_pairs_definitions_3_box.get(),
+                      'assignment_pairs_definition_4': self.mq_assignment_pairs_definitions_4_box.get(),
+                      'assignment_pairs_definition_5': self.mq_assignment_pairs_definitions_5_box.get(),
+                      'assignment_pairs_definition_6': self.mq_assignment_pairs_definitions_6_box.get(),
+                      'assignment_pairs_definition_7': self.mq_assignment_pairs_definitions_7_box.get(),
+                      'assignment_pairs_definition_8': self.mq_assignment_pairs_definitions_8_box.get(),
+                      'assignment_pairs_definition_9': self.mq_assignment_pairs_definitions_9_box.get(),
+                      'assignment_pairs_definition_10': self.mq_assignment_pairs_definitions_10_box.get(),
+                      'assignment_pairs_term_1': self.mq_assignment_pairs_terms_1_box.get(),
+                      'assignment_pairs_term_2': self.mq_assignment_pairs_terms_2_box.get(),
+                      'assignment_pairs_term_3': self.mq_assignment_pairs_terms_3_box.get(),
+                      'assignment_pairs_term_4': self.mq_assignment_pairs_terms_4_box.get(),
+                      'assignment_pairs_term_5': self.mq_assignment_pairs_terms_5_box.get(),
+                      'assignment_pairs_term_6': self.mq_assignment_pairs_terms_6_box.get(),
+                      'assignment_pairs_term_7': self.mq_assignment_pairs_terms_7_box.get(),
+                      'assignment_pairs_term_8': self.mq_assignment_pairs_terms_8_box.get(),
+                      'assignment_pairs_term_9': self.mq_assignment_pairs_terms_9_box.get(),
+                      'assignment_pairs_term_10': self.mq_assignment_pairs_terms_10_box.get(),
+                      'assignment_pairs_1_pts': self.mq_assignment_pairs_pts_1_entry.get(),
+                      'assignment_pairs_2_pts': self.mq_assignment_pairs_pts_2_entry.get(),
+                      'assignment_pairs_3_pts': self.mq_assignment_pairs_pts_3_entry.get(),
+                      'assignment_pairs_4_pts': self.mq_assignment_pairs_pts_4_entry.get(),
+                      'assignment_pairs_5_pts': self.mq_assignment_pairs_pts_5_entry.get(),
+                      'assignment_pairs_6_pts': self.mq_assignment_pairs_pts_6_entry.get(),
+                      'assignment_pairs_7_pts': self.mq_assignment_pairs_pts_7_entry.get(),
+                      'assignment_pairs_8_pts': self.mq_assignment_pairs_pts_8_entry.get(),
+                      'assignment_pairs_9_pts': self.mq_assignment_pairs_pts_9_entry.get(),
+                      'assignment_pairs_10_pts': self.mq_assignment_pairs_pts_10_entry.get(),
+
+                      'picture_preview_pixel': self.mq_picture_preview_pixel_entry.get(),
+
+                      'description_img_name_1': self.mq_description_img_name_1,
+                      'description_img_data_1': self.mq_description_img_data_1,
+                      'description_img_path_1': self.mq_description_img_path_1,
+
+                      'description_img_name_2': self.mq_description_img_name_2,
+                      'description_img_data_2': self.mq_description_img_data_2,
+                      'description_img_path_2': self.mq_description_img_path_2,
+
+                      'description_img_name_3': self.mq_description_img_name_3,
+                      'description_img_data_3': self.mq_description_img_data_3,
+                      'description_img_path_3': self.mq_description_img_path_3,
+
+                      'test_time': self.mq_test_time,
+                      'question_pool_tag': self.mq_question_pool_tag_entry.get(),
+                      'question_author': self.mq_question_author_entry.get()
+                  })
             
             
     def mq_delete_id_from_db(self):
@@ -2018,7 +2365,7 @@ class Zuordnungsfrage:
         self.mq_delete_box_id = ""
         self.mq_delete_box_id = self.mq_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mq_delete_box_id, "zuordnungsfrage", self.mq_var_delete_all.get(), self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_db.db", "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mq_delete_box_id, self.mq_question_type_name, self.mq_var_delete_all.get(), self.project_root_path, self.mq_db_entry_to_index_dict, self.database_zuordnungsfrage_path, "zuordnungsfrage_db.db", "zuordnungsfrage_table", "Zuordnungsfrage_DB_export_file.xlsx", "Zuordnungsfrage - Database")
 
         self.mq_delete_box.delete(0, END)
     
@@ -2182,7 +2529,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
             for mq_db_record in mq_db_records:
                 if str(mq_db_record[len(mq_db_record) - 1]) == self.mq_test_entry_splitted[i]:
                     for t in range(len(mq_db_record)):
-                        if mq_db_record[self.mq_db_entry_to_index_dict['question_type']].lower() == "zuordnungsfrage" or mq_db_record[self.mq_db_entry_to_index_dict['question_type']].lower() == "zuordnungs frage":
+                        if mq_db_record[self.mq_db_entry_to_index_dict['question_type']].lower() == self.mq_question_type_name.lower():
 
                             self.mq_question_difficulty                                 = mq_db_record[self.mq_db_entry_to_index_dict['question_difficulty']]
                             self.mq_question_category                                   = mq_db_record[self.mq_db_entry_to_index_dict['question_category']]
@@ -2773,44 +3120,6 @@ class Create_Zuordnungsfrage_Test(Zuordnungsfrage):
                                                                             )
 
 
-        # ##### VARIABLES
-        # self.mq_test_entry_splitted = []
-        #
-        #
-        # ##### Einlesen der "Zuordnungsfrage" _tst_.xml zum ändern des Test-Titel
-        # self.mq_mytree = ET.parse(self.zuordnungsfrage_test_tst_file_path_template)
-        # self.mq_myroot = self.mq_mytree.getroot()
-        #
-        # # Titel-Eintrag ändern (Voreinstellung in der Vorlage: Titel = mq_test_vorlage)
-        # for ContentObject in self.mq_myroot.iter('ContentObject'):
-        #     for MetaData in ContentObject.iter('MetaData'):
-        #         for General in MetaData.iter('General'):
-        #             for Title in General.iter('Title'):
-        #                 Title.text = self.mq_ilias_test_title_entry.get()
-        #
-        #                 # .XML Datei kann keine "&" verarbeiten.
-        #                 # "&" muss gegen "&amp" ausgetauscht werden sonst kann Ilias die Datei hinterher nicht verwerten.
-        #                 Title.text = Title.text.replace('&', "&amp;")
-        #
-        #
-        #
-        #
-        #
-        #     # Sollte kein Namen vergeben werden, wird der Test-Titel auf "DEFAULT" gesetzt
-        #     if Title.text == "mq_test_vorlage" or Title.text == "":
-        #         Title.text = "DEFAULT"
-        #
-        #     # Änderungen der .XML in eine neue Datei schreiben
-        #     # Die Datei wird nach dem ILIAS-Import "Standard" benannt "1604407426__0__tst_2040314.xml"
-        #     # Die Ziffernfolge der 10 Ziffern am Anfang sowie der 7 Ziffern zum Schluss können nach belieben variiert werden.
-        #     self.mq_mytree.write(self.zuordnungsfrage_test_tst_file_path_output)
-        #
-        #
-        #     print("TST FILE aktualisiert!")
-        #
-        #
-        #     Create_Zuordnungsfrage_Questions.__init__(self, self.mq_db_entry_to_index_dict, self.create_zuordnungsfrage_test_entry.get(), "question_test", "img_pool_dir_not_used_for_test", self.zuordnungsfrage_test_qti_file_path_template, self.zuordnungsfrage_test_qti_file_path_output)
-
 
 
 class Create_Zuordnungsfrage_Pool(Zuordnungsfrage):
@@ -2828,9 +3137,9 @@ class Create_Zuordnungsfrage_Pool(Zuordnungsfrage):
                                                                             self.zuordnungsfrage_pool_qti_file_path_template,
                                                                             self.mq_ilias_test_title_entry.get(),
                                                                             self.create_zuordnungsfrage_pool_entry.get(),
-                                                                            "Zuordnungsfrage",
+                                                                            self.mq_question_type_name,
                                                                             self.database_zuordnungsfrage_path,
-                                                                            "zuordnungsfrage_table",
+                                                                            self.mq_database_table,
                                                                             self.mq_db_entry_to_index_dict,
                                                                             self.mq_var_create_question_pool_all
                                                                             )
@@ -2838,176 +3147,3 @@ class Create_Zuordnungsfrage_Pool(Zuordnungsfrage):
 
 
         print("\n ----> Erstellung Fragenpool abgeschlossen! <----")
-        # self.names = []
-        # self.filename_id = []
-        # 
-        # self.mq_list_of_directories = []
-        # self.mq_list_of_file_IDs = []
-        # self.mq_filename_with_zip_index = []
-        # 
-        # self.question_title_list = []
-        # self.question_pool_id_list = []
-        # self.question_title_to_pool_id_dict = {}
-        # self.question_title_to_item_id_dict = {}
-        # 
-        # 
-        # # Ordnernamen in "self.zuordnungsfrage_pool_directory_output" auslesen
-        # self.mq_list_of_directories = os.listdir(self.zuordnungsfrage_pool_directory_output)
-        # 
-        # 
-        # for i in range(len(self.mq_list_of_directories)):
-        #     if ".zip" in self.mq_list_of_directories[i]:
-        #         self.mq_filename_with_zip_index.append(i)
-        # 
-        # 
-        # 
-        # 
-        # 
-        # for j in range(len(self.mq_filename_with_zip_index)):
-        #     self.mq_list_of_directories.pop(self.mq_filename_with_zip_index[j]-j)
-        # 
-        # 
-        # #Die letzten sieben (7) Zeichen des Orndernamen in eine Liste packen. Die letzten 7 Zeichen geben die ID des Fragenpools an
-        # #Die Ordnernamen für ILIAS sind immer in dem Format: z.B.: 1604407426__0__tst_2040314
-        # #Die ID wird im nachhineie um "1" inkrementiert
-        # for k in range(len(self.mq_list_of_directories)):
-        #     self.mq_list_of_file_IDs.append(self.mq_list_of_directories[k][-7:])
-        # 
-        # 
-        # # Alle String Einträge nach "INT" konvertieren um mit der max() funktion die höchste ID herauszufiltern
-        # self.mq_list_of_file_IDs = list(map(int, self.mq_list_of_file_IDs))
-        # 
-        # self.mq_file_max_id = str(max(self.mq_list_of_file_IDs)+1)
-        # 
-        # 
-        # #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
-        # self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.mq_file_max_id
-        # self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.mq_file_max_id + ".xml"
-        # self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.mq_file_max_id + ".xml"
-        # self.ilias_id_pool_img_dir = os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "objects"))
-        # 
-        # self.qpl_file_pool_path_write = os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-        # self.qti_file_pool_path_write = os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-        # self.zuordnungsfrage_pool_img_file_path = os.path.normpath(os.path.join(self.zuordnungsfrage_files_path,"mq_ilias_test_abgabe", "1604407426__0__tst_2040314", "objects"))
-        # 
-        # # Pfad für ILIAS-Taxonomie Dateien --> "export.xml"
-        # self.modules_export_file = os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Modules', 'TestQuestionPool', 'set_1', 'export.xml'))
-        # 
-        # 
-        # self.taxonomy_file_question_pool = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-        # self.taxonomy_file_writes = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Fragenpool_qpl_Daten", self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-        # 
-        # print("###")
-        # print(self.ilias_id_pool_qpl_dir)
-        # 
-        # # Neuen Ordner erstellen
-        # Create_Zuordnungsfrage_Questions.mq_createFolder(self, os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-        # 
-        # 
-        # # Hier wird das Verzeichnis kopiert, um die Struktur vom Fragenpool-Ordner zu erhalten
-        # # Die Struktur stammt aus einem Vorlage-Ordner. Die notwendigen XML Dateien werden im Anschluss ersetzt bzw. mit Werten aktualisiert
-        # Create_Zuordnungsfrage_Pool.mq_copytree(self, os.path.normpath(os.path.join(self.project_root_path, "Vorlage_für_Fragenpool", 'orig_1596569820__0__qpl_2074808')),
-        #          os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir)))
-        # 
-        # # Da durch "copytree" alle Daten kopiert werden, werden hier die qpl.xml und die qti.xml auf die aktuelle Nummer umbenannt und später dadurch überschrieben
-        # # Anpassung ID für "qti".xml
-        # os.rename(os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qti_2074808.xml")),
-        #           os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml)))
-        # 
-        # # Anpassung ID für "qpl".xml
-        # os.rename(os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, "1596569820__0__qpl_2074808.xml")),
-        #           os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml)))
-        # 
-        # 
-        # 
-        # ###### Anpassung der Datei "Modul -> export". Akualisierung des Dateinamens
-        # self.mytree = ET.parse(self.modules_export_file)
-        # self.myroot = self.mytree.getroot()
-        # 
-        # for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-        #     TaxId.set('Id', self.mq_file_max_id)
-        # 
-        # self.mytree.write(self.modules_export_file)
-        # 
-        # with open(self.modules_export_file, 'r') as xml_file:
-        #     xml_str = xml_file.read()
-        # xml_str = xml_str.replace('ns0:', 'exp:')
-        # with open(self.modules_export_file, 'w') as replaced_xml_file:
-        #     replaced_xml_file.write(xml_str)
-        # 
-        # 
-        # 
-        # ######  Anpassung der Datei "Modules -> //... //  -> export.xml". Akualisierung des Dateinamens
-        # self.taxonomy_export_file = os.path.normpath(os.path.join(self.zuordnungsfrage_pool_directory_output, self.ilias_id_pool_qpl_dir, 'Services', 'Taxonomy', 'set_1', 'export.xml'))
-        # self.mytree = ET.parse(self.taxonomy_export_file)
-        # self.myroot = self.mytree.getroot()
-        # 
-        # for ExportItem in self.myroot.iter('{http://www.ilias.de/Services/Export/exp/4_1}ExportItem'):
-        #     #print(ExportItem.attrib.get('Id'))
-        #     if ExportItem.attrib.get('Id') != "":
-        #         #print(ExportItem.attrib.get('Id'))
-        #         ExportItem.set('Id', self.mq_file_max_id)
-        #         break
-        # 
-        # 
-        # 
-        # for object_id in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}ObjId'):
-        #     object_id.text = self.mq_file_max_id
-        #     break
-        # 
-        # self.mytree.write(self.taxonomy_export_file)
-        # 
-        # # Taxonomie-datei "refreshen"
-        # Create_Zuordnungsfrage_Pool.mq_taxonomy_file_refresh(self, self.taxonomy_export_file)
-        # 
-        # 
-        # # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
-        # # ilias_id_pol_
-        # self.zuordnungsfrage_pool_qti_file_path_output = os.path.normpath(os.path.join(self.zuordnungsfrage_files_path,"mq_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qti_xml))
-        # self.zuordnungsfrage_pool_qpl_file_path_output = os.path.normpath(os.path.join(self.zuordnungsfrage_files_path,"mq_ilias_pool_abgabe", self.ilias_id_pool_qpl_dir, self.ilias_id_pool_qpl_xml))
-        # 
-        # 
-        # 
-        # Create_Zuordnungsfrage_Questions.__init__(self, self.mq_db_entry_to_index_dict, self.create_zuordnungsfrage_pool_entry.get(), "question_pool", self.ilias_id_pool_img_dir, self.zuordnungsfrage_pool_qti_file_path_template, self.zuordnungsfrage_pool_qti_file_path_output)
-        # 
-        # 
-        # 
-        # 
-        # 
-
-    # def mq_copytree(self, src, dst, symlinks=False, ignore=None):
-    #         for item in os.listdir(src):
-    #             s = os.path.join(src, item)
-    #             d = os.path.join(dst, item)
-    #             if os.path.isdir(s):
-    #                 shutil.copytree(s, d, symlinks, ignore)
-    #             else:
-    #                 shutil.copy2(s, d)
-    # 
-    # def mq_taxonomy_file_refresh(self, file_location):
-    #     self.file_location = file_location
-    #     # print("refresh_file_location: " + str(self.file_location))
-    #     with open(self.file_location, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('ns0:', 'exp:')
-    #     xml_str = xml_str.replace('ns2:', 'ds:')
-    #     xml_str = xml_str.replace('ns3:', '')  # replace "x" with "new value for x"
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    #     xml_str = xml_str.replace(
-    #         '<exp:Export xmlns:ns0="http://www.ilias.de/Services/Export/exp/4_1" xmlns:ns2="http://www.ilias.de/Services/DataSet/ds/4_3" xmlns:ns3="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Entity="tax" InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" SchemaVersion="4.3.0" TargetRelease="5.4.0" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd">',
-    #         '<exp:Export InstallationId="0" InstallationUrl="https://ilias.th-koeln.de" Entity="tax" SchemaVersion="4.3.0" TargetRelease="5.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1" xsi:schemaLocation="http://www.ilias.de/Services/Export/exp/4_1 https://ilias.th-koeln.de/xml/ilias_export_4_1.xsd http://www.ilias.de/Services/Taxonomy/tax/4_3 https://ilias.th-koeln.de/xml/ilias_tax_4_3.xsd http://www.ilias.de/Services/DataSet/ds/4_3 https://ilias.th-koeln.de/xml/ilias_ds_4_3.xsd" xmlns="http://www.ilias.de/Services/Taxonomy/tax/4_3" xmlns:ds="http://www.ilias.de/Services/DataSet/ds/4_3">')
-    # 
-    #     with open(self.file_location, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
-    # 
-    # def mq_replace_characters_pool(self):
-    #     # open xml file to replace specific characters
-    #     with open(self.zuordnungsfrage_pool_qpl_file_path_output, 'r') as xml_file:
-    #         xml_str = xml_file.read()
-    #     xml_str = xml_str.replace('&amp;', '&')  # replace 'x' with 'new_x'
-    # 
-    #     # write to file
-    #     with open(self.zuordnungsfrage_pool_qpl_file_path_output, 'w') as replaced_xml_file:
-    #         replaced_xml_file.write(xml_str)
