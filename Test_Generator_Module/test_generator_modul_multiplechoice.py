@@ -40,17 +40,17 @@ class MultipleChoice:
 ############## SET IMAGE VARIABLES
 
     # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
-        self.mc_description_img_name_1 = "EMPTY"
-        self.mc_description_img_name_2 = "EMPTY"
-        self.mc_description_img_name_3 = "EMPTY"
+        self.mc_description_img_name_1 = ""
+        self.mc_description_img_name_2 = ""
+        self.mc_description_img_name_3 = ""
 
-        self.mc_description_img_data_1 = "EMPTY"
-        self.mc_description_img_data_2 = "EMPTY"
-        self.mc_description_img_data_3 = "EMPTY"
+        self.mc_description_img_data_1 = ""
+        self.mc_description_img_data_2 = ""
+        self.mc_description_img_data_3 = ""
 
-        self.mc_description_img_path_1 = "EMPTY"
-        self.mc_description_img_path_2 = "EMPTY"
-        self.mc_description_img_path_3 = "EMPTY"
+        self.mc_description_img_path_1 = ""
+        self.mc_description_img_path_2 = ""
+        self.mc_description_img_path_3 = ""
 
 ############## DEFINE MULTIPLECHOICE PATHS
 
@@ -1016,7 +1016,7 @@ class MultipleChoice:
         self.mc_test_time = "P0Y0M0DT" + self.mc_proc_hours_box.get() + "H" + self.mc_proc_minutes_box.get() + "M" + self.mc_proc_seconds_box.get() + "S"
         
         # Bild 1
-        if self.mc_description_img_name_1!= "EMPTY":
+        if self.mc_description_img_name_1 != "" or self.mc_description_img_name_1 != "EMPTY":
             # read image data in byte format
             print(self.mc_description_img_name_1)
             print(self.mc_description_img_path_1)
@@ -1024,13 +1024,13 @@ class MultipleChoice:
                 self.mc_description_img_data_1 = image_file_1.read()
 
         else:
-            self.mc_description_img_name_1= "EMPTY"
-            self.mc_description_img_path_1 = "EMPTY"
-            self.mc_description_img_data_1 = "EMPTY"
+            self.mc_description_img_name_1= ""
+            self.mc_description_img_path_1 = ""
+            self.mc_description_img_data_1 = ""
 
 
         # Bild 2
-        if self.mc_description_img_name_2!= "EMPTY":
+        if self.mc_description_img_name_2 != "" or self.mc_description_img_name_2 != "EMPTY":
             # read image data in byte format
             print(self.mc_description_img_name_2)
             print(self.mc_description_img_path_2)
@@ -1038,13 +1038,13 @@ class MultipleChoice:
                 self.mc_description_img_data_2 = image_file_2.read()
 
         else:
-            self.mc_description_img_name_2 = "EMPTY"
-            self.mc_description_img_path_2 = "EMPTY"
-            self.mc_description_img_data_2 = "EMPTY"
+            self.mc_description_img_name_2 = ""
+            self.mc_description_img_path_2 = ""
+            self.mc_description_img_data_2 = ""
 
 
         # Bild 3
-        if self.mc_description_img_name_3 != "EMPTY":
+        if self.mc_description_img_name_3 != "" or self.mc_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
             print(self.mc_description_img_name_3)
@@ -1053,15 +1053,15 @@ class MultipleChoice:
                 self.mc_description_img_data_3 = image_file_3.read()
 
         else:
-            self.mc_description_img_name_3 = "EMPTY"
-            self.mc_description_img_path_3 = "EMPTY"
-            self.mc_description_img_data_3 = "EMPTY"
+            self.mc_description_img_name_3 = ""
+            self.mc_description_img_path_3 = ""
+            self.mc_description_img_data_3 = ""
         
         def mc_bind_value_for_empty_answer_image(picture_label_entry, picture_data_entry, picture_path_entry):
             if picture_label_entry.get() == "":
-                picture_label_entry.insert(0, "EMPTY")
-                picture_data_entry.insert(0, "EMPTY")
-                picture_path_entry.insert(0, "EMPTY")
+                picture_label_entry.insert(0, "")
+                picture_data_entry.insert(0, "")
+                picture_path_entry.insert(0, "")
 
         mc_bind_value_for_empty_answer_image(self.mc_var1_img_label_entry, self.mc_var1_img_data_entry, self.mc_var1_img_path_entry)
         mc_bind_value_for_empty_answer_image(self.mc_var2_img_label_entry, self.mc_var2_img_data_entry, self.mc_var2_img_path_entry)
@@ -1332,34 +1332,34 @@ class MultipleChoice:
         # Bilder werden als byte eingelesen "rb" = read byte
     
         # Fragen-Text Bild 1
-        if self.mc_description_img_name_1 != "EMPTY":
+        if self.mc_description_img_name_1 != "" or self.mc_description_img_name_1 != "EMPTY":
             with open(self.mc_description_img_path_1, 'rb') as description_image_file_1:
                 self.mc_description_img_data_1 = description_image_file_1.read()
     
         else:
-            self.mc_description_img_name_1 = "EMPTY"
-            self.mc_description_img_data_1 = "EMPTY"
-            self.mc_description_img_path_1 = "EMPTY"
+            self.mc_description_img_name_1 = ""
+            self.mc_description_img_data_1 = ""
+            self.mc_description_img_path_1 = ""
     
         # Fragen-Text Bild 2
-        if self.mc_description_img_name_2 != "EMPTY":
+        if self.mc_description_img_name_2 != "" or self.mc_description_img_name_2 != "EMPTY":
             with open(self.mc_description_img_path_2, 'rb') as description_image_file_2:
                 self.mc_description_img_data_2 = description_image_file_2.read()
     
         else:
-            self.mc_description_img_name_2 = "EMPTY"
-            self.mc_description_img_data_2 = "EMPTY"
-            self.mc_description_img_path_2 = "EMPTY"
+            self.mc_description_img_name_2 = ""
+            self.mc_description_img_data_2 = ""
+            self.mc_description_img_path_2 = ""
     
         # Fragen-Text Bild 3
-        if self.mc_description_img_name_3 != "EMPTY":
+        if self.mc_description_img_name_3 != "" or self.mc_description_img_name_3 != "EMPTY":
             with open(self.mc_description_img_path_3, 'rb') as description_image_file_3:
                 self.mc_description_img_data_3 = description_image_file_3.read()
     
         else:
-            self.mc_description_img_name_3 = "EMPTY"
-            self.mc_description_img_data_3 = "EMPTY"
-            self.mc_description_img_path_3 = "EMPTY"
+            self.mc_description_img_name_3 = ""
+            self.mc_description_img_data_3 = ""
+            self.mc_description_img_path_3 = ""
     
         c.execute("""UPDATE multiplechoice_table SET
                 'question_difficulty'= :question_difficulty,
@@ -1996,381 +1996,7 @@ class Create_MultipleChoice_Questions(MultipleChoice):
                 print("MultipleChoice Frage erstellt! --> Titel: " + str(self.mc_question_title))
                 
                 
-                """
-                # -----------------------------------------------------------------------AUFLISTUNG DER ANTWORTEN (MULTIPLECHOICE)
 
-                # -----------------------------------------------------------------------ANTWORT 1
-                #print("1," + str(self.mc_response_1_text + str(isinstance(self.mc_response_1_text, str))))
-                if self.mc_response_1_text != "":
-                    response_label = ET.SubElement(render_choice, 'response_label')
-                    question_answer_material = ET.SubElement(response_label, 'material')
-                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                    response_label.set('ident', str(self.mc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.mc_response_1_text
-                    if self.mc_response_1_img_string_base64_encoded != "":
-                        question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-
-                        if str(self.mc_response_1_img_label.rpartition('.')[-1]) == "jpg" or str(self.mc_response_1_img_label.rpartition('.')[-1]) == "jpeg":
-                            question_answer_matimage.set('imagtype', "image/jpeg")
-                        elif str(self.mc_response_1_img_label.rpartition('.')[-1]) == "png":
-                            question_answer_matimage.set('imagtype', "image/png")
-                        elif str(self.mc_response_1_img_label.rpartition('.')[-1]) == "gif":
-                            question_answer_matimage.set('imagtype', "image/gif")
-                        else:
-                            print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-
-
-                        question_answer_matimage.set('label', self.mc_response_1_img_label)
-                        question_answer_matimage.set('embedded', "base64")
-                        question_answer_matimage.text = self.mc_response_1_img_string_base64_encoded
-
-                    # --------------------------------------------------------PUNKTE FÜR ANTWORT 1
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    varequal = ET.SubElement(conditionvar, 'varequal')
-                    varequal.set('respident', "MCMR") # MCMR --> MultipleChoice Ident
-                    varequal.text = str(self.mc_response_counter) # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar = ET.SubElement(respcondition, 'setvar')
-                    setvar.set('action', "Add")
-                    setvar.text = str(self.mc_response_1_pts) # Punktevergabe für die Antwort
-                    displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                    displayfeedback.set('feedbacktype', "Response")
-                    displayfeedback.set('linkrefid', "response_" + str(self.mc_response_counter))
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    conditionvar_not = ET.SubElement(conditionvar, 'not')
-                    varequal_not = ET.SubElement(conditionvar_not, 'varequal')
-                    varequal_not.set('respident', "MCMR")  # MCMR --> MultipleChoice Ident
-                    varequal_not.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar_not = ET.SubElement(respcondition, 'setvar')
-                    setvar_not.set('action', "Add")
-
-                    # Hier werden die gegenteiligen Punkte der Frage behandelt
-                    if self.mc_response_1_pts == 0:
-                        setvar_not.text = "1"
-                    else:
-                        setvar_not.text = "0"
-                    # --------------------------------------------------------ZUSATZ FÜR ANTWORT 1
-
-                    itemfeedback = ET.SubElement(item, 'itemfeedback')
-                    itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                    itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                    itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-
-                    itemfeedback.set('ident',"response_" + str(self.mc_response_counter))
-                    itemfeedback.set('view', "All")
-                    itemfeedback_mattext.set('texttype', "text/plain")
-
-                    self.mc_response_counter = self.mc_response_counter + 1
-                # -----------------------------------------------------------------------ANTWORT 2
-                #print("2," + str(self.mc_response_2_text + str(isinstance(self.mc_response_2_text, str))))
-                if self.mc_response_2_text != "":
-                    response_label = ET.SubElement(render_choice, 'response_label')
-                    question_answer_material = ET.SubElement(response_label, 'material')
-                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                    response_label.set('ident', str(self.mc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.mc_response_2_text
-
-                    if self.mc_response_2_img_string_base64_encoded != "":
-                        question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-
-                        if str(self.mc_response_2_img_label.rpartition('.')[-1]) == "jpg" or str(self.mc_response_2_img_label.rpartition('.')[-1]) == "jpeg":
-                            question_answer_matimage.set('imagtype', "image/jpeg")
-                        elif str(self.mc_response_2_img_label.rpartition('.')[-1]) == "png":
-                            question_answer_matimage.set('imagtype', "image/png")
-                        elif str(self.mc_response_2_img_label.rpartition('.')[-1]) == "gif":
-                            question_answer_matimage.set('imagtype', "image/gif")
-                        else:
-                            print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-
-
-                        question_answer_matimage.set('label', self.mc_response_2_img_label)
-                        question_answer_matimage.set('embedded', "base64")
-                        question_answer_matimage.text = self.mc_response_2_img_string_base64_encoded
-                    # --------------------------------------------------------PUNKTE FÜR ANTWORT 2
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    varequal = ET.SubElement(conditionvar, 'varequal')
-                    varequal.set('respident', "MCMR") # MCMR --> MultipleChoice Ident
-                    varequal.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar = ET.SubElement(respcondition, 'setvar')
-                    setvar.set('action', "Add")
-                    setvar.text = str(self.mc_response_2_pts)  # Punktevergabe für die Antwort
-                    displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                    displayfeedback.set('feedbacktype', "Response")
-                    displayfeedback.set('linkrefid', "response_" + str(self.mc_response_counter))
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    conditionvar_not = ET.SubElement(conditionvar, 'not')
-                    varequal_not = ET.SubElement(conditionvar_not, 'varequal')
-                    varequal_not.set('respident', "MCMR")  # MCMR --> MultipleChoice Ident
-                    varequal_not.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar_not = ET.SubElement(respcondition, 'setvar')
-                    setvar_not.set('action', "Add")
-
-                    # Hier werden die gegenteiligen Punkte der Frage behandelt
-                    if self.mc_response_2_pts == 0:
-                        setvar_not.text = "1"
-                    else:
-                        setvar_not.text = "0"
-                    # --------------------------------------------------------ZUSATZ FÜR ANTWORT 2
-
-                    itemfeedback = ET.SubElement(item, 'itemfeedback')
-                    itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                    itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                    itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-
-                    itemfeedback.set('ident', "response_" + str(self.mc_response_counter))
-                    itemfeedback.set('view', "All")
-                    itemfeedback_mattext.set('texttype', "text/plain")
-
-                    self.mc_response_counter = self.mc_response_counter + 1
-
-
-                    # -----------------------------------------------------------------------ANTWORT 3
-                #print("3," + str(self.mc_response_3_text))
-                if self.mc_response_3_text != "":
-                    response_label = ET.SubElement(render_choice, 'response_label')
-                    question_answer_material = ET.SubElement(response_label, 'material')
-                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                    response_label.set('ident', str(self.mc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.mc_response_3_text
-
-                    if self.mc_response_3_img_string_base64_encoded != "":
-                        question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-
-                        if str(self.mc_response_3_img_label.rpartition('.')[-1]) == "jpg" or str(self.mc_response_3_img_label.rpartition('.')[-1]) == "jpeg":
-                            question_answer_matimage.set('imagtype', "image/jpeg")
-                        elif str(self.mc_response_3_img_label.rpartition('.')[-1]) == "png":
-                            question_answer_matimage.set('imagtype', "image/png")
-                        elif str(self.mc_response_3_img_label.rpartition('.')[-1]) == "gif":
-                            question_answer_matimage.set('imagtype', "image/gif")
-                        else:
-                            print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-
-
-                        question_answer_matimage.set('label', self.mc_response_3_img_label)
-                        question_answer_matimage.set('embedded', "base64")
-                        question_answer_matimage.text = self.mc_response_3_img_string_base64_encoded
-
-                    # --------------------------------------------------------PUNKTE FÜR ANTWORT 3
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    varequal = ET.SubElement(conditionvar, 'varequal')
-                    varequal.set('respident', "MCMR") # MCMR --> MultipleChoice Ident
-                    varequal.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar = ET.SubElement(respcondition, 'setvar')
-                    setvar.set('action', "Add")
-                    setvar.text = str(self.mc_response_3_pts)  # Punktevergabe für die Antwort
-                    displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                    displayfeedback.set('feedbacktype', "Response")
-                    displayfeedback.set('linkrefid', "response_" + str(self.mc_response_counter))
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    conditionvar_not = ET.SubElement(conditionvar, 'not')
-                    varequal_not = ET.SubElement(conditionvar_not, 'varequal')
-                    varequal_not.set('respident', "MCMR")  # MCMR --> MultipleChoice Ident
-                    varequal_not.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar_not = ET.SubElement(respcondition, 'setvar')
-                    setvar_not.set('action', "Add")
-
-                    # Hier werden die gegenteiligen Punkte der Frage behandelt
-                    if self.mc_response_3_pts == 0:
-                        setvar_not.text = "1"
-                    else:
-                        setvar_not.text = "0"
-                    # --------------------------------------------------------ZUSATZ FÜR ANTWORT 3
-
-                    itemfeedback = ET.SubElement(item, 'itemfeedback')
-                    itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                    itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                    itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-
-                    itemfeedback.set('ident', "response_" + str(self.mc_response_counter))
-                    itemfeedback.set('view', "All")
-                    itemfeedback_mattext.set('texttype', "text/plain")
-
-                    self.mc_response_counter = self.mc_response_counter + 1
-
-                    # -----------------------------------------------------------------------ANTWORT 4
-                #print("4," + str(self.mc_response_4_text + str(isinstance(self.mc_response_4_text, str))))
-                if self.mc_response_4_text != "":
-                    response_label = ET.SubElement(render_choice, 'response_label')
-                    question_answer_material = ET.SubElement(response_label, 'material')
-                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                    response_label.set('ident', str(self.mc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.mc_response_4_text
-
-                    if self.mc_response_4_img_string_base64_encoded != "":
-                        question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-
-                        if str(self.mc_response_4_img_label.rpartition('.')[-1]) == "jpg" or str(self.mc_response_4_img_label.rpartition('.')[-1]) == "jpeg":
-                            question_answer_matimage.set('imagtype', "image/jpeg")
-                        elif str(self.mc_response_4_img_label.rpartition('.')[-1]) == "png":
-                            question_answer_matimage.set('imagtype', "image/png")
-                        elif str(self.mc_response_4_img_label.rpartition('.')[-1]) == "gif":
-                            question_answer_matimage.set('imagtype', "image/gif")
-                        else:
-                            print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-
-                        question_answer_matimage.set('label', self.mc_response_4_img_label)
-                        question_answer_matimage.set('embedded', "base64")
-                        question_answer_matimage.text = self.mc_response_4_img_string_base64_encoded
-                    # --------------------------------------------------------PUNKTE FÜR ANTWORT 4
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    varequal = ET.SubElement(conditionvar, 'varequal')
-                    varequal.set('respident', "MCMR") # MCMR --> MultipleChoice Ident
-                    varequal.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar = ET.SubElement(respcondition, 'setvar')
-                    setvar.set('action', "Add")
-                    setvar.text = str(self.mc_response_4_pts)  # Punktevergabe für die Antwort
-                    displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                    displayfeedback.set('feedbacktype', "Response")
-                    displayfeedback.set('linkrefid', "response_" + str(self.mc_response_counter))
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    conditionvar_not = ET.SubElement(conditionvar, 'not')
-                    varequal_not = ET.SubElement(conditionvar_not, 'varequal')
-                    varequal_not.set('respident', "MCMR")  # MCMR --> MultipleChoice Ident
-                    varequal_not.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar_not = ET.SubElement(respcondition, 'setvar')
-                    setvar_not.set('action', "Add")
-
-                    # Hier werden die gegenteiligen Punkte der Frage behandelt
-                    if self.mc_response_4_pts == 0:
-                        setvar_not.text = "1"
-                    else:
-                        setvar_not.text = "0"
-                    # --------------------------------------------------------ZUSATZ FÜR ANTWORT 4
-
-                    itemfeedback = ET.SubElement(item, 'itemfeedback')
-                    itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                    itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                    itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-
-                    itemfeedback.set('ident', "response_" + str(self.mc_response_counter))
-                    itemfeedback.set('view', "All")
-                    itemfeedback_mattext.set('texttype', "text/plain")
-
-                    self.mc_response_counter = self.mc_response_counter + 1
-
-                    # -----------------------------------------------------------------------ANTWORT 5
-                #print("5," + str(self.mc_response_5_text + str(isinstance(self.mc_response_5_text, str))))
-                if self.mc_response_5_text != "":
-                    response_label = ET.SubElement(render_choice, 'response_label')
-                    question_answer_material = ET.SubElement(response_label, 'material')
-                    question_answer_mattext = ET.SubElement(question_answer_material, 'mattext')
-                    response_label.set('ident', str(self.mc_response_counter))
-                    question_answer_mattext.set('texttype', "text/plain")
-                    question_answer_mattext.text = self.mc_response_5_text
-                    if self.mc_response_5_img_string_base64_encoded != "":
-                        question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
-
-                        if str(self.mc_response_5_img_label.rpartition('.')[-1]) == "jpg" or str(self.mc_response_5_img_label.rpartition('.')[-1]) == "jpeg":
-                            question_answer_matimage.set('imagtype', "image/jpeg")
-                        elif str(self.mc_response_5_img_label.rpartition('.')[-1]) == "png":
-                            question_answer_matimage.set('imagtype', "image/png")
-                        elif str(self.mc_response_5_img_label.rpartition('.')[-1]) == "gif":
-                            question_answer_matimage.set('imagtype', "image/gif")
-                        else:
-                            print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
-
-                        question_answer_matimage.set('label', self.mc_response_5_img_label)
-                        question_answer_matimage.set('embedded', "base64")
-                        question_answer_matimage.text = self.mc_response_5_img_string_base64_encoded
-                    # --------------------------------------------------------PUNKTE FÜR ANTWORT 5
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    varequal = ET.SubElement(conditionvar, 'varequal')
-                    varequal.set('respident', "MCMR") # MCMR --> MultipleChoice Ident
-                    varequal.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar = ET.SubElement(respcondition, 'setvar')
-                    setvar.set('action', "Add")
-                    setvar.text = str(self.mc_response_5_pts)  # Punktevergabe für die Antwort
-                    displayfeedback = ET.SubElement(respcondition, 'displayfeedback')
-                    displayfeedback.set('feedbacktype', "Response")
-                    displayfeedback.set('linkrefid', "response_" + str(self.mc_response_counter))
-
-                    respcondition = ET.SubElement(resprocessing, 'respcondition')
-                    respcondition.set('continue', "Yes")
-                    conditionvar = ET.SubElement(respcondition, 'conditionvar')
-                    conditionvar_not = ET.SubElement(conditionvar, 'not')
-                    varequal_not = ET.SubElement(conditionvar_not, 'varequal')
-                    varequal_not.set('respident', "MCMR")  # MCMR --> MultipleChoice Ident
-                    varequal_not.text = str(self.mc_response_counter)  # ID der Antwort inkrementiert für jede Antwort
-
-                    setvar_not = ET.SubElement(respcondition, 'setvar')
-                    setvar_not.set('action', "Add")
-
-                    # Hier werden die gegenteiligen Punkte der Frage behandelt
-                    if self.mc_response_5_pts == 0:
-                        setvar_not.text = "1"
-                    else:
-                        setvar_not.text = "0"
-                    # --------------------------------------------------------ZUSATZ FÜR ANTWORT 5
-
-                    itemfeedback = ET.SubElement(item, 'itemfeedback')
-                    itemfeedback_flow_mat = ET.SubElement(itemfeedback, 'flow_mat')
-                    itemfeedback_material = ET.SubElement(itemfeedback_flow_mat, 'material')
-                    itemfeedback_mattext = ET.SubElement(itemfeedback_material, 'mattext')
-
-                    itemfeedback.set('ident', "response_" + str(self.mc_response_counter))
-                    itemfeedback.set('view', "All")
-                    itemfeedback_mattext.set('texttype', "text/plain")
-
-                    self.mc_response_counter = self.mc_response_counter + 1
-
-                    # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
-                    # Der letzte "Zweig" --> "len(self.mc_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
-                    if self.question_type == "question_test":
-                        self.mc_myroot[0][len(self.mc_myroot[0]) - 1].append(item)
-
-                    # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
-                    # Die Frage kann einfach angehangen werden
-                    else:
-                        self.mc_myroot.append(item)
-
-
-                self.mc_mytree.write(self.qti_file_path_output)
-                print("MultipleChoice Frage erstellt! --> Titel: " + str(self.mc_question_title))
-                """
 
 
 

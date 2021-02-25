@@ -40,17 +40,17 @@ class SingleChoice:
 ############## SET IMAGE VARIABLES
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
-        self.sc_description_img_name_1 = "EMPTY"
-        self.sc_description_img_data_1 = "EMPTY"
-        self.sc_description_img_path_1 = "EMPTY"
+        self.sc_description_img_name_1 = ""
+        self.sc_description_img_data_1 = ""
+        self.sc_description_img_path_1 = ""
 
-        self.sc_description_img_name_2 = "EMPTY"
-        self.sc_description_img_data_2 = "EMPTY"
-        self.sc_description_img_path_2 = "EMPTY"
+        self.sc_description_img_name_2 = ""
+        self.sc_description_img_data_2 = ""
+        self.sc_description_img_path_2 = ""
 
-        self.sc_description_img_name_3 = "EMPTY"
-        self.sc_description_img_data_3 = "EMPTY"
-        self.sc_description_img_path_3 = "EMPTY"
+        self.sc_description_img_name_3 = ""
+        self.sc_description_img_data_3 = ""
+        self.sc_description_img_path_3 = ""
 
 
 ############## DEFINE SINGLECHOICE PATHS
@@ -283,37 +283,7 @@ class SingleChoice:
 
 
 
-# ###################### "Beschreibung-Text Bild" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
-#         # self.sc_add_img_to_description_btn = Button(self.sc_frame_description_picture, text="Bild hinzufügen", command=lambda: SingleChoice.sc_add_image_to_description(self))
-#         # self.sc_add_img_to_description_btn.grid(row=2, column=0, sticky=W)
-#         #
-#         # self.sc_remove_img_from_description_btn = Button(self.sc_frame_description_picture, text="Bild entfernen", command=lambda: SingleChoice.sc_delete_image_from_description(self))
-#         # self.sc_remove_img_from_description_btn.grid(row=2, column=1, sticky=W)
-#
-#         # Hinzufügen Bild 1
-#         self.sc_var_use_image_1 = IntVar()
-#         self.sc_check_use_image_1_in_description = Checkbutton(self.sc_frame_question_description_functions, text="Bild 1 hochladen?", variable=self.sc_var_use_image_1, onvalue=1, offvalue=0)
-#         self.sc_check_use_image_1_in_description.deselect()
-#         self.sc_check_use_image_1_in_description.grid(row=5, column=0, sticky=W, padx=90, pady=(10, 0))
-#
-#         # Hinzufügen Bild 2
-#         self.sc_var_use_image_2 = IntVar()
-#         self.sc_check_use_image_2_in_description = Checkbutton(self.sc_frame_question_description_functions, text="Bild 2 hochladen?", variable=self.sc_var_use_image_2, onvalue=1, offvalue=0)
-#         self.sc_check_use_image_2_in_description.deselect()
-#         self.sc_check_use_image_2_in_description.grid(row=6, column=0, sticky=W, padx=90)
-#
-#         # Hinzufügen Bild 3
-#         self.sc_var_use_image_3 = IntVar()
-#         self.sc_check_use_image_3_in_description = Checkbutton(self.sc_frame_question_description_functions, text="Bild 3 hochladen?", variable=self.sc_var_use_image_3, onvalue=1, offvalue=0)
-#         self.sc_check_use_image_3_in_description.deselect()
-#         self.sc_check_use_image_3_in_description.grid(row=7, column=0, sticky=W, padx=90)
-#
-#         # Buttons - Bild hinzufügen & Bild löschen
-#         self.sc_add_img_to_description_btn = Button(self.sc_frame_question_description_functions, text="Bild hinzufügen", command=lambda: SingleChoice.sc_add_image_to_description(self, self.sc_var_use_image_1.get(), self.sc_var_use_image_2.get(), self.sc_var_use_image_3.get()))
-#         self.sc_add_img_to_description_btn.grid(row=8, column=0, sticky=W, padx = 10, pady=(20,0))
-#
-#         self.sc_remove_img_from_description_btn = Button(self.sc_frame_question_description_functions, text="Bild entfernen", command=lambda: SingleChoice.sc_delete_image_from_description(self, self.sc_var_use_image_1.get(), self.sc_var_use_image_2.get(), self.sc_var_use_image_3.get()))
-#         self.sc_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
+
 
 
  ###################### "Single Choice" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
@@ -656,42 +626,7 @@ class SingleChoice:
 ###################### "SingleChoice-Datenbank" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
 
-        # ### LABELS
-        # self.sc_delete_all_label = Label(self.sc_frame_database, text="Alle DB Einträge löschen?")
-        # self.sc_delete_all_label.grid(row=5, column=0, pady=5, padx=5)
-        #
-        #
-        #
-        # ### ENTRIES
-        # self.sc_load_box = Entry(self.sc_frame_database, width=10)
-        # self.sc_load_box.grid(row=3, column=1, sticky=W)
-        #
-        # self.sc_delete_box = Entry(self.sc_frame_database, width=10)
-        # self.sc_delete_box.grid(row=4, column=1, sticky=W)
-        #
-        #
-        #
-        # ### BUTTONS
-        # self.sc_database_save_id_to_db_singlechoice_btn = Button(self.sc_frame_database, text="Speichern unter neuer ID", command=lambda: SingleChoice.sc_save_id_to_db(self))
-        # self.sc_database_save_id_to_db_singlechoice_btn.grid(row=0, column=0, sticky=W, pady=5)
-        #
-        # self.sc_database_show_db_singlechoice_btn = Button(self.sc_frame_database, text="SC - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, "ilias_singlechoice_db", "singlechoice_table"))
-        # self.sc_database_show_db_singlechoice_btn.grid(row=1, column=0, sticky=W, pady=5)
-        #
-        #
-        #
-        # self.sc_database_load_id_btn = Button(self.sc_frame_database, text="ID Laden", command=lambda: SingleChoice.sc_load_id_from_db(self, self.sc_db_entry_to_index_dict))
-        # self.sc_database_load_id_btn.grid(row=3, column=0, sticky=W, pady=5)
-        #
-        # self.sc_database_delete_id_from_db_btn = Button(self.sc_frame_database, text="ID Löschen", command=lambda: SingleChoice.sc_delete_id_from_db(self))
-        # self.sc_database_delete_id_from_db_btn.grid(row=4, column=0, sticky=W, pady=5)
-        #
-        #
-        # ### CHECKBOXES
-        # self.sc_var_delete_all = IntVar()
-        # self.sc_check_delete_all = Checkbutton(self.sc_frame_database, text="", variable=self.sc_var_delete_all, onvalue=1, offvalue=0)
-        # self.sc_check_delete_all.deselect()
-        # self.sc_check_delete_all.grid(row=5, column=1, sticky=W)
+
 
         self.sc_database_show_db_singlechoice_btn = Button(self.sc_frame_database, text="SC - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_singlechoice_path, "singlechoice_table"))
         self.sc_database_show_db_singlechoice_btn.grid(row=0, column=0, sticky=W, pady=5)
@@ -704,11 +639,9 @@ class SingleChoice:
         self.sc_delete_box = Entry(self.sc_frame_database, width=10)
         self.sc_delete_box.grid(row=6, column=0, padx=80, sticky=W)
 
-        # Noch keine Funktion
         self.sc_database_new_question_btn = Button(self.sc_frame_database, text="GUI Einträge leeren", command=lambda: SingleChoice.sc_clear_GUI(self))
         self.sc_database_new_question_btn.grid(row=8, column=0, sticky=W, pady=5)
 
-        # Noch keine Funktion
         self.sc_database_edit_btn = Button(self.sc_frame_database, text="Aktuellen Eintrag editieren", command=lambda: SingleChoice.sc_edit_id_from_db(self))
         self.sc_database_edit_btn.grid(row=3, column=0, sticky=W, pady=5)
 
@@ -920,20 +853,7 @@ class SingleChoice:
 
 
 
-        """
-        ###################### -------- LABELS / ENTRYS / BUTTONS for "Fragentext Funktionen" - FRAME ------- ############################
-        self.sc_add_latex_term_btn = Button( self.sc_frame_question_description_functions, text="Text \"Latex\"", command=lambda: Ilias_Test_Generator.Formelfrage.text_latex(self))
-        self.sc_add_latex_term_btn.grid(row=1, column=0, padx=10, sticky="W")
 
-        self.sc_set_text_sub_btn = Button( self.sc_frame_question_description_functions, text="Text \"Tiefgestellt\"", command=lambda: Ilias_Test_Generator.Formelfrage.text_sub(self))
-        self.sc_set_text_sub_btn .grid(row=2, column=0, padx=10, pady=(10, 0), sticky="W")
-
-        self.sc_set_text_sup_btn = Button( self.sc_frame_question_description_functions, text="Text \"Hochgestellt\"", command=lambda: Ilias_Test_Generator.Formelfrage.text_sup(self))
-        self.sc_set_text_sup_btn.grid(row=3, column=0, padx=10, sticky="W")
-
-        self.sc_set_text_italic_btn = Button( self.sc_frame_question_description_functions, text="Text \"Kursiv\"",command=lambda: Ilias_Test_Generator.Formelfrage.text_italic(self))
-        self.sc_set_text_italic_btn.grid(row=4, column=0, padx=10, sticky="W")
-        """
 
 
 
@@ -998,111 +918,7 @@ class SingleChoice:
 
 
 
-    # def sc_add_image_to_description(self):
-    #
-    #     # Bild auswählen und von Datei-Pfad den Bild-Namen extrahieren
-    #     self.sc_picture_path = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-    #     self.last_char_index = self.sc_picture_path.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-    #
-    #     self.sc_picture_name = self.sc_picture_path[int(self.last_char_index) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-    #     self.image_format_new = self.sc_picture_path[-4:]
-    #
-    #     self.sc_question_description_img_filename_label = Label(self.sc_frame_description_picture, text=self.sc_picture_name)
-    #     self.sc_question_description_img_filename_label.grid(row=0, column=0, sticky=W)
-    #
-    #     self.file_image = ImageTk.PhotoImage(Image.open(self.sc_picture_path).resize((250, 250)))
-    #     self.file_image_raw = Image.open(self.sc_picture_path)
-    #     self.file_image_width, self.file_image_height = self.file_image_raw.size
-    #
-    #
-    #
-    #     self.file_image_label = Label(self.sc_frame_description_picture, image=self.file_image)
-    #     self.file_image_label.image = self.file_image
-    #     self.file_image_label.grid(row=1, column=0)
-    """
-    def sc_add_image_to_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
-        self.check_use_img_1 = check_use_img_1
-        self.check_use_img_2 = check_use_img_2
-        self.check_use_img_3 = check_use_img_3
 
-        # Bild 1 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_1 == 1:
-            self.sc_picture_path_img_1 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_1 = self.sc_picture_path_img_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.sc_picture_name_img_1 = self.sc_picture_path_img_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_1 = self.sc_picture_path_img_1[-4:]
-
-            self.sc_question_description_img_1_filename_label = Label(self.sc_frame_description_picture, text=self.sc_picture_name_img_1)
-            self.sc_question_description_img_1_filename_label.grid(row=0, column=1, sticky=W)
-
-            self.file_image_1 = ImageTk.PhotoImage(Image.open(self.sc_picture_path_img_1).resize((100, 100)))
-            self.file_image_1_raw = Image.open(self.sc_picture_path_img_1)
-            self.file_image_1_width, self.file_image_1_height = self.file_image_1_raw.size
-            self.file_image_1_label = Label(self.sc_frame_description_picture, image=self.file_image_1)
-            self.file_image_1_label.image = self.file_image_1
-            self.file_image_1_label.grid(row=0, column=2)
-
-
-        # Bild 2 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_2 == 1:
-            self.sc_picture_path_img_2 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_2 = self.sc_picture_path_img_2.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.sc_picture_name_img_2 = self.sc_picture_path_img_2[int(self.last_char_index_img_2) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_2 = self.sc_picture_path_img_2[-4:]
-
-            self.sc_question_description_img_2_filename_label = Label(self.sc_frame_description_picture, text=self.sc_picture_name_img_2)
-            self.sc_question_description_img_2_filename_label.grid(row=1, column=1, sticky=W)
-
-
-            self.file_image_2 = ImageTk.PhotoImage(Image.open(self.sc_picture_path_img_2).resize((100, 100)))
-            self.file_image_2_raw = Image.open(self.sc_picture_path_img_2)
-            self.file_image_2_width, self.file_image_2_height = self.file_image_2_raw.size
-            self.file_image_2_label = Label(self.sc_frame_description_picture, image=self.file_image_2)
-            self.file_image_2_label.image = self.file_image_2
-            self.file_image_2_label.grid(row=1, column=2)
-
-
-        # Bild 3 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_3 == 1:
-
-            self.sc_picture_path_img_3 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_3 = self.sc_picture_path_img_3.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.sc_picture_name_img_3 = self.sc_picture_path_img_3[int(self.last_char_index_img_3) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_3 = self.sc_picture_path_img_3[-4:]
-            self.sc_question_description_img_3_filename_label = Label(self.sc_frame_description_picture, text=self.sc_picture_name_img_3)
-            self.sc_question_description_img_3_filename_label.grid(row=2, column=1, sticky=W)
-
-            self.file_image_3 = ImageTk.PhotoImage(Image.open(self.sc_picture_path_img_3).resize((100, 100)))
-            self.file_image_3_raw = Image.open(self.sc_picture_path_img_3)
-            self.file_image_3_width, self.file_image_3_height = self.file_image_3_raw.size
-            self.file_image_3_label = Label(self.sc_frame_description_picture, image=self.file_image_3)
-            self.file_image_3_label.image = self.file_image_3
-            self.file_image_3_label.grid(row=2, column=2)
-
-    
-    def sc_delete_image_from_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
-        self.check_use_img_1 = check_use_img_1
-        self.check_use_img_2 = check_use_img_2
-        self.check_use_img_3 = check_use_img_3
-
-        if self.check_use_img_1 == 0:
-            self.sc_question_description_img_1_filename_label.grid_remove()
-            self.file_image_1_label.grid_remove()
-            self.sc_picture_name_img_1 ="EMPTY"
-
-        if self.check_use_img_2 == 0:
-            self.sc_question_description_img_2_filename_label.grid_remove()
-            self.file_image_2_label.grid_remove()
-            self.sc_picture_name_img_2 ="EMPTY"
-
-        if self.check_use_img_3 == 0:
-            self.sc_question_description_img_3_filename_label.grid_remove()
-            self.file_image_3_label.grid_remove()
-            self.sc_picture_name_img_3 ="EMPTY"
-    """
     # Funktion dient zur Auswahl von Bildern für einzelne Antwortmöglichkeiten
 
     def sc_add_image_to_answer(self, picture_label_entry, picture_data_entry, picture_path_entry):
@@ -1142,48 +958,48 @@ class SingleChoice:
 
 
         # Bild 1
-        if self.sc_description_img_name_1 != "EMPTY":
+        if self.sc_description_img_name_1 != "" or self.sc_description_img_name_1 != "EMPTY":
             # read image data in byte format
             with open(self.sc_description_img_path_1, 'rb') as image_file_1:
                 self.sc_description_img_data_1 = image_file_1.read()
 
         else:
-            self.sc_description_img_name_1= "EMPTY"
-            self.sc_description_img_path_1 = "EMPTY"
-            self.sc_description_img_data_1 = "EMPTY"
+            self.sc_description_img_name_1= ""
+            self.sc_description_img_path_1 = ""
+            self.sc_description_img_data_1 = ""
 
 
         # Bild 2
-        if self.sc_description_img_name_2 != "EMPTY":
+        if self.sc_description_img_name_2 != "" or self.sc_description_img_name_2 != "EMPTY":
             # read image data in byte format
             with open(self.sc_description_img_path_2, 'rb') as image_file_2:
                 self.sc_description_img_data_2 = image_file_2.read()
 
         else:
-            self.sc_description_img_name_2 = "EMPTY"
-            self.sc_description_img_path_2 = "EMPTY"
-            self.sc_description_img_data_2 = "EMPTY"
+            self.sc_description_img_name_2 = ""
+            self.sc_description_img_path_2 = ""
+            self.sc_description_img_data_2 = ""
 
 
         # Bild 3
-        if self.sc_description_img_name_3 != "EMPTY":
+        if self.sc_description_img_name_3 != "" or self.sc_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
             with open(self.sc_description_img_path_3, 'rb') as image_file_3:
                 self.sc_description_img_data_3 = image_file_3.read()
 
         else:
-            self.sc_description_img_name_3 = "EMPTY"
-            self.sc_description_img_path_3 = "EMPTY"
-            self.sc_description_img_data_3 = "EMPTY"
+            self.sc_description_img_name_3 = ""
+            self.sc_description_img_path_3 = ""
+            self.sc_description_img_data_3 = ""
 
 
 
         def sc_bind_value_for_empty_answer_image(picture_label_entry, picture_data_entry, picture_path_entry):
             if picture_label_entry.get() == "":
-                picture_label_entry.insert(0, "EMPTY")
-                picture_data_entry.insert(0, "EMPTY")
-                picture_path_entry.insert(0, "EMPTY")
+                picture_label_entry.insert(0, "")
+                picture_data_entry.insert(0, "")
+                picture_path_entry.insert(0, "")
 
         sc_bind_value_for_empty_answer_image(self.sc_var1_img_label_entry, self.sc_var1_img_data_entry, self.sc_var1_img_path_entry)
         sc_bind_value_for_empty_answer_image(self.sc_var2_img_label_entry, self.sc_var2_img_data_entry, self.sc_var2_img_path_entry)
@@ -1433,34 +1249,34 @@ class SingleChoice:
         # Bilder werden als byte eingelesen "rb" = read byte
 
         # Fragen-Text Bild 1
-        if self.sc_description_img_name_1 != "EMPTY":
+        if self.sc_description_img_name_1 != "" or self.sc_description_img_name_1 != "EMPTY":
             with open( self.sc_description_img_path_1, 'rb') as description_image_file_1:
                 self.sc_description_img_data_1 = description_image_file_1.read()
         
         else:
-            self.sc_description_img_name_1 = "EMPTY"
-            self.sc_description_img_data_1 = "EMPTY"
-            self.sc_description_img_path_1 = "EMPTY"
+            self.sc_description_img_name_1 = ""
+            self.sc_description_img_data_1 = ""
+            self.sc_description_img_path_1 = ""
             
         # Fragen-Text Bild 2
-        if self.sc_description_img_name_2 != "EMPTY":
+        if self.sc_description_img_name_2 != "" or self.sc_description_img_name_2 != "EMPTY":
             with open( self.sc_description_img_path_2, 'rb') as description_image_file_2:
                 self.sc_description_img_data_2 = description_image_file_2.read()
         
         else:
-            self.sc_description_img_name_2 = "EMPTY"
-            self.sc_description_img_data_2 = "EMPTY"
-            self.sc_description_img_path_2 = "EMPTY"
+            self.sc_description_img_name_2 = ""
+            self.sc_description_img_data_2 = ""
+            self.sc_description_img_path_2 = ""
         
         # Fragen-Text Bild 3
-        if self.sc_description_img_name_3 != "EMPTY":
+        if self.sc_description_img_name_3 != "" or self.sc_description_img_name_3 != "EMPTY":
             with open( self.sc_description_img_path_3, 'rb') as description_image_file_3:
                 self.sc_description_img_data_3 = description_image_file_3.read()
         
         else:
-            self.sc_description_img_name_3 = "EMPTY"
-            self.sc_description_img_data_3 = "EMPTY"
-            self.sc_description_img_path_3 = "EMPTY"
+            self.sc_description_img_name_3 = ""
+            self.sc_description_img_data_3 = ""
+            self.sc_description_img_path_3 = ""
 
 
         c.execute("""UPDATE singlechoice_table SET
@@ -2032,16 +1848,16 @@ class Create_SingleChoice_Questions(SingleChoice):
 
 
                 # Antworten erstellen
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_1_text, self.sc_response_1_pts, self.sc_response_1_img_label, self.sc_response_1_img_string_base64_encoded, render_choice, resprocessing, item, "0")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_2_text, self.sc_response_2_pts, self.sc_response_2_img_label, self.sc_response_2_img_string_base64_encoded, render_choice, resprocessing, item, "1")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_3_text, self.sc_response_3_pts, self.sc_response_3_img_label, self.sc_response_3_img_string_base64_encoded, render_choice, resprocessing, item, "2")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_4_text, self.sc_response_4_pts, self.sc_response_4_img_label, self.sc_response_4_img_string_base64_encoded, render_choice, resprocessing, item, "3")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_5_text, self.sc_response_5_pts, self.sc_response_5_img_label, self.sc_response_5_img_string_base64_encoded, render_choice, resprocessing, item, "4")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_6_text, self.sc_response_6_pts, self.sc_response_6_img_label, self.sc_response_6_img_string_base64_encoded, render_choice, resprocessing, item, "5")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_7_text, self.sc_response_7_pts, self.sc_response_7_img_label, self.sc_response_7_img_string_base64_encoded, render_choice, resprocessing, item, "6")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_8_text, self.sc_response_8_pts, self.sc_response_8_img_label, self.sc_response_8_img_string_base64_encoded, render_choice, resprocessing, item, "7")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_9_text, self.sc_response_9_pts, self.sc_response_9_img_label, self.sc_response_9_img_string_base64_encoded, render_choice, resprocessing, item, "8")
-                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_10_text, self.sc_response_10_pts, self.sc_response_10_img_label, self.sc_response_10_img_string_base64_encoded, render_choice, resprocessing, item, "9")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_1_text, self.sc_response_1_pts, self.sc_response_1_img_path, self.sc_response_1_img_string_base64_encoded, render_choice, resprocessing, item, "0")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_2_text, self.sc_response_2_pts, self.sc_response_2_img_path, self.sc_response_2_img_string_base64_encoded, render_choice, resprocessing, item, "1")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_3_text, self.sc_response_3_pts, self.sc_response_3_img_path, self.sc_response_3_img_string_base64_encoded, render_choice, resprocessing, item, "2")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_4_text, self.sc_response_4_pts, self.sc_response_4_img_path, self.sc_response_4_img_string_base64_encoded, render_choice, resprocessing, item, "3")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_5_text, self.sc_response_5_pts, self.sc_response_5_img_path, self.sc_response_5_img_string_base64_encoded, render_choice, resprocessing, item, "4")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_6_text, self.sc_response_6_pts, self.sc_response_6_img_path, self.sc_response_6_img_string_base64_encoded, render_choice, resprocessing, item, "5")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_7_text, self.sc_response_7_pts, self.sc_response_7_img_path, self.sc_response_7_img_string_base64_encoded, render_choice, resprocessing, item, "6")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_8_text, self.sc_response_8_pts, self.sc_response_8_img_path, self.sc_response_8_img_string_base64_encoded, render_choice, resprocessing, item, "7")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_9_text, self.sc_response_9_pts, self.sc_response_9_img_path, self.sc_response_9_img_string_base64_encoded, render_choice, resprocessing, item, "8")
+                Create_SingleChoice_Questions.sc_question_answer_structure(self, self.sc_response_10_text, self.sc_response_10_pts, self.sc_response_10_img_path, self.sc_response_10_img_string_base64_encoded, render_choice, resprocessing, item, "9")
 
 
 
@@ -2078,7 +1894,7 @@ class Create_SingleChoice_Questions(SingleChoice):
             self.mytree.write(self.qpl_file)
         
     ####################### QUESTION_ANSWER STRUCTURE #############################
-    def sc_question_answer_structure(self, sc_response_var_text, sc_response_var_pts, sc_response_var_img_label, sc_response_var_img_string_base64_encoded, xml_render_choice, xml_resprocessing, xml_item, sc_response_counter):
+    def sc_question_answer_structure(self, sc_response_var_text, sc_response_var_pts, sc_response_var_img_path, sc_response_var_img_string_base64_encoded, xml_render_choice, xml_resprocessing, xml_item, sc_response_counter):
 
         if sc_response_var_text != "":
             response_label = ET.SubElement(xml_render_choice, 'response_label')
@@ -2087,19 +1903,21 @@ class Create_SingleChoice_Questions(SingleChoice):
             response_label.set('ident', str(sc_response_counter))
             question_answer_mattext.set('texttype', "text/plain")
             question_answer_mattext.text = sc_response_var_text
+
+
             if sc_response_var_img_string_base64_encoded != "":
                 question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
 
-                if str(sc_response_var_img_label.rpartition('.')[-1]) == "jpg" or str(sc_response_var_img_label.rpartition('.')[-1]) == "jpeg":
+                if str(sc_response_var_img_path.rpartition('.')[-1]) == "jpg" or str(sc_response_var_img_path.rpartition('.')[-1]) == "jpeg":
                     question_answer_matimage.set('imagtype', "image/jpeg")
-                elif str(sc_response_var_img_label.rpartition('.')[-1]) == "png":
+                elif str(sc_response_var_img_path.rpartition('.')[-1]) == "png":
                     question_answer_matimage.set('imagtype', "image/png")
-                elif str(sc_response_var_img_label.rpartition('.')[-1]) == "gif":
+                elif str(sc_response_var_img_path.rpartition('.')[-1]) == "gif":
                     question_answer_matimage.set('imagtype', "image/gif")
                 else:
                     print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
 
-                question_answer_matimage.set('label', sc_response_var_img_label)
+                question_answer_matimage.set('label', sc_response_var_img_path.rpartition('/')[-1])
                 question_answer_matimage.set('embedded', "base64")
                 question_answer_matimage.text = str(sc_response_var_img_string_base64_encoded)
 

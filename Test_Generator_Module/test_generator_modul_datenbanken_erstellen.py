@@ -2265,7 +2265,7 @@ class Import_Export_Database(CreateDatabases):
 
         if self.question_type == "singlechoice" or self.question_type == "single choice":
             print("-------------------------------------")
-            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...", end="", flush=True)
             # Mit SingleChoice Datenbank verbinden
             conn = sqlite3.connect(self.database_singlechoice_path)
             c = conn.cursor()
@@ -2587,7 +2587,7 @@ class Import_Export_Database(CreateDatabases):
         
                     conn.commit()
 
-            print("... Datei geladen!")
+            print("     Datei geladen!")
             print(" ")
             print("SC_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel), " -- EDITIERT: " + str(self.number_of_entries_edited))
 
@@ -2598,7 +2598,7 @@ class Import_Export_Database(CreateDatabases):
 
         elif self.question_type == "formelfrage" or self.question_type == "formel frage":
             print("-------------------------------------")
-            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...", end="", flush=True)
             # Mit Formelfrage Datenbank verbinden
             conn = sqlite3.connect(self.database_formelfrage_path)
             c = conn.cursor()
@@ -3281,7 +3281,7 @@ class Import_Export_Database(CreateDatabases):
             #print("Load File: \"" + self.xlsx_path + "\" in formelfrage_table...done!")
 
 
-            print("... Datei geladen!")
+            print("     Datei geladen!")
             print(" ")
             print("FF_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel), " -- EDITIERT: " + str(self.number_of_entries_edited))
 
@@ -3292,7 +3292,7 @@ class Import_Export_Database(CreateDatabases):
 
         elif self.question_type == "multiplechoice" or self.question_type == "multiple choice":
             print("-------------------------------------")
-            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...", end="", flush=True)
             
             # Mit MultipleChoice Datenbank verbinden
             conn = sqlite3.connect(self.database_multiplechoice_path)
@@ -3647,7 +3647,7 @@ class Import_Export_Database(CreateDatabases):
                     print("Load File: \"" + self.xlsx_path + "\"  ---> in multiplechoice_table...done!")
                     print("Excel-Einträge: " + str(len(mc_row)))
 
-            print("... Datei geladen!")
+            print("     Datei geladen!")
             print(" ")
             print("MC_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel),
                   " -- EDITIERT: " + str(self.number_of_entries_edited))
@@ -3659,7 +3659,7 @@ class Import_Export_Database(CreateDatabases):
 
         elif self.question_type == "zuordnungsfrage" or self.question_type == "zuordnungs frage":
             print("-------------------------------------")
-            print("Öffne Datei:  \"" + self.xlsx_path + "\"...")
+            print("Öffne Datei:  \"" + self.xlsx_path + "\"...", end="", flush=True)
             
             # Mit Zuordnungsfrage Datenbank verbinden
             conn = sqlite3.connect(self.database_zuordnungsfrage_path)
@@ -4249,7 +4249,7 @@ class Import_Export_Database(CreateDatabases):
 
                     conn.commit()
 
-            print("... Datei geladen!")
+            print("     Datei geladen!")
             print(" ")
             print("MQ_DB-Einträge: ", "NEU: " + str(self.number_of_new_entries_from_excel),
                   " -- EDITIERT: " + str(self.number_of_entries_edited))
@@ -4281,7 +4281,7 @@ class Import_Export_Database(CreateDatabases):
                 self.description_img_data = image_file.read()
 
         else:
-            self.description_img_data = "EMPTY"
+            self.description_img_data = ""
 
         return self.description_img_data
 
@@ -4304,7 +4304,7 @@ class Import_Export_Database(CreateDatabases):
         # Die Rückgabewerte dieser Box sind entsprechend "Yes" / "No"
         self.export_filetype_choice = messagebox.askquestion("Datenbank exportieren", "Datenbank als XLSX-Dateiformat exportieren?\n(\"Nein\" exportiert die Datei im ODS-Dateiformat)")
 
-        print("_______", self.export_filetype_choice)
+
 
         if self.export_filetype_choice == "yes":
             self.xlsx_workbook_name += ".xlsx"
@@ -4318,20 +4318,9 @@ class Import_Export_Database(CreateDatabases):
         self.database_dir_name += "_images"
 
 
+        print("________________________________________________")
+        print("Datenbank wird exportiert...", end="", flush=True)
 
-        print("Export Database...")
-        print("TABLENAME: " + str(self.xlsx_workbook_name))
-
-        # # Wird benutzt um das Bild aus der DB in Excel skaliert darzustellen
-        # image_width = 140.0
-        # image_height = 182.0
-        #
-        # cell_width = 10.0
-        # cell_height = 10.0
-        #
-        # x_scale = cell_width / image_width
-        # y_scale = cell_height / image_height
-        ##########################################
 
         conn = sqlite3.connect(self.database_path)
         cursor = conn.cursor()
@@ -4406,7 +4395,7 @@ class Import_Export_Database(CreateDatabases):
                             self.dict_entry_string = 'response_%s_img_label' % (str(self.sc_picture_answer_index))
 
 
-                            if str(row[self.db_entry_to_index_dict[self.dict_entry_string]]) != "EMPTY":
+                            if str(row[self.db_entry_to_index_dict[self.dict_entry_string]]) != "":
 
                                 column_data = str(row[self.db_entry_to_index_dict[self.dict_entry_string]])  + " - img_data_string_placeholder"
                                 self.sc_picture_answer_index += 1
@@ -4425,7 +4414,7 @@ class Import_Export_Database(CreateDatabases):
                     # Hier werden die Bilder (physisch) in die Ordner abgelegt
                     # Die zusätzliche Abfrage ist leider notwendig, da u.U. einfache Strings als 'TRUE' bei der "isinstance(column_data,byteobj.ByteString)" Abfrage eingestuft werden
                     # Diese einfachen Strings können aber natürlich nicht als Bild geschrieben werden
-                    if row[self.db_entry_to_index_dict['description_img_data_' + str(self.picture_index)]] != "EMPTY":
+                    if row[self.db_entry_to_index_dict['description_img_data_' + str(self.picture_index)]] != "":
                         with open(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", "image_files", self.database_dir_name,  str(row[self.db_entry_to_index_dict['description_img_name_' + str(self.picture_index)]]) + '.png')), 'wb') as image_file:
                             image_file.write(image_data)
 
@@ -4441,8 +4430,10 @@ class Import_Export_Database(CreateDatabases):
         # Closing workbook
         excel.close()
 
-        print(str(row_index) + ' rows written successfully to ' + excel.filename)
+        print("     abgeschlossen!")
 
+        print(str(row_index) + ' Zeilen exportiert --->  ' + excel.filename)
+        print("________________________________________________")
         messagebox.showinfo("Datenbank exportieren", "Datenbank wurde exportiert!")
 
 class Delete_Entry_from_Database:
@@ -4518,12 +4509,13 @@ class Delete_Entry_from_Database:
                 self.response_delete_all = messagebox.askquestion("Alle Einträge in der DB löschen", "Sollen ALLE Einträge aus der DB gelöscht werden?")
 
                 if self.response_delete_all == "yes":
-                    now = datetime.now()  # current date and time
-                    date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
-                    actual_time = str(date_time)
-                    self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
 
-                    Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
+                    # ---- War als Backup gedacht, bevor ein Abfrage-Fenster integriert wurde
+                    #now = datetime.now()  # current date and time
+                    #date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
+                    #actual_time = str(date_time)
+                    #self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
+                    #Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
 
                     c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
                     records = c.fetchall()
@@ -4540,7 +4532,7 @@ class Delete_Entry_from_Database:
 
                     for x in range(len(self.modul_delete_all_list)):
                         c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_all_list[x])))
-                    print(self.question_type.upper() + ": All Entries removed!")
+                    print(self.question_type.upper() + ":Datenbank gelöscht!")
 
                 else:
                     print("Vorgang abgebrochen")

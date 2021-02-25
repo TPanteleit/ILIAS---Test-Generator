@@ -41,17 +41,17 @@ class Zuordnungsfrage:
 ############## SET IMAGE VARIABLES
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
-        self.mq_description_img_name_1 = "EMPTY"
-        self.mq_description_img_name_2 = "EMPTY"
-        self.mq_description_img_name_3 = "EMPTY"
+        self.mq_description_img_name_1 = ""
+        self.mq_description_img_name_2 = ""
+        self.mq_description_img_name_3 = ""
 
-        self.mq_description_img_data_1 = "EMPTY"
-        self.mq_description_img_data_2 = "EMPTY"
-        self.mq_description_img_data_3 = "EMPTY"
+        self.mq_description_img_data_1 = ""
+        self.mq_description_img_data_2 = ""
+        self.mq_description_img_data_3 = ""
 
-        self.mq_description_img_path_1 = "EMPTY"
-        self.mq_description_img_path_2 = "EMPTY"
-        self.mq_description_img_path_3 = "EMPTY"
+        self.mq_description_img_path_1 = ""
+        self.mq_description_img_path_2 = ""
+        self.mq_description_img_path_3 = ""
 
         self.mq_mix_answers_value = 0
 
@@ -1615,7 +1615,7 @@ class Zuordnungsfrage:
 
 
         # Bild 1
-        if self.mq_description_img_name_1 != "EMPTY":
+        if self.mq_description_img_name_1 != "" or self.mq_description_img_name_1 != "EMPTY":
             # read image data in byte format
 
             with open(self.mq_description_img_path_1, 'rb') as image_file_1:
@@ -1623,13 +1623,13 @@ class Zuordnungsfrage:
 
 
         else:
-            self.mq_description_img_name_1 = "EMPTY"
-            self.mq_description_img_path_1 = "EMPTY"
-            self.mq_description_img_data_1 = "EMPTY"
+            self.mq_description_img_name_1 = ""
+            self.mq_description_img_path_1 = ""
+            self.mq_description_img_data_1 = ""
 
 
         # Bild 2
-        if self.mq_description_img_name_2 != "EMPTY":
+        if self.mq_description_img_name_2 != "" or self.mq_description_img_name_2 != "EMPTY":
             # read image data in byte format
 
             with open(self.mq_description_img_path_2, 'rb') as image_file_2:
@@ -1637,13 +1637,13 @@ class Zuordnungsfrage:
 
 
         else:
-            self.mq_description_img_name_2 = "EMPTY"
-            self.mq_description_img_path_2 = "EMPTY"
-            self.mq_description_img_data_2 = "EMPTY"
+            self.mq_description_img_name_2 = ""
+            self.mq_description_img_path_2 = ""
+            self.mq_description_img_data_2 = ""
 
 
         # Bild 3
-        if self.mq_description_img_name_3 != "EMPTY":
+        if self.mq_description_img_name_3 != "" or self.mq_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
 
@@ -1652,21 +1652,21 @@ class Zuordnungsfrage:
 
 
         else:
-            self.mq_description_img_name_3 = "EMPTY"
-            self.mq_description_img_path_3 = "EMPTY"
-            self.mq_description_img_data_3 = "EMPTY"
+            self.mq_description_img_name_3 = ""
+            self.mq_description_img_path_3 = ""
+            self.mq_description_img_data_3 = ""
 
         def mq_bind_value_for_empty_answer_image(definition_picture_label_entry, definition_picture_data_entry, definition_picture_path_entry, term_picture_label_entry, term_picture_data_entry, term_picture_path_entry):
 
             if definition_picture_label_entry == "":
-                definition_picture_label_entry.insert(0, "EMPTY")
-                definition_picture_data_entry.insert(0, "EMPTY")
-                definition_picture_path_entry.insert(0, "EMPTY")
+                definition_picture_label_entry.insert(0, "")
+                definition_picture_data_entry.insert(0, "")
+                definition_picture_path_entry.insert(0, "")
 
             if term_picture_label_entry == "":
-                term_picture_label_entry.insert(0, "EMPTY")
-                term_picture_data_entry.insert(0, "EMPTY")
-                term_picture_path_entry.insert(0, "EMPTY")
+                term_picture_label_entry.insert(0, "")
+                term_picture_data_entry.insert(0, "")
+                term_picture_path_entry.insert(0, "")
 
         
         mq_bind_value_for_empty_answer_image(self.mq_definitions_var1_img_label_entry, self.mq_definitions_var1_img_data_entry, self.mq_definitions_var1_img_path_entry, self.mq_terms_var1_img_label_entry, self.mq_terms_var1_img_data_entry, self.mq_terms_var1_img_path_entry)
@@ -2038,34 +2038,34 @@ class Zuordnungsfrage:
         # Bilder werden als byte eingelesen "rb" = read byte
 
         # Fragen-Text Bild 1
-        if self.mq_description_img_name_1 != "EMPTY":
+        if self.mq_description_img_name_1 != "" or self.mq_description_img_name_1 != "EMPTY":
             with open(self.mq_description_img_path_1, 'rb') as description_image_file_1:
                 self.mq_description_img_data_1 = description_image_file_1.read()
 
         else:
-            self.mq_description_img_name_1 = "EMPTY"
-            self.mq_description_img_data_1 = "EMPTY"
-            self.mq_description_img_path_1 = "EMPTY"
+            self.mq_description_img_name_1 = ""
+            self.mq_description_img_data_1 = ""
+            self.mq_description_img_path_1 = ""
 
         # Fragen-Text Bild 2
-        if self.mq_description_img_name_2 != "EMPTY":
+        if self.mq_description_img_name_2 != "" or self.mq_description_img_name_2 != "EMPTY":
             with open(self.mq_description_img_path_2, 'rb') as description_image_file_2:
                 self.mq_description_img_data_2 = description_image_file_2.read()
 
         else:
-            self.mq_description_img_name_2 = "EMPTY"
-            self.mq_description_img_data_2 = "EMPTY"
-            self.mq_description_img_path_2 = "EMPTY"
+            self.mq_description_img_name_2 = ""
+            self.mq_description_img_data_2 = ""
+            self.mq_description_img_path_2 = ""
 
         # Fragen-Text Bild 3
-        if self.mq_description_img_name_3 != "EMPTY":
+        if self.mq_description_img_name_3 != "" or self.mq_description_img_name_3 != "EMPTY":
             with open(self.mq_description_img_path_3, 'rb') as description_image_file_3:
                 self.mq_description_img_data_3 = description_image_file_3.read()
 
         else:
-            self.mq_description_img_name_3 = "EMPTY"
-            self.mq_description_img_data_3 = "EMPTY"
-            self.mq_description_img_path_3 = "EMPTY"
+            self.mq_description_img_name_3 = ""
+            self.mq_description_img_data_3 = ""
+            self.mq_description_img_path_3 = ""
 
         c.execute("""UPDATE zuordnungsfrage_table SET
                 question_difficulty = :question_difficulty,
@@ -2832,7 +2832,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
                 # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
                 # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
-                if self.mq_description_img_data_1 != "EMPTY":
+                if self.mq_description_img_data_1 != "":
 
                     with open('il_0_mob_TEST.png', 'wb') as image_file:
                         image_file.write(self.mq_description_img_data_1)
@@ -2889,27 +2889,27 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
                 #Antworten erstellen
                 # Antworten erstellen
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_1_text, self.mq_definitions_response_1_img_label, self.mq_definitions_response_1_img_string_base64_encoded, render_choice, "0", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_2_text, self.mq_definitions_response_2_img_label, self.mq_definitions_response_2_img_string_base64_encoded, render_choice, "1", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_3_text, self.mq_definitions_response_3_img_label, self.mq_definitions_response_3_img_string_base64_encoded, render_choice, "2", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_4_text, self.mq_definitions_response_4_img_label, self.mq_definitions_response_4_img_string_base64_encoded, render_choice, "3", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_5_text, self.mq_definitions_response_5_img_label, self.mq_definitions_response_5_img_string_base64_encoded, render_choice, "4", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_6_text, self.mq_definitions_response_6_img_label, self.mq_definitions_response_6_img_string_base64_encoded, render_choice, "5", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_7_text, self.mq_definitions_response_7_img_label, self.mq_definitions_response_7_img_string_base64_encoded, render_choice, "6", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_8_text, self.mq_definitions_response_8_img_label, self.mq_definitions_response_8_img_string_base64_encoded, render_choice, "7", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_9_text, self.mq_definitions_response_9_img_label, self.mq_definitions_response_9_img_string_base64_encoded, render_choice, "8", self.mq_number_of_terms_used_string)
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_10_text, self.mq_definitions_response_10_img_label, self.mq_definitions_response_10_img_string_base64_encoded, render_choice, "9", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_1_text, self.mq_definitions_response_1_img_path, self.mq_definitions_response_1_img_string_base64_encoded, render_choice, "0", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_2_text, self.mq_definitions_response_2_img_path, self.mq_definitions_response_2_img_string_base64_encoded, render_choice, "1", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_3_text, self.mq_definitions_response_3_img_path, self.mq_definitions_response_3_img_string_base64_encoded, render_choice, "2", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_4_text, self.mq_definitions_response_4_img_path, self.mq_definitions_response_4_img_string_base64_encoded, render_choice, "3", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_5_text, self.mq_definitions_response_5_img_path, self.mq_definitions_response_5_img_string_base64_encoded, render_choice, "4", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_6_text, self.mq_definitions_response_6_img_path, self.mq_definitions_response_6_img_string_base64_encoded, render_choice, "5", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_7_text, self.mq_definitions_response_7_img_path, self.mq_definitions_response_7_img_string_base64_encoded, render_choice, "6", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_8_text, self.mq_definitions_response_8_img_path, self.mq_definitions_response_8_img_string_base64_encoded, render_choice, "7", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_9_text, self.mq_definitions_response_9_img_path, self.mq_definitions_response_9_img_string_base64_encoded, render_choice, "8", self.mq_number_of_terms_used_string)
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_definitions(self, self.mq_definitions_response_10_text, self.mq_definitions_response_10_img_path, self.mq_definitions_response_10_img_string_base64_encoded, render_choice, "9", self.mq_number_of_terms_used_string)
 
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_1_text, self.mq_terms_response_1_img_label, self.mq_terms_response_1_img_string_base64_encoded,render_choice, "10")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_2_text, self.mq_terms_response_2_img_label, self.mq_terms_response_2_img_string_base64_encoded,render_choice, "11")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_3_text, self.mq_terms_response_3_img_label, self.mq_terms_response_3_img_string_base64_encoded,render_choice, "12")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_4_text, self.mq_terms_response_4_img_label, self.mq_terms_response_4_img_string_base64_encoded,render_choice, "13")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_5_text, self.mq_terms_response_5_img_label, self.mq_terms_response_5_img_string_base64_encoded,render_choice, "14")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_6_text, self.mq_terms_response_6_img_label, self.mq_terms_response_6_img_string_base64_encoded,render_choice, "15")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_7_text, self.mq_terms_response_7_img_label, self.mq_terms_response_7_img_string_base64_encoded,render_choice, "16")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_8_text, self.mq_terms_response_8_img_label, self.mq_terms_response_8_img_string_base64_encoded,render_choice, "17")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_9_text, self.mq_terms_response_9_img_label, self.mq_terms_response_9_img_string_base64_encoded,render_choice, "18")
-                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_10_text, self.mq_terms_response_10_img_label, self.mq_terms_response_10_img_string_base64_encoded,render_choice, "19")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_1_text, self.mq_terms_response_1_img_path, self.mq_terms_response_1_img_string_base64_encoded,render_choice, "10")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_2_text, self.mq_terms_response_2_img_path, self.mq_terms_response_2_img_string_base64_encoded,render_choice, "11")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_3_text, self.mq_terms_response_3_img_path, self.mq_terms_response_3_img_string_base64_encoded,render_choice, "12")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_4_text, self.mq_terms_response_4_img_path, self.mq_terms_response_4_img_string_base64_encoded,render_choice, "13")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_5_text, self.mq_terms_response_5_img_path, self.mq_terms_response_5_img_string_base64_encoded,render_choice, "14")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_6_text, self.mq_terms_response_6_img_path, self.mq_terms_response_6_img_string_base64_encoded,render_choice, "15")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_7_text, self.mq_terms_response_7_img_path, self.mq_terms_response_7_img_string_base64_encoded,render_choice, "16")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_8_text, self.mq_terms_response_8_img_path, self.mq_terms_response_8_img_string_base64_encoded,render_choice, "17")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_9_text, self.mq_terms_response_9_img_path, self.mq_terms_response_9_img_string_base64_encoded,render_choice, "18")
+                Create_Zuordnungsfrage_Questions.mq_question_answer_structure_terms(self, self.mq_terms_response_10_text, self.mq_terms_response_10_img_path, self.mq_terms_response_10_img_string_base64_encoded,render_choice, "19")
 
                 Create_Zuordnungsfrage_Questions.mq_question_answer_structure_assignment_pairs(self, self.mq_assignment_pairs_definition_1, self.mq_assignment_pairs_term_1, self.mq_assignment_pairs_1_pts, resprocessing, item)
                 Create_Zuordnungsfrage_Questions.mq_question_answer_structure_assignment_pairs(self, self.mq_assignment_pairs_definition_2, self.mq_assignment_pairs_term_2, self.mq_assignment_pairs_2_pts, resprocessing, item)
@@ -2956,7 +2956,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
 
     ####################### QUESTION_ANSWER STRUCTURE #############################
-    def mq_question_answer_structure_definitions(self, mq_definitions_response_var_text, mq_definitions_response_var_img_label, mq_definitions_response_var_img_string_base64_encoded, xml_render_choice, mq_definition_id, mq_number_of_terms_used):
+    def mq_question_answer_structure_definitions(self, mq_definitions_response_var_text, mq_definitions_response_var_img_path, mq_definitions_response_var_img_string_base64_encoded, xml_render_choice, mq_definition_id, mq_number_of_terms_used):
         
 
         # Antworten für Definitionen
@@ -2975,16 +2975,16 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
             if mq_definitions_response_var_img_string_base64_encoded != "":
                 question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
 
-                if str(mq_definitions_response_var_img_label.rpartition('.')[-1]) == "jpg" or str(mq_definitions_response_var_img_label.rpartition('.')[-1]) == "jpeg":
+                if str(mq_definitions_response_var_img_path.rpartition('.')[-1]) == "jpg" or str(mq_definitions_response_var_img_path.rpartition('.')[-1]) == "jpeg":
                     question_answer_matimage.set('imagtype', "image/jpeg")
-                elif str(mq_definitions_response_var_img_label.rpartition('.')[-1]) == "png":
+                elif str(mq_definitions_response_var_img_path.rpartition('.')[-1]) == "png":
                     question_answer_matimage.set('imagtype', "image/png")
-                elif str(mq_definitions_response_var_img_label.rpartition('.')[-1]) == "gif":
+                elif str(mq_definitions_response_var_img_path.rpartition('.')[-1]) == "gif":
                     question_answer_matimage.set('imagtype', "image/gif")
                 else:
                     print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
 
-                question_answer_matimage.set('label', mq_definitions_response_var_img_label)
+                question_answer_matimage.set('label', mq_definitions_response_var_img_path.rpartition('/')[-1])
                 question_answer_matimage.set('embedded', "base64")
                 question_answer_matimage.text = str(mq_definitions_response_var_img_string_base64_encoded)
 
@@ -2994,7 +2994,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
 
 
-    def mq_question_answer_structure_terms(self, mq_terms_response_var_text, mq_terms_response_var_img_label, mq_terms_response_var_img_string_base64_encoded, xml_render_choice, mq_response_counter):
+    def mq_question_answer_structure_terms(self, mq_terms_response_var_text, mq_terms_response_var_img_path, mq_terms_response_var_img_string_base64_encoded, xml_render_choice, mq_response_counter):
 
         #Antworten für Terme
         if mq_terms_response_var_text != "":
@@ -3011,16 +3011,16 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
             if mq_terms_response_var_img_string_base64_encoded != "":
                 question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
 
-                if str(mq_terms_response_var_img_label.rpartition('.')[-1]) == "jpg" or str(mq_terms_response_var_img_label.rpartition('.')[-1]) == "jpeg":
+                if str(mq_terms_response_var_img_path.rpartition('.')[-1]) == "jpg" or str(mq_terms_response_var_img_path.rpartition('.')[-1]) == "jpeg":
                     question_answer_matimage.set('imagtype', "image/jpeg")
-                elif str(mq_terms_response_var_img_label.rpartition('.')[-1]) == "png":
+                elif str(mq_terms_response_var_img_path.rpartition('.')[-1]) == "png":
                     question_answer_matimage.set('imagtype', "image/png")
-                elif str(mq_terms_response_var_img_label.rpartition('.')[-1]) == "gif":
+                elif str(mq_terms_response_var_img_path.rpartition('.')[-1]) == "gif":
                     question_answer_matimage.set('imagtype', "image/gif")
                 else:
                     print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
 
-                question_answer_matimage.set('label', mq_terms_response_var_img_label)
+                question_answer_matimage.set('label', mq_terms_response_var_img_path.rpartition('/')[-1])
                 question_answer_matimage.set('embedded', "base64")
                 question_answer_matimage.text = str(mq_terms_response_var_img_string_base64_encoded)
 

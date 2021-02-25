@@ -31,17 +31,17 @@ class Formelfrage_Permutation:
 
         self.formelfrage_permutation_tab = formelfrage_permutation_tab
 
-        self.ffperm_description_img_name_1 = "EMPTY"
-        self.ffperm_description_img_name_2 = "EMPTY"
-        self.ffperm_description_img_name_3 = "EMPTY"
+        self.ffperm_description_img_name_1 = ""
+        self.ffperm_description_img_name_2 = ""
+        self.ffperm_description_img_name_3 = ""
 
-        self.ffperm_description_img_data_1 = "EMPTY"
-        self.ffperm_description_img_data_2 = "EMPTY"
-        self.ffperm_description_img_data_3 = "EMPTY"
+        self.ffperm_description_img_data_1 = ""
+        self.ffperm_description_img_data_2 = ""
+        self.ffperm_description_img_data_3 = ""
 
-        self.ffperm_description_img_path_1 = "EMPTY"
-        self.ffperm_description_img_path_2 = "EMPTY"
-        self.ffperm_description_img_path_3 = "EMPTY"
+        self.ffperm_description_img_path_1 = ""
+        self.ffperm_description_img_path_2 = ""
+        self.ffperm_description_img_path_3 = ""
 
 
 
@@ -1493,7 +1493,7 @@ class Formelfrage_Permutation:
 
 
         # Bild 1
-        if self.ffperm_description_img_name_1!= "EMPTY":
+        if self.ffperm_description_img_name_1!= "":
             # read image data in byte format
             print(self.ffperm_description_img_name_1)
             print(self.ffperm_description_img_path_1)
@@ -1502,13 +1502,13 @@ class Formelfrage_Permutation:
 
 
         else:
-            self.ffperm_description_img_name_1= "EMPTY"
-            self.ffperm_description_img_path_1 = "EMPTY"
-            self.ffperm_description_img_data_1 = "EMPTY"
+            self.ffperm_description_img_name_1= ""
+            self.ffperm_description_img_path_1 = ""
+            self.ffperm_description_img_data_1 = ""
 
 
         # Bild 2
-        if self.ffperm_description_img_name_2!= "EMPTY":
+        if self.ffperm_description_img_name_2!= "":
             # read image data in byte format
             print(self.ffperm_description_img_name_2)
             print(self.ffperm_description_img_path_2)
@@ -1517,13 +1517,13 @@ class Formelfrage_Permutation:
 
 
         else:
-            self.ffperm_description_img_name_2= "EMPTY"
-            self.ffperm_description_img_path_2 = "EMPTY"
-            self.ffperm_description_img_data_2 = "EMPTY"
+            self.ffperm_description_img_name_2= ""
+            self.ffperm_description_img_path_2 = ""
+            self.ffperm_description_img_data_2 = ""
 
 
         # Bild 3
-        if self.ffperm_description_img_name_3 != "EMPTY":
+        if self.ffperm_description_img_name_3 != "":
 
             # read image data in byte format
             print(self.ffperm_description_img_name_3)
@@ -1533,9 +1533,9 @@ class Formelfrage_Permutation:
 
 
         else:
-            self.ffperm_description_img_name_3 = "EMPTY"
-            self.ffperm_description_img_path_3 = "EMPTY"
-            self.ffperm_description_img_data_3 = "EMPTY"
+            self.ffperm_description_img_name_3 = ""
+            self.ffperm_description_img_path_3 = ""
+            self.ffperm_description_img_data_3 = ""
 
 
         # Insert into Table
@@ -2047,15 +2047,15 @@ class Formelfrage_Permutation:
         self.ffperm_test_time = "P0Y0M0DT" + self.ffperm_proc_hours_box.get() + "H" + self.ffperm_proc_minutes_box.get() + "M" + self.ffperm_proc_seconds_box.get() + "S"
 
 
-        if self.ffperm_picture_name != "EMPTY":
+        if self.ffperm_picture_name != "":
             # read image data in byte format
             with open(self.ffperm_picture_name, 'rb') as image_file:
                 self.ffperm_picture_data = image_file.read()
 
 
         else:
-            self.ffperm_picture_name = "EMPTY"
-            self.ffperm_picture_data = "EMPTY"
+            self.ffperm_picture_name = ""
+            self.ffperm_picture_data = ""
 
         c.execute("""UPDATE formelfrage_permutation_table SET
             question_difficulty = :question_difficulty,

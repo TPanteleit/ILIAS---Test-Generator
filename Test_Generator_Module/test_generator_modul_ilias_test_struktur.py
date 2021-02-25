@@ -496,18 +496,18 @@ class Additional_Funtions:
         self.question_description_mattext = question_description_mattext
 
 
-        if self.description_img_data_1 != "EMPTY":
+        if self.description_img_data_1 != "" and self.description_img_data_1 != "EMPTY":
             self.question_description_mattext = Additional_Funtions.set_picture_in_main(self, self.description_img_name_1, self.description_img_data_1, "%Bild1%", self.question_description_main, question_description_material, id_nr, "0")
 
-        if self.description_img_data_2 != "EMPTY":
+        if self.description_img_data_2 != "" and self.description_img_data_2 != "EMPTY":
             self.question_description_mattext = Additional_Funtions.set_picture_in_main(self, self.description_img_name_2, self.description_img_data_2, "%Bild2%", self.question_description_mattext, question_description_material, id_nr, "1")
 
 
-        if self.description_img_data_3 != "EMPTY":
+        if self.description_img_data_3 != "" and self.description_img_data_3 != "EMPTY":
             self.question_description_mattext = Additional_Funtions.set_picture_in_main(self, self.description_img_name_3, self.description_img_data_3, "%Bild3%", self.question_description_mattext, question_description_material, id_nr, "2")
 
 
-        if self.description_img_data_1 == "EMPTY" and self.description_img_data_2 == "EMPTY" and self.description_img_data_3 == "EMPTY":
+        if (self.description_img_data_1 == "" or self.description_img_data_1 == "EMPTY") and (self.description_img_data_2 == "" or self.description_img_data_2 == "EMPTY") and (self.description_img_data_3 == "" or self.description_img_data_3 == "EMPTY"):
             self.question_description_mattext = "<p>" + self.question_description_main + "</p>"
 
 
@@ -529,7 +529,7 @@ class Additional_Funtions:
 
 
 
-        if self.description_img_data_var != "EMPTY":
+        if self.description_img_data_var != "":
 
             with open('il_0_mob_TEST.png', 'wb') as image_file:
                 image_file.write(self.description_img_data_var)
@@ -572,7 +572,7 @@ class Additional_Funtions:
         if question_pool_img_path != "ilias_id_pool_img_dir_not_used_for_ilias_test":
             if test_or_pool == "question_test":
 
-                if self.description_img_name_var != "EMPTY":
+                if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
                     Additional_Funtions.createFolder(self, self.question_test_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
 
                     #img wird immer als PNG Datei abgelegt.
@@ -583,7 +583,7 @@ class Additional_Funtions:
                     self.image.save(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
 
             else:  # image pool
-                if self.description_img_name_var != "EMPTY":
+                if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
                     Additional_Funtions.createFolder(self, self.question_pool_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
 
                     #img wird immer als PNG Datei abgelegt.
@@ -812,18 +812,18 @@ class Additional_Funtions:
 
             self.question_description_img_1_filename_label.grid_remove()
             self.file_image_1_label.destroy()
-            self.picture_name_img_1 ="EMPTY"
+            self.picture_name_img_1 =""
             question_description_img_1_filename_label = None
 
         if self.check_use_img_2 == 0 and question_description_img_2_filename_label != None :
             self.question_description_img_2_filename_label.grid_remove()
             self.file_image_2_label.destroy()
-            self.picture_name_img_2 ="EMPTY"
+            self.picture_name_img_2 =""
 
         if self.check_use_img_3 == 0 and question_description_img_3_filename_label != None:
             self.question_description_img_3_filename_label.grid_remove()
             self.file_image_3_label.destroy()
-            self.picture_name_img_3 ="EMPTY"
+            self.picture_name_img_3 =""
 
 
         return self.picture_name_img_1, self.picture_name_img_2, self.picture_name_img_3

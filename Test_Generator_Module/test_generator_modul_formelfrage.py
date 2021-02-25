@@ -83,17 +83,17 @@ class Formelfrage:
 ############## SET IMAGE VARIABLES
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
-        self.ff_description_img_name_1 = "EMPTY"
-        self.ff_description_img_name_2 = "EMPTY"
-        self.ff_description_img_name_3 = "EMPTY"
+        self.ff_description_img_name_1 = ""
+        self.ff_description_img_name_2 = ""
+        self.ff_description_img_name_3 = ""
 
-        self.ff_description_img_data_1 = "EMPTY"
-        self.ff_description_img_data_2 = "EMPTY"
-        self.ff_description_img_data_3 = "EMPTY"
+        self.ff_description_img_data_1 = ""
+        self.ff_description_img_data_2 = ""
+        self.ff_description_img_data_3 = ""
 
-        self.ff_description_img_path_1 = "EMPTY"
-        self.ff_description_img_path_2 = "EMPTY"
-        self.ff_description_img_path_3 = "EMPTY"
+        self.ff_description_img_path_1 = ""
+        self.ff_description_img_path_2 = ""
+        self.ff_description_img_path_3 = ""
 
 
 
@@ -171,7 +171,6 @@ class Formelfrage:
 
         self.ff_frame_create_formelfrage_test = LabelFrame(self.formelfrage_tab, text="FF-Test erstellen", padx=5, pady=5)
         self.ff_frame_create_formelfrage_test.grid(row=2, column=0, padx=105, pady=120, sticky="NE")
-
 
         self.ff_frame_taxonomy_settings = LabelFrame(self.formelfrage_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
         self.ff_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
@@ -1362,92 +1361,7 @@ class Formelfrage:
 
         print("...XML_DATEI_QTI --  \"&amp;\"-ZEICHEN ÜBERARBEITUNG ABGESCHLOSSEN!")
 
-    """
-    def ff_add_image_to_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
 
-        self.check_use_img_1 = check_use_img_1
-        self.check_use_img_2 = check_use_img_2
-        self.check_use_img_3 = check_use_img_3
-
-        # Bild 1 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_1 == 1:
-            self.ff_description_img_path_1 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_1 = self.ff_description_img_path_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.ff_description_img_name_1= self.ff_description_img_path_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_1 = self.ff_description_img_path_1[-4:]
-
-            self.ff_question_description_img_1_filename_label = Label(self.ff_frame_description_picture, text=self.ff_description_img_name_1)
-            self.ff_question_description_img_1_filename_label.grid(row=0, column=1, sticky=W)
-
-            self.file_image_1 = ImageTk.PhotoImage(Image.open(self.ff_description_img_path_1).resize((100, 100)))
-            self.file_image_1_raw = Image.open(self.ff_description_img_path_1)
-            self.file_image_1_width, self.file_image_1_height = self.file_image_1_raw.size
-            self.file_image_1_label = Label(self.ff_frame_description_picture, image=self.file_image_1)
-            self.file_image_1_label.image = self.file_image_1
-            self.file_image_1_label.grid(row=0, column=2)
-
-
-        # Bild 2 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_2 == 1:
-            self.ff_description_img_path_2 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_2 = self.ff_description_img_path_2.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.ff_description_img_name_2= self.ff_description_img_path_2[int(self.last_char_index_img_2) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_2 = self.ff_description_img_path_2[-4:]
-
-            self.ff_question_description_img_2_filename_label = Label(self.ff_frame_description_picture, text=self.ff_description_img_name_2)
-            self.ff_question_description_img_2_filename_label.grid(row=1, column=1, sticky=W)
-
-
-            self.file_image_2 = ImageTk.PhotoImage(Image.open(self.ff_description_img_path_2).resize((100, 100)))
-            self.file_image_2_raw = Image.open(self.ff_description_img_path_2)
-            self.file_image_2_width, self.file_image_2_height = self.file_image_2_raw.size
-            self.file_image_2_label = Label(self.ff_frame_description_picture, image=self.file_image_2)
-            self.file_image_2_label.image = self.file_image_2
-            self.file_image_2_label.grid(row=1, column=2)
-
-
-        # Bild 3 auswählen und von Datei-Pfad den Bild-Namen extrahieren
-        if self.check_use_img_3 == 1:
-
-            self.ff_description_img_path_3 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
-            self.last_char_index_img_3 = self.ff_description_img_path_3.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
-
-            self.ff_description_img_name_3 = self.ff_description_img_path_3[int(self.last_char_index_img_3) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_3 = self.ff_description_img_path_3[-4:]
-            self.ff_question_description_img_3_filename_label = Label(self.ff_frame_description_picture, text=self.ff_description_img_name_3)
-            self.ff_question_description_img_3_filename_label.grid(row=2, column=1, sticky=W)
-
-            self.file_image_3 = ImageTk.PhotoImage(Image.open(self.ff_description_img_path_3).resize((100, 100)))
-            self.file_image_3_raw = Image.open(self.ff_description_img_path_3)
-            self.file_image_3_width, self.file_image_3_height = self.file_image_3_raw.size
-            self.file_image_3_label = Label(self.ff_frame_description_picture, image=self.file_image_3)
-            self.file_image_3_label.image = self.file_image_3
-            self.file_image_3_label.grid(row=2, column=2)
-
-    def ff_delete_image_from_description(self, check_use_img_1, check_use_img_2, check_use_img_3):
-        self.check_use_img_1 = check_use_img_1
-        self.check_use_img_2 = check_use_img_2
-        self.check_use_img_3 = check_use_img_3
-
-        if self.check_use_img_1 == 0:
-            #print("0 in 1")
-            self.ff_question_description_img_1_filename_label.grid_remove()
-            self.file_image_1_label.grid_remove()
-            self.ff_description_img_name_1="EMPTY"
-
-        if self.check_use_img_2 == 0:
-            self.ff_question_description_img_2_filename_label.grid_remove()
-            self.file_image_2_label.grid_remove()
-            self.ff_description_img_name_2="EMPTY"
-            #print("0 in 2")
-        if self.check_use_img_3 == 0:
-            self.ff_question_description_img_3_filename_label.grid_remove()
-            self.file_image_3_label.grid_remove()
-            self.ff_description_img_name_3 ="EMPTY"
-            #print("0 in 3")
-    """
     # Wertebereich berechnen für bis zu 4 Variablen
     def ff_replace_symbols_in_formula(self, formula):
 
@@ -1677,33 +1591,33 @@ class Formelfrage:
 
 
         # Bild 1
-        if self.ff_description_img_name_1!= "EMPTY":
+        if self.ff_description_img_name_1 != "" and self.ff_description_img_name_1 != "EMPTY":
             # read image data in byte format
             with open(self.ff_description_img_path_1, 'rb') as image_file_1:
                 self.ff_description_img_data_1 = image_file_1.read()
 
 
         else:
-            self.ff_description_img_name_1= "EMPTY"
-            self.ff_description_img_path_1 = "EMPTY"
-            self.ff_description_img_data_1 = "EMPTY"
+            self.ff_description_img_name_1= ""
+            self.ff_description_img_path_1 = ""
+            self.ff_description_img_data_1 = ""
 
 
         # Bild 2
-        if self.ff_description_img_name_2!= "EMPTY":
+        if self.ff_description_img_name_2 != "" and self.ff_description_img_name_2 != "EMPTY":
             # read image data in byte format
             with open(self.ff_description_img_path_2, 'rb') as image_file_2:
                 self.ff_description_img_data_2 = image_file_2.read()
 
 
         else:
-            self.ff_description_img_name_2= "EMPTY"
-            self.ff_description_img_path_2 = "EMPTY"
-            self.ff_description_img_data_2 = "EMPTY"
+            self.ff_description_img_name_2= ""
+            self.ff_description_img_path_2 = ""
+            self.ff_description_img_data_2 = ""
 
 
         # Bild 3
-        if self.ff_description_img_name_3 != "EMPTY":
+        if self.ff_description_img_name_3 != "" and self.ff_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
             with open(self.ff_description_img_path_3, 'rb') as image_file_3:
@@ -1711,9 +1625,9 @@ class Formelfrage:
 
 
         else:
-            self.ff_description_img_name_3 = "EMPTY"
-            self.ff_description_img_path_3 = "EMPTY"
-            self.ff_description_img_data_3 = "EMPTY"
+            self.ff_description_img_name_3 = ""
+            self.ff_description_img_path_3 = ""
+            self.ff_description_img_data_3 = ""
 
 
         # Insert into Table
@@ -2240,38 +2154,38 @@ class Formelfrage:
         self.ff_test_time = "P0Y0M0DT" + self.ff_proc_hours_box.get() + "H" + self.ff_proc_minutes_box.get() + "M" + self.ff_proc_seconds_box.get() + "S"
 
         # Ist ein Bild-Name vorhanden, dann das Bild über den Pfad einlesen
-        # Sonst auf "EMPTY" setzen
+        # Sonst auf "" setzen
         # Bilder werden als byte eingelesen "rb" = read byte
 
         # Fragen-Text Bild 1
-        if self.ff_description_img_name_1 != "EMPTY":
+        if self.ff_description_img_name_1 != "" and self.ff_description_img_name_1 != "EMPTY":
             with open( self.ff_description_img_path_1, 'rb') as description_image_file_1:
                 self.ff_description_img_data_1 = description_image_file_1.read()
 
         else:
-            self.ff_description_img_name_1 = "EMPTY"
-            self.ff_description_img_data_1 = "EMPTY"
-            self.ff_description_img_path_1 = "EMPTY"
+            self.ff_description_img_name_1 = ""
+            self.ff_description_img_data_1 = ""
+            self.ff_description_img_path_1 = ""
 
         # Fragen-Text Bild 2
-        if self.ff_description_img_name_2 != "EMPTY":
+        if self.ff_description_img_name_2 != "" and self.ff_description_img_name_2 != "EMPTY":
             with open( self.ff_description_img_path_2, 'rb') as description_image_file_2:
                 self.ff_description_img_data_2 = description_image_file_2.read()
 
         else:
-            self.ff_description_img_name_2 = "EMPTY"
-            self.ff_description_img_data_2 = "EMPTY"
-            self.ff_description_img_path_2 = "EMPTY"
+            self.ff_description_img_name_2 = ""
+            self.ff_description_img_data_2 = ""
+            self.ff_description_img_path_2 = ""
 
         # Fragen-Text Bild 3
-        if self.ff_description_img_name_3 != "EMPTY":
+        if self.ff_description_img_name_3 != "" and self.ff_description_img_name_3 != "EMPTY":
             with open( self.ff_description_img_path_3, 'rb') as description_image_file_3:
                 self.ff_description_img_data_3 = description_image_file_3.read()
 
         else:
-            self.ff_description_img_name_3 = "EMPTY"
-            self.ff_description_img_data_3 = "EMPTY"
-            self.ff_description_img_path_3 = "EMPTY"
+            self.ff_description_img_name_3 = ""
+            self.ff_description_img_data_3 = ""
+            self.ff_description_img_path_3 = ""
 
 
 
