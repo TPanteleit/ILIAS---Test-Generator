@@ -1,17 +1,28 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.0                                                                                           #
+#    Version: 2.1                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.0) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.1) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
 #        - Zuordnungsfragen                                                                                 #
 #############################################################################################################
 #                                                                                                           #
+#    Neuerungen:                                                                                            #
+#    - Datenbank Einträge löschen --> Alle Einträge löschen:                                                #
+#       Erstellt KEIN Backup mehr. Es wird ein Abfrage Fenster geöffnet und beim bestätigen ausgeführt      #
+#                                                                                                           #
+#    - Datenbank Import:                                                                                    #
+#       Beim Import von Fragen (mit dem exakt gleichen Titel) werden automatisch aktualisiert und nicht     #
+#       in der Datenbank angehangen (als neue Frage                                                         #
+#                                                                                                           #
+#   - Datenbank Export ---> Auswahl ob Export im XLSX oder ODS Format                                       #
+#                                                                                                           #
+#   - Tabellenkalkulationsdatei: Nicht mehr notwendig Bild-Einträge mit "EMPTY" zu versehen                 #
 #                                                                                                           #
 #    PERMUTATION ----- NOCH IN ENTWICKLUNG                                                                  #
 #    Das Tool soll die Möglichkeit bieten, eine Vielzahl an Aufgaben zu erstellen. Dazu soll unter anderem  #
@@ -26,14 +37,6 @@
 #                                                                                                           #
 #                                                                                                           #
 #############################################################################################################
-#                                                                                                           #
-#                                                                                                           #
-#                                                                                                           #
-#    Neuerungen:                                                                                            #
-#    - Einlesen von exportierten ILIAS-Tests in die Datenbank                                               #
-#    - Der ILIAS_Test darf hierfür folgende Fragentypen beinhalten:                                         #
-#        Formelfrage, SingleChoice, MultipleChoice, MatchingQuestion                                        #
-#                                                                                                           #
 # -------------------------------------------------------------------------------------------------         #
 #    Behandlung der Excel-Inhalte:                                                                          #
 #    Unter der Kategorie "Fragen-Typ" MUSS z.B.: "Formelfrage" oder "MultipleChoice" eingetragen werden, da #
@@ -75,7 +78,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.0')
+        master.title('ilias - Test-Generator v2.1')
 
         # Fenstergröße für die Module setzen
         self.window_width = 800
