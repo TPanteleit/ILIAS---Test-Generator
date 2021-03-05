@@ -2,6 +2,7 @@ import sqlite3
 import os
 import xlsxwriter                       # import/export von excel Dateien
 import pandas as pd
+from pandas import ExcelWriter
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
@@ -2208,18 +2209,23 @@ class Import_Export_Database(CreateDatabases):
         self.question_type = question_type.lower()
         self.db_entry_to_index_dict = db_entry_to_index_dict
 
-        ################################  IMPORT SINGLECHOICE EXCEL FILE TO DB  #################################
+        ################################  IMPORT EXCEL FILE TO DB  #################################
 
         self.xlsx_path = filedialog.askopenfilename(initialdir=pathlib.Path().absolute(), title="Select a File")
 
         # Wenn in dem Pfad zur Datei ".ods" enthalten ist, wird eine entsprechende "engine" zum
         # richtigen einlesen der Tabelle verwendet (für OpenOffice und LibreOffice)
 
-        if ".ods" in self.xlsx_path:
-            self.xlsx_data = pd.read_excel(self.xlsx_path, engine="odf")
 
+        if ".ods" in self.xlsx_path:
+            print(self.xlsx_path)
+            self.xlsx_path = self.xlsx_path.replace('/', "\\")
+            print(self.xlsx_path)
+            self.xlsx_data = pd.read_excel(self.xlsx_path, engine="odf")
+            #print(self.xlsx_data)
         # Enthält der Pfad kein ".ods" wird davon ausgegangen, dass es sich um eine Excel-Datei handelt
         else:
+
             self.xlsx_data = pd.read_excel(self.xlsx_path)
 
         self.xlsx_file_column_labels = []
@@ -4306,18 +4312,22 @@ class Import_Export_Database(CreateDatabases):
 
 
 
-        if self.export_filetype_choice == "yes":
-            self.xlsx_workbook_name += ".xlsx"
 
-        else:
-            self.xlsx_workbook_name += ".ods"
 
         # Datenbank-Name lautet z.B.: ilias_singlechoice_db.db
         # durch den Zusatz [:-3] werden die letzten 3 Zeichen gelöscht
         self.database_dir_name = str(database_name[:-3])
         self.database_dir_name += "_images"
 
+        #if self.export_filetype_choice == "yes":
+        self.orig_workbook_name = self.xlsx_workbook_name
+        self.xlsx_workbook_name += ".xlsx"
 
+        self.ods_workbook_name = self.orig_workbook_name
+        self.ods_workbook_name += ".ods"
+
+#        else:
+#            self.xlsx_workbook_name += ".ods"
         print("________________________________________________")
         print("Datenbank wird exportiert...", end="", flush=True)
 
@@ -4434,7 +4444,21 @@ class Import_Export_Database(CreateDatabases):
 
         print(str(row_index) + ' Zeilen exportiert --->  ' + excel.filename)
         print("________________________________________________")
+
+        print(self.export_filetype_choice)
+
+        # Exportiert die Datenbank als ".xlsx" und konvertiert die Datei nach ".ods"
+        if self.export_filetype_choice == "no":
+            dataframe = pd.read_excel(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", self.xlsx_workbook_name)))
+            with ExcelWriter(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", self.ods_workbook_name)).format('ods')) as writer:
+                dataframe.to_excel(writer, engine='ods')
+
         messagebox.showinfo("Datenbank exportieren", "Datenbank wurde exportiert!")
+
+
+
+
+
 
 class Delete_Entry_from_Database:
     def __init__(self, modul_delete_box_id, question_type, modul_var_delete_all, project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
