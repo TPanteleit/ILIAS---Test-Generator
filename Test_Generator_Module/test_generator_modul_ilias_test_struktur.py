@@ -39,6 +39,8 @@ class Create_ILIAS_Test:
         self.question_type = question_type
 
 
+
+
         self.db_entry_to_index_dict = entry_to_index_dict
 
 
@@ -470,7 +472,7 @@ class Create_ILIAS_Pool:
                                                                                     self.pool_qti_file_path_output)
 
 
-class Additional_Funtions:
+class Additional_Funtions():
 
     def add_picture_to_description_main(self, description_img_name_1, description_img_data_1, description_img_name_2,
                                               description_img_data_2, description_img_name_3, description_img_data_3,
@@ -541,8 +543,6 @@ class Additional_Funtions:
 
             # Wird eine Bild Position im Fragen Text eingetragen, wird es hier durch das eigentliche Bild ersetzt
             if self.picture_string_name_replace_var in question_description_mattext.split():
-
-
                 question_description_mattext = question_description_mattext.replace(self.picture_string_name_replace_var, self.picture_in_main)
 
             else:
@@ -705,9 +705,12 @@ class Additional_Funtions:
         except OSError:
             print('Error: Creating directory. ' + directory)
 
-    def add_image_to_description(self, check_use_img_1, check_use_img_2, check_use_img_3, frame_name,
+    def add_image_to_description(self, project_root_path, check_use_img_1, check_use_img_2, check_use_img_3, frame_name,
                                  picture_name_img_1, picture_name_img_2, picture_name_img_3, picture_path_img_1,
                                  picture_path_img_2, picture_path_img_3):
+
+        # Pfad zu Bild-Ordner
+        self.image_directory = "Bilder"
 
         self.question_description_img_1_filename_label = None
         self.question_description_img_2_filename_label = None
@@ -717,8 +720,7 @@ class Additional_Funtions:
         #self.question_description_img_2_filename_label = question_description_img_2_filename_label
         #self.question_description_img_3_filename_label = question_description_img_3_filename_label
 
-
-
+        self.project_root_path = project_root_path
         self.frame_name = frame_name
         self.check_use_img_1 = check_use_img_1
         self.check_use_img_2 = check_use_img_2
@@ -738,7 +740,8 @@ class Additional_Funtions:
 
         # Bild 1 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_1 == 1:
-            self.picture_path_img_1 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.picture_path_img_1 = filedialog.askopenfilename(initialdir=os.path.join(pathlib.Path().absolute(), self.image_directory), title="Select a File")
+
             self.last_char_index_img_1 = self.picture_path_img_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
             self.picture_name_img_1 = self.picture_path_img_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
@@ -754,10 +757,19 @@ class Additional_Funtions:
             self.file_image_1_label.image = self.file_image_1
             self.file_image_1_label.grid(row=0, column=2)
 
+            # Der Ordner für Bilder-Dateien wird unter "self.image_directory" bestimmt. (Bsp. "Bilder")
+            # Bei der Auswahl von Bildern über die GUI wird der komplette Pfad aufgenommen (Bsp. C:\user\Bilder\test.png)
+            # Der String wird nach dem Eintrag "self.image_directory" durchsucht und gibt den Index im String zurück (Bsp: 8)
+            # Dann wird von diesem index (8) beginnend, der restliche String-Teil aufgenommen (Bsp: Bilder\test.png)
+            # Der ":" sorgt dafür das nur ein Teil vom String gelesen wird (Index_Start:Index_ende (wenn für "Index_ende" nichts eingetragen wird, wird alles übernommen
+            # Es kann hier auch z.B. Index_start:-1 eingetragen werden, dann wird alles bis auf das letzte Zeichen übernommen Bsp: Bilder\test.pn)
+            self.image_dir_index_for_path = self.picture_path_img_1.rfind(self.image_directory)
+            self.picture_path_img_1 = os.path.normpath(self.picture_path_img_1[int(self.image_dir_index_for_path):])
+
 
         # Bild 2 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_2 == 1:
-            self.picture_path_img_2 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.picture_path_img_2 = filedialog.askopenfilename(initialdir=os.path.join(pathlib.Path().absolute(), self.image_directory), title="Select a File")
             self.last_char_index_img_2 = self.picture_path_img_2.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
             self.picture_name_img_2 = self.picture_path_img_2[int(self.last_char_index_img_2) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
@@ -774,11 +786,13 @@ class Additional_Funtions:
             self.file_image_2_label.image = self.file_image_2
             self.file_image_2_label.grid(row=1, column=2)
 
+            self.image_dir_index_for_path = self.picture_path_img_1.rfind(self.image_directory)
+            self.picture_path_img_1 = os.path.normpath(self.picture_path_img_1[int(self.image_dir_index_for_path):])
 
         # Bild 3 auswählen und von Datei-Pfad den Bild-Namen extrahieren
         if self.check_use_img_3 == 1:
 
-            self.picture_path_img_3 = filedialog.askopenfilename(initialdir= pathlib.Path().absolute(), title="Select a File")
+            self.picture_path_img_3 = filedialog.askopenfilename(initialdir=os.path.join(pathlib.Path().absolute(), self.image_directory), title="Select a File")
             self.last_char_index_img_3 = self.picture_path_img_3.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
             self.picture_name_img_3 = self.picture_path_img_3[int(self.last_char_index_img_3) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
@@ -793,7 +807,8 @@ class Additional_Funtions:
             self.file_image_3_label.image = self.file_image_3
             self.file_image_3_label.grid(row=2, column=2)
 
-
+            self.image_dir_index_for_path = self.picture_path_img_1.rfind(self.image_directory)
+            self.picture_path_img_1 = os.path.normpath(self.picture_path_img_1[int(self.image_dir_index_for_path):])
 
         return self.picture_name_img_1, self.picture_name_img_2, self.picture_name_img_3, self.picture_path_img_1, self.picture_path_img_2, self.picture_path_img_3, self.question_description_img_1_filename_label, self.question_description_img_2_filename_label, self.question_description_img_3_filename_label
 
