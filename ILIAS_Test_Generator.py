@@ -84,7 +84,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.1')
+        master.title('ilias - Test-Generator v2.1.1')
 
         # Fenstergröße für die Module setzen
         self.window_width = 800
