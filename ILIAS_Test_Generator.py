@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.1                                                                                           #
+#    Version: 2.1.1                                                                                         #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.1) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.1.1) ist die Erstellung von folgenden Fragentypen möglich:              #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -13,6 +13,12 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
+#    - Bilder werden über einen relativen Pfad eingelesen/verwendet                                         #
+#       Bisher war der exakte Pfad zum Bild notwendig (z.B. c:/user/bilder/test.png)                        #
+#       Nun ist ein "Bilder"-Ordner im Projektverzeichnis vorhanden, indem die Bilder gespeichert werden.   #
+#        Es können auch eigene Ordner in diesem Ordner erstellt werden                                      #
+#        Der Pfad entspricht jetzt nur noch dem Pfad im "Bilder" Ordner. (z.B. Bilder/Panteleleit/test.png) #
+#                                                                                                           #
 #    - Datenbank Einträge löschen --> Alle Einträge löschen:                                                #
 #       Erstellt KEIN Backup mehr. Es wird ein Abfrage Fenster geöffnet und beim bestätigen ausgeführt      #
 #                                                                                                           #
