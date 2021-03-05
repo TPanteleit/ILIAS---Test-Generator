@@ -3026,6 +3026,11 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
         }
 
+
+
+
+        # Permutation Variablen initialisieren
+        self.perm_symbol_sammlung = ""
         self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_var1_prec_replaced = "", "", ""
         self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_var2_prec_replaced = "", "", ""
         self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_var3_prec_replaced = "", "", ""
@@ -3034,11 +3039,9 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
         
         self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced, self.ffperm_res1_prec_replaced = "", "", ""
         self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced, self.ffperm_res2_prec_replaced = "", "", ""
-        self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced = "", ""
-        self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced = "", ""
-        self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced = "", ""
 
 
+        # Die Eingabe der WErte von Permutation (kommagetrennt): z.B: "u,m,k" (für Einheiten im Text)
         perm_var_symbol_1, perm_var_value_1 =  self.ff_perm_var_symbol_1, self.ff_perm_var_value_1.split(',')
         perm_var_symbol_2, perm_var_value_2 =  self.ff_perm_var_symbol_2, self.ff_perm_var_value_2.split(',')
         perm_var_symbol_3, perm_var_value_3 =  self.ff_perm_var_symbol_3, self.ff_perm_var_value_3.split(',')
@@ -3056,9 +3059,10 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
         }
 
 
-        self.perm_symbol_sammlung = ""
+        # Permutations-Symbole auslesen/sammeln
         self.perm_symbol_sammlung = [perm_var_symbol_1, perm_var_symbol_2, perm_var_symbol_3, perm_var_symbol_4, perm_var_symbol_5]
 
+        # Alle Min/Max Werte auslesen
         self.var_res_min_max_sammlung = [self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max,
                                           self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max,
                                           self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max,
@@ -3112,657 +3116,459 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
             # Hier werden die Fragen anhand der ID's erstellt
             if str(ffperm_db_record[len(ffperm_db_record)-1]) == self.ffperm_test_entry_splitted[id_nr]:
-                # Abfrage nach Permutation_check
-                if self.ffperm_var_start_question_permutation.get() == 1:
-                    ##########################
-                    print("Permutation aktiv!")
-                    print('''''''''''''''''''''''''''''''')
-                    print("\n")
+                # Permutation immer Aktiv
 
-                    for k in range(len(perm_var_value_1)):
-                        # Hier wird die perm_variable_1 durch einen Wert ersetzt. Z.B.: $x1=[1,3,2]  ..gegeben ist die Spannung U$x1 --> U1, U3, U2
-                        self.ffperm_question_description_main_permutation = self.ffperm_question_description_main.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                ##########################
+                print("Permutation aktiv!")
+                print('''''''''''''''''''''''''''''''')
+                print("\n")
 
-                        # Hier wird die perm_variable_2 durch einen Wert ersetzt. Z.B.: $x2=[µ,m,k] ..gegeben sind die Widerstände R1=10, R2=20, R3=30 --> R1=10µ, R2=20, R3=30  ;  R1=10, R2=20m, R3=30  ;  R1=10, R2=20, R3=30k
-                        self.ffperm_question_description_main_permutation = self.ffperm_question_description_main_permutation.replace('$v' + str(perm_var_value_1[k]), '$v' + str(perm_var_value_1[k]) + str(perm_var_value_2[k]))
+                for k in range(len(perm_var_value_1)):
+                    # Hier wird die perm_variable_1 durch einen Wert ersetzt. Z.B.: $x1=[1,3,2]  ..gegeben ist die Spannung U$x1 --> U1, U3, U2
+                    self.ffperm_question_description_main_permutation = self.ffperm_question_description_main.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
 
-
-                        #####
-                        # Anpassung der Ranges
-
-                        # Permutationsvariable in Variablen-Ranges suchen und ersetzen
-                        for n in range(len(self.perm_symbol_sammlung)):
-
-                            #VAR1 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_min):
-                                self.ffperm_var1_min_replaced = self.ffperm_var1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                                
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_max):
-                                self.ffperm_var1_max_replaced = self.ffperm_var1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                                # Anpassung der Präzision (Nachkommastellen)
-                                # Wenn das Symbol in var_max_1 gefunden wurde, welches durch Werte ersetzt werden soll, dann die Werte die eingesetzt werden sollen durchsuchen
-                                # Wird der Wert im Dictionary gefunden, dann wird die var1_prec (Präzision) entsprechend gesetzt und die Schleife beendet
-                                # 10^-1 -> Präzision: 1, 10^-2 -> Präzision: 2,..., 10^-30 -> Präzision: 30 etc.
-                                self.var1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.var1_prec_temp:
-                                        self.ffperm_var1_prec_replaced = self.var1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_var1_prec_replaced = self.ffperm_var1_prec
+                    # Hier wird die perm_variable_2 durch einen Wert ersetzt. Z.B.: $x2=[µ,m,k] ..gegeben sind die Widerstände R1=10, R2=20, R3=30 --> R1=10µ, R2=20, R3=30  ;  R1=10, R2=20m, R3=30  ;  R1=10, R2=20, R3=30k
+                    #self.ffperm_question_description_main_permutation = self.ffperm_question_description_main_permutation.replace('$v' + str(perm_var_value_1[k]), '$v' + str(perm_var_value_1[k]) + str(perm_var_value_2[k]))
 
 
+                    #####
+                    # Anpassung der Ranges
 
+                    # Permutationsvariable in Variablen-Ranges suchen und ersetzen
+                    for n in range(len(self.perm_symbol_sammlung)):
 
+                        #VAR1 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_min):
+                            self.ffperm_var1_min_replaced = self.ffperm_var1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-                            #VAR2 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_min):
-                                self.ffperm_var2_min_replaced = self.ffperm_var2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_max):
-                                self.ffperm_var2_max_replaced = self.ffperm_var2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.var2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.var2_prec_temp:
-                                        self.ffperm_var2_prec_replaced = self.var2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_var2_prec_replaced = self.ffperm_var2_prec
-                                        
-                            #VAR3 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_min):
-                                self.ffperm_var3_min_replaced = self.ffperm_var3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_max):
-                                self.ffperm_var3_max_replaced = self.ffperm_var3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                                
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.var3_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.var3_prec_temp:
-                                        self.ffperm_var3_prec_replaced = self.var3_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_var3_prec_replaced = self.ffperm_var3_prec
-                                        
-                            #VAR4 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_min):
-                                self.ffperm_var4_min_replaced = self.ffperm_var4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-            
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_max):
-                                self.ffperm_var4_max_replaced = self.ffperm_var4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                                
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.var4_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.var4_prec_temp:
-                                        self.ffperm_var4_prec_replaced = self.var4_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_var4_prec_replaced = self.ffperm_var4_prec
-                                        
-                            #VAR5 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_min):
-                                self.ffperm_var5_min_replaced = self.ffperm_var5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_max):
-                                self.ffperm_var5_max_replaced = self.ffperm_var5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-    
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.var5_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.var5_prec_temp:
-                                        self.ffperm_var5_prec_replaced = self.var5_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_var5_prec_replaced = self.ffperm_var5_prec    
-                                                        
-                            # PERMUTATION SYMBOLE in RESULT ERSETZEN
-
-
-
-                            #RES1 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_min):
-                                self.ffperm_res1_min_replaced = self.ffperm_res1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_max):
-                                self.ffperm_res1_max_replaced = self.ffperm_res1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                                
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.res1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.res1_prec_temp:
-                                        self.ffperm_res1_prec_replaced = self.res1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_res1_prec_replaced = self.ffperm_res1_prec
-                            
-                            #RES2 - MIN / MAX
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_min):
-                                self.ffperm_res2_min_replaced = self.ffperm_res2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-
-                            if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_max):
-                                self.ffperm_res2_max_replaced = self.ffperm_res2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
-                                
-                                # Anpassung der Präzision (Nachkommastellen)
-                                self.res2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
-                                for key in self.set_precision_from_negative_exponential_dict:
-                                    if key in self.res2_prec_temp:
-                                        self.ffperm_res2_prec_replaced = self.res2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
-                                        break
-                                    else:
-                                        self.ffperm_res2_prec_replaced = self.ffperm_res2_prec
-                            
-
-
-                            # Anpassung der Formel
-                            self.ffperm_res1_formula_permutation = self.ffperm_res1_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                            self.ffperm_res1_formula_permutation = self.ffperm_res1_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-
-                            self.ffperm_res2_formula_permutation = self.ffperm_res2_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                            self.ffperm_res2_formula_permutation = self.ffperm_res2_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-
-
-
-                            #
-                            # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                            # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-                            #
-                            # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                            # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-                            #
-                            # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
-                            # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
-
-                            # Formeln in der Berechnung, auf 0 setzen wenn nicht gebraucht
-                            # "ID" die permutiert wird, MUSS in der Zeile 1 stehen
-                            # U$x1 -> U1, U3, U2  [1,3,2] muss in Perm_zeile 1 definiert werden
-                            for m in range(len(perm_var_value_1)):
-                                if self.ffperm_res1_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
-                                    self.ffperm_res1_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
-
-                                if self.ffperm_res2_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
-                                    self.ffperm_res2_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
-
-                           # print(self.ffperm_res1_formula_permutation)
-
-                            # Anpassung Fragen-Titel
-                            self.ffperm_question_title_replaced = self.ffperm_question_title + " " + str(k+1)
-
-
-
-
-                        #self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_res1_min, self.ffperm_res1_max = self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced
-                        #self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_res2_min, self.ffperm_res2_max = self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced
-                        #self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_res3_min, self.ffperm_res3_max = self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res3_min_replaced, self.ffperm_res3_max_replaced
-                        #self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_res4_min, self.ffperm_res4_max = self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res4_min_replaced, self.ffperm_res4_max_replaced
-                        #self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_res5_min, self.ffperm_res5_max = self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res5_min_replaced, self.ffperm_res5_max_replaced
-
-                        #self.ffperm_var1_min_replaced = str(eval(self.ffperm_var1_min_replaced))
-                        #self.ffperm_var1_max_replaced = str(eval(self.ffperm_var1_max_replaced))
-                        #####
-                        #print("WERT von k " + str(k))
-                        #self.ffperm_var1_min = self.var_res_min_max_sammlung[self.var_res_min_max_sammlung_dict["ffperm_var1_min"]]
-
-                        print("====== NACHHER =============")
-                        print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced)
-                        print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced)
-                        print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced)
-                        print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced)
-                        print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced)
-                        print("xxxxxxxxxxxxxxxxxxxxxx")
-                        print(self.ffperm_res1_formula_permutation)
-                        print("xxxxxxxxxxxxxxxxxxxxxx")
-
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v1', self.ffperm_var1_max_replaced)
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v2', self.ffperm_var2_max_replaced)
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v3', self.ffperm_var3_max_replaced)
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v4', self.ffperm_var4_max_replaced)
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v5', self.ffperm_var5_max_replaced)
-                        self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('^', "**")
-
-                        print(self.ffperm_res1_formula_permutation_eval, " -----> ", eval(self.ffperm_res1_formula_permutation_eval)  )
-                        self.ffperm_res1_formula_permutation_eval_result = eval(self.ffperm_res1_formula_permutation_eval)
-                        if "e" in str(self.ffperm_res1_formula_permutation_eval_result):
-                            self.exp_value = str(self.ffperm_res1_formula_permutation_eval_result).rsplit('e', 1)
-                            self.exp_value = self.exp_value[1]
-                            print("EXPONENT FOUND", "  ----> ", self.exp_value)
-                            self.ffperm_res1_prec_replaced = abs(int(self.exp_value))+1
                         else:
-
-                            d = decimal.Decimal(str(self.ffperm_res1_formula_permutation_eval_result))
-                            print(d.as_tuple().exponent,abs(d.as_tuple().exponent) )
-                            self.ffperm_res1_prec_replaced = abs(d.as_tuple().exponent)
-
-                        #print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        #print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        #print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        #print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        #print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced)
-                        #print("==========================")
+                            self.ffperm_var1_min_replaced = self.ffperm_var1_min
 
 
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var1_max):
+                            self.ffperm_var1_max_replaced = self.ffperm_var1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-
-
-
-                        #print("MAIN")
-                        #print(self.ffperm_question_description_main_permutation)
-
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_2, self.ffperm_description_img_data_2, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
-                        test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_3, self.ffperm_description_img_data_3, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
-
-
-
-
-
-                        r1_rating = "0"
-                        r1_unit = ""
-                        r1_unitvalue = ""
-                        r1_resultunits = ""
-
-
-                        # Aufbau für  Fragenstruktur "TEST"
-                        if self.ffperm_question_type_test_or_pool == "question_test":
-                            # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                            questestinterop = ET.Element('questestinterop')
-                            assessment = ET.SubElement(questestinterop, 'assessment')
-                            section = ET.SubElement(assessment, 'section')
-                            item = ET.SubElement(section, 'item')
-
-                        # Aufbau für  Fragenstruktur "POOL"
+                            # Anpassung der Präzision (Nachkommastellen)
+                            # Wenn das Symbol in var_max_1 gefunden wurde, welches durch Werte ersetzt werden soll, dann die Werte die eingesetzt werden sollen durchsuchen
+                            # Wird der Wert im Dictionary gefunden, dann wird die var1_prec (Präzision) entsprechend gesetzt und die Schleife beendet
+                            # 10^-1 -> Präzision: 1, 10^-2 -> Präzision: 2,..., 10^-30 -> Präzision: 30 etc.
+                            self.var1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.var1_prec_temp:
+                                    self.ffperm_var1_prec_replaced = self.var1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_var1_prec_replaced = self.ffperm_var1_prec
                         else:
-                            # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                            questestinterop = ET.Element('questestinterop')
-                            item = ET.SubElement(questestinterop, 'item')
-
-                            # Zusatz für Taxonomie-Einstellungen
-
-                            self.id_int_numbers = 400000 + id_nr
-
-                            self.number_of_entrys.append(format(self.id_int_numbers, '06d')) #Zahlenfolge muss 6-stellig sein.
-
-                            item.set('ident', "il_0_qst_" + self.number_of_entrys[id_nr])
-
-
-                            # Hier wird die QPL bearbeitet - Taxonomie
-                            self.mytree = ET.parse(self.formelfrage_permutation_pool_qpl_file_path_template)
-                            self.myroot = self.mytree.getroot()
-
-                            #self.loop_nr = id_nr+1
-
-                            # Hinzufügen von Question QRef in qpl Datei
-                            for i in range(id_nr):
-                                ContentObject = ET.Element('ContentObject')
-                                MetaData = ET.SubElement(ContentObject, 'MetaData')
-                                Settings = ET.SubElement(ContentObject, 'Settings')
-                                PageObject = ET.SubElement(ContentObject, 'PageObject')
-                                PageContent = ET.SubElement(PageObject, 'PageContent')
-                                Question = ET.SubElement(PageContent, 'Question')
-                                Question.set('QRef', "il_0_qst_" + self.number_of_entrys[i])
-                                QuestionSkillAssignments = ET.SubElement(ContentObject, 'QuestionSkillAssignments')
-                                TriggerQuestion = ET.SubElement(QuestionSkillAssignments, 'TriggerQuestion')
-                                TriggerQuestion.set('Id', self.number_of_entrys[i])
-
-
-                                self.myroot.append(PageObject)
-                                #self.myroot.append(QuestionSkillAssignments)
-
-                                self.mytree.write(self.formelfrage_permutation_pool_qpl_file_path_output)
-
-
-                            # Hinzufügen von TriggerQuestion ID in qpl Datei
-                            for i in range(id_nr):
-                                ContentObject = ET.Element('ContentObject')
-                                MetaData = ET.SubElement(ContentObject, 'MetaData')
-                                Settings = ET.SubElement(ContentObject, 'Settings')
-                                PageObject = ET.SubElement(ContentObject, 'PageObject')
-                                PageContent = ET.SubElement(PageObject, 'PageContent')
-                                Question = ET.SubElement(PageContent, 'Question')
-                                Question.set('QRef', "il_0_qst_" + self.number_of_entrys[i])
-                                QuestionSkillAssignments = ET.SubElement(ContentObject, 'QuestionSkillAssignments')
-                                TriggerQuestion = ET.SubElement(QuestionSkillAssignments, 'TriggerQuestion')
-                                TriggerQuestion.set('Id', self.number_of_entrys[i])
-
-                                self.myroot.append(QuestionSkillAssignments)
-
-                                self.mytree.write(self.formelfrage_permutation_pool_qpl_file_path_output)
-
-                        # Struktur für den Formelfragen - Variableen/Lösungen Teil
-                        # Muss für jede Frage neu angelegt/hinzugefügt werden
-                        qticomment = ET.SubElement(item, 'qticomment')
-                        duration = ET.SubElement(item, 'duration')
-                        itemmetadata = ET.SubElement(item, 'itemmetadata')
-                        presentation = ET.SubElement(item, 'presentation')
-
-                        flow = ET.SubElement(presentation, 'flow')
-                        question_description_material = ET.SubElement(flow, 'material')
-                        question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-                        qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-
-
-                        ### ------------------------------------------------------- XML Einträge mit Werten füllen
-                         # Fragen-Titel -- "item title" in xml
-                        item.set('title', self.ffperm_question_title_replaced)
-
-                        # Fragen-Titel Beschreibung
-                        qticomment.text = self.ffperm_question_description_title
-
-                        # Testdauer -- "duration" in xml
-                        # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-                        duration.text = self.ffperm_test_time
-                        if duration.text == "":
-                            duration.text = "P0Y0M0DT1H0M0S"
-
-                        # -----------------------------------------------------------------------ILIAS VERSION
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "ILIAS_VERSION"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "5.4.10 2020-03-04"
-                        # -----------------------------------------------------------------------QUESTIONTYPE
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "QUESTIONTYPE"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "assFormulaQuestion"
-                        # -----------------------------------------------------------------------AUTHOR
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "AUTHOR"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = self.ffperm_question_author
-                        # -----------------------------------------------------------------------POINTS
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "points"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = str(self.ffperm_res1_points)
-
-                        # Fragentitel einsetzen -- "presentation label" in xml
-                        presentation.set('label', self.ffperm_question_title)
-
-                        # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
-                        question_description_mattext.set('texttype', "text/html")
-
-                        # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-                        # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
-
-                        question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
-                                                            self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1,
-                                                            self.ffperm_description_img_name_2, self.ffperm_description_img_data_2,
-                                                            self.ffperm_description_img_name_3, self.ffperm_description_img_data_3,
-                                                            self.ffperm_question_description_main_permutation, question_description_mattext, question_description_material, id_nr)
+                            self.ffperm_var1_max_replaced = self.ffperm_var1_max
 
 
 
 
-                        # ----------------------------------------------------------------------- Variable
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v1", self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_var1_prec_replaced, self.ffperm_var1_divby, self.ffperm_var1_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v2", self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_var2_prec_replaced, self.ffperm_var2_divby, self.ffperm_var2_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v3", self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_var3_prec_replaced, self.ffperm_var3_divby, self.ffperm_var3_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v4", self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_var4_prec_replaced, self.ffperm_var4_divby, self.ffperm_var4_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v5", self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_var5_prec_replaced, self.ffperm_var5_divby, self.ffperm_var5_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v6", self.ffperm_var6_min, self.ffperm_var6_max, self.ffperm_var6_prec, self.ffperm_var6_divby, self.ffperm_var6_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v7", self.ffperm_var7_min, self.ffperm_var7_max, self.ffperm_var7_prec, self.ffperm_var7_divby, self.ffperm_var7_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v8", self.ffperm_var8_min, self.ffperm_var8_max, self.ffperm_var8_prec, self.ffperm_var8_divby, self.ffperm_var8_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v9", self.ffperm_var9_min, self.ffperm_var9_max, self.ffperm_var9_prec, self.ffperm_var9_divby, self.ffperm_var9_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v10", self.ffperm_var10_min, self.ffperm_var10_max, self.ffperm_var10_prec, self.ffperm_var10_divby, self.ffperm_var10_unit)
-
-
-
-                        # ----------------------------------------------------------------------- Solution
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r1", self.ffperm_res1_formula_permutation, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced, self.ffperm_res1_prec_replaced, self.ffperm_res1_tol, self.ffperm_res1_points, self.ffperm_res1_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r2", self.ffperm_res2_formula_permutation, self.ffperm_res2_min_replaced, self.ffperm_res2_max_replaced, self.ffperm_res2_prec_replaced, self.ffperm_res2_tol, self.ffperm_res2_points, self.ffperm_res2_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r3", self.ffperm_res3_formula, self.ffperm_res3_min, self.ffperm_res3_max, self.ffperm_res3_prec, self.ffperm_res3_tol, self.ffperm_res3_points, self.ffperm_res3_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r4", self.ffperm_res4_formula, self.ffperm_res4_min, self.ffperm_res4_max, self.ffperm_res4_prec, self.ffperm_res4_tol, self.ffperm_res4_points, self.ffperm_res4_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r5", self.ffperm_res5_formula, self.ffperm_res5_min, self.ffperm_res5_max, self.ffperm_res5_prec, self.ffperm_res5_tol, self.ffperm_res5_points, self.ffperm_res5_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r6", self.ffperm_res6_formula, self.ffperm_res6_min, self.ffperm_res6_max, self.ffperm_res6_prec, self.ffperm_res6_tol, self.ffperm_res6_points, self.ffperm_res6_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r7", self.ffperm_res7_formula, self.ffperm_res7_min, self.ffperm_res7_max, self.ffperm_res7_prec, self.ffperm_res7_tol, self.ffperm_res7_points, self.ffperm_res7_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r8", self.ffperm_res8_formula, self.ffperm_res8_min, self.ffperm_res8_max, self.ffperm_res8_prec, self.ffperm_res8_tol, self.ffperm_res8_points, self.ffperm_res8_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r9", self.ffperm_res9_formula, self.ffperm_res9_min, self.ffperm_res9_max, self.ffperm_res9_prec, self.ffperm_res9_tol, self.ffperm_res9_points, self.ffperm_res9_unit)
-                        Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r10", self.ffperm_res10_formula, self.ffperm_res10_min, self.ffperm_res10_max, self.ffperm_res10_prec, self.ffperm_res10_tol, self.ffperm_res10_points, self.ffperm_res10_unit)
-
-
-
-
-
-
-
-
-                        # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "additional_cont_edit_mode"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "default"
-                        # -----------------------------------------------------------------------EXTERNAL_ID
-                        qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                        fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                        fieldlabel.text = "externalId"
-                        fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                        fieldentry.text = "5ea15be69c1e96.43933468"
-
-
-
-                        # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
-                        # Der letzte "Zweig" --> "len(self.ffperm_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
-                        if self.ffperm_question_type_test_or_pool == "question_test":
-                            self.ffperm_myroot[0][len(self.ffperm_myroot[0]) - 1].append(item)
-
-                        # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
-                        # Die Frage kann einfach angehangen werden
+                        #VAR2 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_min):
+                            self.ffperm_var2_min_replaced = self.ffperm_var2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
                         else:
-                            self.ffperm_myroot.append(item)
+                            self.ffperm_var2_min_replaced = self.ffperm_var2_min
 
-                        self.ffperm_mytree.write(self.qti_file_path_output)
-                        print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title_replaced))
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var2_max):
+                            self.ffperm_var2_max_replaced = self.ffperm_var2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.var2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.var2_prec_temp:
+                                    self.ffperm_var2_prec_replaced = self.var2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_var2_prec_replaced = self.ffperm_var2_prec
+                        else:
+                            self.ffperm_var2_max_replaced = self.ffperm_var2_max
+                        #VAR3 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_min):
+                            self.ffperm_var3_min_replaced = self.ffperm_var3_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                        else:
+                            self.ffperm_var3_min_replaced = self.ffperm_var3_min
 
-                # Wenn keine Permutation gewählt wird
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var3_max):
+                            self.ffperm_var3_max_replaced = self.ffperm_var3_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-                else:
-                    # Hier werden die Fragen anhand der ID's erstellt
-                    print("Keine Permutation")
-                    print(self.ffperm_description_img_name_1)
-                    print(self.ffperm_description_img_name_2)
-                    print(self.ffperm_description_img_name_3)
-                    if str(ffperm_db_record[len(ffperm_db_record)-1]) == self.ffperm_test_entry_splitted[id_nr]:
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.var3_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.var3_prec_temp:
+                                    self.ffperm_var3_prec_replaced = self.var3_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_var3_prec_replaced = self.ffperm_var3_prec
+                        else:
+                            self.ffperm_var3_max_replaced = self.ffperm_var3_max
 
-                            test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
-                            test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_2, self.ffperm_description_img_data_2, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
-                            test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_3, self.ffperm_description_img_data_3, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
+                        #VAR4 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_min):
+                            self.ffperm_var4_min_replaced = self.ffperm_var4_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                        else:
+                            self.ffperm_var4_min_replaced = self.ffperm_var4_min
 
-                            # if self.ffperm_question_type_test_or_pool == "question_test":
-                            #
-                            #     if self.ffperm_description_img_name_1 != "EMPTY":
-                            #         Create_formelfrage_permutation_Questions.ffperm_createFolder(self, self.formelfrage_permutation_test_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
-                            #
-                            #         #img wird immer als PNG Datei abgelegt.
-                            #         with open(self.formelfrage_permutation_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png", 'wb') as image_file:
-                            #             image_file.write(self.ffperm_description_img_data_1)
-                            #
-                            #         self.image = Image.open(self.formelfrage_permutation_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png")
-                            #         self.image.save(self.formelfrage_permutation_test_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png")
-                            #
-                            # else:  # image pool
-                            #     if self.ffperm_description_img_name_1 != "EMPTY":
-                            #         Create_formelfrage_permutation_Questions.ffperm_createFolder(self, self.formelfrage_permutation_pool_img_file_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
-                            #
-                            #         #img wird immer als PNG Datei abgelegt.
-                            #         with open(self.formelfrage_permutation_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png", 'wb') as image_file:
-                            #             image_file.write(self.ffperm_description_img_data_1)
-                            #
-                            #         self.image = Image.open(self.formelfrage_permutation_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png")
-                            #         self.image.save(self.formelfrage_permutation_pool_img_file_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.ffperm_description_img_name_1 + ".png")
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var4_max):
+                            self.ffperm_var4_max_replaced = self.ffperm_var4_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.var4_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.var4_prec_temp:
+                                    self.ffperm_var4_prec_replaced = self.var4_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_var4_prec_replaced = self.ffperm_var4_prec
+                        else:
+                            self.ffperm_var4_max_replaced = self.ffperm_var4_max
 
+                        #VAR5 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_min):
+                            self.ffperm_var5_min_replaced = self.ffperm_var5_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                        else:
+                            self.ffperm_var5_min_replaced = self.ffperm_var5_min
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_var5_max):
+                            self.ffperm_var5_max_replaced = self.ffperm_var5_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-                            r1_rating = "0"
-                            r1_unit = ""
-                            r1_unitvalue = ""
-                            r1_resultunits = ""
-
-
-                            # Aufbau für  Fragenstruktur "TEST"
-                            if self.ffperm_question_type_test_or_pool == "question_test":
-                                # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                                questestinterop = ET.Element('questestinterop')
-                                assessment = ET.SubElement(questestinterop, 'assessment')
-                                section = ET.SubElement(assessment, 'section')
-                                item = ET.SubElement(section, 'item')
-
-                            # Aufbau für  Fragenstruktur "POOL"
-                            else:
-                                # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
-                                questestinterop = ET.Element('questestinterop')
-                                item = ET.SubElement(questestinterop, 'item')
-
-                                # Zusatz für Taxonomie-Einstellungen
-
-                                test_generator_modul_ilias_test_struktur.Additional_Funtions.set_taxonomy_for_question(self,
-                                                                                                                       id_nr,
-                                                                                                                       self.number_of_entrys,
-                                                                                                                       item,
-                                                                                                                       self.formelfrage_permutation_pool_qpl_file_path_template,
-                                                                                                                       self.formelfrage_permutation_pool_qpl_file_path_output
-                                                                                                                       )
-
-
-
-                            # Struktur für den Formelfragen - Variableen/Lösungen Teil
-                            # Muss für jede Frage neu angelegt/hinzugefügt werden
-                            qticomment = ET.SubElement(item, 'qticomment')
-                            duration = ET.SubElement(item, 'duration')
-                            itemmetadata = ET.SubElement(item, 'itemmetadata')
-                            presentation = ET.SubElement(item, 'presentation')
-
-                            flow = ET.SubElement(presentation, 'flow')
-                            question_description_material = ET.SubElement(flow, 'material')
-                            question_description_mattext = ET.SubElement(question_description_material, 'mattext')
-                            qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
-
-
-                            ### ------------------------------------------------------- XML Einträge mit Werten füllen
-                             # Fragen-Titel -- "item title" in xml
-                            item.set('title', self.ffperm_question_title)
-
-                            # Fragen-Titel Beschreibung
-                            qticomment.text = self.ffperm_question_description_title
-
-                            # Testdauer -- "duration" in xml
-                            # wird keine Testzeit eingetragen, wird 1h vorausgewählt
-                            duration.text = self.ffperm_test_time
-                            if duration.text == "":
-                                duration.text = "P0Y0M0DT1H0M0S"
-
-                            # -----------------------------------------------------------------------ILIAS VERSION
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "ILIAS_VERSION"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = "5.4.10 2020-03-04"
-                            # -----------------------------------------------------------------------QUESTIONTYPE
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "QUESTIONTYPE"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = "assFormulaQuestion"
-                            # -----------------------------------------------------------------------AUTHOR
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "AUTHOR"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = self.ffperm_question_author
-                            # -----------------------------------------------------------------------POINTS
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "points"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = str(self.ffperm_res1_points)
-
-                            # Fragentitel einsetzen -- "presentation label" in xml
-                            presentation.set('label', self.ffperm_question_title)
-
-                            # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
-                            question_description_mattext.set('texttype', "text/html")
-
-                            # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-                            # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
-                            question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
-                                                                self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1,
-                                                                self.ffperm_description_img_name_2, self.ffperm_description_img_data_2,
-                                                                self.ffperm_description_img_name_3, self.ffperm_description_img_data_3,
-                                                                self.ffperm_question_description_main, question_description_mattext, question_description_material, id_nr)
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.var5_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.var5_prec_temp:
+                                    self.ffperm_var5_prec_replaced = self.var5_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_var5_prec_replaced = self.ffperm_var5_prec
+                        else:
+                            self.ffperm_var5_max_replaced = self.ffperm_var5_max
+                        # PERMUTATION SYMBOLE in RESULT ERSETZEN
 
 
 
+                        #RES1 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_min):
+                            self.ffperm_res1_min_replaced = self.ffperm_res1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                        else:
+                            self.ffperm_res1_min_replaced = self.ffperm_res1_min
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_max):
+                            self.ffperm_res1_max_replaced = self.ffperm_res1_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
 
-                            # ----------------------------------------------------------------------- Variable
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v1", self.ffperm_var1_min, self.ffperm_var1_max, self.ffperm_var1_prec, self.ffperm_var1_divby, self.ffperm_var1_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v2", self.ffperm_var2_min, self.ffperm_var2_max, self.ffperm_var2_prec, self.ffperm_var2_divby, self.ffperm_var2_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v3", self.ffperm_var3_min, self.ffperm_var3_max, self.ffperm_var3_prec, self.ffperm_var3_divby, self.ffperm_var3_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v4", self.ffperm_var4_min, self.ffperm_var4_max, self.ffperm_var4_prec, self.ffperm_var4_divby, self.ffperm_var4_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v5", self.ffperm_var5_min, self.ffperm_var5_max, self.ffperm_var5_prec, self.ffperm_var5_divby, self.ffperm_var5_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v6", self.ffperm_var6_min, self.ffperm_var6_max, self.ffperm_var6_prec, self.ffperm_var6_divby, self.ffperm_var6_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v7", self.ffperm_var7_min, self.ffperm_var7_max, self.ffperm_var7_prec, self.ffperm_var7_divby, self.ffperm_var7_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v8", self.ffperm_var8_min, self.ffperm_var8_max, self.ffperm_var8_prec, self.ffperm_var8_divby, self.ffperm_var8_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v9", self.ffperm_var9_min, self.ffperm_var9_max, self.ffperm_var9_prec, self.ffperm_var9_divby, self.ffperm_var9_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v10", self.ffperm_var10_min, self.ffperm_var10_max, self.ffperm_var10_prec, self.ffperm_var10_divby, self.ffperm_var10_unit)
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.res1_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.res1_prec_temp:
+                                    self.ffperm_res1_prec_replaced = self.res1_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_res1_prec_replaced = self.ffperm_res1_prec
+                        else:
+                            self.ffperm_res1_max_replaced = self.ffperm_res1_max
+                        #RES2 - MIN / MAX
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_min):
+                            self.ffperm_res2_min_replaced = self.ffperm_res2_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+                        else:
+                            self.ffperm_res2_min_replaced = self.ffperm_res2_min
+                        if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res2_max):
+                            self.ffperm_res2_max_replaced = self.ffperm_res2_max.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
+
+                            # Anpassung der Präzision (Nachkommastellen)
+                            self.res2_prec_temp = self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k]
+                            for key in self.set_precision_from_negative_exponential_dict:
+                                if key in self.res2_prec_temp:
+                                    self.ffperm_res2_prec_replaced = self.res2_prec_temp.replace(key, self.set_precision_from_negative_exponential_dict[key])
+                                    break
+                                else:
+                                    self.ffperm_res2_prec_replaced = self.ffperm_res2_prec
+                        else:
+                            self.ffperm_res2_max_replaced = self.ffperm_res2_max
+
+
+                        # Anpassung der Formel
+
+                        self.ffperm_res1_formula_permutation = self.ffperm_res1_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                        #self.ffperm_res1_formula_permutation = self.ffperm_res1_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+
+                        #self.ffperm_res2_formula_permutation = self.ffperm_res2_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                        #self.ffperm_res2_formula_permutation = self.ffperm_res2_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+
+
+                        # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                        # self.ffperm_res3_formula_permutation = self.ffperm_res3_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+                        #
+                        # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                        # self.ffperm_res4_formula_permutation = self.ffperm_res4_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
+                        #
+                        # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula.replace(str(perm_var_symbol_1), str(perm_var_value_1[k]))
+                        # self.ffperm_res5_formula_permutation = self.ffperm_res5_formula_permutation.replace(str(perm_var_symbol_3), str(perm_var_value_3[k]))
 
 
 
-                            # ----------------------------------------------------------------------- Solution
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r1", self.ffperm_res1_formula, self.ffperm_res1_min, self.ffperm_res1_max, self.ffperm_res1_prec, self.ffperm_res1_tol, self.ffperm_res1_points, self.ffperm_res1_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r2", self.ffperm_res2_formula, self.ffperm_res2_min, self.ffperm_res2_max, self.ffperm_res2_prec, self.ffperm_res2_tol, self.ffperm_res2_points, self.ffperm_res2_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r3", self.ffperm_res3_formula, self.ffperm_res3_min, self.ffperm_res3_max, self.ffperm_res3_prec, self.ffperm_res3_tol, self.ffperm_res3_points, self.ffperm_res3_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r4", self.ffperm_res4_formula, self.ffperm_res4_min, self.ffperm_res4_max, self.ffperm_res4_prec, self.ffperm_res4_tol, self.ffperm_res4_points, self.ffperm_res4_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r5", self.ffperm_res5_formula, self.ffperm_res5_min, self.ffperm_res5_max, self.ffperm_res5_prec, self.ffperm_res5_tol, self.ffperm_res5_points, self.ffperm_res5_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r6", self.ffperm_res6_formula, self.ffperm_res6_min, self.ffperm_res6_max, self.ffperm_res6_prec, self.ffperm_res6_tol, self.ffperm_res6_points, self.ffperm_res6_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r7", self.ffperm_res7_formula, self.ffperm_res7_min, self.ffperm_res7_max, self.ffperm_res7_prec, self.ffperm_res7_tol, self.ffperm_res7_points, self.ffperm_res7_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r8", self.ffperm_res8_formula, self.ffperm_res8_min, self.ffperm_res8_max, self.ffperm_res8_prec, self.ffperm_res8_tol, self.ffperm_res8_points, self.ffperm_res8_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r9", self.ffperm_res9_formula, self.ffperm_res9_min, self.ffperm_res9_max, self.ffperm_res9_prec, self.ffperm_res9_tol, self.ffperm_res9_points, self.ffperm_res9_unit)
-                            Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r10", self.ffperm_res10_formula, self.ffperm_res10_min, self.ffperm_res10_max, self.ffperm_res10_prec, self.ffperm_res10_tol, self.ffperm_res10_points, self.ffperm_res10_unit)
+                        # Formeln in der Berechnung, auf 0 setzen wenn nicht gebraucht
+                        # "ID" die permutiert wird, MUSS in der Zeile 1 stehen
+                        # U$x1 -> U1, U3, U2  [1,3,2] muss in Perm_zeile 1 definiert werden
+                        for m in range(len(perm_var_value_1)):
+                            if self.ffperm_res1_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
+                                self.ffperm_res1_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
+
+                            #if self.ffperm_res2_formula_permutation != "" and perm_var_value_1[m] != perm_var_value_1[k]:
+                            #    self.ffperm_res2_formula_permutation += " + 0 * $v" + str(perm_var_value_1[m])
+
+                       # print(self.ffperm_res1_formula_permutation)
+
+                        # Anpassung Fragen-Titel
+                        self.ffperm_question_title_replaced = self.ffperm_question_title + " " + str(k+1)
 
 
 
 
 
+                    # print("====== NACHHER =============")
+                    # print(self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced)
+                    # print(self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced)
+                    # print(self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced)
+                    # print(self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced)
+                    # print(self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced)
+                    # print("xxxxxxxxxxxxxxxxxxxxxx")
+                    # print(self.ffperm_res1_formula_permutation)
+                    # print("xxxxxxxxxxxxxxxxxxxxxx")
+                    #
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v1', self.ffperm_var1_max_replaced)
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v2', self.ffperm_var2_max_replaced)
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v3', self.ffperm_var3_max_replaced)
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v4', self.ffperm_var4_max_replaced)
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('$v5', self.ffperm_var5_max_replaced)
+                    # self.ffperm_res1_formula_permutation_eval = self.ffperm_res1_formula_permutation_eval.replace('^', "**")
+                    #
+                    # print(self.ffperm_res1_formula_permutation_eval, " -----> ", eval(self.ffperm_res1_formula_permutation_eval)  )
+                    # self.ffperm_res1_formula_permutation_eval_result = eval(self.ffperm_res1_formula_permutation_eval)
+                    # if "e" in str(self.ffperm_res1_formula_permutation_eval_result):
+                    #     self.exp_value = str(self.ffperm_res1_formula_permutation_eval_result).rsplit('e', 1)
+                    #     self.exp_value = self.exp_value[1]
+                    #     print("EXPONENT FOUND", "  ----> ", self.exp_value)
+                    #     self.ffperm_res1_prec_replaced = abs(int(self.exp_value))+1
+                    #     print("PREC: ", self.ffperm_res1_prec_replaced)
+                    # else:
+                    #
+                    #     d = decimal.Decimal(str(self.ffperm_res1_formula_permutation_eval_result))
+                    #     print(d.as_tuple().exponent,abs(d.as_tuple().exponent) )
+                    #     self.ffperm_res1_prec_replaced = abs(d.as_tuple().exponent)
 
 
 
-                            # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "additional_cont_edit_mode"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = "default"
-                            # -----------------------------------------------------------------------EXTERNAL_ID
-                            qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
-                            fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
-                            fieldlabel.text = "externalId"
-                            fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
-                            fieldentry.text = "5ea15be69c1e96.43933468"
+                    test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
+                    test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_2, self.ffperm_description_img_data_2, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
+                    test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ffperm_description_img_name_3, self.ffperm_description_img_data_3, id_nr, self.ffperm_question_type_test_or_pool, self.formelfrage_permutation_test_img_file_path, self.formelfrage_permutation_pool_img_file_path)
 
 
 
-                            # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
-                            # Der letzte "Zweig" --> "len(self.ffperm_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
-                            if self.ffperm_question_type_test_or_pool == "question_test":
-                                self.ffperm_myroot[0][len(self.ffperm_myroot[0]) - 1].append(item)
 
-                            # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
-                            # Die Frage kann einfach angehangen werden
-                            else:
-                                self.ffperm_myroot.append(item)
 
-                            self.ffperm_mytree.write(self.qti_file_path_output)
-                            print("Formelfrage_PERM_normal Frage erstellt! --> Titel: " + str(self.ffperm_question_title))
+                    r1_rating = "0"
+                    r1_unit = ""
+                    r1_unitvalue = ""
+                    r1_resultunits = ""
+
+
+                    # Aufbau für  Fragenstruktur "TEST"
+                    if self.ffperm_question_type_test_or_pool == "question_test":
+                        # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
+                        questestinterop = ET.Element('questestinterop')
+                        assessment = ET.SubElement(questestinterop, 'assessment')
+                        section = ET.SubElement(assessment, 'section')
+                        item = ET.SubElement(section, 'item')
+
+                    # Aufbau für  Fragenstruktur "POOL"
+                    else:
+                        # XML Struktur aus XML Datei festlegen. Muss nur einmal angelegt werden
+                        questestinterop = ET.Element('questestinterop')
+                        item = ET.SubElement(questestinterop, 'item')
+
+                        # Zusatz für Taxonomie-Einstellungen
+
+                        self.id_int_numbers = 400000 + id_nr
+
+                        self.number_of_entrys.append(format(self.id_int_numbers, '06d')) #Zahlenfolge muss 6-stellig sein.
+
+                        item.set('ident', "il_0_qst_" + self.number_of_entrys[id_nr])
+
+
+                        # Hier wird die QPL bearbeitet - Taxonomie
+                        self.mytree = ET.parse(self.formelfrage_permutation_pool_qpl_file_path_template)
+                        self.myroot = self.mytree.getroot()
+
+                        #self.loop_nr = id_nr+1
+
+                        # Hinzufügen von Question QRef in qpl Datei
+                        for i in range(id_nr):
+                            ContentObject = ET.Element('ContentObject')
+                            MetaData = ET.SubElement(ContentObject, 'MetaData')
+                            Settings = ET.SubElement(ContentObject, 'Settings')
+                            PageObject = ET.SubElement(ContentObject, 'PageObject')
+                            PageContent = ET.SubElement(PageObject, 'PageContent')
+                            Question = ET.SubElement(PageContent, 'Question')
+                            Question.set('QRef', "il_0_qst_" + self.number_of_entrys[i])
+                            QuestionSkillAssignments = ET.SubElement(ContentObject, 'QuestionSkillAssignments')
+                            TriggerQuestion = ET.SubElement(QuestionSkillAssignments, 'TriggerQuestion')
+                            TriggerQuestion.set('Id', self.number_of_entrys[i])
+
+
+                            self.myroot.append(PageObject)
+                            #self.myroot.append(QuestionSkillAssignments)
+
+                            self.mytree.write(self.formelfrage_permutation_pool_qpl_file_path_output)
+
+
+                        # Hinzufügen von TriggerQuestion ID in qpl Datei
+                        for i in range(id_nr):
+                            ContentObject = ET.Element('ContentObject')
+                            MetaData = ET.SubElement(ContentObject, 'MetaData')
+                            Settings = ET.SubElement(ContentObject, 'Settings')
+                            PageObject = ET.SubElement(ContentObject, 'PageObject')
+                            PageContent = ET.SubElement(PageObject, 'PageContent')
+                            Question = ET.SubElement(PageContent, 'Question')
+                            Question.set('QRef', "il_0_qst_" + self.number_of_entrys[i])
+                            QuestionSkillAssignments = ET.SubElement(ContentObject, 'QuestionSkillAssignments')
+                            TriggerQuestion = ET.SubElement(QuestionSkillAssignments, 'TriggerQuestion')
+                            TriggerQuestion.set('Id', self.number_of_entrys[i])
+
+                            self.myroot.append(QuestionSkillAssignments)
+
+                            self.mytree.write(self.formelfrage_permutation_pool_qpl_file_path_output)
+
+                    # Struktur für den Formelfragen - Variableen/Lösungen Teil
+                    # Muss für jede Frage neu angelegt/hinzugefügt werden
+                    qticomment = ET.SubElement(item, 'qticomment')
+                    duration = ET.SubElement(item, 'duration')
+                    itemmetadata = ET.SubElement(item, 'itemmetadata')
+                    presentation = ET.SubElement(item, 'presentation')
+
+                    flow = ET.SubElement(presentation, 'flow')
+                    question_description_material = ET.SubElement(flow, 'material')
+                    question_description_mattext = ET.SubElement(question_description_material, 'mattext')
+                    qtimetadata = ET.SubElement(itemmetadata, 'qtimetadata')
+
+
+                    ### ------------------------------------------------------- XML Einträge mit Werten füllen
+                     # Fragen-Titel -- "item title" in xml
+                    item.set('title', self.ffperm_question_title_replaced)
+
+                    # Fragen-Titel Beschreibung
+                    qticomment.text = self.ffperm_question_description_title
+
+                    # Testdauer -- "duration" in xml
+                    # wird keine Testzeit eingetragen, wird 1h vorausgewählt
+                    duration.text = self.ffperm_test_time
+                    if duration.text == "":
+                        duration.text = "P0Y0M0DT1H0M0S"
+
+                    # -----------------------------------------------------------------------ILIAS VERSION
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "ILIAS_VERSION"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "5.4.10 2020-03-04"
+                    # -----------------------------------------------------------------------QUESTIONTYPE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "QUESTIONTYPE"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "assFormulaQuestion"
+                    # -----------------------------------------------------------------------AUTHOR
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "AUTHOR"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = self.ffperm_question_author
+                    # -----------------------------------------------------------------------POINTS
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "points"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = str(self.ffperm_res1_points)
+
+                    # Fragentitel einsetzen -- "presentation label" in xml
+                    presentation.set('label', self.ffperm_question_title)
+
+                    # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
+                    question_description_mattext.set('texttype', "text/html")
+
+                    # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
+                    # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
+
+                    question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
+                                                        self, self.ffperm_description_img_name_1, self.ffperm_description_img_data_1,
+                                                        self.ffperm_description_img_name_2, self.ffperm_description_img_data_2,
+                                                        self.ffperm_description_img_name_3, self.ffperm_description_img_data_3,
+                                                        self.ffperm_question_description_main_permutation, question_description_mattext, question_description_material, id_nr)
+
+
+                    # ----------------------------------------------------------------------- Variable
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v1", self.ffperm_var1_min_replaced, self.ffperm_var1_max_replaced, self.ffperm_var1_prec, self.ffperm_var1_divby, self.ffperm_var1_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v2", self.ffperm_var2_min_replaced, self.ffperm_var2_max_replaced, self.ffperm_var2_prec, self.ffperm_var2_divby, self.ffperm_var2_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v3", self.ffperm_var3_min_replaced, self.ffperm_var3_max_replaced, self.ffperm_var3_prec, self.ffperm_var3_divby, self.ffperm_var3_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v4", self.ffperm_var4_min_replaced, self.ffperm_var4_max_replaced, self.ffperm_var4_prec, self.ffperm_var4_divby, self.ffperm_var4_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v5", self.ffperm_var5_min_replaced, self.ffperm_var5_max_replaced, self.ffperm_var5_prec, self.ffperm_var5_divby, self.ffperm_var5_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v6", self.ffperm_var6_min, self.ffperm_var6_max, self.ffperm_var6_prec, self.ffperm_var6_divby, self.ffperm_var6_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v7", self.ffperm_var7_min, self.ffperm_var7_max, self.ffperm_var7_prec, self.ffperm_var7_divby, self.ffperm_var7_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v8", self.ffperm_var8_min, self.ffperm_var8_max, self.ffperm_var8_prec, self.ffperm_var8_divby, self.ffperm_var8_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v9", self.ffperm_var9_min, self.ffperm_var9_max, self.ffperm_var9_prec, self.ffperm_var9_divby, self.ffperm_var9_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_variables_structure(self, qtimetadata, "$v10", self.ffperm_var10_min, self.ffperm_var10_max, self.ffperm_var10_prec, self.ffperm_var10_divby, self.ffperm_var10_unit)
+
+
+
+                    # ----------------------------------------------------------------------- Solution
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r1", self.ffperm_res1_formula_permutation, self.ffperm_res1_min_replaced, self.ffperm_res1_max_replaced, self.ffperm_res1_prec, self.ffperm_res1_tol, self.ffperm_res1_points, self.ffperm_res1_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r2", self.ffperm_res2_formula, self.ffperm_res2_min, self.ffperm_res2_max, self.ffperm_res2_prec, self.ffperm_res2_tol, self.ffperm_res2_points, self.ffperm_res2_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r3", self.ffperm_res3_formula, self.ffperm_res3_min, self.ffperm_res3_max, self.ffperm_res3_prec, self.ffperm_res3_tol, self.ffperm_res3_points, self.ffperm_res3_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r4", self.ffperm_res4_formula, self.ffperm_res4_min, self.ffperm_res4_max, self.ffperm_res4_prec, self.ffperm_res4_tol, self.ffperm_res4_points, self.ffperm_res4_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r5", self.ffperm_res5_formula, self.ffperm_res5_min, self.ffperm_res5_max, self.ffperm_res5_prec, self.ffperm_res5_tol, self.ffperm_res5_points, self.ffperm_res5_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r6", self.ffperm_res6_formula, self.ffperm_res6_min, self.ffperm_res6_max, self.ffperm_res6_prec, self.ffperm_res6_tol, self.ffperm_res6_points, self.ffperm_res6_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r7", self.ffperm_res7_formula, self.ffperm_res7_min, self.ffperm_res7_max, self.ffperm_res7_prec, self.ffperm_res7_tol, self.ffperm_res7_points, self.ffperm_res7_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r8", self.ffperm_res8_formula, self.ffperm_res8_min, self.ffperm_res8_max, self.ffperm_res8_prec, self.ffperm_res8_tol, self.ffperm_res8_points, self.ffperm_res8_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r9", self.ffperm_res9_formula, self.ffperm_res9_min, self.ffperm_res9_max, self.ffperm_res9_prec, self.ffperm_res9_tol, self.ffperm_res9_points, self.ffperm_res9_unit)
+                    Create_formelfrage_permutation_Questions.ffperm_question_results_structure(self, qtimetadata, "$r10", self.ffperm_res10_formula, self.ffperm_res10_min, self.ffperm_res10_max, self.ffperm_res10_prec, self.ffperm_res10_tol, self.ffperm_res10_points, self.ffperm_res10_unit)
+
+
+
+
+
+
+
+
+                    # -----------------------------------------------------------------------ADDITIONAL_CONT_EDIT_MODE
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "additional_cont_edit_mode"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "default"
+                    # -----------------------------------------------------------------------EXTERNAL_ID
+                    qtimetadatafield = ET.SubElement(qtimetadata, 'qtimetadatafield')
+                    fieldlabel = ET.SubElement(qtimetadatafield, 'fieldlabel')
+                    fieldlabel.text = "externalId"
+                    fieldentry = ET.SubElement(qtimetadatafield, 'fieldentry')
+                    fieldentry.text = "5ea15be69c1e96.43933468"
+
+
+
+                    # Wenn es sich um einen ILIAS-Test handelt, beinhaltet die XML eine Struktur mit mehreren "Zweigen"
+                    # Der letzte "Zweig" --> "len(self.ffperm_myroot[0]) - 1" (beschreibt das letze Fach) beinhaltet die eigentlichen Fragen
+                    if self.ffperm_question_type_test_or_pool == "question_test":
+                        self.ffperm_myroot[0][len(self.ffperm_myroot[0]) - 1].append(item)
+
+                    # Wenn es sich um einen ILIAS-Pool handelt, beinhaltet die XML keine Struktur
+                    # Die Frage kann einfach angehangen werden
+                    else:
+                        self.ffperm_myroot.append(item)
+
+                    self.ffperm_mytree.write(self.qti_file_path_output)
+                    print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title_replaced))
+
+
+
+
+
 
 
 

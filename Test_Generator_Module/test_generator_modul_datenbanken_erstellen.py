@@ -4527,6 +4527,7 @@ class Delete_Entry_from_Database:
                         if self.modul_delete_all_list[i] == 1:
                             self.modul_delete_index = i
 
+                    # .pop(index) löscht den DB Eintrag mit dem DB_Index
                     self.modul_delete_all_list.pop(self.modul_delete_index)
 
 
