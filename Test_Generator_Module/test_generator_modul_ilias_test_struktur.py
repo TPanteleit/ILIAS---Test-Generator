@@ -314,7 +314,9 @@ class Create_ILIAS_Pool:
 
 
         # Aufruf -> Pool erstellen
-        Create_ILIAS_Pool.pool_structure(self)
+        self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = Create_ILIAS_Pool.pool_structure(self)
+
+        return self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool
 
     def pool_structure(self):
 
@@ -368,20 +370,36 @@ class Create_ILIAS_Pool:
 ######## Hier wird der Fragen_Pool erstellt
 
         # Aufruf: Modul -> Formelfrage -> Pool
-        if self.question_type.lower() == "formelfrage" or self.question_type.lower() == "formel frage":
-            test_generator_modul_formelfrage.Create_Formelfrage_Questions.__init__(self,
-                                                                                   self.db_entry_to_index_dict,
-                                                                                   self.create_pool_entry_ids,
-                                                                                   "question_pool",
-                                                                                   self.ilias_id_pool_img_dir,
-                                                                                   self.ilias_id_pool_qpl_dir,
-                                                                                   self.pool_qti_file_path_template,
-                                                                                   self.pool_qti_file_path_output,
-                                                                                   self.pool_qpl_file_path_output,
-                                                                                   self.ilias_id_pool_qti_xml,
-                                                                                   self.file_max_id,
-                                                                                   self.taxonomy_file_question_pool
-                                                                                   )
+        #if self.question_type.lower() == "formelfrage" or self.question_type.lower() == "formel frage":
+
+            #print("Formelfrage wird erstellt..")
+            #test_generator_modul_formelfrage.Create_Formelfrage_Questions.__init__(self,
+            #                                                                       self.db_entry_to_index_dict,
+            #                                                                       self.create_pool_entry_ids,
+            #                                                                       "question_pool",
+            #                                                                       self.ilias_id_pool_img_dir,
+            #                                                                       self.ilias_id_pool_qpl_dir,
+            #                                                                       self.pool_qti_file_path_template,
+            #                                                                       self.pool_qti_file_path_output,
+            #                                                                       self.pool_qpl_file_path_output,
+            #                                                                       self.ilias_id_pool_qti_xml,
+            #                                                                       self.file_max_id,
+            #                                                                       self.taxonomy_file_question_pool
+            #                                                                       )
+
+
+        """
+        Things to return
+        
+         self.ilias_id_pool_img_dir,
+         self.ilias_id_pool_qpl_dir,
+         self.pool_qti_file_path_output,
+         self.pool_qpl_file_path_output,
+         self.ilias_id_pool_qti_xml,
+         self.file_max_id,
+         self.taxonomy_file_question_pool
+        """
+
 
         # Aufruf: Modul -> SingleChoice -> Pool
         if self.question_type.lower() == "singlechoice" or self.question_type.lower() == "single choice":
@@ -448,8 +466,8 @@ class Create_ILIAS_Pool:
                                                                                    self.taxonomy_file_question_pool
                                                                                    )
 
-        # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
-        Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
+        # # Anschließend werden die "&amp;" in der XML wieder gegen "&" getauscht
+        # Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
 
 
         # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
@@ -462,22 +480,59 @@ class Create_ILIAS_Pool:
         # self.taxonomy_file_question_pool,          -- Taxonomie-Datei Ordner Pfad
         # self.pool_qti_file_path_output             -- QTI-Datei - Pfad
 
-        test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
-                                                                                    self.create_pool_entry_ids,
-                                                                                    self.var_create_question_pool_all,
-                                                                                    self.database_db_name,
-                                                                                    self.database_table_name,
-                                                                                    self.db_entry_to_index_dict,
-                                                                                    self.taxonomy_file_question_pool,
-                                                                                    self.pool_qti_file_path_output)
+        # test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
+        #                                                                             self.create_pool_entry_ids,
+        #                                                                             self.var_create_question_pool_all,
+        #                                                                             self.database_db_name,
+        #                                                                             self.database_table_name,
+        #                                                                             self.db_entry_to_index_dict,
+        #                                                                             self.taxonomy_file_question_pool,
+        #                                                                             self.pool_qti_file_path_output)
+        # print("?????????????????????????????????????????????")
+        #
+        #
+        # print(self.ilias_id_pool_img_dir)
+        # print(self.ilias_id_pool_qpl_dir)
+        # print(self.pool_qti_file_path_output)
+        # print(self.pool_qpl_file_path_output)
+        # print(self.ilias_id_pool_qti_xml)
+        # print(self.file_max_id)
+        # print(self.taxonomy_file_question_pool)
+        # print("?????????????????????????????????????????????")
+        # print(self.database_db_name)
+        # print(self.database_table_name)
+        # print("?????????????????????????????????????????????")
+
+        return self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool
 
 
 class Additional_Funtions():
+
+    def __init__(self):
+        # Im Ordnernamen dürfen keine Umlaute vorhanden sein
+        self.char_to_replace = {'A': 'AE',
+                                'Ö': 'OE',
+                                'Ü': 'UE',
+                                'ä': 'ae',
+                                'ö': 'oe',
+                                'ü': 'ue',
+                                'ß': 'ss',
+                                }
+
+
 
     def add_picture_to_description_main(self, description_img_name_1, description_img_data_1, description_img_name_2,
                                               description_img_data_2, description_img_name_3, description_img_data_3,
                                               question_description_main, question_description_mattext,
                                               question_description_material, id_nr):
+
+
+
+        # Bildnamen nach Zeichen (key) durchsuchen und eretzen
+        for key, value in self.char_to_replace.items():
+            description_img_name_1 = description_img_name_1.replace(key, value)
+            description_img_name_2 = description_img_name_2.replace(key, value)
+            description_img_name_3 = description_img_name_3.replace(key, value)
 
         self.description_img_name_1 = description_img_name_1
         self.description_img_data_1 = description_img_data_1
@@ -521,7 +576,7 @@ class Additional_Funtions():
 
     def set_picture_in_main(self, description_img_name_var, description_img_data_var, picture_string_name_replace_var, question_description_mattext, question_description_material, id_nr, img_id_nr):
 
-        # img_id: ist nnotwendig weil die Fragen eigene ID bekommen
+        # img_id: ist notwendig weil die Fragen eigene ID bekommen
 
         self.description_img_name_var = description_img_name_var
         self.description_img_data_var = description_img_data_var
@@ -563,6 +618,21 @@ class Additional_Funtions():
 
     def add_dir_for_images(self, description_img_name_var, description_img_data_var, id_nr, test_or_pool, question_test_img_path, question_pool_img_path):
 
+        # Im Ordnernamen dürfen keine Umlaute vorhanden sein
+        self.char_to_replace = {'A': 'AE',
+                                'Ö': 'OE',
+                                'Ü': 'UE',
+                                'ä': 'ae',
+                                'ö': 'oe',
+                                'ü': 'ue',
+                                'ß': 'ss',
+                                }
+
+        # Ordnernamen nach Zeichen (key) durchsuchen und eretzen
+        for key, value in self.char_to_replace.items():
+            description_img_name_var = description_img_name_var.replace(key, value)
+
+
         self.description_img_name_var = description_img_name_var
         self.description_img_data_var = description_img_data_var
 
@@ -600,6 +670,7 @@ class Additional_Funtions():
                     self.image.save(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
 
     def replace_character_in_xml_file(self, file_path_qti_xml):
+        # Der Zusatz "end="", flush=True" in print() bewirkt, dass der folgende print() Befehl in der gleichen Zeile angehangen wird
         print("______________________________________________________________________")
         print("Überarbeite xml_datei_qti --  \"&amp;\"-Zeichen...          ", end="", flush=True)
         # Im Nachgang werden alle "&amp;" wieder gegen "&" getauscht
