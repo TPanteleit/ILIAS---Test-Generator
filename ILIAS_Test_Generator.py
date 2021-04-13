@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.1.1                                                                                         #
+#    Version: 2.2                                                                                         #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.1.1) ist die Erstellung von folgenden Fragentypen möglich:              #
+#    In der derzeitigen Version (v2.2) ist die Erstellung von folgenden Fragentypen möglich:              #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -13,6 +13,21 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
+#                                                                                                           #
+#     Fragenpool "Taxonomie" getrennt erstellen. Die Fragen aus der Datenbank können unterteilt nach        #
+#     Taxonomie in verschiedene/mehrere Fragenpools erstellt werden. Bei Bedarf kann der Eintrag für        #
+#     Taxonomie zusätzlich gelöscht werden, sodass der Fragenpool KEINER Taxonomie mehr zugehört            #
+#                                                                                                           #
+#     Wertebereiche für Formelfragen erstellen. Benötigt werden Einträge für die Variablen (min/max)        #
+#     Die Formeln können auch wiederrum Ergebnisse enthalten.                                               #
+#                                                                                                           #
+#     Formel 1:    $v1+$v2+$v3                                                                              #
+#     Formel 2:    $v3/$r1                                                                                  #
+#     etc.                                                                                                  #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
 #    - Bilder werden über einen relativen Pfad eingelesen/verwendet                                         #
 #       Bisher war der exakte Pfad zum Bild notwendig (z.B. c:/user/bilder/test.png)                        #
 #       Nun ist ein "Bilder"-Ordner im Projektverzeichnis vorhanden, indem die Bilder gespeichert werden.   #
@@ -68,7 +83,6 @@ from tkinter import ttk
 from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
 import pathlib
 
-
 ### Test-Generator Module
 from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
 from Test_Generator_Module import test_generator_modul_formelfrage
@@ -84,7 +98,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.1.1')
+        master.title('ilias - Test-Generator v2.2')
 
         # Fenstergröße für die Module setzen
         self.window_width = 800
@@ -92,6 +106,7 @@ class GuiMainWindow:
 
         # Projektpfad auslesen. Der Projektpfad ist der Ordner in dem das Programm ausgeführt wird.
         self.project_root_path = pathlib.Path().absolute()
+
 
 
         # <------------ ERSTELLEN VON TABS UND TAB_CONTROL ----------->
