@@ -85,6 +85,9 @@ class SingleChoice:
         self.singlechoice_pool_directory_output = os.path.normpath(os.path.join(self.singlechoice_files_path,"sc_ilias_pool_abgabe"))
 
 
+        # Pfad zur Ablage von Bildern
+        self.sc_image_directory = "Bilder"
+
 ###################### "DATENBANK ENTRIES UND INDEX DICT  ###################
 
 
@@ -544,6 +547,7 @@ class SingleChoice:
 
         self.sc_var1_img_data_encoded64_string = "Encoded1-Test"
 
+        # Antwort-Text
         self.sc_var1_answer_entry = Entry(self.sc_frame, width=45)
         self.sc_var2_answer_entry = Entry(self.sc_frame, width=45)
         self.sc_var3_answer_entry = Entry(self.sc_frame, width=45)
@@ -555,7 +559,7 @@ class SingleChoice:
         self.sc_var9_answer_entry = Entry(self.sc_frame, width=45)
         self.sc_var10_answer_entry = Entry(self.sc_frame, width=45)
 
-
+        # Punkte
         self.sc_var1_points_entry = Entry(self.sc_frame, width=8)
         self.sc_var2_points_entry = Entry(self.sc_frame, width=8)
         self.sc_var3_points_entry = Entry(self.sc_frame, width=8)
@@ -924,7 +928,7 @@ class SingleChoice:
     def sc_add_image_to_answer(self, picture_label_entry, picture_data_entry, picture_path_entry):
 
          ### Dateipfad auswählen
-         self.sc_picture_path = filedialog.askopenfilename(initialdir=pathlib.Path().absolute(), title="Select a File")
+         self.sc_picture_path = filedialog.askopenfilename(initialdir=os.path.join(pathlib.Path().absolute(), self.sc_image_directory), title="Select a File")
 
          # "rindex" sucht nach einem bestimmten Zeichen in einem String, beginnend von rechts
          self.sc_picture_name = self.sc_picture_path[self.sc_picture_path.rindex('/')+1:]        # Nach dem "/" befindet sich der Dateiname
@@ -944,8 +948,20 @@ class SingleChoice:
                  encoded64_string_raw = base64.b64encode(image_file.read())
                  picture_data_entry.delete(0, END)
                  picture_data_entry.insert(END, encoded64_string_raw.decode('utf-8'))
+
+                 # Der Ordner für Bilder-Dateien wird unter "self.image_directory" bestimmt. (Bsp. "Bilder")
+                 # Bei der Auswahl von Bildern über die GUI wird der komplette Pfad aufgenommen (Bsp. C:\user\Bilder\test.png)
+                 # Der String wird nach dem Eintrag "self.image_directory" durchsucht und gibt den Index im String zurück (Bsp: 8)
+                 # Dann wird von diesem index (8) beginnend, der restliche String-Teil aufgenommen (Bsp: Bilder\test.png)
+                 # Der ":" sorgt dafür das nur ein Teil vom String gelesen wird (Index_Start:Index_ende (wenn für "Index_ende" nichts eingetragen wird, wird alles übernommen
+                 # Es kann hier auch z.B. Index_start:-1 eingetragen werden, dann wird alles bis auf das letzte Zeichen übernommen Bsp: Bilder\test.pn)
+                 self.sc_image_dir_index_for_path = self.sc_picture_path.rfind(self.sc_image_directory)
+                 self.sc_picture_path_img = os.path.normpath(self.sc_picture_path[int(self.sc_image_dir_index_for_path):])
+
                  picture_path_entry.delete(0, END)
-                 picture_path_entry.insert(END, self.sc_picture_path )
+                 picture_path_entry.insert(END, self.sc_picture_path_img)
+
+
 
 
 
@@ -1904,7 +1920,14 @@ class Create_SingleChoice_Questions(SingleChoice):
             question_answer_mattext.set('texttype', "text/plain")
             question_answer_mattext.text = sc_response_var_text
 
+            #with open(sc_response_var_img_path, "rb") as image_file:
+            #    encoded64_string_raw = base64.b64encode(image_file.read())
+            #    sc_response_var_img_string_base64_encoded2 = encoded64_string_raw.decode('utf-8')
 
+            #    print("============")
+
+            #    print(sc_response_var_img_path)
+            #    print("============")
             if sc_response_var_img_string_base64_encoded != "":
                 question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
 
