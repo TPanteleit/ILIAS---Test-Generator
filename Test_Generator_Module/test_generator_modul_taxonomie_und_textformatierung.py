@@ -1042,7 +1042,7 @@ class Taxonomie:
         print("...abgeschlossen")
 
     """
-    def tax_reallocate_from_excel(self, file_location):
+    def tax_reallocate_from_excel(self, file_location, actual_pool_number, max_number_of_pools):
         print("Taxonomie wird überarbeitet...          ", end="", flush=True)
         self.mytree = ET.parse(file_location)
         self.myroot = self.mytree.getroot()
@@ -1203,7 +1203,16 @@ class Taxonomie:
         Taxonomie.tax_file_refresh(self, file_location)
         print("abgeschlossen!")
 
-        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!")
+
+
+
+
+
+
+        #
+        #messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt! ---> Fragenpool-Nr.: " + str(actual_pool_number+1) + "/" + str(max_number_of_pools) + "\n\n"
+        #                     "Abgelegt im Ordner: " + str(data_folder) + "\n"
+        #                     "Anzahl der Fragen: " + str(len(self.reallocate_item_id)) + "\n\n")
 
     def tax_combobox_refresh (self):
 
@@ -1458,7 +1467,7 @@ class Taxonomie:
 
         Taxonomie.read_taxonomy_file(self)
 
-    def create_taxonomy_for_pool(self, pool_entry_box, check_create_all_questions, db_database, db_table, db_entry_to_index_dict, taxonomy_file_path, taxonomy_qtiXML_file_path ):
+    def create_taxonomy_for_pool(self, pool_entry_box, check_create_all_questions, db_database, db_table, db_entry_to_index_dict, taxonomy_file_path, taxonomy_qtiXML_file_path, actual_pool_number, max_number_of_pools ):
 
         self.pool_entries = pool_entry_box
         self.db_entry_to_index_dict = db_entry_to_index_dict
@@ -1550,7 +1559,7 @@ class Taxonomie:
 
 
         # Taxonomie-Datei neu sortieren
-        Taxonomie.tax_reallocate_from_excel(self, self.taxonomy_file_question_pool)
+        Taxonomie.tax_reallocate_from_excel(self, self.taxonomy_file_question_pool, actual_pool_number, max_number_of_pools)
 
 
     def remove_question_from_node(self):
