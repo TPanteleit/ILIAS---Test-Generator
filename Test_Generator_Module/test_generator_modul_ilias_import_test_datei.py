@@ -687,6 +687,11 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_variable8, self.ilias_test_variable8_prec, self.ilias_test_variable8_divby, self.ilias_test_variable8_min, self.ilias_test_variable8_max = [], [], [], [], []
         self.ilias_test_variable9, self.ilias_test_variable9_prec, self.ilias_test_variable9_divby, self.ilias_test_variable9_min, self.ilias_test_variable9_max = [], [], [], [], []
         self.ilias_test_variable10, self.ilias_test_variable10_prec, self.ilias_test_variable10_divby, self.ilias_test_variable10_min, self.ilias_test_variable10_max = [], [], [], [], []
+        self.ilias_test_variable11, self.ilias_test_variable11_prec, self.ilias_test_variable11_divby, self.ilias_test_variable11_min, self.ilias_test_variable11_max = [], [], [], [], []
+        self.ilias_test_variable12, self.ilias_test_variable12_prec, self.ilias_test_variable12_divby, self.ilias_test_variable12_min, self.ilias_test_variable12_max = [], [], [], [], []
+        self.ilias_test_variable13, self.ilias_test_variable13_prec, self.ilias_test_variable13_divby, self.ilias_test_variable13_min, self.ilias_test_variable13_max = [], [], [], [], []
+        self.ilias_test_variable14, self.ilias_test_variable14_prec, self.ilias_test_variable14_divby, self.ilias_test_variable14_min, self.ilias_test_variable14_max = [], [], [], [], []
+        self.ilias_test_variable15, self.ilias_test_variable15_prec, self.ilias_test_variable15_divby, self.ilias_test_variable15_min, self.ilias_test_variable15_max = [], [], [], [], []
 
         self.ilias_test_variable1_prec_temp, self.ilias_test_variable1_divby_temp, self.ilias_test_variable1_min_temp, self.ilias_test_variable1_max_temp = [], [], [], []
         self.ilias_test_variable2_prec_temp, self.ilias_test_variable2_divby_temp, self.ilias_test_variable2_min_temp, self.ilias_test_variable2_max_temp = [], [], [], []
@@ -698,6 +703,11 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_variable8_prec_temp, self.ilias_test_variable8_divby_temp, self.ilias_test_variable8_min_temp, self.ilias_test_variable8_max_temp = [], [], [], []
         self.ilias_test_variable9_prec_temp, self.ilias_test_variable9_divby_temp, self.ilias_test_variable9_min_temp, self.ilias_test_variable9_max_temp = [], [], [], []
         self.ilias_test_variable10_prec_temp, self.ilias_test_variable10_divby_temp, self.ilias_test_variable10_min_temp, self.ilias_test_variable10_max_temp = [], [], [], []
+        self.ilias_test_variable11_prec_temp, self.ilias_test_variable11_divby_temp, self.ilias_test_variable11_min_temp, self.ilias_test_variable11_max_temp = [], [], [], []
+        self.ilias_test_variable12_prec_temp, self.ilias_test_variable12_divby_temp, self.ilias_test_variable12_min_temp, self.ilias_test_variable12_max_temp = [], [], [], []
+        self.ilias_test_variable13_prec_temp, self.ilias_test_variable13_divby_temp, self.ilias_test_variable13_min_temp, self.ilias_test_variable13_max_temp = [], [], [], []
+        self.ilias_test_variable14_prec_temp, self.ilias_test_variable14_divby_temp, self.ilias_test_variable14_min_temp, self.ilias_test_variable14_max_temp = [], [], [], []
+        self.ilias_test_variable15_prec_temp, self.ilias_test_variable15_divby_temp, self.ilias_test_variable15_min_temp, self.ilias_test_variable15_max_temp = [], [], [], []
 
         self.ilias_test_variable1_settings, self.ilias_test_variable1_settings_temp = [], []
         self.ilias_test_variable2_settings, self.ilias_test_variable2_settings_temp = [], []
@@ -709,6 +719,11 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_variable8_settings, self.ilias_test_variable8_settings_temp = [], []
         self.ilias_test_variable9_settings, self.ilias_test_variable9_settings_temp = [], []
         self.ilias_test_variable10_settings, self.ilias_test_variable10_settings_temp = [], []
+        self.ilias_test_variable11_settings, self.ilias_test_variable11_settings_temp = [], []
+        self.ilias_test_variable12_settings, self.ilias_test_variable12_settings_temp = [], []
+        self.ilias_test_variable13_settings, self.ilias_test_variable13_settings_temp = [], []
+        self.ilias_test_variable14_settings, self.ilias_test_variable14_settings_temp = [], []
+        self.ilias_test_variable15_settings, self.ilias_test_variable15_settings_temp = [], []
 
         ### Ergebnisse - Variablen - INIT
         self.ilias_test_result1, self.ilias_test_result1_prec, self.ilias_test_result1_tol, self.ilias_test_result1_min, self.ilias_test_result1_max, self.ilias_test_result1_pts, self.ilias_test_result1_formula = [], [], [], [], [], [], []
@@ -810,6 +825,26 @@ class Import_ILIAS_Datei_in_DB:
                 self.ilias_test_variable10.append(qtimetadatafield.find('fieldentry').text)
                 self.variables_collection_string += 'v10'
 
+            if qtimetadatafield.find('fieldlabel').text == "$v11":
+                self.ilias_test_variable11.append(qtimetadatafield.find('fieldentry').text)
+                self.variables_collection_string += 'v11'
+
+            if qtimetadatafield.find('fieldlabel').text == "$v12":
+                self.ilias_test_variable12.append(qtimetadatafield.find('fieldentry').text)
+                self.variables_collection_string += 'v12'
+
+            if qtimetadatafield.find('fieldlabel').text == "$v13":
+                self.ilias_test_variable13.append(qtimetadatafield.find('fieldentry').text)
+                self.variables_collection_string += 'v13'
+
+            if qtimetadatafield.find('fieldlabel').text == "$v14":
+                self.ilias_test_variable14.append(qtimetadatafield.find('fieldentry').text)
+                self.variables_collection_string += 'v14'
+
+            if qtimetadatafield.find('fieldlabel').text == "$v15":
+                self.ilias_test_variable15.append(qtimetadatafield.find('fieldentry').text)
+                self.variables_collection_string += 'v15'
+
             if qtimetadatafield.find('fieldlabel').text == "$r1":
                 self.ilias_test_result1.append(qtimetadatafield.find('fieldentry').text)
                 self.result_collection_string += 'r1'
@@ -895,6 +930,21 @@ class Import_ILIAS_Datei_in_DB:
         for i in range(len(self.ilias_test_variable10)):
             self.ilias_test_variable10_settings += self.ilias_test_variable10[i].split(";")
 
+        for i in range(len(self.ilias_test_variable11)):
+            self.ilias_test_variable11_settings += self.ilias_test_variable11[i].split(";")
+
+        for i in range(len(self.ilias_test_variable12)):
+            self.ilias_test_variable12_settings += self.ilias_test_variable12[i].split(";")
+
+        for i in range(len(self.ilias_test_variable13)):
+            self.ilias_test_variable13_settings += self.ilias_test_variable13[i].split(";")
+
+        for i in range(len(self.ilias_test_variable14)):
+            self.ilias_test_variable14_settings += self.ilias_test_variable14[i].split(";")
+
+        for i in range(len(self.ilias_test_variable15)):
+            self.ilias_test_variable15_settings += self.ilias_test_variable15[i].split(";")
+
 
 
         for i in range(len(self.ilias_test_result1)):
@@ -943,6 +993,11 @@ class Import_ILIAS_Datei_in_DB:
         del self.ilias_test_variable8_settings[12::13]
         del self.ilias_test_variable9_settings[12::13]
         del self.ilias_test_variable10_settings[12::13]
+        del self.ilias_test_variable11_settings[12::13]
+        del self.ilias_test_variable12_settings[12::13]
+        del self.ilias_test_variable13_settings[12::13]
+        del self.ilias_test_variable14_settings[12::13]
+        del self.ilias_test_variable15_settings[12::13]
 
 
         # Erstes Feld löschen, dann enthält jedes 2. Fach der eigentliche Wert für die jeweilige Einstellung z.B. Präzision
@@ -976,6 +1031,21 @@ class Import_ILIAS_Datei_in_DB:
         if len(self.ilias_test_variable10_settings) > 0:
             self.ilias_test_variable10_settings.pop(0)
 
+        if len(self.ilias_test_variable11_settings) > 0:
+            self.ilias_test_variable11_settings.pop(0)
+
+        if len(self.ilias_test_variable12_settings) > 0:
+            self.ilias_test_variable12_settings.pop(0)
+
+        if len(self.ilias_test_variable13_settings) > 0:
+            self.ilias_test_variable13_settings.pop(0)
+
+        if len(self.ilias_test_variable14_settings) > 0:
+            self.ilias_test_variable14_settings.pop(0)
+
+        if len(self.ilias_test_variable15_settings) > 0:
+            self.ilias_test_variable15_settings.pop(0)
+
         # jedes 2. Fach enthält den eigentlichen Wert für die jeweilige Einstellung z.B. Präzision
         # die
         self.ilias_test_variable1_settings_temp = self.ilias_test_variable1_settings[::2]
@@ -988,6 +1058,11 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_variable8_settings_temp = self.ilias_test_variable8_settings[::2]
         self.ilias_test_variable9_settings_temp = self.ilias_test_variable9_settings[::2]
         self.ilias_test_variable10_settings_temp = self.ilias_test_variable10_settings[::2]
+        self.ilias_test_variable11_settings_temp = self.ilias_test_variable11_settings[::2]
+        self.ilias_test_variable12_settings_temp = self.ilias_test_variable12_settings[::2]
+        self.ilias_test_variable13_settings_temp = self.ilias_test_variable13_settings[::2]
+        self.ilias_test_variable14_settings_temp = self.ilias_test_variable14_settings[::2]
+        self.ilias_test_variable15_settings_temp = self.ilias_test_variable15_settings[::2]
 
 
         self.variables_collection_list = self.variables_collection_string.split('$')
@@ -1005,6 +1080,11 @@ class Import_ILIAS_Datei_in_DB:
         self.var8_count = 0
         self.var9_count = 0
         self.var10_count = 0
+        self.var11_count = 0
+        self.var12_count = 0
+        self.var13_count = 0
+        self.var14_count = 0
+        self.var15_count = 0
 
         self.ilias_test_variable1_prec, self.ilias_test_variable1_divby, self.ilias_test_variable1_min,  self.ilias_test_variable1_max, self.var1_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var1_count, self.ilias_test_variable1_settings_temp, "v1")
         self.ilias_test_variable2_prec, self.ilias_test_variable2_divby, self.ilias_test_variable2_min,  self.ilias_test_variable2_max, self.var2_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var2_count, self.ilias_test_variable2_settings_temp, "v2")
@@ -1016,6 +1096,11 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_variable8_prec, self.ilias_test_variable8_divby, self.ilias_test_variable8_min,  self.ilias_test_variable8_max, self.var8_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var8_count, self.ilias_test_variable8_settings_temp, "v8")
         self.ilias_test_variable9_prec, self.ilias_test_variable9_divby, self.ilias_test_variable9_min,  self.ilias_test_variable9_max, self.var9_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var9_count, self.ilias_test_variable9_settings_temp, "v9")
         self.ilias_test_variable10_prec, self.ilias_test_variable10_divby, self.ilias_test_variable10_min,  self.ilias_test_variable10_max, self.var10_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var10_count, self.ilias_test_variable10_settings_temp, "v10")
+        self.ilias_test_variable11_prec, self.ilias_test_variable11_divby, self.ilias_test_variable11_min,  self.ilias_test_variable11_max, self.var11_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var11_count, self.ilias_test_variable11_settings_temp, "v11")
+        self.ilias_test_variable12_prec, self.ilias_test_variable12_divby, self.ilias_test_variable12_min,  self.ilias_test_variable12_max, self.var12_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var12_count, self.ilias_test_variable12_settings_temp, "v12")
+        self.ilias_test_variable13_prec, self.ilias_test_variable13_divby, self.ilias_test_variable13_min,  self.ilias_test_variable13_max, self.var13_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var13_count, self.ilias_test_variable13_settings_temp, "v13")
+        self.ilias_test_variable14_prec, self.ilias_test_variable14_divby, self.ilias_test_variable14_min,  self.ilias_test_variable14_max, self.var14_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var14_count, self.ilias_test_variable14_settings_temp, "v14")
+        self.ilias_test_variable15_prec, self.ilias_test_variable15_divby, self.ilias_test_variable15_min,  self.ilias_test_variable15_max, self.var15_count = Import_ILIAS_Datei_in_DB.append_data_to_var_of_ff_question_type(self, self.var15_count, self.ilias_test_variable15_settings_temp, "v15")
 
 
 
@@ -1063,6 +1148,7 @@ class Import_ILIAS_Datei_in_DB:
         self.ilias_test_result7_settings_temp = self.ilias_test_result7_settings[::2]
         self.ilias_test_result8_settings_temp = self.ilias_test_result8_settings[::2]
         self.ilias_test_result9_settings_temp = self.ilias_test_result9_settings[::2]
+        self.ilias_test_result10_settings_temp = self.ilias_test_result10_settings[::2]
 
 
 
@@ -1184,6 +1270,13 @@ class Import_ILIAS_Datei_in_DB:
             self.res_max_temp.append(self.res_settings_temp[i + 3].rsplit(':', 1)[-1])
             self.res_pts_temp.append(self.res_settings_temp[i + 4].rsplit(':', 1)[-1])
             self.res_formula_temp.append(self.res_settings_temp[i + 5].rsplit(':', 1)[-1])
+
+        print("_______________________")
+
+        #print(len(self.res_prec_temp), " ---> ", self.res_prec_temp)
+        #print(self.res_count)
+        #print("_______________________")
+
 
         for i in range(len(self.result_collection_list)):
             if self.res_id in self.result_collection_list[i]:
