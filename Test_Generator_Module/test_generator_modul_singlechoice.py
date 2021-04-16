@@ -90,27 +90,30 @@ class SingleChoice:
 
 ###################### "DATENBANK ENTRIES UND INDEX DICT  ###################
 
-
         # Dictionary aus zwei Listen erstellen
-        # Auslesen der SingleChoice-Datenbank einträgen
-        # Nur die erste Zeile auslesen um einen Zusammenhang zwischen Variablen und Indexen herzustellen
         self.sc_db_find_entries = []
         self.sc_db_find_indexes = []
+        self.sc_db_column_names_list = []
+        self.sc_collection_of_question_titles = []
 
         connect = sqlite3.connect(self.database_singlechoice_path)
-        cursor = connect.cursor()
-        cursor.execute("SELECT * FROM singlechoice_table LIMIT 1")
+        cursor = connect.execute('select * from ' + self.sc_database_table)
+        self.sc_db_column_names_list = list(map(lambda x: x[0], cursor.description))
+        self.db_column_names_string = ', :'.join(self.sc_db_column_names_list)
+        self.db_column_names_string = ":" + self.db_column_names_string
 
-        sc_db_records = cursor.fetchall()
-        for sc_db_record in sc_db_records:
-            for k in range(len(sc_db_record)):
-                self.sc_db_find_entries.append(str(sc_db_record[k]))
-                self.sc_db_find_indexes.append(int(k))
+        for i in range(len(self.sc_db_column_names_list)):
+            self.sc_db_find_indexes.append(i)
 
+        """
+        # Durch list(map(lambdax: x[0])) werden die Spaltennamen aus der DB ausgelesen
+        cursor = conn.execute('select * from ' + self.sc_database_table)
+        db_column_names_list = list(map(lambda x: x[0], cursor.description))
+        db_column_names_string  = ', :'.join(db_column_names_list)
+        db_column_names_string  = ":" + db_column_names_string
+        """
 
-        self.sc_db_entry_to_index_dict = dict(zip((self.sc_db_find_entries), (self.sc_db_find_indexes)))
-
-
+        self.sc_db_entry_to_index_dict = dict(zip((self.sc_db_column_names_list), (self.sc_db_find_indexes)))
 
         connect.commit()
         connect.close()

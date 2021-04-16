@@ -309,6 +309,7 @@ class CreateDatabases:
 
             CreateDatabases.insert_template_to_database_formelfrage(self)
 
+    """
     def insert_template_to_database_formelfrage(self):
         # Create a database or connect to one
         connect = sqlite3.connect(self.database_formelfrage_path)
@@ -586,8 +587,9 @@ class CreateDatabases:
         connect.close()
 
         print("Eintrag \"Vorlage\" zur Formelfrage Datenbank hinzugefügt!")
-
-####### Neue -- FORMELFRAGE --  Datenbank erstellen und befüllen #########
+    
+    """
+####### Neue -- FORMELFRAGE PERMUTATION --  Datenbank erstellen und befüllen #########
 
     def create_database_formelfrage_permutation(self):
         if self.database_formelfrage_permutation_exists != True:
@@ -1192,6 +1194,7 @@ class CreateDatabases:
             print("Neue SingleChoice Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
 
             CreateDatabases.insert_template_to_database_singlechoice(self)
+    """
     def insert_template_to_database_singlechoice(self):
 
         # Create a database or connect to one
@@ -1318,6 +1321,7 @@ class CreateDatabases:
         connect.close()
 
         print("Eintrag \"Vorlage\" zur SingleChoice Datenbank hinzugefügt!")
+    """
     def insert_ilias_test_data_from_file_to_database_singlechoice(self):
 
         # Create a database or connect to one
@@ -1548,6 +1552,7 @@ class CreateDatabases:
                 print("Neue MultipleChoice Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
                 CreateDatabases.insert_template_to_database_multiplechoice(self)
 
+    """
     def insert_template_to_database_multiplechoice(self):
 
         # Create a database or connect to one
@@ -1683,7 +1688,7 @@ class CreateDatabases:
         connect.close()
 
         print("Eintrag \"Vorlage\" zur MultipleChoice Datenbank hinzugefügt!")
-
+    """
 
 ####### Neue -- ZUORDNUNGSFRAGE --  Datenbank erstellen und befüllen #########
 
@@ -1884,7 +1889,7 @@ class CreateDatabases:
             print("Neue Zuordnungsfrage Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
 
             CreateDatabases.insert_template_to_database_zuordnungsfrage(self)
-
+    """
     def insert_template_to_database_zuordnungsfrage(self):
         # Create a database or connect to one
         connect = sqlite3.connect(self.database_zuordnungsfrage_path)
@@ -2087,7 +2092,7 @@ class CreateDatabases:
         connect.close()
 
         print("Eintrag \"Vorlage\" zur Zuordnungsfrage Datenbank hinzugefügt!")
-
+    """
 
 ####### Neue -- TEST-EINSTELLUNGEN --  Datenbank erstellen und befüllen #########
 
@@ -4484,98 +4489,87 @@ class Delete_Entry_from_Database:
         self.modul_delete_box_split = self.modul_delete_box_id.split(",")
         self.modul_delete_index_wrong = False
 
-        for i in range(len(self.modul_delete_box_split)):
-             if "1" in self.modul_delete_box_split[i] and len(self.modul_delete_box_split[i])==1:
-                 print("delete TRUE")
-                 self.modul_delete_index_wrong = True
-
-        if self.modul_delete_box_id == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.modul_delete_index_wrong == True:
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        elif self.modul_delete_mult_start == "1":
-            print("ID \"1\" kann nicht gelöscht werden! Eintrag ist Datenbank-Vorlage!")
-
-        else:
-
-            # Variablen
-            self.modul_delete_list = []
-            self.modul_delete_all_list = []
-            self.modul_delete_index = 0
 
 
 
-            # Zur Datenbank connecten
-            conn = sqlite3.connect(self.database_db_path)
-            c = conn.cursor()
-
-            # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
-            # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
-            self.modul_delete_list = self.modul_delete_box_id.split(",")
 
 
-            # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
-            # den String nehmen, und nach Bindestrick "-" splitten
-            # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
-
-            self.modul_delete_mult = self.modul_delete_box_id
-            self.modul_delete_mult_start = self.modul_delete_mult.split('-')[0]
-            self.modul_delete_mult_end = self.modul_delete_mult.split('-')[-1]
-            self.modul_delete_mult_symbol = "-" in self.modul_delete_mult
+        # Variablen
+        self.modul_delete_list = []
+        self.modul_delete_all_list = []
+        self.modul_delete_index = 0
 
 
-            if self.modul_var_delete_all == 1:
 
-                # Alle Fragen in der DB löschen - popup
-                # showinfo, showwarning, showerror, askquestion, askokcancel, askyesno
-                self.response_delete_all = messagebox.askquestion("Alle Einträge in der DB löschen", "Sollen ALLE Einträge aus der DB gelöscht werden?")
+        # Zur Datenbank connecten
+        conn = sqlite3.connect(self.database_db_path)
+        c = conn.cursor()
 
-                if self.response_delete_all == "yes":
-
-                    # ---- War als Backup gedacht, bevor ein Abfrage-Fenster integriert wurde
-                    #now = datetime.now()  # current date and time
-                    #date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
-                    #actual_time = str(date_time)
-                    #self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
-                    #Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
-
-                    c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
-                    records = c.fetchall()
-                    for record in records:
-                        self.modul_delete_all_list.append(int(record[len(record) - 1]))
-
-                    # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                    for i in range(len(self.modul_delete_all_list)):
-                        if self.modul_delete_all_list[i] == 1:
-                            self.modul_delete_index = i
-
-                    # .pop(index) löscht den DB Eintrag mit dem DB_Index
-                    self.modul_delete_all_list.pop(self.modul_delete_index)
+        # Wenn in das Eingabefeld Kommagetrenne ID's eingetragen wurden, dann ->
+        # den String nehmen, nach Komma trennen "," und einzelne DB-ID's löschen
+        self.modul_delete_list = self.modul_delete_box_id.split(",")
 
 
-                    for x in range(len(self.modul_delete_all_list)):
-                        c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_all_list[x])))
-                    print(self.question_type.upper() + ":Datenbank gelöscht!")
+        # Wenn in das Eingabefeld z.B. "1-5" eingetragen wurde, dann ->
+        # den String nehmen, und nach Bindestrick "-" splitten
+        # ID in Fach 1 = Start, ID in Fach [-1] (letztes Fach)
 
-                else:
-                    print("Vorgang abgebrochen")
-
-            elif self.modul_delete_mult_symbol == True:
-
-                for x in range(int(self.modul_delete_mult_start), int(self.modul_delete_mult_end)+1):
-                    c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(x)))
-                    print(self.question_type.upper() + ": Entry with ID " + str(x) + " removed!")
+        self.modul_delete_mult = self.modul_delete_box_id
+        self.modul_delete_mult_start = self.modul_delete_mult.split('-')[0]
+        self.modul_delete_mult_end = self.modul_delete_mult.split('-')[-1]
+        self.modul_delete_mult_symbol = "-" in self.modul_delete_mult
 
 
+        if self.modul_var_delete_all == 1:
+
+            # Alle Fragen in der DB löschen - popup
+            # showinfo, showwarning, showerror, askquestion, askokcancel, askyesno
+            self.response_delete_all = messagebox.askquestion("Alle Einträge in der DB löschen", "Sollen ALLE Einträge aus der DB gelöscht werden?")
+
+            if self.response_delete_all == "yes":
+
+                # ---- War als Backup gedacht, bevor ein Abfrage-Fenster integriert wurde
+                #now = datetime.now()  # current date and time
+                #date_time = now.strftime("%d.%m.%Y_%Hh-%Mm")
+                #actual_time = str(date_time)
+                #self.backup_table_name = "BACKUP_Export_from_SQL__" + str(actual_time)
+                #Import_Export_Database.excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, self.backup_table_name + " - " + xlsx_workbook_name, xlsx_worksheet_name)
+
+                c.execute("SELECT *, oid FROM " + str(self.database_db_table_name))
+                records = c.fetchall()
+                for record in records:
+                    self.modul_delete_all_list.append(int(record[len(record) - 1]))
+
+                # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
+                for i in range(len(self.modul_delete_all_list)):
+                    if self.modul_delete_all_list[i] == 1:
+                        self.modul_delete_index = i
+
+                # .pop(index) löscht den DB Eintrag mit dem DB_Index
+                self.modul_delete_all_list.pop(self.modul_delete_index)
+
+
+                for x in range(len(self.modul_delete_all_list)):
+                    c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_all_list[x])))
+                print(self.question_type.upper() + ":Datenbank gelöscht!")
 
             else:
-                for x in range(len(self.modul_delete_list)):
-                    c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_list[x])))
-                    print(self.question_type.upper() + ": Entry with ID " + str(self.modul_delete_list[x]) + " removed!")
+                print("Vorgang abgebrochen")
+
+        elif self.modul_delete_mult_symbol == True:
+
+            for x in range(int(self.modul_delete_mult_start), int(self.modul_delete_mult_end)+1):
+                c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(x)))
+                print(self.question_type.upper() + ": Entry with ID " + str(x) + " removed!")
 
 
 
-            conn.commit()
-            conn.close()
+        else:
+            for x in range(len(self.modul_delete_list)):
+                c.execute("DELETE from %s WHERE oid = %s " % (self.database_db_table_name, str(self.modul_delete_list[x])))
+                print(self.question_type.upper() + ": Entry with ID " + str(self.modul_delete_list[x]) + " removed!")
+
+
+
+        conn.commit()
+        conn.close()
