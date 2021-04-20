@@ -204,7 +204,7 @@ class Taxonomie:
 
         # New Window must be "Toplevel" not "Tk()" in order to get Radiobuttons to work properly
         self.taxonomy_window = Toplevel()
-        self.taxonomy_window.title("Taxonomie")
+        self.taxonomy_window.title("Taxonomie  --- " +str(self.select_taxonomy_file))
 
         ### Frame
         # Create a ScrolledFrame widget
@@ -336,6 +336,8 @@ class Taxonomie:
 
         #print(len(self.ident))
 
+
+
         for id_text in self.item_id_list:
             label_id = Label(self.taxonomy_frame_labels, text=id_text)
             label_id.grid(sticky=W, pady=5, row=self.item_id_var, column=0)
@@ -346,6 +348,7 @@ class Taxonomie:
             label_placeholder.grid(sticky=W, pady=5, row=self.item_id_var, column=1)
 
             self.item_id_var = self.item_id_var+1
+
 
 
 
@@ -506,6 +509,7 @@ class Taxonomie:
         for TaxId in self.myroot.iter('{http://www.ilias.de/Services/Taxonomy/tax/4_3}Tax'):
             if TaxId.find('{http://www.ilias.de/Services/Taxonomy/tax/4_3}Id').text == "1970392":
                 self.tax_root_id = TaxId.find('{http://www.ilias.de/Services/Taxonomy/tax/4_3}Id').text
+
 
 
         self.collect_title.pop(0)
@@ -878,7 +882,7 @@ class Taxonomie:
         self.tax_nodes_myCombo.destroy()
         Taxonomie.tax_combobox_refresh(self)
 
-    """
+
     def tax_reallocate(self):
         print("Taxonomie wird neu sortiert ")
         self.mytree = ET.parse(self.taxonomy_file_read)
@@ -1041,7 +1045,7 @@ class Taxonomie:
 
         print("...abgeschlossen")
 
-    """
+
     def tax_reallocate_from_excel(self, file_location, actual_pool_number, max_number_of_pools):
         print("Taxonomie wird überarbeitet...          ", end="", flush=True)
         self.mytree = ET.parse(file_location)
@@ -1500,7 +1504,7 @@ class Taxonomie:
 
 
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
-            self.test_entry_splitted.pop(0)
+            #self.test_entry_splitted.pop(0)
 
 
 
