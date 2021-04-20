@@ -307,7 +307,7 @@ class CreateDatabases:
 
             print("Neue Formelfrage Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
 
-            CreateDatabases.insert_template_to_database_formelfrage(self)
+            #CreateDatabases.insert_template_to_database_formelfrage(self)
 
     """
     def insert_template_to_database_formelfrage(self):
@@ -1193,7 +1193,7 @@ class CreateDatabases:
 
             print("Neue SingleChoice Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
 
-            CreateDatabases.insert_template_to_database_singlechoice(self)
+            #CreateDatabases.insert_template_to_database_singlechoice(self)
     """
     def insert_template_to_database_singlechoice(self):
 
@@ -1550,7 +1550,7 @@ class CreateDatabases:
                 connect.close()
 
                 print("Neue MultipleChoice Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
-                CreateDatabases.insert_template_to_database_multiplechoice(self)
+                #CreateDatabases.insert_template_to_database_multiplechoice(self)
 
     """
     def insert_template_to_database_multiplechoice(self):
@@ -1888,7 +1888,7 @@ class CreateDatabases:
 
             print("Neue Zuordnungsfrage Datenbank erstellt! Wird mit Vorlage_Werten befüllt..")
 
-            CreateDatabases.insert_template_to_database_zuordnungsfrage(self)
+            #CreateDatabases.insert_template_to_database_zuordnungsfrage(self)
     """
     def insert_template_to_database_zuordnungsfrage(self):
         # Create a database or connect to one
@@ -4541,12 +4541,12 @@ class Delete_Entry_from_Database:
                     self.modul_delete_all_list.append(int(record[len(record) - 1]))
 
                 # Der Eintrag mit ID "1" dient als Vorlage für die Datenbank
-                for i in range(len(self.modul_delete_all_list)):
-                    if self.modul_delete_all_list[i] == 1:
-                        self.modul_delete_index = i
+                #for i in range(len(self.modul_delete_all_list)):
+                #    if self.modul_delete_all_list[i] == 1:
+                #        self.modul_delete_index = i
 
                 # .pop(index) löscht den DB Eintrag mit dem DB_Index
-                self.modul_delete_all_list.pop(self.modul_delete_index)
+                #self.modul_delete_all_list.pop(self.modul_delete_index)
 
 
                 for x in range(len(self.modul_delete_all_list)):
