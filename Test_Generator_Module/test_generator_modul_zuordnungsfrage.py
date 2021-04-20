@@ -376,7 +376,7 @@ class Zuordnungsfrage:
         self.mq_database_load_id_btn.grid(row=4, column=0, sticky=W, pady=(15,0))
         self.mq_load_box = Entry(self.mq_frame_database, width=10)
         self.mq_load_box.grid(row=4, column=0, sticky=W, padx=80, pady=(15,0))
-
+        self.mq_hidden_edit_box_entry = Entry(self.mq_frame_database, width=10)
 
         # Checkbox - "Fragentext mit Highlighting?"
         self.mq_highlight_question_text_label = Label(self.mq_frame_database, text="Fragentext mit Highlighting?")
@@ -1887,6 +1887,10 @@ class Zuordnungsfrage:
         conn = sqlite3.connect(self.database_zuordnungsfrage_path)
         c = conn.cursor()
         record_id = self.mq_load_box.get()
+
+        self.mq_hidden_edit_box_entry.delete(0, END)
+        self.mq_hidden_edit_box_entry.insert(0, self.mq_load_box.get())
+
         c.execute("SELECT * FROM zuordnungsfrage_table WHERE oid =" + record_id)
         mq_db_records = c.fetchall()
 
@@ -2032,8 +2036,9 @@ class Zuordnungsfrage:
         conn = sqlite3.connect(self.database_zuordnungsfrage_path)
         c = conn.cursor()
 
-        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
-        record_id = self.mq_load_box.get()
+        # ID der Frage aus dem Eingabefeld "ID editieren" auslesen
+        # Eingabefeld ist für den User nicht sichtbar
+        record_id = self.mq_hidden_edit_box_entry.get()
 
         # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
         self.mq_test_time = "P0Y0M0DT" + self.mq_proc_hours_box.get() + "H" + self.mq_proc_minutes_box.get() + "M" + self.mq_proc_seconds_box.get() + "S"
@@ -2361,7 +2366,8 @@ class Zuordnungsfrage:
 
                       'test_time': self.mq_test_time,
                       'question_pool_tag': self.mq_question_pool_tag_entry.get(),
-                      'question_author': self.mq_question_author_entry.get()
+                      'question_author': self.mq_question_author_entry.get(),
+                      'oid': record_id
                   })
             
             
@@ -2519,7 +2525,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
             self.mq_test_entry_splitted = self.string_temp.split(",")
 
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
-            self.mq_test_entry_splitted.pop(0)
+            #self.mq_test_entry_splitted.pop(0)
 
         
         

@@ -657,7 +657,7 @@ class SingleChoice:
         self.sc_database_load_id_btn.grid(row=4, column=0, sticky=W, pady=(15,0))
         self.sc_load_box = Entry(self.sc_frame_database, width=10)
         self.sc_load_box.grid(row=4, column=0, sticky=W, padx=80, pady=(15,0))
-
+        self.sc_hidden_edit_box_entry = Entry(self.sc_frame_database, width=10)
 
         # Checkbox - "Fragentext mit Highlighting?"
         self.sc_highlight_question_text_label = Label(self.sc_frame_database, text="Fragentext mit Highlighting?")
@@ -1160,6 +1160,10 @@ class SingleChoice:
         conn = sqlite3.connect(self.database_singlechoice_path)
         c = conn.cursor()
         record_id = self.sc_load_box.get()
+
+        self.sc_hidden_edit_box_entry.delete(0, END)
+        self.sc_hidden_edit_box_entry.insert(0, self.sc_load_box.get())
+
         c.execute("SELECT * FROM singlechoice_table WHERE oid =" + record_id)
         sc_db_records = c.fetchall()
 
@@ -1257,8 +1261,9 @@ class SingleChoice:
         conn = sqlite3.connect(self.database_singlechoice_path)
         c = conn.cursor()
 
-        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
-        record_id = self.sc_load_box.get()
+        # ID der Frage aus dem Eingabefeld "ID editieren" auslesen
+        # Eingabefeld ist für den User nicht sichtbar
+        record_id = self.sc_hidden_edit_box_entry.get()
 
         # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
         self.sc_test_time = "P0Y0M0DT" + self.sc_proc_hours_box.get() + "H" + self.sc_proc_minutes_box.get() + "M" + self.sc_proc_seconds_box.get() + "S"
@@ -1589,7 +1594,7 @@ class Create_SingleChoice_Questions(SingleChoice):
             self.sc_test_entry_splitted = self.string_temp.split(",")
 
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
-            self.sc_test_entry_splitted.pop(0)
+            #self.sc_test_entry_splitted.pop(0)
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
         # Datenbank ID wird automatisch bei einem neuen Eintrag erstellt (fortlaufend) und kann nicht beeinflusst werden

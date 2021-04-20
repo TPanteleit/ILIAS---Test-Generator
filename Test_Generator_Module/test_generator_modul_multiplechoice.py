@@ -687,7 +687,7 @@ class MultipleChoice:
         self.mc_database_load_id_btn.grid(row=4, column=0, sticky=W, pady=(15,0))
         self.mc_load_box = Entry(self.mc_frame_database, width=10)
         self.mc_load_box.grid(row=4, column=0, sticky=W, padx=80, pady=(15,0))
-
+        self.mc_hidden_edit_box_entry = Entry(self.mc_frame_database, width=10)
 
         # Checkbox - "Fragentext mit Highlighting?"
         self.mc_highlight_question_text_label = Label(self.mc_frame_database, text="Fragentext mit Highlighting?")
@@ -1216,6 +1216,10 @@ class MultipleChoice:
         conn = sqlite3.connect(self.database_multiplechoice_path)
         c = conn.cursor()
         record_id = self.mc_load_box.get()
+
+        self.mc_hidden_edit_box_entry.delete(0, END)
+        self.mc_hidden_edit_box_entry.insert(0, self.mc_load_box.get())
+
         c.execute("SELECT * FROM multiplechoice_table WHERE oid =" + record_id)
         mc_db_records = c.fetchall()
 
@@ -1323,9 +1327,10 @@ class MultipleChoice:
         # Verbindung mit der Datenbank
         conn = sqlite3.connect(self.database_multiplechoice_path)
         c = conn.cursor()
-    
-        # ID der Frage aus dem Eingabefeld "ID Laden" auslesen
-        record_id = self.mc_load_box.get()
+
+        # ID der Frage aus dem Eingabefeld "ID editieren" auslesen
+        # Eingabefeld ist für den User nicht sichtbar
+        record_id = self.mc_hidden_edit_box_entry.get()
     
         # Format von Testdauer in der XML Datei:  P0Y0M0DT0H30M0S
         self.mc_test_time = "P0Y0M0DT" + self.mc_proc_hours_box.get() + "H" + self.mc_proc_minutes_box.get() + "M" + self.mc_proc_seconds_box.get() + "S"
@@ -1688,7 +1693,7 @@ class Create_MultipleChoice_Questions(MultipleChoice):
             self.mc_test_entry_splitted = self.string_temp.split(",")
 
             # Eintrag mit ID "1" entspricht der Vorlage und soll nicht mit erstellt werden
-            self.mc_test_entry_splitted.pop(0)
+            #self.mc_test_entry_splitted.pop(0)
 
 
         # Sämtliche Datenbank Einträge auslesen mit der entsprechenden "oid" (Datenbank ID)
