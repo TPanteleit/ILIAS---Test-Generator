@@ -279,6 +279,9 @@ class Create_ILIAS_Pool:
 
         #Pfad anpassungen - Die ID muss um +1 erhöht werden, wenn "Fragenpool erstellen" betätigt wird
         self.ilias_id_pool_qpl_dir = "1596569820__0__qpl_" + self.file_max_id
+        #self.ilias_id_pool_qpl_dir = os.path.join("1596569820__0__qpl_" + self.file_max_id,"1596569820__0__qpl_" + self.file_max_id)
+
+
         self.ilias_id_pool_qpl_xml = "1596569820__0__qpl_" + self.file_max_id + ".xml"
         self.ilias_id_pool_qti_xml = "1596569820__0__qti_" + self.file_max_id + ".xml"
         self.ilias_id_pool_img_dir = os.path.normpath(os.path.join(self.pool_directory_output, self.ilias_id_pool_qpl_dir, "objects"))
@@ -639,35 +642,34 @@ class Additional_Funtions():
         self.question_test_img_path = question_test_img_path
         self.question_pool_img_path = question_pool_img_path
 
-        if question_pool_img_path != "ilias_id_pool_img_dir_not_used_for_ilias_test":
-            if test_or_pool == "question_test":
+        if test_or_pool == "question_test":
 
-                if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
-                    Additional_Funtions.createFolder(self, self.question_test_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
+            if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
+                Additional_Funtions.createFolder(self, self.question_test_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
 
-                    #img wird immer als PNG Datei abgelegt.
-                    #with open(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png", 'wb') as image_file:
-                    with open(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"), 'wb') as image_file:
-                        image_file.write(self.description_img_data_var)
+                #img wird immer als PNG Datei abgelegt.
+                #with open(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png", 'wb') as image_file:
+                with open(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"), 'wb') as image_file:
+                    image_file.write(self.description_img_data_var)
 
-                    #self.image = Image.open(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
-                    self.image = Image.open(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
-                    #self.image.save(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
-                    self.image.save(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
+                #self.image = Image.open(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
+                self.image = Image.open(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
+                #self.image.save(self.question_test_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
+                self.image.save(os.path.join(self.question_test_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
 
-            else:  # image pool
-                if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
-                    Additional_Funtions.createFolder(self, self.question_pool_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
+        else:  # image pool
+            if self.description_img_name_var != "" and self.description_img_name_var != "EMPTY":
+                Additional_Funtions.createFolder(self, self.question_pool_img_path + '/' + 'il_0_mob_000000' + str(id_nr) + '/')
 
-                    #img wird immer als PNG Datei abgelegt.
-                    #with open(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png", 'wb') as image_file:
-                    with open(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"), 'wb') as image_file:
-                        image_file.write(self.description_img_data_var)
+                #img wird immer als PNG Datei abgelegt.
+                #with open(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png", 'wb') as image_file:
+                with open(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"), 'wb') as image_file:
+                    image_file.write(self.description_img_data_var)
 
-                    #self.image = Image.open(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
-                    self.image = Image.open(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
-                    #self.image.save(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
-                    self.image.save(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
+                #self.image = Image.open(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
+                self.image = Image.open(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
+                #self.image.save(self.question_pool_img_path + "\\il_0_mob_000000" + str(id_nr) + "\\" + self.description_img_name_var + ".png")
+                self.image.save(os.path.join(self.question_pool_img_path, "il_0_mob_000000" + str(id_nr), self.description_img_name_var + ".png"))
 
     def replace_character_in_xml_file(self, file_path_qti_xml):
         # Der Zusatz "end="", flush=True" in print() bewirkt, dass der folgende print() Befehl in der gleichen Zeile angehangen wird
@@ -816,7 +818,7 @@ class Additional_Funtions():
             self.last_char_index_img_1 = self.picture_path_img_1.rfind("/")                                 # Suche Index in dem das letzte "/" auftaucht
 
             self.picture_name_img_1 = self.picture_path_img_1[int(self.last_char_index_img_1) + 1:-4]   #letzten char des bildnamens ist das dateiformat: Testbild.jpg
-            self.image_format_new_img_1 = self.picture_path_img_1[-4:]
+
 
             self.question_description_img_1_filename_label = Label(self.frame_name, text=self.picture_name_img_1)
             self.question_description_img_1_filename_label.grid(row=0, column=1, sticky=W)
