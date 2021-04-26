@@ -3,14 +3,35 @@ from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
 import sqlite3
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import datetime
+import os
+
+
+
 
 class Test_Einstellungen_GUI:
 
-    def __init__(self):
+    def __init__(self, project_root_path, test_qti_file_path_output):
+
+        # Projekt-Pfad
+        self.project_root_path = project_root_path
+
+        # Pfad für qti_(XML)-Datei für erstellten Test
+        self.test_qti_file_path_output = test_qti_file_path_output
+
+
+        # Name für Datenbank und Tabelle
+        self.settings_database = "test_settings_profiles_db.db"
+        self.settings_database_table = "my_profiles_table"
+
+        # Pfad für die Datenbank
+        self.settings_database_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.settings_database))
+
+
 
         # New Window must be "Toplevel" not "Tk()" in order to get Radiobuttons to work properly
         self.test_settings_window = Toplevel()
-        self.test_settings_window.title("Test-Settings")
+        self.test_settings_window.title("Test Einstellungen verwalten")
 
         # Create a ScrolledFrame widget
         self.sf_test_settings = ScrolledFrame(self.test_settings_window, width=300,
@@ -26,13 +47,13 @@ class Test_Einstellungen_GUI:
         # Create a frame within the ScrolledFrame
         self.test_settings = self.sf_test_settings.display_widget(Frame)
 
-        self.frame1 = LabelFrame(self.test_settings, text="Test Settings Frame1...", padx=5, pady=5)
+        self.frame1 = LabelFrame(self.test_settings, text="Test Einstellungen", padx=5, pady=5)
         self.frame1.grid(row=0, column=0, padx=20, pady=10, sticky=NW)
 
-        self.frame2 = LabelFrame(self.test_settings, text="Test Settings Frame2...", padx=5, pady=5)
+        self.frame2 = LabelFrame(self.test_settings, text="Test Einstellungen", padx=5, pady=5)
         self.frame2.grid(row=0, column=1, padx=20, pady=10, sticky=NW)
 
-        self.frame3 = LabelFrame(self.test_settings, text="Test Settings Frame3...", padx=5, pady=5)
+        self.frame3 = LabelFrame(self.test_settings, text="Test Einstellungen", padx=5, pady=5)
         self.frame3.grid(row=0, column=2, padx=20, pady=10, sticky=NW)
 
         self.res12_min_listbox_label = Label(self.frame1, text="EINSTELLUNGEN DES TESTS",
@@ -521,7 +542,7 @@ class Test_Einstellungen_GUI:
         self.concluding_remarks_bar = Scrollbar(self.frame2)
         self.concluding_remarks_infobox = Text(self.frame2, height=4, width=40, font=('Helvetica', 9))
 
-        self.profile_name_label = Label(self.frame3, text="Choose Profilname to save")
+        self.profile_name_label = Label(self.frame3, text="Speichern unter...")
         self.profile_name_label.grid(row=0, column=0)
 
         self.profile_name_entry = Entry(self.frame3, width=15)
@@ -551,25 +572,23 @@ class Test_Einstellungen_GUI:
         self.my_listbox_profile_name = Listbox(self.frame3, width=15)
         self.my_listbox_profile_name.grid(row=2, column=5, sticky=W)
 
-        self.show_profiles_btn = Button(self.frame3, text="Show Profile from ID",
-                                        command=lambda: Test_Einstellungen_GUI.profile_show_db(self))
-        self.show_profiles_btn.grid(row=5, column=0)
 
-        self.save_settings_btn = Button(self.frame3, text="Save Settings",
-                                        command=lambda: Test_Einstellungen_GUI.profile_save_settings(self))
+        self.save_settings_btn = Button(self.frame3, text="Speichern", command=lambda: Test_Einstellungen_GUI.profile_save_settings(self))
         self.save_settings_btn.grid(row=2, column=0)
 
-        self.load_settings_btn = Button(self.frame3, text="Load Settings",
-                                        command=lambda: Test_Einstellungen_GUI.profile_load_settings(self))
+        self.load_settings_btn = Button(self.frame3, text="Profil laden",  command=lambda: Test_Einstellungen_GUI.profile_load_settings(self))
         self.load_settings_btn.grid(row=3, column=0)
 
-        self.delete_profile_btn = Button(self.frame3, text="Delete Profile",
-                                         command=lambda: Test_Einstellungen_GUI.profile_delete(self))
+        self.delete_profile_btn = Button(self.frame3, text="Profil löschen", command=lambda: Test_Einstellungen_GUI.profile_delete(self))
         self.delete_profile_btn.grid(row=4, column=0)
 
-        self.create_profile_btn = Button(self.frame3, text="Create Profile-Settings",
-                                         command=lambda: Test_Einstellungen_GUI.create_settings(self))
-        self.create_profile_btn.grid(row=6, column=0)
+        self.show_profiles_btn = Button(self.frame3, text="Alle gespeicherten Profile anzeigen", command=lambda: Test_Einstellungen_GUI.profile_show_db(self))
+        self.show_profiles_btn.grid(row=5, column=0)
+
+        #self.create_profile_btn = Button(self.frame3, text="Create Profile-Settings", command=lambda: Test_Einstellungen_GUI.create_settings(self))
+        #self.create_profile_btn.grid(row=6, column=0)
+
+        #Test_Einstellungen_GUI.create_settings(self, self.settings_database_path, self.settings_database_table, self.settings_db_profile_name)
 
     def show_entry_time_limited_start(self, var):
         if var.get() == 0:
@@ -659,10 +678,10 @@ class Test_Einstellungen_GUI:
 
     def profile_show_db(self):
 
-        conn = sqlite3.connect('test_settings_profiles_db.db')
+        conn = sqlite3.connect(self.settings_database_path)
         c = conn.cursor()
 
-        c.execute("SELECT *, oid FROM my_profiles_table")
+        c.execute("SELECT *, oid FROM " + self.settings_database_table)
         profile_records = c.fetchall()
 
         # Clear List Boxes
@@ -684,12 +703,12 @@ class Test_Einstellungen_GUI:
 
     def profile_save_settings(self):
 
-        conn = sqlite3.connect('test_settings_profiles_db.db')
+        conn = sqlite3.connect(self.settings_database_path)
         c = conn.cursor()
 
         # Insert into Table
         c.execute(
-            "INSERT INTO my_profiles_table VALUES ("
+            "INSERT INTO " + self.settings_database_table + " VALUES ("
             ":profile_name, :entry_description, :radio_select_question, :radio_select_anonymous, :check_online, :check_time_limited, "
             ":check_introduction, :entry_introduction, :check_test_properties, "
             ":entry_test_start_year, :entry_test_start_month, :entry_test_start_day, :entry_test_start_hour, :entry_test_start_minute,"
@@ -775,10 +794,10 @@ class Test_Einstellungen_GUI:
     def profile_load_settings(self):
         print("LOAD")
 
-        conn = sqlite3.connect('test_settings_profiles_db.db')
+        conn = sqlite3.connect(self.settings_database_path)
         c = conn.cursor()
 
-        c.execute("SELECT * FROM my_profiles_table WHERE oid =" + self.load_settings_entry.get())
+        c.execute("SELECT * FROM " + self.settings_database_table + " WHERE oid =" + self.load_settings_entry.get())
 
         profile_records = c.fetchall()
         # Loop thru Results
@@ -872,10 +891,10 @@ class Test_Einstellungen_GUI:
 
     def profile_delete(self):
 
-        conn = sqlite3.connect('test_settings_profiles_db.db')
+        conn = sqlite3.connect(self.settings_database_path)
         c = conn.cursor()
 
-        c.execute("DELETE from my_profiles_table WHERE oid= " + self.profile_oid_entry.get())
+        c.execute("DELETE from " + self.settings_database_table + " WHERE oid= " + self.profile_oid_entry.get())
 
         # self.profile_oid_entry(0, END)
 
@@ -884,10 +903,10 @@ class Test_Einstellungen_GUI:
 
     def profile_delete_last(self):
 
-        conn = sqlite3.connect('test_settings_profiles_db.db')
+        conn = sqlite3.connect(self.settings_database_path)
         c = conn.cursor()
         self.profile_oid_entry.insert(0, self.profile_records_len)
-        c.execute("DELETE from my_profiles_table WHERE oid= " + self.profile_oid_entry.get())
+        c.execute("DELETE from " + self.settings_database_table + " WHERE oid= " + self.profile_oid_entry.get())
         print("LAST DB ENTRY DELETED")
         # self.profile_oid_entry(0, END)
 
@@ -895,245 +914,302 @@ class Test_Einstellungen_GUI:
         conn.close()
 
     # For create test settings -->  Toplevel must be opened (Test-Settings Window)
-    def create_settings(self):
-        try:
-            # profile_name --> profile_record[0]_
-            self.description = self.description_infobox.get('1.0', 'end-1c')
-            self.question_type = self.select_question.get()
-            self.anonym = self.select_anonym.get()
-            self.online = self.var_online.get()
-            self.time_limited = self.var_time_limited.get()
-            self.introduction_check = self.var_introduction.get()
-            self.introduction_text = self.introduction_infobox.get('1.0', 'end-1c')
-            self.test_prop = self.var_test_prop.get()
+    def create_settings(self, settings_database_path, settings_database_table, selected_settings_db_profile_name):
 
-            self.test_start_year = self.test_start_year_entry.get()
-            self.test_start_month = self.test_start_month_entry.get()
-            self.test_start_day = self.test_start_day_entry.get()
-            self.test_start_hour = self.test_start_hour_entry.get()
-            self.test_start_minute = self.test_start_minute_entry.get()
+        self.settings_database_path = settings_database_path
+        self.settings_database_table = settings_database_table
+        self.settings_db_profile_name = selected_settings_db_profile_name
 
-            self.test_end_year = self.test_end_year_entry.get()
-            self.test_end_month = self.test_end_month_entry.get()
-            self.test_end_day = self.test_end_day_entry.get()
-            self.test_end_hour = self.test_end_hour_entry.get()
-            self.test_end_minute = self.test_end_minute_entry.get()
+        print("=======")
 
-            self.test_password = self.test_password_entry.get()
-            self.specific_users = self.var_specific_users.get()
-            self.limit_users_max = self.limit_users_max_amount_entry.get()
-            self.inactivity_time_for_users = self.inactivity_time_for_users_entry.get()
-            self.limit_test_runs = self.limit_test_runs_entry.get()
+        print(self.settings_database_path)
+        print(self.settings_database_table)
+        print(self.settings_db_profile_name)
+        print("=======")
 
-            self.limit_time_betw_test_runs_month = self.limit_time_betw_test_runs_month_entry.get()
-            self.limit_time_betw_test_runs_day = self.limit_time_betw_test_runs_day_entry.get()
-            self.limit_time_betw_test_runs_hour = self.limit_time_betw_test_runs_hour_entry.get()
-            self.limit_time_betw_test_runs_minute = self.limit_time_betw_test_runs_minute_entry.get()
+        ###################### DATENBANK ENTRIES UND INDEX DICT ERSTELLEN  ###################
 
-            self.processing_time = self.var_processing_time.get()
-            self.limit_processing_time_minutes = self.limit_processing_time_minutes_entry.get()
-            self.check_processing_time_reset = self.var_processing_time_reset.get()
+        # Dictionary aus zwei Listen erstellen
+        self.settings_db_find_entries = []
+        self.settings_db_find_indexes = []
+        self.settings_db_column_names_list = []
+        self.settings_collection_of_question_titles = []
 
-            self.examview = self.var_examview.get()
-            self.examview_test_title = self.var_examview_test_title.get()
-            self.examview_user_name = self.var_examview_user_name.get()
-            self.show_ilias_nr = self.var_show_ilias_nr.get()
-            self.show_question_title = self.select_show_question_title.get()
-            self.autosave = self.var_autosave.get()
-            self.autosave_interval = self.check_autosave_interval_entry.get()
+        connect = sqlite3.connect(self.settings_database_path)
+        cursor = connect.execute('select * from ' + self.settings_database_table)
+        self.settings_db_column_names_list = list(map(lambda x: x[0], cursor.description))
+        self.db_column_names_string = ', :'.join(self.settings_db_column_names_list)
+        self.db_column_names_string = ":" + self.db_column_names_string
 
-            self.mix_questions = self.var_mix_questions.get()
-            self.show_solution_notes = self.var_show_solution_notes.get()
-            self.direct_response = self.var_direct_response.get()
-            self.user_response = self.select_user_response.get()
-            self.mandatory_questions = self.var_mandatory_questions.get()
-            self.use_previous_solution = self.var_use_previous_solution.get()
-            self.show_test_cancel = self.var_show_test_cancel.get()
-            self.not_answered_questions = self.select_not_answered_questions.get()
-            self.show_question_list_process_status = self.var_show_question_list_process_status.get()
-            self.question_mark = self.var_question_mark.get()
-            self.overview_answers = self.var_overview_answers.get()
-            self.show_end_comment = self.var_show_end_comment.get()
-            self.concluding_remarks = self.concluding_remarks_infobox.get("1.0", 'end-1c')
-            self.forwarding = self.var_forwarding.get()
-            self.notification = self.var_notification.get()
+        for i in range(len(self.settings_db_column_names_list)):
+            self.settings_db_find_indexes.append(i)
 
-            self.mytree = ET.parse(self.qti_file_path_write)
-            self.myroot = self.mytree.getroot()
+        """
+        # Durch list(map(lambdax: x[0])) werden die Spaltennamen aus der DB ausgelesen
+        cursor = conn.execute('select * from ' + self.ff_database_table)
+        db_column_names_list = list(map(lambda x: x[0], cursor.description))
+        db_column_names_string  = ', :'.join(db_column_names_list)
+        db_column_names_string  = ":" + db_column_names_string
+        """
 
-            # hours_from_minutes = str(datetime.timedelta(minutes=int(self.limit_processing_time_minutes)))
-            self.duration_time = int(self.limit_processing_time_minutes)
-            self.duration_time_hours = self.duration_time // 60
-            self.duration_time_minutes = self.duration_time % 60
+        self.settings_db_entry_to_index_dict = dict(
+            zip((self.settings_db_column_names_list), (self.settings_db_find_indexes)))
 
-            # Format of duration: P0Y0M0DT1H30M0S
-            self.duration = "P0Y0M0DT" + str(self.duration_time_hours) + "H" + str(self.duration_time_minutes) + "M0S"
+        connect.commit()
+        connect.close()
+        #####
 
-            for qticomment in self.myroot.iter('qticomment'):
+
+
+        # mit Datenbank verbinden
+        conn = sqlite3.connect(self.settings_database_path)
+        c = conn.cursor()
+
+        #c.execute("SELECT * FROM " + self.settings_database_table + " WHERE profile_name =" + self.settings_db_profile_name)
+        c.execute("SELECT * FROM " + self.settings_database_table)
+        profile_records = c.fetchall()
+
+
+       # Loop through Results
+        for profile_record in profile_records:
+            if profile_record[self.settings_db_entry_to_index_dict["profile_name"]] == self.settings_db_profile_name:
+
+                self.profile_name                             = profile_record[self.settings_db_entry_to_index_dict["profile_name"]]
+                self.description                              = profile_record[self.settings_db_entry_to_index_dict["entry_description"]]
+                self.question_type                            = profile_record[self.settings_db_entry_to_index_dict["radio_select_question"]]
+                self.anonym                                   = profile_record[self.settings_db_entry_to_index_dict["radio_select_anonymous"]]
+                self.online                                   = profile_record[self.settings_db_entry_to_index_dict["check_online"]]
+                self.time_limited                             = profile_record[self.settings_db_entry_to_index_dict["check_time_limited"]]
+
+                self.introduction                             = profile_record[self.settings_db_entry_to_index_dict["check_introduction"]]
+                self.introduction_infobox                     = profile_record[self.settings_db_entry_to_index_dict["entry_introduction"]]
+                self.test_prop                                = profile_record[self.settings_db_entry_to_index_dict["check_test_properties"]]
+
+                self.test_start_year                          = profile_record[self.settings_db_entry_to_index_dict["entry_test_start_year"]]
+                self.test_start_month                         = profile_record[self.settings_db_entry_to_index_dict["entry_test_start_month"]]
+                self.test_start_day                           = profile_record[self.settings_db_entry_to_index_dict["entry_test_start_day"]]
+                self.test_start_hour                          = profile_record[self.settings_db_entry_to_index_dict["entry_test_start_hour"]]
+                self.test_start_minute                        = profile_record[self.settings_db_entry_to_index_dict["entry_test_start_minute"]]
+
+                self.test_end_year                            = profile_record[self.settings_db_entry_to_index_dict["entry_test_end_year"]]
+                self.test_end_month                           = profile_record[self.settings_db_entry_to_index_dict["entry_test_end_month"]]
+                self.test_end_day                             = profile_record[self.settings_db_entry_to_index_dict["entry_test_end_day"]]
+                self.test_end_hour                            = profile_record[self.settings_db_entry_to_index_dict["entry_test_end_hour"]]
+                self.test_end_minute                          = profile_record[self.settings_db_entry_to_index_dict["entry_test_end_minute"]]
+
+                self.test_password                            = profile_record[self.settings_db_entry_to_index_dict["entry_test_password"]]
+                self.specific_users                           = profile_record[self.settings_db_entry_to_index_dict["check_specific_users"]]
+                self.limit_users_max                          = profile_record[self.settings_db_entry_to_index_dict["entry_limit_users"]]
+                self.inactivity_time_for_users                = profile_record[self.settings_db_entry_to_index_dict["entry_user_inactivity"]]
+                self.limit_test_runs                          = profile_record[self.settings_db_entry_to_index_dict["entry_limit_test_runs"]]
+
+                self.limit_time_betw_test_runs_month          = profile_record[self.settings_db_entry_to_index_dict["entry_limit_time_betw_test_run_month"]]
+                self.limit_time_betw_test_runs_day            = profile_record[self.settings_db_entry_to_index_dict["entry_limit_time_betw_test_run_day"]]
+                self.limit_time_betw_test_runs_hour           = profile_record[self.settings_db_entry_to_index_dict["entry_limit_time_betw_test_run_hour"]]
+                self.limit_time_betw_test_runs_minute         = profile_record[self.settings_db_entry_to_index_dict["entry_limit_time_betw_test_run_minute"]]
+
+                self.processing_time                          = profile_record[self.settings_db_entry_to_index_dict["check_processing_time"]]
+                self.limit_processing_time_minutes            = profile_record[self.settings_db_entry_to_index_dict["entry_processing_time_in_minutes"]]
+                self.processing_time_reset                    = profile_record[self.settings_db_entry_to_index_dict["check_processing_time_reset"]]
+
+                self.examview                                 = profile_record[self.settings_db_entry_to_index_dict["check_examview"]]
+                self.examview_test_title                      = profile_record[self.settings_db_entry_to_index_dict["check_examview_titel"]]
+                self.examview_user_name                       = profile_record[self.settings_db_entry_to_index_dict["check_examview_username"]]
+                self.show_ilias_nr                            = profile_record[self.settings_db_entry_to_index_dict["check_show_ilias_nr"]]
+
+                self.select_show_question_title               = profile_record[self.settings_db_entry_to_index_dict["radio_select_show_question_title"]]
+                self.autosave                                 = profile_record[self.settings_db_entry_to_index_dict["check_autosave"]]
+                self.autosave_interval                        = profile_record[self.settings_db_entry_to_index_dict["entry_autosave_interval"]]
+                self.mix_questions                            = profile_record[self.settings_db_entry_to_index_dict["check_mix_questions"]]
+                self.show_solution_notes                      = profile_record[self.settings_db_entry_to_index_dict["check_show_solution_notes"]]
+                self.direct_response                          = profile_record[self.settings_db_entry_to_index_dict["check_direct_response"]]
+
+                self.select_user_response                     = profile_record[self.settings_db_entry_to_index_dict["radio_select_user_response"]]
+                self.mandatory_questions                      = profile_record[self.settings_db_entry_to_index_dict["check_mandatory_questions"]]
+                self.use_previous_solution                    = profile_record[self.settings_db_entry_to_index_dict["check_use_previous_solution"]]
+                self.show_test_cancel                         = profile_record[self.settings_db_entry_to_index_dict["check_show_test_cancel"]]
+                self.select_not_answered_questions            = profile_record[self.settings_db_entry_to_index_dict["radio_select_not_answered_questions"]]
+
+                self.show_question_list_process_status        = profile_record[self.settings_db_entry_to_index_dict["check_show_question_list_process_status"]]
+                self.question_mark                            = profile_record[self.settings_db_entry_to_index_dict["check_question_mark"]]
+                self.overview_answers                         = profile_record[self.settings_db_entry_to_index_dict["check_overview_answers"]]
+                self.show_end_comment                         = profile_record[self.settings_db_entry_to_index_dict["check_show_end_comment"]]
+                self.concluding_remarks_infobox               = profile_record[self.settings_db_entry_to_index_dict["entry_end_comment"]]
+                self.forwarding                               = profile_record[self.settings_db_entry_to_index_dict["check_forwarding"]]
+                self.notification                             = profile_record[self.settings_db_entry_to_index_dict["check_notification"]]
+
+
+
+
+                self.mytree = ET.parse(self.test_qti_file_path_output)
+                self.myroot = self.mytree.getroot()
+
+                # hours_from_minutes = str(datetime.timedelta(minutes=int(self.limit_processing_time_minutes)))
+                self.duration_time = int(self.limit_processing_time_minutes)
+                self.duration_time_hours = self.duration_time // 60
+                self.duration_time_minutes = self.duration_time % 60
+
+                # Format of duration: P0Y0M0DT1H30M0S
+                self.duration = "P0Y0M0DT" + str(self.duration_time_hours) + "H" + str(self.duration_time_minutes) + "M0S"
+
+                for qticomment in self.myroot.iter('qticomment'):
+                    qticomment.text = self.description
+                    break
+
+                for duration in self.myroot.iter('duration'):
+                    duration.text = self.duration
+                    break
+
+                questestinterop = ET.Element('questestinterop')
+                assessment = ET.SubElement(questestinterop, 'assessment')
+                qticomment = ET.SubElement(assessment, 'qticomment')
                 qticomment.text = self.description
-                break
 
-            for duration in self.myroot.iter('duration'):
-                duration.text = self.duration
-                break
+                for qtimetadatafield in self.myroot.iter('qtimetadatafield'):
 
-            questestinterop = ET.Element('questestinterop')
-            assessment = ET.SubElement(questestinterop, 'assessment')
-            qticomment = ET.SubElement(assessment, 'qticomment')
-            qticomment.text = self.description
+                    if qtimetadatafield.find('fieldlabel').text == "anonymity":
+                        qtimetadatafield.find('fieldentry').text = self.anonym
+                        if self.anonym == "":
+                            qtimetadatafield.find('fieldentry').text = "0"
+                            print("NO ENTRY IN <ANONYM>")
 
-            for qtimetadatafield in self.myroot.iter('qtimetadatafield'):
+                    if qtimetadatafield.find('fieldlabel').text == "question_set_type":
+                        if self.question_type == 0:
+                            qtimetadatafield.find('fieldentry').text = "FIXED_QUEST_SET"
+                            # print("WRITE FIXED-Question")
 
-                if qtimetadatafield.find('fieldlabel').text == "anonymity":
-                    qtimetadatafield.find('fieldentry').text = self.anonym
-                    if self.anonym == "":
-                        qtimetadatafield.find('fieldentry').text = "0"
-                        print("NO ENTRY IN <ANONYM>")
+                        elif self.question_type == 1:
+                            qtimetadatafield.find('fieldentry').text = "RANDOM_QUEST_SET"
+                            # print("WRITE RANDOM-Question")
 
-                if qtimetadatafield.find('fieldlabel').text == "question_set_type":
-                    if self.question_type == 0:
-                        qtimetadatafield.find('fieldentry').text = "FIXED_QUEST_SET"
-                        # print("WRITE FIXED-Question")
+                        elif self.question_type == 2:
+                            qtimetadatafield.find('fieldentry').text = "DYNAMIC_QUEST_SET"
+                            # print("WRITE DYNAMIC-Question")
+                        else:
+                            qtimetadatafield.find('fieldentry').text = "FIXED_QUEST_SET"
+                            print("NO ENTRY IN <QUESTION_TYPE> ")
 
-                    elif self.question_type == 1:
-                        qtimetadatafield.find('fieldentry').text = "RANDOM_QUEST_SET"
-                        # print("WRITE RANDOM-Question")
+                    # if qtimetadatafield.find('fieldlabel').text == "author":
+                    # qtimetadatafield.find('fieldentry').text = str(Formelfrage.autor_entry.get())
 
-                    elif self.question_type == 2:
-                        qtimetadatafield.find('fieldentry').text = "DYNAMIC_QUEST_SET"
-                        # print("WRITE DYNAMIC-Question")
-                    else:
-                        qtimetadatafield.find('fieldentry').text = "FIXED_QUEST_SET"
-                        print("NO ENTRY IN <QUESTION_TYPE> ")
+                    if qtimetadatafield.find('fieldlabel').text == "reset_processing_time":
+                        qtimetadatafield.find('fieldentry').text = str(self.processing_time_reset)
+                        if self.processing_time_reset == "":
+                            qtimetadatafield.find('fieldentry').text = "0"
+                            print("NO ENTRY IN <RESET PROCESSING TIME>")
 
-                # if qtimetadatafield.find('fieldlabel').text == "author":
-                # qtimetadatafield.find('fieldentry').text = str(Formelfrage.autor_entry.get())
+                    if qtimetadatafield.find('fieldlabel').text == "password":
+                        qtimetadatafield.find('fieldentry').text = str(self.test_password)
 
-                if qtimetadatafield.find('fieldlabel').text == "reset_processing_time":
-                    qtimetadatafield.find('fieldentry').text = str(self.check_processing_time_reset)
-                    if self.check_processing_time_reset == "":
-                        qtimetadatafield.find('fieldentry').text = "0"
-                        print("NO ENTRY IN <RESET PROCESSING TIME>")
+                    if qtimetadatafield.find('fieldlabel').text == "allowedUsers":
+                        qtimetadatafield.find('fieldentry').text = str(self.limit_users_max)
 
-                if qtimetadatafield.find('fieldlabel').text == "password":
-                    qtimetadatafield.find('fieldentry').text = str(self.test_password)
+                    if qtimetadatafield.find('fieldlabel').text == "allowedUsersTimeGap":
+                        qtimetadatafield.find('fieldentry').text = str(self.inactivity_time_for_users)
 
-                if qtimetadatafield.find('fieldlabel').text == "allowedUsers":
-                    qtimetadatafield.find('fieldentry').text = str(self.limit_users_max)
+                    if qtimetadatafield.find('fieldlabel').text == "nr_of_tries":
+                        qtimetadatafield.find('fieldentry').text = str(self.limit_test_runs)
 
-                if qtimetadatafield.find('fieldlabel').text == "allowedUsersTimeGap":
-                    qtimetadatafield.find('fieldentry').text = str(self.inactivity_time_for_users)
+                    if qtimetadatafield.find('fieldlabel').text == "pass_waiting":
+                        qtimetadatafield.find('fieldentry').text = str(self.limit_time_betw_test_runs_month) + ":0" + str(
+                            self.limit_time_betw_test_runs_day) + ":" + str(
+                            self.limit_time_betw_test_runs_hour) + ":" + str(self.limit_time_betw_test_runs_minute) + ":00"
+                        if self.limit_time_betw_test_runs_month == "MM":
+                            qtimetadatafield.find('fieldentry').text = "00:000:00:00:00"
+                            print(
+                                " >WARNING< NO limit_time_betw_test_runs SET.. --> set limit_time to \"00:000:00:00:00\" ")
 
-                if qtimetadatafield.find('fieldlabel').text == "nr_of_tries":
-                    qtimetadatafield.find('fieldentry').text = str(self.limit_test_runs)
+                    # Prüfungsansicht: Alle drei haken (Titel+Ansicht): "7" / Zwei Haken (Titel) = "3" / Zwei Haken (Name) = "5" / Ein Haken = "1" / "0" -> deaktiviert
+                    if qtimetadatafield.find('fieldlabel').text == "kiosk":
+                        if self.examview == 0:
+                            qtimetadatafield.find('fieldentry').text = "0"
+                        elif self.examview == 1:
+                            qtimetadatafield.find('fieldentry').text = "1"
+                        elif self.examview == 1 and self.examview_test_title == 1:
+                            qtimetadatafield.find('fieldentry').text = "3"
+                        elif self.examview == 1 and self.examview_user_name == 1:
+                            qtimetadatafield.find('fieldentry').text = "5"
+                        elif self.examview == 1 and self.examview_user_name == 1 and self.examview_test_title == 1:
+                            qtimetadatafield.find('fieldentry').text = "7"
 
-                if qtimetadatafield.find('fieldlabel').text == "pass_waiting":
-                    qtimetadatafield.find('fieldentry').text = str(self.limit_time_betw_test_runs_month) + ":0" + str(
-                        self.limit_time_betw_test_runs_day) + ":" + str(
-                        self.limit_time_betw_test_runs_hour) + ":" + str(self.limit_time_betw_test_runs_minute) + ":00"
-                    if self.limit_time_betw_test_runs_month == "MM":
-                        qtimetadatafield.find('fieldentry').text = "00:000:00:00:00"
-                        print(
-                            " >WARNING< NO limit_time_betw_test_runs SET.. --> set limit_time to \"00:000:00:00:00\" ")
+                    # if qtimetadatafield.find('fieldlabel').text == "use_previous_answers":
+                    # qtimetadatafield.find('fieldentry').text = "0"
 
-                # Prüfungsansicht: Alle drei haken (Titel+Ansicht): "7" / Zwei Haken (Titel) = "3" / Zwei Haken (Name) = "5" / Ein Haken = "1" / "0" -> deaktiviert
-                if qtimetadatafield.find('fieldlabel').text == "kiosk":
-                    if self.examview == 0:
-                        qtimetadatafield.find('fieldentry').text = "0"
-                    elif self.examview == 1:
-                        qtimetadatafield.find('fieldentry').text = "1"
-                    elif self.examview == 1 and self.examview_test_title == 1:
-                        qtimetadatafield.find('fieldentry').text = "3"
-                    elif self.examview == 1 and self.examview_user_name == 1:
-                        qtimetadatafield.find('fieldentry').text = "5"
-                    elif self.examview == 1 and self.examview_user_name == 1 and self.examview_test_title == 1:
-                        qtimetadatafield.find('fieldentry').text = "7"
+                    # if qtimetadatafield.find('fieldlabel').text == "title_output":
+                    # qtimetadatafield.find('fieldentry').text = "0"
 
-                # if qtimetadatafield.find('fieldlabel').text == "use_previous_answers":
-                # qtimetadatafield.find('fieldentry').text = "0"
+                    # if qtimetadatafield.find('fieldlabel').text == "examid_in_test_pass":
+                    # qtimetadatafield.find('fieldentry').text = "0"
 
-                # if qtimetadatafield.find('fieldlabel').text == "title_output":
-                # qtimetadatafield.find('fieldentry').text = "0"
+                    # if qtimetadatafield.find('fieldlabel').text == "show_summary":
+                    # qtimetadatafield.find('fieldentry').text = "0"
 
-                # if qtimetadatafield.find('fieldlabel').text == "examid_in_test_pass":
-                # qtimetadatafield.find('fieldentry').text = "0"
+                    if qtimetadatafield.find('fieldlabel').text == "show_cancel":
+                        qtimetadatafield.find('fieldentry').text = str(self.show_test_cancel)
 
-                # if qtimetadatafield.find('fieldlabel').text == "show_summary":
-                # qtimetadatafield.find('fieldentry').text = "0"
+                    # if qtimetadatafield.find('fieldlabel').text == "show_marker":
+                    # qtimetadatafield.find('fieldentry').text = "99"
 
-                if qtimetadatafield.find('fieldlabel').text == "show_cancel":
-                    qtimetadatafield.find('fieldentry').text = str(self.show_test_cancel)
+                    # if qtimetadatafield.find('fieldlabel').text == "fixed_participants":
+                    # qtimetadatafield.find('fieldentry').text = "99"
 
-                # if qtimetadatafield.find('fieldlabel').text == "show_marker":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                    #  if qtimetadatafield.find('fieldlabel').text == "showinfo":
+                    # qtimetadatafield.find('fieldentry').text = "99"
 
-                # if qtimetadatafield.find('fieldlabel').text == "fixed_participants":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                    if qtimetadatafield.find('fieldlabel').text == "shuffle_questions":
+                        qtimetadatafield.find('fieldentry').text = str(self.mix_questions)
 
-                #  if qtimetadatafield.find('fieldlabel').text == "showinfo":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                    if qtimetadatafield.find('fieldlabel').text == "processing_time":
+                        # self.minutes = self.limit_processing_time_minutes
+                        hours_from_minutes = str(datetime.timedelta(minutes=int(self.limit_processing_time_minutes)))
+                        print("len_min_to_hours: " + str(hours_from_minutes))
 
-                if qtimetadatafield.find('fieldlabel').text == "shuffle_questions":
-                    qtimetadatafield.find('fieldentry').text = str(self.mix_questions)
+                        qtimetadatafield.find('fieldentry').text = "0" + hours_from_minutes
 
-                if qtimetadatafield.find('fieldlabel').text == "processing_time":
-                    # self.minutes = self.limit_processing_time_minutes
-                    hours_from_minutes = str(datetime.timedelta(minutes=int(self.limit_processing_time_minutes)))
-                    print("len_min_to_hours: " + str(hours_from_minutes))
+                    if qtimetadatafield.find('fieldlabel').text == "enable_examview":
+                        qtimetadatafield.find('fieldentry').text = str(self.examview)
 
-                    qtimetadatafield.find('fieldentry').text = "0" + hours_from_minutes
+                    # if qtimetadatafield.find('fieldlabel').text == "show_examview_pdf":
+                    # qtimetadatafield.find('fieldentry').text = "99"
 
-                if qtimetadatafield.find('fieldlabel').text == "enable_examview":
-                    qtimetadatafield.find('fieldentry').text = str(self.examview)
+                    if qtimetadatafield.find('fieldlabel').text == "starting_time":
+                        qtimetadatafield.find('fieldentry').text = "P" + str(self.test_start_year) + "Y" + str(
+                            self.test_start_month) + "M" + str(self.test_start_day) + "DT" + str(
+                            self.test_start_hour) + "H" + str(self.test_start_minute) + "M" + "0S"
+                        if self.test_start_year == "YYYY":
+                            qtimetadatafield.find('fieldentry').text = "P2020Y1M1DT00H0M0S"
+                            print(" >WARNING< NO STARTING TIME SET.. --> set START to \"P2020Y1M1DT00H0M0S\"")
 
-                # if qtimetadatafield.find('fieldlabel').text == "show_examview_pdf":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                    if qtimetadatafield.find('fieldlabel').text == "ending_time":
+                        qtimetadatafield.find('fieldentry').text = "P" + str(self.test_end_year) + "Y" + str(self.test_end_month) + "M" + str(self.test_end_day) + "DT" + str(self.test_end_hour) + "H" + str(self.test_end_minute) + "M" + "0S"
+                        if self.test_end_year == "YYYY":
+                            qtimetadatafield.find('fieldentry').text = "P2020Y12M30DT00H0M0S"
+                            print(" >WARNING< NO ENDING TIME SET.. --> set END to \"P2020Y12M30DT00H0M0S\"")
 
-                if qtimetadatafield.find('fieldlabel').text == "starting_time":
-                    qtimetadatafield.find('fieldentry').text = "P" + str(self.test_start_year) + "Y" + str(
-                        self.test_start_month) + "M" + str(self.test_start_day) + "DT" + str(
-                        self.test_start_hour) + "H" + str(self.test_start_minute) + "M" + "0S"
-                    if self.test_start_year == "YYYY":
-                        qtimetadatafield.find('fieldentry').text = "P2020Y1M1DT00H0M0S"
-                        print(" >WARNING< NO STARTING TIME SET.. --> set START to \"P2020Y1M1DT00H0M0S\"")
+                        if qtimetadatafield.find('fieldlabel').text == "autosave":
+                            qtimetadatafield.find('fieldentry').text = str(self.autosave)
 
-                if qtimetadatafield.find('fieldlabel').text == "ending_time":
-                    qtimetadatafield.find('fieldentry').text = "P" + str(self.test_end_year) + "Y" + str(
-                        self.test_end_month) + "M" + str(self.test_end_day) + "DT" + str(
-                        self.test_end_hour) + "H" + str(self.test_end_minute) + "M" + "0S"
-                    if self.test_end_year == "YYYY":
-                        qtimetadatafield.find('fieldentry').text = "P2020Y12M30DT00H0M0S"
-                        print(" >WARNING< NO ENDING TIME SET.. --> set END to \"P2020Y12M30DT00H0M0S\"")
+                        if qtimetadatafield.find('fieldlabel').text == "autosave_ival":
+                            qtimetadatafield.find('fieldentry').text = str(self.autosave_interval)
 
-                if qtimetadatafield.find('fieldlabel').text == "autosave":
-                    qtimetadatafield.find('fieldentry').text = str(self.autosave)
+                        # if qtimetadatafield.find('fieldlabel').text == "offer_question_hints":
+                        # qtimetadatafield.find('fieldentry').text = "99"
 
-                if qtimetadatafield.find('fieldlabel').text == "autosave_ival":
-                    qtimetadatafield.find('fieldentry').text = str(self.autosave_interval)
+                        # if qtimetadatafield.find('fieldlabel').text == "obligations_enabled":
+                        # qtimetadatafield.find('fieldentry').text = "99"
 
-                # if qtimetadatafield.find('fieldlabel').text == "offer_question_hints":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                        if qtimetadatafield.find('fieldlabel').text == "enable_processing_time":
+                            qtimetadatafield.find('fieldentry').text = str(self.processing_time)
 
-                # if qtimetadatafield.find('fieldlabel').text == "obligations_enabled":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                        # if qtimetadatafield.find('fieldlabel').text == "mark_step_0":
+                        # qtimetadatafield.find('fieldentry').text = "99"
 
-                if qtimetadatafield.find('fieldlabel').text == "enable_processing_time":
-                    qtimetadatafield.find('fieldentry').text = str(self.processing_time)
+                        # if qtimetadatafield.find('fieldlabel').text == "mark_step_1":
+                        # qtimetadatafield.find('fieldentry').text = "99"
 
-                # if qtimetadatafield.find('fieldlabel').text == "mark_step_0":
-                # qtimetadatafield.find('fieldentry').text = "99"
+                        # tree = ET.ElementTree(questestinterop)
+                        # tree.write("WORKED_neuerAnfang.xml")
 
-                # if qtimetadatafield.find('fieldlabel').text == "mark_step_1":
-                # qtimetadatafield.find('fieldentry').text = "99"
-
-                # tree = ET.ElementTree(questestinterop)
-                # tree.write("WORKED_neuerAnfang.xml")
-
-            print("Write Test_Settings to File")
-            self.mytree.write(self.qti_file_path_write)
-            print("Create Test WITH Test_settings")
-        except:
-            e = sys.exc_info()[0]
-            print('\033[91m' + "Error: %s" % e + '\033[0m')
-            print(
-                '\033[91m' + "To use Test-Settings properly, the \"Test_settings\"-window must be opened when create the question" + '\033[0m')
+        print("Write Test_Settings to File --- ",self.profile_name)
+        self.mytree.write(self.test_qti_file_path_output)
+        print("Create Test WITH Test_settings")
