@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.2                                                                                         #
+#    Version: 2.3                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.2) ist die Erstellung von folgenden Fragentypen möglich:              #
+#    In der derzeitigen Version (v2.3) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -13,6 +13,8 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
+#     Test Einstellungen können verwendet werden                                                            #
+#     Fix für Erstellung von Tests                                                                          #
 #                                                                                                           #
 #     Fragenpool "Taxonomie" getrennt erstellen. Die Fragen aus der Datenbank können unterteilt nach        #
 #     Taxonomie in verschiedene/mehrere Fragenpools erstellt werden. Bei Bedarf kann der Eintrag für        #
@@ -98,7 +100,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.2')
+        master.title('ilias - Test-Generator v2.3')
 
         # Fenstergröße für die Module setzen
         self.window_width = 800
