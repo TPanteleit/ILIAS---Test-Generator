@@ -17,6 +17,9 @@ import re
 from functools import partial
 import time
 from tkinter import messagebox
+import zipfile
+import subprocess
+
 
 from operator import itemgetter
 
@@ -82,12 +85,18 @@ class Formelfrage:
         self.ff_database = "ilias_formelfrage_db.db"
         self.ff_database_table = "formelfrage_table"
 
+        self.test_settings_database = "test_settings_profiles_db.db"
+        self.test_settings_database_table = "my_profiles_table"
+        self.test_settings_database_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.test_settings_database))
+
 
         # Name für Tabellenkalulations-Datei und Tabelle
         self.ff_xlsx_workbook_name = "Formelfrage_DB_export_file"
         self.ff_xlsx_worksheet_name = "Formelfrage - Database"
 
-############## SET IMAGE VARIABLES
+
+
+        ############## SET IMAGE VARIABLES
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
         self.ff_description_img_name_1 = ""
@@ -109,6 +118,7 @@ class Formelfrage:
         # Pfad des Projekts und des FF-Moduls
         self.project_root_path = project_root_path
         self.formelfrage_files_path = os.path.normpath(os.path.join(self.project_root_path, "ILIAS-Formelfrage"))
+        self.formelfrage_excel_vorlage = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_excel_vorlage", "ff_excel_vorlage.xlsx"))
         self.formelfrage_files_path_pool_output = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_ilias_pool_abgabe"))
 
         # Pfad für die Datenbank
@@ -164,6 +174,8 @@ class Formelfrage:
 
         self.ff_db_entry_to_index_dict = dict(zip((self.ff_db_column_names_list), (self.ff_db_find_indexes)))
 
+
+
         connect.commit()
         connect.close()
 
@@ -184,6 +196,9 @@ class Formelfrage:
 
         self.ff_frame_create_formelfrage_test = LabelFrame(self.formelfrage_tab, text="FF-Test erstellen", padx=5, pady=5)
         self.ff_frame_create_formelfrage_test.grid(row=2, column=0, padx=10, pady=120, sticky="NE")
+
+        self.ff_frame_test_settings = LabelFrame(self.formelfrage_tab, text="Test Einstellungen", padx=5, pady=5)
+        self.ff_frame_test_settings.grid(row=0, column=0, padx=10, pady=10, sticky="NE")
 
         self.ff_frame_taxonomy_settings = LabelFrame(self.formelfrage_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
         self.ff_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
@@ -221,8 +236,8 @@ class Formelfrage:
 
 ###################### TEST SETTINGS
 
-        self.show_test_settings_formula_tab = Button(self.formelfrage_tab, text="Test-Einstellungen",command=lambda: test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.__init__(self))
-        self.show_test_settings_formula_tab.grid(row=0, column=0, pady=20, sticky=NE)
+        self.show_test_settings_formula_tab = Button(self.ff_frame_test_settings, text="Test Einstellungen",command=lambda: test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.__init__(self, self.project_root_path, self.formelfrage_test_qti_file_path_output))
+        self.show_test_settings_formula_tab.grid(row=0, column=0, pady=0, sticky=NE)
 
 
 
@@ -297,11 +312,10 @@ class Formelfrage:
 
 
         ###################### "Taxonomie Einstellungen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
-        self.ff_taxonomy_settings_btn = Button(self.ff_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
+        self.ff_taxonomy_settings_btn = Button(self.ff_frame_taxonomy_settings, text="Taxonomie Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
         self.ff_taxonomy_settings_btn.grid(row=3, column=0, columnspan = 2, padx=10, sticky="W")
 
 
-###################### "Fragen Attribute" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         self.ff_question_difficulty_label = Label(self.ff_frame_question_attributes, text="Schwierigkeit")
         self.ff_question_difficulty_label.grid(row=0, column=0, pady=5, padx=5, sticky=W)
@@ -355,13 +369,68 @@ class Formelfrage:
         self.create_formelfrage_test_entry = Entry(self.ff_frame_create_formelfrage_test, width=15)
         self.create_formelfrage_test_entry.grid(row=0, column=1, sticky=W, padx=0)
 
-        # Checkbox "Test-Einstellungen übernehmen?"
-        self.create_test_settings_label = Label(self.ff_frame_create_formelfrage_test, text="Test-Einstellungen übernehmen?")
-        self.create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
-        self.var_test_settings = IntVar()
-        self.check_test_settings = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.var_test_settings, onvalue=1, offvalue=0)
-        self.check_test_settings.deselect()
-        self.check_test_settings.grid(row=1, column=1, sticky=W)
+
+
+        # Checkbox "Test-Einstellungen verwenden?"
+        self.ff_create_test_settings_label = Label(self.ff_frame_create_formelfrage_test, text="Test-Einstellungen verwenden?")
+        self.ff_create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
+        self.ff_var_create_test_settings_check = IntVar()
+        self.ff_create_test_settings = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.ff_var_create_test_settings_check, onvalue=1, offvalue=0, command=lambda: refresh_box_test_settings_profiles(self))
+        self.ff_create_test_settings.grid(row=1, column=1, sticky=W)
+
+
+
+        
+
+        # Combobox Profile für Datenbank
+        self.ff_profile_for_test_settings_value = []
+
+        # Datenbank nach Profilen durchsuchen
+        conn = sqlite3.connect(self.test_settings_database_path)
+        c = conn.cursor()
+
+        c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+        profile_records = c.fetchall()
+
+        # Loop through Results
+        for profile_record in profile_records:
+            self.ff_profile_for_test_settings_value.append(profile_record[0])
+
+        conn.commit()
+        conn.close()
+        ###
+
+        def ff_profile_selected(event):
+            self.var = event
+
+        self.ff_selected_profile_for_test_settings_box = ttk.Combobox(self.ff_frame_create_formelfrage_test, value=self.ff_profile_for_test_settings_value, width=8)
+        self.ff_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", ff_profile_selected)
+        self.ff_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+
+        def refresh_box_test_settings_profiles(self):
+            if self.ff_var_create_test_settings_check.get() == 1:
+                self.ff_selected_profile_for_test_settings_box.grid_forget()
+
+                # Combobox Profile für Datenbank
+                self.ff_profile_for_test_settings_value = []
+
+                # Datenbank nach Profilen durchsuchen
+                conn = sqlite3.connect(self.test_settings_database_path)
+                c = conn.cursor()
+
+                c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+                profile_records = c.fetchall()
+
+                # Loop through Results
+                for profile_record in profile_records:
+                    self.ff_profile_for_test_settings_value.append(profile_record[0])
+
+                self.ff_selected_profile_for_test_settings_box = ttk.Combobox(self.ff_frame_create_formelfrage_test, value=self.ff_profile_for_test_settings_value, width=8)
+                self.ff_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", ff_profile_selected)
+                self.ff_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+
 
         # Checkbox "Latex für Fragentext nutzen?"
         self.ff_use_latex_on_text_label = Label(self.ff_frame_create_formelfrage_test, text="Latex für Fragentext nutzen?")
@@ -1089,6 +1158,8 @@ class Formelfrage:
         self.ff_numbers_of_results_box.current(0)
         self.ff_numbers_of_results_box.bind("<<ComboboxSelected>>", ff_result_selected)
         self.ff_numbers_of_results_box.grid(row=40, column=1, sticky=W, pady=(20, 0))
+
+
 
     def ff_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status):
 
@@ -2932,8 +3003,12 @@ class Create_Formelfrage_Questions(Formelfrage):
         self.ff_test_entry_splitted = ids_in_entry_box.split(",")
         self.qti_file_path_output = xml_qti_output_file_path
         self.formelfrage_pool_qpl_file_path_output = xml_qpl_output_file_path
+
         self.ff_mytree = ET.parse(xml_read_qti_template_path)
         self.ff_myroot = self.ff_mytree.getroot()
+
+
+
         self.ff_question_type_test_or_pool = question_type
         self.formelfrage_pool_img_file_path = pool_img_dir           # Wird nur bei Erstellung eines Fragen-Pool verwendet. Ordnername wird erst bei Laufzeit erstellt)
 
@@ -3264,6 +3339,7 @@ class Create_Formelfrage_Questions(Formelfrage):
             # Hier werden die Fragen anhand der ID's erstellt
             if str(ff_db_record[len(ff_db_record)-1]) == self.ff_test_entry_splitted[id_nr]:
 
+
                 # Bilder für die Beschreibung speichern
                 test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_1, self.ff_description_img_data_1, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
                 test_generator_modul_ilias_test_struktur.Additional_Funtions.add_dir_for_images(self, self.ff_description_img_name_2, self.ff_description_img_data_2, id_nr, self.ff_question_type_test_or_pool, self.formelfrage_test_img_file_path, self.formelfrage_pool_img_file_path)
@@ -3284,7 +3360,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                     questestinterop = ET.Element('questestinterop')
                     item = ET.SubElement(questestinterop, 'item')
 
-                    # Zusatz für Taxonomie-Einstellungen
+                    # Zusatz für Taxonomie Einstellungen
 
                     test_generator_modul_ilias_test_struktur.Additional_Funtions.set_taxonomy_for_question(self,
                                                                                                            id_nr,
@@ -3446,8 +3522,6 @@ class Create_Formelfrage_Questions(Formelfrage):
             for ident_id in self.myroot.iter('Identifier'):
                 ident_id.set('Entry', "il_0_qpl_" + str(self.ff_file_max_id+1))
             self.mytree.write(self.qpl_file)
-
-
 
     def ff_question_variables_structure(self, xml_qtimetadata,  ff_var_name, ff_var_min, ff_var_max, ff_var_prec, ff_var_divby, ff_var_unit):
 
@@ -3638,6 +3712,9 @@ class Create_Formelfrage_Test(Formelfrage):
                                                                             self.ff_question_type_entry.get(),
                                                                             )
 
+        if self.ff_var_create_test_settings_check.get() == 1:
+            test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.create_settings(self, self.test_settings_database_path, self.test_settings_database_table, self.ff_selected_profile_for_test_settings_box.get())
+
 
 # <------------ FORMELFRAGE-POOL ERSTELLEN ----------->
 class Create_Formelfrage_Pool(Formelfrage):
@@ -3779,10 +3856,13 @@ class Create_Formelfrage_Pool(Formelfrage):
 
             self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(
                                                                                                                                                                                                                     self, self.project_root_path, self.formelfrage_pool_directory_output,
-                                                                                                                                                                                                                self.formelfrage_files_path_pool_output, self.formelfrage_pool_qti_file_path_template,
+                                                                                                                                                                                                                            self.formelfrage_files_path_pool_output, self.formelfrage_pool_qti_file_path_template,
                                                                                                                                                                                                                             self.ff_ilias_test_title_entry.get(), self.ff_pool_entry, self.ff_question_type_name,
-                                                                                                                                                                                                                  self.database_formelfrage_path, self.ff_database_table, self.ff_db_entry_to_index_dict,
-                                                                                                                                                                                                           self.ff_var_create_question_pool_all)
+                                                                                                                                                                                                                            self.database_formelfrage_path, self.ff_database_table, self.ff_db_entry_to_index_dict,
+                                                                                                                                                                                                                            self.ff_var_create_question_pool_all)
+
+
+
             # Bestimmt den Pfad zum spezifischen erstellten Formelfrage-Pool Ordner
             # z.B.: ...ILIAS-Formelfrage\ff_ilias_pool_abgabe\1596569820__0__qpl_1115713
             self.ff_specific_pool_dir_path = os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir)
@@ -3813,7 +3893,7 @@ class Create_Formelfrage_Pool(Formelfrage):
             test_generator_modul_ilias_test_struktur.Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
 
             # Taxonomien werden für erstellte Pools nicht verwendet
-            if self.ff_var_remove_pool_tags_for_tax_check.get == 1:
+            if self.ff_var_remove_pool_tags_for_tax_check.get() == 0:
                 # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
                 test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
                                                                                                        self.ff_pool_entry,
@@ -3833,10 +3913,39 @@ class Create_Formelfrage_Pool(Formelfrage):
             print(" ---> Fragenpool im Ordner \"" + self.ilias_id_pool_qpl_dir + "\" erstellt! ")
 
 
+            self.zip_output_path = os.path.join(self.ff_specific_pool_dir_path, self.ilias_id_pool_qpl_dir)
+            self.zip_output_path2 = os.path.join(self.ff_specific_pool_dir_path, "test")
 
             # Zip Ordner erstellen. "order zum zippen (Ordnername)", "Zip-format", "Zip-Ordner output-pfad"
-            shutil.make_archive(self.ff_specific_pool_dir_path, 'zip', self.ff_specific_pool_dir_path )
+            #shutil.make_archive(self.ff_specific_pool_dir_path, 'zip', self.ff_specific_pool_dir_path )
+            #print(self.ff_specific_pool_dir_path)
+            #print(self.zip_output_path)
+            """
+            zf = zipfile.ZipFile(os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir + ".zip"), "w")
+            for dirname, subdirs, files in os.walk(os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir)):
 
+                zf.write(dirname)
+                for filename in files:
+
+
+                    zf.write(os.path.join(dirname, filename))
+                    print(dirname, " --- ", filename)
+            zf.close()
+            """
+
+            def zip(src, dst):
+                zf = zipfile.ZipFile("%s.zip" % (dst), "w", zipfile.ZIP_DEFLATED)
+                abs_src = os.path.abspath(src)
+                print(abs_src)
+                for dirname, subdirs, files in os.walk(src):
+                    for filename in files:
+                        absname = os.path.abspath(os.path.join(dirname, filename))
+                        arcname = absname[len(abs_src)-len(self.ilias_id_pool_qpl_dir):]
+                        #print('zipping %s as %s' % (os.path.join(dirname, filename), arcname))
+                        zf.write(absname, arcname)
+                zf.close()
+
+            zip(os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir), os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir))
 
         string_collection = ""
 
