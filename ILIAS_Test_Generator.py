@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.3                                                                                           #
+#    Version: 2.3.1                                                                                          #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.3) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.3.1) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -13,6 +13,7 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
+#     Hotfix für 2-stellige Punktzahlen
 #     Test Einstellungen können verwendet werden                                                            #
 #     Fix für Erstellung von Tests                                                                          #
 #                                                                                                           #
@@ -100,7 +101,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.3')
+        master.title('ilias - Test-Generator v2.3.1')
 
         # Fenstergröße für die Module setzen
         self.window_width = 800

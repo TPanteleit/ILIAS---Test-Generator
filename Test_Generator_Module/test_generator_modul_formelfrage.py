@@ -143,7 +143,6 @@ class Formelfrage:
         # Pfad für ILIAS-Pool Dateien (zum hochladen in ILIAS)
         # Die Pfade für die qti.xml und qpl.xml werden erst zur Laufzeit bestimmt.
         # Die Deklaration ist daher unter "class Create_Formelfrage_Pool"
-        self.formelfrage_pool_directory_output = os.path.normpath(os.path.join(self.formelfrage_files_path, "ff_ilias_pool_abgabe"))
 
 
 ###################### DATENBANK ENTRIES UND INDEX DICT ERSTELLEN  ###################
@@ -157,9 +156,11 @@ class Formelfrage:
 
         connect = sqlite3.connect(self.database_formelfrage_path)
         cursor = connect.execute('select * from ' + self.ff_database_table)
+
         self.ff_db_column_names_list = list(map(lambda x: x[0], cursor.description))
-        self.db_column_names_string = ', :'.join(self.ff_db_column_names_list)
-        self.db_column_names_string = ":" + self.db_column_names_string
+        self.ff_db_column_names_string = ', :'.join(self.ff_db_column_names_list)
+        self.ff_db_column_names_string = ":" + self.ff_db_column_names_string
+
 
         for i in range(len(self.ff_db_column_names_list)):
             self.ff_db_find_indexes.append(i)
@@ -291,6 +292,8 @@ class Formelfrage:
                     self.ff_description_img_path_2,
                     self.ff_description_img_path_3,
                     )
+
+        print("FF -- ", self.ff_description_img_path_1)
 
         self.ff_remove_img_from_description_btn = Button(self.ff_frame_question_description_functions, text="Bild entfernen", command=lambda: ff_add_image_to_description_and_delete_labels())
         self.ff_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
@@ -484,7 +487,7 @@ class Formelfrage:
         self.ff_database_show_db_formelfrage_btn = Button(self.ff_frame_database, text="FF - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_path, self.ff_database_table))
         self.ff_database_show_db_formelfrage_btn.grid(row=0, column=0, sticky=W, pady=5)
 
-        self.ff_database_save_id_to_db_formelfrage_btn = Button(self.ff_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage.ff_save_id_to_db(self))
+        self.ff_database_save_id_to_db_formelfrage_btn = Button(self.ff_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage.ff_save_id_to_db(self, self.ff_database_table, self.ff_db_column_names_string))
         self.ff_database_save_id_to_db_formelfrage_btn.grid(row=1, column=0, sticky=W, pady=5)
 
         self.ff_database_delete_id_from_db_btn = Button(self.ff_frame_database, text="ID Löschen", command=lambda: Formelfrage.ff_delete_id_from_db(self))
@@ -1798,10 +1801,13 @@ class Formelfrage:
 
 
 #############  DATENBANK FUNKTIONEN
-    def ff_save_id_to_db(self):
+    def ff_save_id_to_db(self, ff_database_table, column_names_string):
+
+        self.ff_database_table = ff_database_table
+        self.column_names_string = column_names_string
+
         conn = sqlite3.connect(self.database_formelfrage_path)
         c =conn.cursor()
-
 
 
         # format of duration P0Y0M0DT0H30M0S
@@ -1811,7 +1817,8 @@ class Formelfrage:
         # Bild 1
         if self.ff_description_img_name_1 != "" and self.ff_description_img_name_1 != "EMPTY":
             # read image data in byte format
-            with open(os.path.join(self.project_root_path, self.ff_description_img_path_1), 'rb') as image_file_1:
+            print("FF ---", os.path.join(self.project_root_path, self.ff_description_img_path_1))
+            with open(self.ff_description_img_path_1, 'rb') as image_file_1:
                 self.ff_description_img_data_1 = image_file_1.read()
 
 
@@ -1852,12 +1859,9 @@ class Formelfrage:
 
 
 
-
-
-
         # Insert into Table
         c.execute(
-            "INSERT INTO " + self.ff_database_table + " VALUES (" + self.db_column_names_string + ")",
+            "INSERT INTO " + self.ff_database_table + " VALUES (" + self.ff_db_column_names_string + ")",
             {
                 'question_difficulty': self.ff_question_difficulty_entry.get(),
                 'question_category': self.ff_question_category_entry.get(),
@@ -2046,7 +2050,6 @@ class Formelfrage:
                 'res7_unit': "",
 
                 'res8_name': self.res8_name_entry.get(),
-
                 'res8_min': self.res8_min_entry.get(),
                 'res8_max': self.res8_max_entry.get(),
                 'res8_prec': self.res8_prec_entry.get(),
@@ -3612,7 +3615,9 @@ class Create_Formelfrage_Questions(Formelfrage):
         self.ff_res_tol = str(ff_res_tol)
         self.ff_res_tol_length = len(str(self.ff_res_tol))
 
+
         self.ff_res_points = str(ff_res_points)
+        self.ff_res_points_length = len(self.ff_res_points)
         self.ff_res_unit = ff_res_unit
         self.ff_res_unit_length = len(str(self.ff_res_unit))
 
@@ -3685,7 +3690,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                               "s:9:\"tolerance\";s:" + str(self.ff_res_tol_length) + ":\"" + self.ff_res_tol + "\";" \
                               "s:8:\"rangemin\";s:" + str(self.ff_res_min_length) + ":\"" + self.ff_res_min + "\";" \
                               "s:8:\"rangemax\";s:" + str(self.ff_res_max_length) + ":\"" + self.ff_res_max + "\";" \
-                              "s:6:\"points\";s:1:\"" + self.ff_res_points + "\";" \
+                              "s:6:\"points\";s:" + str(self.ff_res_points_length) + ":\"" + self.ff_res_points + "\";" \
                               "s:7:\"formula\";s:" + str(self.ff_res_formula_length) + ":\"" + self.ff_res_formula + "\";" \
                               "s:6:\"rating\";s:0:\"\";" \
                               "s:4:\"unit\";s:0:\"\";" \
@@ -3855,7 +3860,7 @@ class Create_Formelfrage_Pool(Formelfrage):
 
 
             self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(
-                                                                                                                                                                                                                    self, self.project_root_path, self.formelfrage_pool_directory_output,
+                                                                                                                                                                                                                    self, self.project_root_path, self.formelfrage_files_path_pool_output,
                                                                                                                                                                                                                             self.formelfrage_files_path_pool_output, self.formelfrage_pool_qti_file_path_template,
                                                                                                                                                                                                                             self.ff_ilias_test_title_entry.get(), self.ff_pool_entry, self.ff_question_type_name,
                                                                                                                                                                                                                             self.database_formelfrage_path, self.ff_database_table, self.ff_db_entry_to_index_dict,

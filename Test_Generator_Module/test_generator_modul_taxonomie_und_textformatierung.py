@@ -277,17 +277,17 @@ class Taxonomie:
         self.remove_from_node_btn = Button(self.taxonomy_frame_boxes, text="Fragen von Knoten\nentfernen",command=lambda: Taxonomie.remove_question_from_node(self))
         self.remove_from_node_btn.grid(row=4, column=1, sticky=W, padx=5, pady=(20, 0))
 
-        self.tax_add_node_btn = Button(self.taxonomy_frame_tree, text="Neuen Knoten hinzufügen",command=lambda: Taxonomie.add_node_to_tax(self))
+        self.tax_add_node_btn = Button(self.taxonomy_frame_tree, text="Knoten hinzufügen",command=lambda: Taxonomie.add_node_to_tax(self))
         self.tax_add_node_btn.grid(row=6, column=0, sticky=W, padx=5, pady=(20, 0))
 
-        self.scan_tax_tree_btn = Button(self.taxonomy_frame_tree, text="scan_tax_tree",command=lambda: Taxonomie.scan_tax_tree(self))
-        self.scan_tax_tree_btn.grid(row=6, column=1, sticky=W, padx=5, pady=(20, 0))
+        #self.scan_tax_tree_btn = Button(self.taxonomy_frame_tree, text="scan_tax_tree",command=lambda: Taxonomie.scan_tax_tree(self))
+        #self.scan_tax_tree_btn.grid(row=6, column=1, sticky=W, padx=5, pady=(20, 0))
 
         self.update_taxonomy_name_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Namen\naktualisieren", command=lambda: Taxonomie.update_taxonomy_name(self))
         self.update_taxonomy_name_btn.grid(row=0, column=2, sticky=E, padx=5, pady=(5, 0))
 
         self.tax_remove_node_btn = Button(self.taxonomy_frame_tree, text="Knoten entfernen",command=lambda: Taxonomie.remove_node_from_tax(self))
-        self.tax_remove_node_btn.grid(row=6, column=2, sticky=W, padx=5, pady=(20, 0))
+        self.tax_remove_node_btn.grid(row=6, column=1, sticky=W, padx=5, pady=(20, 0))
 
         self.tax_reallocate_btn = Button(self.taxonomy_frame_tree, text="Taxonomie-Datei\nneu anordnen",command=lambda: Taxonomie.tax_reallocate(self))
         self.tax_reallocate_btn.grid(row=5, column=2, sticky=W, padx=5, pady=(20, 0))

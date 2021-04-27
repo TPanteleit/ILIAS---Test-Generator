@@ -1019,7 +1019,7 @@ class MultipleChoice:
         self.mc_test_time = "P0Y0M0DT" + self.mc_proc_hours_box.get() + "H" + self.mc_proc_minutes_box.get() + "M" + self.mc_proc_seconds_box.get() + "S"
         
         # Bild 1
-        if self.mc_description_img_name_1 != "" or self.mc_description_img_name_1 != "EMPTY":
+        if self.mc_description_img_name_1 != "" and self.mc_description_img_name_1 != "EMPTY":
             # read image data in byte format
             print(self.mc_description_img_name_1)
             print(self.mc_description_img_path_1)
@@ -1033,7 +1033,7 @@ class MultipleChoice:
 
 
         # Bild 2
-        if self.mc_description_img_name_2 != "" or self.mc_description_img_name_2 != "EMPTY":
+        if self.mc_description_img_name_2 != "" and self.mc_description_img_name_2 != "EMPTY":
             # read image data in byte format
             print(self.mc_description_img_name_2)
             print(self.mc_description_img_path_2)
@@ -1047,7 +1047,7 @@ class MultipleChoice:
 
 
         # Bild 3
-        if self.mc_description_img_name_3 != "" or self.mc_description_img_name_3 != "EMPTY":
+        if self.mc_description_img_name_3 != "" and self.mc_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
             print(self.mc_description_img_name_3)

@@ -1620,7 +1620,7 @@ class Zuordnungsfrage:
 
 
         # Bild 1
-        if self.mq_description_img_name_1 != "" or self.mq_description_img_name_1 != "EMPTY":
+        if self.mq_description_img_name_1 != "" and self.mq_description_img_name_1 != "EMPTY":
             # read image data in byte format
 
             with open(self.mq_description_img_path_1, 'rb') as image_file_1:
@@ -1634,7 +1634,7 @@ class Zuordnungsfrage:
 
 
         # Bild 2
-        if self.mq_description_img_name_2 != "" or self.mq_description_img_name_2 != "EMPTY":
+        if self.mq_description_img_name_2 != "" and self.mq_description_img_name_2 != "EMPTY":
             # read image data in byte format
 
             with open(self.mq_description_img_path_2, 'rb') as image_file_2:
@@ -1648,7 +1648,7 @@ class Zuordnungsfrage:
 
 
         # Bild 3
-        if self.mq_description_img_name_3 != "" or self.mq_description_img_name_3 != "EMPTY":
+        if self.mq_description_img_name_3 != "" and self.mq_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
 

@@ -977,7 +977,7 @@ class SingleChoice:
 
 
         # Bild 1
-        if self.sc_description_img_name_1 != "" or self.sc_description_img_name_1 != "EMPTY":
+        if self.sc_description_img_name_1 != "" and self.sc_description_img_name_1 != "EMPTY":
             # read image data in byte format
             with open(self.sc_description_img_path_1, 'rb') as image_file_1:
                 self.sc_description_img_data_1 = image_file_1.read()
@@ -989,7 +989,7 @@ class SingleChoice:
 
 
         # Bild 2
-        if self.sc_description_img_name_2 != "" or self.sc_description_img_name_2 != "EMPTY":
+        if self.sc_description_img_name_2 != "" and self.sc_description_img_name_2 != "EMPTY":
             # read image data in byte format
             with open(self.sc_description_img_path_2, 'rb') as image_file_2:
                 self.sc_description_img_data_2 = image_file_2.read()
@@ -1001,7 +1001,7 @@ class SingleChoice:
 
 
         # Bild 3
-        if self.sc_description_img_name_3 != "" or self.sc_description_img_name_3 != "EMPTY":
+        if self.sc_description_img_name_3 != "" and self.sc_description_img_name_3 != "EMPTY":
 
             # read image data in byte format
             with open(self.sc_description_img_path_3, 'rb') as image_file_3:
