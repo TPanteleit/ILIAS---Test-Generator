@@ -204,7 +204,7 @@ class Taxonomie:
 
         # New Window must be "Toplevel" not "Tk()" in order to get Radiobuttons to work properly
         self.taxonomy_window = Toplevel()
-        self.taxonomy_window.title("Taxonomie  --- " +str(self.select_taxonomy_file))
+        self.taxonomy_window.title("Taxonomie  --- " + str(self.select_taxonomy_file))
 
         ### Frame
         # Create a ScrolledFrame widget
@@ -298,10 +298,6 @@ class Taxonomie:
         Taxonomie.select_xml_file_to_read(self)
 
     def select_xml_file_to_read(self):
-
-        #
-
-
 
 
         # Taxonomie-datei "refreshen"
