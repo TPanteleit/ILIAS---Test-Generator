@@ -24,7 +24,7 @@ class MainGUI:
         for self.db_record in self.db_records:
             self.db_records_listing.append(len(self.db_records))
 
-        print("Anzahl Einträge: " + str(len(self.db_records_listing)))
+        print("Anzahl DB Einträge: " + str(len(self.db_records_listing)))
 
         conn.commit()
         conn.close()
