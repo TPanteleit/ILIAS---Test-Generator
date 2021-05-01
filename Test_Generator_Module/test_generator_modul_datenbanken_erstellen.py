@@ -79,13 +79,13 @@ class CreateDatabases:
 
         self.database_test_settings_profiles_exists = os.path.exists(self.database_test_settings_profiles_path)
 
-        print("##    Datenbank -> Formelfrage:                        " + str(self.database_formelfrage_exists))
-        print("##    Datenbank -> SingleChoice:                       " + str(self.database_singlechoice_exists))
-        print("##    Datenbank -> MultipleChoice:                     " + str(self.database_multiplechoice_exists))
-        print("##    Datenbank -> Zuordnungsfrage:                    " + str(self.database_zuordnungsfrage_exists))
-        print("##    Datenbank -> Formelfrage_Permutation:            " + str(self.database_formelfrage_permutation_exists))
-        print("##    Datenbank -> Test-Einstellungen_Profile:         " + str(self.database_test_settings_profiles_exists))
-        print("\n")
+        # print("##    Datenbank -> Formelfrage:                        " + str(self.database_formelfrage_exists))
+        # print("##    Datenbank -> SingleChoice:                       " + str(self.database_singlechoice_exists))
+        # print("##    Datenbank -> MultipleChoice:                     " + str(self.database_multiplechoice_exists))
+        # print("##    Datenbank -> Zuordnungsfrage:                    " + str(self.database_zuordnungsfrage_exists))
+        # print("##    Datenbank -> Formelfrage_Permutation:            " + str(self.database_formelfrage_permutation_exists))
+        # print("##    Datenbank -> Test-Einstellungen_Profile:         " + str(self.database_test_settings_profiles_exists))
+        # print("\n")
 
 ####### Neue -- FORMELFRAGE --  Datenbank erstellen und befüllen #########
 
@@ -4339,7 +4339,8 @@ class Import_Export_Database(CreateDatabases):
 
         conn = sqlite3.connect(self.database_path)
         cursor = conn.cursor()
-        query = 'SELECT * FROM {} LIMIT -1 OFFSET 1'.format(self.database_table_name)
+        #query = 'SELECT * FROM {} LIMIT -1 OFFSET 1'.format(self.database_table_name)
+        query = 'select * from ' + self.database_table_name
         cursor.execute(query)
 
 
@@ -4447,10 +4448,10 @@ class Import_Export_Database(CreateDatabases):
 
         print("     abgeschlossen!")
 
-        print(str(row_index) + ' Zeilen exportiert --->  ' + excel.filename)
+        print(str(row_index-1) + ' Zeilen exportiert --->  ' + excel.filename)
         print("________________________________________________")
 
-        print(self.export_filetype_choice)
+
 
         # Exportiert die Datenbank als ".xlsx" und konvertiert die Datei nach ".ods"
         if self.export_filetype_choice == "no":
