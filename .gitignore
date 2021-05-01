@@ -1,0 +1,15 @@
+
+generaldb2.db
+generaldb.db
+
+
+.idea/
+*.pyc
+*.db
+
+ILIAS-Formelfrage/
+ILIAS-SingleChoice/
+ILIAS-MultipleChoice/
+ILIAS-Zuordnungsfrage/
+ILIAS-Gemischte_Fragentypen/
+
