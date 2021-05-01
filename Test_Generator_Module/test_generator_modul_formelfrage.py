@@ -293,7 +293,7 @@ class Formelfrage:
                     self.ff_description_img_path_3,
                     )
 
-        print("FF -- ", self.ff_description_img_path_1)
+
 
         self.ff_remove_img_from_description_btn = Button(self.ff_frame_question_description_functions, text="Bild entfernen", command=lambda: ff_add_image_to_description_and_delete_labels())
         self.ff_remove_img_from_description_btn.grid(row=8, column=0, sticky=W, padx=120, pady=(20,0))
@@ -1817,7 +1817,6 @@ class Formelfrage:
         # Bild 1
         if self.ff_description_img_name_1 != "" and self.ff_description_img_name_1 != "EMPTY":
             # read image data in byte format
-            print("FF ---", os.path.join(self.project_root_path, self.ff_description_img_path_1))
             with open(self.ff_description_img_path_1, 'rb') as image_file_1:
                 self.ff_description_img_data_1 = image_file_1.read()
 
@@ -2387,7 +2386,6 @@ class Formelfrage:
             self.ff_description_img_path_3 = ""
 
 
-        print("############# EDIT Function ########")
 
         self.edit_list = []
         for i in range(len(self.ff_db_column_names_list)):
@@ -3872,7 +3870,7 @@ class Create_Formelfrage_Pool(Formelfrage):
             # z.B.: ...ILIAS-Formelfrage\ff_ilias_pool_abgabe\1596569820__0__qpl_1115713
             self.ff_specific_pool_dir_path = os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir)
 
-            print("POOL ENTRY: " + str(self.ff_pool_entry))
+
             # Variablen für Bildschirmausgabe sammeln
             self.pool_number_list.append(pool_number)
             self.directory_number_list.append(self.ilias_id_pool_qpl_dir)
@@ -3915,33 +3913,17 @@ class Create_Formelfrage_Pool(Formelfrage):
             # Abgeschlossener Fragenpool abgelegt
 
             print("______________________________________________________________________")
-            print(" ---> Fragenpool im Ordner \"" + self.ilias_id_pool_qpl_dir + "\" erstellt! ")
+            print("FRAGENPOOL ABGESCHLOSSEN")
+            print(" ---> Erstellt im Ordner \"" + "ff_ilias_pool_abgabe\\" + self.ilias_id_pool_qpl_dir)
 
 
             self.zip_output_path = os.path.join(self.ff_specific_pool_dir_path, self.ilias_id_pool_qpl_dir)
             self.zip_output_path2 = os.path.join(self.ff_specific_pool_dir_path, "test")
 
-            # Zip Ordner erstellen. "order zum zippen (Ordnername)", "Zip-format", "Zip-Ordner output-pfad"
-            #shutil.make_archive(self.ff_specific_pool_dir_path, 'zip', self.ff_specific_pool_dir_path )
-            #print(self.ff_specific_pool_dir_path)
-            #print(self.zip_output_path)
-            """
-            zf = zipfile.ZipFile(os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir + ".zip"), "w")
-            for dirname, subdirs, files in os.walk(os.path.join(self.formelfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir)):
-
-                zf.write(dirname)
-                for filename in files:
-
-
-                    zf.write(os.path.join(dirname, filename))
-                    print(dirname, " --- ", filename)
-            zf.close()
-            """
-
+            # Zip Ordner erstellen
             def zip(src, dst):
                 zf = zipfile.ZipFile("%s.zip" % (dst), "w", zipfile.ZIP_DEFLATED)
                 abs_src = os.path.abspath(src)
-                print(abs_src)
                 for dirname, subdirs, files in os.walk(src):
                     for filename in files:
                         absname = os.path.abspath(os.path.join(dirname, filename))
@@ -3964,5 +3946,4 @@ class Create_Formelfrage_Pool(Formelfrage):
                                      "\n"
 
 
-        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" +
-                            string_collection)
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + string_collection)
