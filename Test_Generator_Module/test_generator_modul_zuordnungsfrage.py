@@ -2964,8 +2964,6 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
                 ident_id.set('Entry', "il_0_qpl_" + str(self.mq_file_max_id+1))
             self.mytree.write(self.qpl_file)
 
-
-
     ####################### QUESTION_ANSWER STRUCTURE #############################
     def mq_question_answer_structure_definitions(self, mq_definitions_response_var_text, mq_definitions_response_var_img_path, mq_definitions_response_var_img_string_base64_encoded, xml_render_choice, mq_definition_id, mq_number_of_terms_used):
         
@@ -2998,12 +2996,6 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
                 question_answer_matimage.set('label', mq_definitions_response_var_img_path.rpartition('/')[-1])
                 question_answer_matimage.set('embedded', "base64")
                 question_answer_matimage.text = str(mq_definitions_response_var_img_string_base64_encoded)
-
-
-
-
-
-
 
     def mq_question_answer_structure_terms(self, mq_terms_response_var_text, mq_terms_response_var_img_path, mq_terms_response_var_img_string_base64_encoded, xml_render_choice, mq_response_counter):
 
