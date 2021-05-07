@@ -31,7 +31,7 @@ from Test_Generator_Module import test_generator_modul_taxonomie_und_textformati
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
 from Test_Generator_Module import test_generator_modul_test_einstellungen
-#from Test_Generator_Module import test_generator_modul_zeigerdiagramme
+from Test_Generator_Module import test_generator_modul_zeigerdiagramme
 
 class Formelfrage:
 
@@ -217,7 +217,7 @@ class Formelfrage:
         self.ff_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
 
         self.ff_frame_vector_diagram = LabelFrame(self.formelfrage_tab, text="Zeigerdiagramme", padx=5, pady=5)
-        #self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
+        self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
 
 
 

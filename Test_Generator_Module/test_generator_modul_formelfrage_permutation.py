@@ -110,13 +110,13 @@ class Formelfrage_Permutation:
         self.ffperm_frame_ilias_test_title = LabelFrame(self.formelfrage_permutation_tab, text="Testname & Autor", padx=5, pady=5)
         self.ffperm_frame_ilias_test_title.grid(row=0, column=0, padx=10, pady=10, sticky="NW")
 
-        self.ffperm_frame = LabelFrame(self.formelfrage_permutation_tab, text="Formelfrage", padx=5, pady=5)
+        self.ffperm_frame = LabelFrame(self.formelfrage_permutation_tab, text="Formelfrage Permutation", padx=5, pady=5)
         self.ffperm_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
 
         self.ffperm_frame_question_attributes = LabelFrame(self.formelfrage_permutation_tab, text="Fragen Attribute", padx=5, pady=5)
         self.ffperm_frame_question_attributes.grid(row=2, column=0, padx=10, pady=10, sticky="NE")
 
-        self.ffperm_frame_database = LabelFrame(self.formelfrage_permutation_tab, text="Formelfrage-Datenbank", padx=5, pady=5)
+        self.ffperm_frame_database = LabelFrame(self.formelfrage_permutation_tab, text="Formelfrage Permutation-Datenbank", padx=5, pady=5)
         self.ffperm_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
         self.ffperm_frame_create_formelfrage_permutation_test = LabelFrame(self.formelfrage_permutation_tab, text="FF-Test erstellen", padx=5, pady=5)
@@ -250,7 +250,7 @@ class Formelfrage_Permutation:
 
         self.ffperm_question_type_entry = Entry(self.ffperm_frame_question_attributes, width=15)
         self.ffperm_question_type_entry.grid(row=0, column=3, pady=5, padx=5, sticky=W)
-        self.ffperm_question_type_entry.insert(0, "Formelfrage_perm")
+        self.ffperm_question_type_entry.insert(0, "Formelfrage_permut")
 
         self.ffperm_question_pool_tag_label = Label(self.ffperm_frame_question_attributes, text="Pool-Tag")
         self.ffperm_question_pool_tag_label.grid(row=1, column=2, pady=5, padx=5, sticky=W)
@@ -264,7 +264,7 @@ class Formelfrage_Permutation:
 ###################### "FF-Test erstellen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         # Button "Formelfrage-Test erstellen"
-        self.create_formelfrage_permutation_test_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFperm-Test erstellen", command=lambda: Create_formelfrage_permutation_Test.__init__(self, self.ffperm_db_entry_to_index_dict))
+        self.create_formelfrage_permutation_test_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFpermut-Test erstellen", command=lambda: Create_formelfrage_permutation_Test.__init__(self, self.ffperm_db_entry_to_index_dict))
         self.create_formelfrage_permutation_test_btn.grid(row=0, column=0, sticky=W)
         self.create_formelfrage_permutation_test_entry = Entry(self.ffperm_frame_create_formelfrage_permutation_test, width=15)
         self.create_formelfrage_permutation_test_entry.grid(row=0, column=1, sticky=W, padx=0)
@@ -299,7 +299,7 @@ class Formelfrage_Permutation:
 
 
         # Button "Formelfrage-Fragenpool erstellen"
-        self.create_formelfrage_permutation_pool_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFperm-Pool erstellen", command=lambda: Create_formelfrage_permutation_Pool.__init__(self, self.ffperm_db_entry_to_index_dict, self.ffperm_var_create_question_pool_all_check.get()))
+        self.create_formelfrage_permutation_pool_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFpermut-Pool erstellen", command=lambda: Create_formelfrage_permutation_Pool.__init__(self, self.ffperm_db_entry_to_index_dict, self.ffperm_var_create_question_pool_all_check.get()))
         self.create_formelfrage_permutation_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
         self.create_formelfrage_permutation_pool_entry = Entry(self.ffperm_frame_create_formelfrage_permutation_test, width=15)
         self.create_formelfrage_permutation_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
@@ -310,7 +310,7 @@ class Formelfrage_Permutation:
 
 
 
-        self.ffperm_database_show_db_formelfrage_permutation_btn = Button(self.ffperm_frame_database, text="FFperm - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_permutation_path, "formelfrage_permutation_table"))
+        self.ffperm_database_show_db_formelfrage_permutation_btn = Button(self.ffperm_frame_database, text="FFpermut - Datenbank anzeigen", command=lambda: test_generator_modul_datenbanken_anzeigen.MainGUI.__init__(self, self.database_formelfrage_permutation_path, "formelfrage_permutation_table"))
         self.ffperm_database_show_db_formelfrage_permutation_btn.grid(row=0, column=0, sticky=W, pady=5)
 
         self.ffperm_database_save_id_to_db_formelfrage_permutation_btn = Button(self.ffperm_frame_database, text="Speichern unter neuer ID", command=lambda: Formelfrage_Permutation.ffperm_save_id_to_db(self))
@@ -484,10 +484,10 @@ class Formelfrage_Permutation:
 
         ########### PERMUTATION_VALUES
 
-        self.perm_symbol_of_variable_label = Label(self.ffperm_frame, text='perm\nsymbol ')
+        self.perm_symbol_of_variable_label = Label(self.ffperm_frame, text='permut\nsymbol ')
         self.perm_symbol_of_variable_label.grid(row=5, column=1, sticky=E, pady=(20, 0), padx=116)
 
-        self.perm_var_values_label = Label(self.ffperm_frame, text='perm\nwerte')
+        self.perm_var_values_label = Label(self.ffperm_frame, text='permut\nwerte')
         self.perm_var_values_label.grid(row=5, column=1, sticky=E, pady=(20, 0), padx=50)
 
 
