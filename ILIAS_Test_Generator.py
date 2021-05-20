@@ -1,11 +1,11 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.3.1                                                                                          #
+#    Version: 2.3.2                                                                                          #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.3.1) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.3.2) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -13,9 +13,8 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
-#     Hotfix für 2-stellige Punktzahlen
-#     Test Einstellungen können verwendet werden                                                            #
-#     Fix für Erstellung von Tests                                                                          #
+#     Warnung beim Import für doppelte Einträge                                                             #
+#     Warnung beim Erstellen von Fragenpool mit doppelten Einträgen                                         #
 #                                                                                                           #
 #     Fragenpool "Taxonomie" getrennt erstellen. Die Fragen aus der Datenbank können unterteilt nach        #
 #     Taxonomie in verschiedene/mehrere Fragenpools erstellt werden. Bei Bedarf kann der Eintrag für        #
@@ -101,10 +100,22 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.3.1')
+        master.title('ilias - Test-Generator v2.3.2')
+
+        def print_in_a_frame(*words):
+            size = max(len(word) for word in words)
+            print('*' * (size + 4))
+            for word in words:
+                print('* {:<{}} *'.format(word, size))
+            print('*' * (size + 4))
+
+
+        print("\n")
+        print_in_a_frame("", "ILIAS - Test-Generator v2.3.2", "@digitalfellowship", "", )
+        print("\n")
 
         # Fenstergröße für die Module setzen
-        self.window_width = 800
+        self.window_width = 1100
         self.window_height = 800
 
         # Projektpfad auslesen. Der Projektpfad ist der Ordner in dem das Programm ausgeführt wird.
