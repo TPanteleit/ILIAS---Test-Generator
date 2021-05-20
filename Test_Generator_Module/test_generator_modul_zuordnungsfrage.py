@@ -400,7 +400,7 @@ class Zuordnungsfrage:
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         #excel_import_btn
-        self.mq_excel_import_to_db_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mq_question_type_name, self.mq_db_entry_to_index_dict))
+        self.mq_excel_import_to_db_zuordnungsfrage_btn = Button(self.mq_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mq_question_type_name, self.mq_db_entry_to_index_dict, self.zuordnungsfrage_tab))
         self.mq_excel_import_to_db_zuordnungsfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn

@@ -681,7 +681,7 @@ class SingleChoice:
 ###################### "Excel Import/Export" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         #excel_import_btn
-        self.sc_excel_import_to_db_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.sc_question_type_name, self.sc_db_entry_to_index_dict))
+        self.sc_excel_import_to_db_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.sc_question_type_name, self.sc_db_entry_to_index_dict, self.singlechoice_tab))
         self.sc_excel_import_to_db_singlechoice_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn

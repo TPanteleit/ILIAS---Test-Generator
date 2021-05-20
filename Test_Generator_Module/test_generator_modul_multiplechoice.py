@@ -713,7 +713,7 @@ class MultipleChoice:
 
 
         #excel_import_btn
-        self.excel_xlsx_import_btn = Button(self.mc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mc_question_type_name, self.mc_db_entry_to_index_dict))
+        self.excel_xlsx_import_btn = Button(self.mc_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.mc_question_type_name, self.mc_db_entry_to_index_dict, self.multiplechoice_tab))
         self.excel_xlsx_import_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
