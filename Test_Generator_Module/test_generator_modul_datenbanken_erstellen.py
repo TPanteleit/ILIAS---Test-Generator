@@ -2301,12 +2301,6 @@ class Import_Export_Database(CreateDatabases):
         self.titels_dublicates_counter = Counter(self.whole_excel_titles)
         self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
 
-        print("///////////////////////")
-        #print(len(self.dataframe))
-        #print(self.dataframe.iloc[0]['question_title'])
-        #print(self.excel_titles)
-        #print("--------------------------")
-        #print(res)
 
         if len(self.id_dublicates_results) >= 1:
 
@@ -2335,7 +2329,7 @@ class Import_Export_Database(CreateDatabases):
 
 
 
-        print("///////////////////////")
+
 
 
         for i in range(len(self.xlsx_file_column_labels)-1):
