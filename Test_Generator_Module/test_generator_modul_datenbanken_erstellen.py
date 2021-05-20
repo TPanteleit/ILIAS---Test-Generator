@@ -10,6 +10,8 @@ import pathlib
 import collections.abc as byteobj
 import base64
 from datetime import datetime
+from collections import Counter
+from tkscrolledframe import ScrolledFrame
 
 
 
@@ -2191,9 +2193,29 @@ class Import_Export_Database(CreateDatabases):
     def __init__(self):
         print("Database Import/Export Test")
 
+    def show_dublicates_from_excel_import(self, excel_dublicates_list):
+        ### Neues Fenster "Taxonomie" erzeugen
 
-    def excel_import_to_db(self, question_type, db_entry_to_index_dict):
+        # New Window must be "Toplevel" not "Tk()" in order to get Radiobuttons to work properly
+        self.excel_dublicates_window = Toplevel()
+        self.excel_dublicates_window.title("Doppelte Einträge beim Import")
 
+        ### Frame
+        # Create a ScrolledFrame widget
+        self.sf_dublicates = ScrolledFrame(self.excel_dublicates_window, width=300, height=300)
+        self.sf_dublicates.pack(expand=1, fill="both")
+
+        # Create a frame within the ScrolledFrame
+        self.dublicates = self.sf_dublicates.display_widget(Frame)
+
+        for i in range(len(excel_dublicates_list)):
+            label = Label(self.dublicates, text= str(i) + ") Frage: " + str(excel_dublicates_list[i]), fg="red")
+            label.grid(row=i,column=0)
+
+
+
+
+    def excel_import_to_db(self, question_type, db_entry_to_index_dict, question_type_GUI_tab):
 
         def img_path_to_base64_encoded_string(response_var_label, response_var_path, row):
 
@@ -2230,7 +2252,6 @@ class Import_Export_Database(CreateDatabases):
             #print(self.xlsx_data)
         # Enthält der Pfad kein ".ods" wird davon ausgegangen, dass es sich um eine Excel-Datei handelt
         else:
-
             self.xlsx_data = pd.read_excel(self.xlsx_path)
 
         self.xlsx_file_column_labels = []
@@ -2263,6 +2284,58 @@ class Import_Export_Database(CreateDatabases):
         # Leere Einträge entfernen
         self.dataframe = self.dataframe.fillna("")
 
+        self.excel_titles = []
+        self.temp_list = []
+        self.whole_excel_titles = []
+
+        for i in range(len(self.dataframe)):
+            self.temp_list = self.dataframe.iloc[i]['question_title'].split(' ')
+            self.excel_titles.append(self.temp_list[0])
+            self.whole_excel_titles.append(self.dataframe.iloc[i]['question_title'])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_titles)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.whole_excel_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        print("///////////////////////")
+        #print(len(self.dataframe))
+        #print(self.dataframe.iloc[0]['question_title'])
+        #print(self.excel_titles)
+        #print("--------------------------")
+        #print(res)
+
+        if len(self.id_dublicates_results) >= 1:
+
+            self.question_type_GUI_tab = question_type_GUI_tab
+
+            self.dublicates_frame = LabelFrame(self.question_type_GUI_tab, text="Doppelte Einträge", padx=5, pady=5)
+
+            self.warning_lable = Label(self.dublicates_frame, text="ACHTUNG!\nDoppelte Einträge beim Import!", fg="red", font= ('Helvetica 10 underline bold'))
+
+            self.warning_lable2 = Label(self.dublicates_frame, text="WARNUNG! - identische Fragen-ID beim Import gefunden", fg="red")
+
+            # "id_dublicates" bezieht sich auf die "ID" der Frage bis zum ersten Leerzeichen
+            # z.B.: 07.1.01 Parallelgeschalteter Widerstand in MOhm  --> ID = 07.1.01
+            self.show_id_dublicates_btn = Button(self.dublicates_frame, text="(" + str(len(self.id_dublicates_results)) + ") " + "Doppelte ID-Einträge anzeigen", command=lambda: Import_Export_Database.show_dublicates_from_excel_import(self, self.id_dublicates_results))
+
+            # "title_dublicates" bezieht sich auf den gesamten Titel
+            self.show_title_dublicates_btn = Button(self.dublicates_frame, text="(" + str(len(self.titles_dublicates_results)) + ") " + "Doppelte Titel-Einträge anzeigen", command=lambda: Import_Export_Database.show_dublicates_from_excel_import(self, self.titles_dublicates_results))
+
+
+
+            self.dublicates_frame.grid(row=2, column=1,  pady=175, padx=10, sticky=NW)
+            self.warning_lable.grid(row=0, column=0, sticky=NE)
+            #self.warning_lable2.grid(row=2, column = 1)
+            self.show_id_dublicates_btn.grid(row=1, column=0,  ipadx=10, pady=10, sticky=NE)
+            self.show_title_dublicates_btn.grid(row=2, column=0, ipadx=10,pady=5, sticky=NE)
+
+
+
+        print("///////////////////////")
 
 
         for i in range(len(self.xlsx_file_column_labels)-1):
@@ -2283,6 +2356,7 @@ class Import_Export_Database(CreateDatabases):
 
             self.number_of_new_entries_from_excel = 0
             self.number_of_entries_edited = 0
+            self.titles_in_excel_list = []
             #####
             query = 'SELECT * FROM singlechoice_table '
             c.execute(query)
@@ -2292,7 +2366,8 @@ class Import_Export_Database(CreateDatabases):
             # Alle Fragen-Titel der Datenbank-Einträge in einer String zusammen fassen
             for database_row in database_rows:
                 entry_string += database_row[db_entry_to_index_dict['question_title']]
-            
+
+
             
             for sc_row in self.dataframe.itertuples():
 
@@ -3349,7 +3424,7 @@ class Import_Export_Database(CreateDatabases):
                                 response_2_img_string_base64_encoded= :response_2_img_string_base64_encoded,
                                 response_2_img_path= :response_2_img_path,
                 
-                                response_3_text= : response_3_text,
+                                response_3_text= :response_3_text,
                                 response_3_pts_correct_answer= :response_3_pts_correct_answer,
                                 response_3_pts_false_answer= :response_3_pts_false_answer,
                                 response_3_img_label= :response_3_img_label,
