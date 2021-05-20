@@ -20,8 +20,6 @@ from tkinter import messagebox
 import zipfile
 import subprocess
 from collections import Counter
-
-
 from operator import itemgetter
 
 
@@ -32,7 +30,7 @@ from Test_Generator_Module import test_generator_modul_taxonomie_und_textformati
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
 from Test_Generator_Module import test_generator_modul_test_einstellungen
-from Test_Generator_Module import test_generator_modul_zeigerdiagramme
+#from Test_Generator_Module import test_generator_modul_zeigerdiagramme
 
 class Formelfrage:
 
@@ -1855,9 +1853,31 @@ class Formelfrage:
             self.ff_description_img_data_3 = ""
 
 
+        ########### Prüfen ob Fragen-TItel oder Fragen-ID bereits in DB vorhanden ####
+        c.execute("SELECT *, oid FROM " + self.ff_database_table)
+        db_records = c.fetchall()
+        self.db_records_fragen_titel_list = []
+        self.db_records_fragen_id_list = []
+        self.temp_list = []
+        self.temp2_list = []
+        self.temp_string = ""
+        for db_record in db_records:
+            self.db_records_fragen_titel_list.append(db_record[self.ff_db_entry_to_index_dict['question_title']])
+            self.temp_list = db_record[self.ff_db_entry_to_index_dict['question_title']].split(' ')
+            self.db_records_fragen_id_list.append(self.temp_list[0])
 
+        print("\n")
 
+        if self.ff_question_title_entry.get() in self.db_records_fragen_titel_list:
+            print(" -----> ACHTUNG! Fragentitel: \"" + str(self.ff_question_title_entry.get()) + "\" befindet sich bereits in der Datenbank")
 
+        self.temp2_list = self.ff_question_title_entry.get().split(' ')
+        self.temp_string = self.temp2_list[0]
+
+        if self.temp_string in self.db_records_fragen_id_list:
+            print(" -----> ACHTUNG! Fragen-ID: \"" + str(self.temp_string) + "\" befindet sich bereits in der Datenbank")
+
+        print("\n")
 
         # Insert into Table
         c.execute(
@@ -3722,6 +3742,42 @@ class Create_Formelfrage_Test(Formelfrage):
             test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.create_settings(self, self.test_settings_database_path, self.test_settings_database_table, self.ff_selected_profile_for_test_settings_box.get())
 
 
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.ff_collection_of_question_titles)):
+            self.excel_temp_list = self.ff_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.ff_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragentest enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragentest erstellen", "Fragentest wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning)
+
+
+
 # <------------ FORMELFRAGE-POOL ERSTELLEN ----------->
 class Create_Formelfrage_Pool(Formelfrage):
 
@@ -3948,7 +4004,7 @@ class Create_Formelfrage_Pool(Formelfrage):
                                      "_____________________________________________________________" + "\n" + \
                                      "\n"
 
-        
+
         self.excel_id_list =[]
         self.excel_temp_list = []
         for t in range(len(self.ff_collection_of_question_titles)):
