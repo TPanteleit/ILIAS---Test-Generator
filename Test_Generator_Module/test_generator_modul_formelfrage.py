@@ -19,6 +19,7 @@ import time
 from tkinter import messagebox
 import zipfile
 import subprocess
+from collections import Counter
 
 
 from operator import itemgetter
@@ -152,7 +153,7 @@ class Formelfrage:
         self.ff_db_find_entries = []
         self.ff_db_find_indexes = []
         self.ff_db_column_names_list = []
-        self.ff_collection_of_question_titles = []
+
 
         connect = sqlite3.connect(self.database_formelfrage_path)
         cursor = connect.execute('select * from ' + self.ff_database_table)
@@ -217,7 +218,7 @@ class Formelfrage:
         self.ff_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
 
         self.ff_frame_vector_diagram = LabelFrame(self.formelfrage_tab, text="Zeigerdiagramme", padx=5, pady=5)
-        self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
+        #self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
 
 
 
@@ -534,7 +535,7 @@ class Formelfrage:
 
 
         # excel_import_btn
-        self.ff_excel_import_to_db_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.ff_question_type_name, self.ff_db_entry_to_index_dict))
+        self.ff_excel_import_to_db_formelfrage_btn = Button(self.ff_frame_excel_import_export, text="Excel-Datei importieren", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, self.ff_question_type_name, self.ff_db_entry_to_index_dict, self.formelfrage_tab))
         self.ff_excel_import_to_db_formelfrage_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
@@ -2391,6 +2392,7 @@ class Formelfrage:
         for i in range(len(self.ff_db_column_names_list)):
             self.edit_list.append(self.ff_db_column_names_list[i] + " = :" + self.ff_db_column_names_list[i])
         self.db_column_names_string_for_edit = ','.join(self.edit_list)
+        print("''''''''''''''", self.db_column_names_string_for_edit)
 
 
         c.execute("UPDATE " + self.ff_database_table + " SET " + self.db_column_names_string_for_edit + " WHERE oid = :oid",
@@ -3015,6 +3017,7 @@ class Create_Formelfrage_Questions(Formelfrage):
 
         self.all_entries_from_db_list = []
         self.number_of_entrys = []
+        self.ff_collection_of_question_titles = []
 
 
 
@@ -3945,5 +3948,36 @@ class Create_Formelfrage_Pool(Formelfrage):
                                      "_____________________________________________________________" + "\n" + \
                                      "\n"
 
+        
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.ff_collection_of_question_titles)):
+            self.excel_temp_list = self.ff_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
 
-        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + string_collection)
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.ff_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragenpool enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning + "\n\n"+ string_collection)
