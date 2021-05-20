@@ -12,7 +12,10 @@ from datetime import datetime
 from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
 import xlsxwriter                       # import/export von excel Dateien
 import shutil                           # Wird verwendet um Verzeichnisse zu kopieren
-
+from collections import Counter
+from tkinter import messagebox
+from operator import itemgetter
+import zipfile
 
 ### Eigene Dateien / Module
 from Test_Generator_Module import test_generator_modul_datenbanken_anzeigen
@@ -20,6 +23,7 @@ from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_taxonomie_und_textformatierung
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
+from Test_Generator_Module import test_generator_modul_test_einstellungen
 
 class Zuordnungsfrage:
     def __init__(self, app, zuordnungsfrage_tab, project_root_path):
@@ -33,6 +37,11 @@ class Zuordnungsfrage:
         # Name für Datenbank und Tabelle
         self.mq_database = "ilias_zuordnungsfrage_db.db"
         self.mq_database_table = "zuordnungsfrage_table"
+
+        self.test_settings_database = "test_settings_profiles_db.db"
+        self.test_settings_database_table = "my_profiles_table"
+        self.test_settings_database_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.test_settings_database))
+
 
         # Name für Tabellenkalulations-Datei und Tabelle
         self.mq_xlsx_workbook_name = "Zuordnungsfrage_DB_export_file"
@@ -313,13 +322,64 @@ class Zuordnungsfrage:
         self.create_zuordnungsfrage_test_entry = Entry(self.mq_frame_create_zuordnungsfrage_test, width=15)
         self.create_zuordnungsfrage_test_entry.grid(row=0, column=1, sticky=W, padx=0)
 
-        # Checkbox "Test-Einstellungen übernehmen?"
-        self.create_test_settings_label = Label(self.mq_frame_create_zuordnungsfrage_test, text="Test-Einstellungen übernehmen?")
-        self.create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
-        self.var_test_settings = IntVar()
-        self.check_test_settings = Checkbutton(self.mq_frame_create_zuordnungsfrage_test, text="", variable=self.var_test_settings, onvalue=1, offvalue=0)
-        self.check_test_settings.deselect()
-        self.check_test_settings.grid(row=1, column=1, sticky=W)
+        # Checkbox "Test-Einstellungen verwenden?"
+        self.mq_create_test_settings_label = Label(self.mq_frame_create_zuordnungsfrage_test, text="Test-Einstellungen verwenden?")
+        self.mq_create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
+        self.mq_var_create_test_settings_check = IntVar()
+        self.mq_create_test_settings = Checkbutton(self.mq_frame_create_zuordnungsfrage_test, text="", variable=self.mq_var_create_test_settings_check, onvalue=1, offvalue=0, command=lambda: refresh_box_test_settings_profiles(self))
+        self.mq_create_test_settings.grid(row=1, column=1, sticky=W)
+
+
+
+        
+
+        # Combobox Profile für Datenbank
+        self.mq_profile_for_test_settings_value = []
+
+        # Datenbank nach Profilen durchsuchen
+        conn = sqlite3.connect(self.test_settings_database_path)
+        c = conn.cursor()
+
+        c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+        profile_records = c.fetchall()
+
+        # Loop through Results
+        for profile_record in profile_records:
+            self.mq_profile_for_test_settings_value.append(profile_record[0])
+
+        conn.commit()
+        conn.close()
+        ###
+
+        def mq_profile_selected(event):
+            self.var = event
+
+        self.mq_selected_profile_for_test_settings_box = ttk.Combobox(self.mq_frame_create_zuordnungsfrage_test, value=self.mq_profile_for_test_settings_value, width=8)
+        self.mq_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", mq_profile_selected)
+        self.mq_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+
+        def refresh_box_test_settings_profiles(self):
+            if self.mq_var_create_test_settings_check.get() == 1:
+                self.mq_selected_profile_for_test_settings_box.grid_forget()
+
+                # Combobox Profile für Datenbank
+                self.mq_profile_for_test_settings_value = []
+
+                # Datenbank nach Profilen durchsuchen
+                conn = sqlite3.connect(self.test_settings_database_path)
+                c = conn.cursor()
+
+                c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+                profile_records = c.fetchall()
+
+                # Loop through Results
+                for profile_record in profile_records:
+                    self.mq_profile_for_test_settings_value.append(profile_record[0])
+
+                self.mq_selected_profile_for_test_settings_box = ttk.Combobox(self.mq_frame_create_zuordnungsfrage_test, value=self.mq_profile_for_test_settings_value, width=8)
+                self.mq_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", mq_profile_selected)
+                self.mq_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
 
         # Checkbox "Latex für Fragentext nutzen?"
         self.mq_use_latex_on_text_label = Label(self.mq_frame_create_zuordnungsfrage_test, text="Latex für Fragentext nutzen?")
@@ -337,10 +397,25 @@ class Zuordnungsfrage:
         self.mq_create_question_pool_all = Checkbutton(self.mq_frame_create_zuordnungsfrage_test, text="", variable=self.mq_var_create_question_pool_all_check, onvalue=1, offvalue=0)
         #self.mq_var_create_question_pool_all_check.set(0)
         self.mq_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
+        
+        # Checkbox "Mehrere Fragenpools Taxonomie getrennt erstellen?"
+        self.mq_create_multiple_question_pools_from_tax_label = Label(self.mq_frame_create_zuordnungsfrage_test, text="Mehrere Fragenpools (Taxonomie getrennt) erstellen?")
+        self.mq_create_multiple_question_pools_from_tax_label.grid(row=5, column=0, pady=(10,0), padx=5, sticky=W)
+        self.mq_var_create_multiple_question_pools_from_tax_check = IntVar()
+        self.mq_create_multiple_question_pools_from_tax = Checkbutton(self.mq_frame_create_zuordnungsfrage_test, text="", variable=self.mq_var_create_multiple_question_pools_from_tax_check, onvalue=1, offvalue=0)
+        #self.mq_var_create_question_pool_all_check.set(0)
+        self.mq_create_multiple_question_pools_from_tax.grid(row=5, column=1, sticky=W, pady=(10,0))
 
+        # Checkbox "Taxonomie für getrennte Pools behalten?"
+        self.mq_remove_pool_tags_for_tax_label = Label(self.mq_frame_create_zuordnungsfrage_test, text=" ---> Taxonomie für getrennte Pools \"löschen\"?")
+        self.mq_remove_pool_tags_for_tax_label.grid(row=6, column=0, pady=(0,0), padx=5, sticky=W)
+        self.mq_var_remove_pool_tags_for_tax_check = IntVar()
+        self.mq_remove_pool_tags_for_tax = Checkbutton(self.mq_frame_create_zuordnungsfrage_test, text="", variable=self.mq_var_remove_pool_tags_for_tax_check, onvalue=1, offvalue=0)
+        #self.mq_var_create_question_pool_all_check.set(0)
+        self.mq_remove_pool_tags_for_tax.grid(row=6, column=1, sticky=W, pady=(0,0))
 
         # Button "Zuordnungsfrage-Fragenpool erstellen"
-        self.create_zuordnungsfrage_pool_btn = Button(self.mq_frame_create_zuordnungsfrage_test, text="MQ-Pool erstellen", command=lambda: Create_Zuordnungsfrage_Pool.__init__(self, self.mq_db_entry_to_index_dict, self.mq_var_create_question_pool_all_check.get()))
+        self.create_zuordnungsfrage_pool_btn = Button(self.mq_frame_create_zuordnungsfrage_test, text="MQ-Pool erstellen", command=lambda: Create_Zuordnungsfrage_Pool.__init__(self, self.mq_db_entry_to_index_dict, self.mq_var_create_question_pool_all_check.get(), self.mq_var_create_multiple_question_pools_from_tax_check.get()))
         self.create_zuordnungsfrage_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
         self.create_zuordnungsfrage_pool_entry = Entry(self.mq_frame_create_zuordnungsfrage_test, width=15)
         self.create_zuordnungsfrage_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
@@ -1660,7 +1735,9 @@ class Zuordnungsfrage:
             self.mq_description_img_name_3 = ""
             self.mq_description_img_path_3 = ""
             self.mq_description_img_data_3 = ""
-
+        
+    
+        
         def mq_bind_value_for_empty_answer_image(definition_picture_label_entry, definition_picture_data_entry, definition_picture_path_entry, term_picture_label_entry, term_picture_data_entry, term_picture_path_entry):
 
             if definition_picture_label_entry == "":
@@ -1684,6 +1761,35 @@ class Zuordnungsfrage:
         mq_bind_value_for_empty_answer_image(self.mq_definitions_var8_img_label_entry, self.mq_definitions_var8_img_data_entry, self.mq_definitions_var8_img_path_entry, self.mq_terms_var8_img_label_entry, self.mq_terms_var8_img_data_entry, self.mq_terms_var8_img_path_entry)
         mq_bind_value_for_empty_answer_image(self.mq_definitions_var9_img_label_entry, self.mq_definitions_var9_img_data_entry, self.mq_definitions_var9_img_path_entry, self.mq_terms_var9_img_label_entry, self.mq_terms_var9_img_data_entry, self.mq_terms_var9_img_path_entry)
         mq_bind_value_for_empty_answer_image(self.mq_definitions_var10_img_label_entry, self.mq_definitions_var10_img_data_entry, self.mq_definitions_var10_img_path_entry, self.mq_terms_var10_img_label_entry, self.mq_terms_var10_img_data_entry, self.mq_terms_var10_img_path_entry)
+        
+        
+        ########### Prüfen ob Fragen-TItel oder Fragen-ID bereits in DB vorhanden ####
+        c.execute("SELECT *, oid FROM " + self.mq_database_table)
+        db_records = c.fetchall()
+        self.db_records_fragen_titel_list = []
+        self.db_records_fragen_id_list = []
+        self.temp_list = []
+        self.temp2_list = []
+        self.temp_string = ""
+        for db_record in db_records:
+            self.db_records_fragen_titel_list.append(db_record[self.mq_db_entry_to_index_dict['question_title']])
+            self.temp_list = db_record[self.mq_db_entry_to_index_dict['question_title']].split(' ')
+            self.db_records_fragen_id_list.append(self.temp_list[0])
+
+        print("\n")
+
+        if self.mq_question_title_entry.get() in self.db_records_fragen_titel_list:
+            print(" -----> ACHTUNG! Fragentitel: \"" + str(self.mq_question_title_entry.get()) + "\" befindet sich bereits in der Datenbank")
+
+        self.temp2_list = self.mq_question_title_entry.get().split(' ')
+        self.temp_string = self.temp2_list[0]
+
+        if self.temp_string in self.db_records_fragen_id_list:
+            print(" -----> ACHTUNG! Fragen-ID: \"" + str(self.temp_string) + "\" befindet sich bereits in der Datenbank")
+
+        print("\n")
+        
+        #############
         
 
         # Insert into Table
@@ -1908,6 +2014,8 @@ class Zuordnungsfrage:
 
             self.mq_question_difficulty_entry.insert(END, mq_db_record[self.mq_db_entry_to_index_dict['question_difficulty']] )
             self.mq_question_category_entry.insert(END, mq_db_record[self.mq_db_entry_to_index_dict['question_category']])
+
+            self.mq_question_type_entry.delete(0, END)
             self.mq_question_type_entry.insert(END, mq_db_record[self.mq_db_entry_to_index_dict['question_type']])
 
             self.mq_question_title_entry.insert(END, mq_db_record[self.mq_db_entry_to_index_dict['question_title']])
@@ -2029,7 +2137,21 @@ class Zuordnungsfrage:
             
             if mq_db_record[self.mq_db_entry_to_index_dict['assignment_pairs_term_10']] != "":
                 self.mq_assignment_pairs_terms_10_box.current(self.assignment_pairs_terms_to_int_dict[mq_db_record[self.mq_db_entry_to_index_dict['assignment_pairs_term_10']]])
+            
+            self.mq_question_pool_tag_entry.insert(END, mq_db_record[self.mq_db_entry_to_index_dict['question_pool_tag']])
 
+            
+        conn.commit()
+        conn.close()
+            
+        if self.mq_var_highlight_question_text.get() == 1:
+            print("Frage wird MIT Text-Formatierung geladen. --> Fragen-ID: " + str(self.mq_load_box.get()))
+            test_generator_modul_taxonomie_und_textformatierung.Textformatierung.reallocate_text(self, self.mq_question_description_main_entry)
+
+        else:
+            print("Frage wird OHNE Text-Formatierung geladen. --> Fragen-ID: " + str(self.mq_load_box.get()))
+
+            
     def mq_edit_id_from_db(self):
 
         # Verbindung mit der Datenbank
@@ -2048,7 +2170,7 @@ class Zuordnungsfrage:
         # Bilder werden als byte eingelesen "rb" = read byte
 
         # Fragen-Text Bild 1
-        if self.mq_description_img_name_1 != "" or self.mq_description_img_name_1 != "EMPTY":
+        if self.mq_description_img_name_1 != "" and self.mq_description_img_name_1 != "EMPTY":
             with open(self.mq_description_img_path_1, 'rb') as description_image_file_1:
                 self.mq_description_img_data_1 = description_image_file_1.read()
 
@@ -2058,7 +2180,7 @@ class Zuordnungsfrage:
             self.mq_description_img_path_1 = ""
 
         # Fragen-Text Bild 2
-        if self.mq_description_img_name_2 != "" or self.mq_description_img_name_2 != "EMPTY":
+        if self.mq_description_img_name_2 != "" and self.mq_description_img_name_2 != "EMPTY":
             with open(self.mq_description_img_path_2, 'rb') as description_image_file_2:
                 self.mq_description_img_data_2 = description_image_file_2.read()
 
@@ -2068,7 +2190,7 @@ class Zuordnungsfrage:
             self.mq_description_img_path_2 = ""
 
         # Fragen-Text Bild 3
-        if self.mq_description_img_name_3 != "" or self.mq_description_img_name_3 != "EMPTY":
+        if self.mq_description_img_name_3 != "" and self.mq_description_img_name_3 != "EMPTY":
             with open(self.mq_description_img_path_3, 'rb') as description_image_file_3:
                 self.mq_description_img_data_3 = description_image_file_3.read()
 
@@ -2369,7 +2491,11 @@ class Zuordnungsfrage:
                       'question_author': self.mq_question_author_entry.get(),
                       'oid': record_id
                   })
-            
+
+        conn.commit()
+        conn.close()
+
+        print("Frage mit ID: '" + record_id + "' editiert")
             
     def mq_delete_id_from_db(self):
 
@@ -2458,6 +2584,18 @@ class Zuordnungsfrage:
         self.mq_assignment_pairs_terms_9_box.delete(0, "end")
         self.mq_assignment_pairs_terms_10_box.delete(0, "end")
 
+        self.mq_assignment_pairs_pts_1_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_2_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_3_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_4_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_5_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_6_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_7_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_8_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_9_entry.delete(0, END)
+        self.mq_assignment_pairs_pts_10_entry.delete(0, END)
+
+        self.mq_question_pool_tag_entry.delete(0, END)
 
 
 
@@ -2477,9 +2615,12 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
         self.all_entries_from_db_list = []
         self.number_of_entrys = []
+        self.mq_collection_of_question_titles = []
 
         self.mq_question_pool_id_list = []
         self.mq_question_title_list = []
+
+        self.mq_number_of_questions_generated = 1
 
         self.mq_ilias_id_pool_qpl_dir = ilias_id_pool_qpl_dir
         self.mq_file_max_id = max_id
@@ -2514,7 +2655,7 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
         if self.mq_var_create_question_pool_all_check.get() == 1:
             conn = sqlite3.connect(self.database_zuordnungsfrage_path)
             c = conn.cursor()
-            c.execute("SELECT *, oid FROM singlechoice_table")
+            c.execute("SELECT *, oid FROM zuordnungsfrage_table")
 
             mq_db_records = c.fetchall()
 
@@ -2540,6 +2681,8 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
             for mq_db_record in mq_db_records:
                 if str(mq_db_record[len(mq_db_record) - 1]) == self.mq_test_entry_splitted[i]:
                     for t in range(len(mq_db_record)):
+
+
                         if mq_db_record[self.mq_db_entry_to_index_dict['question_type']].lower() == self.mq_question_type_name.lower():
 
                             self.mq_question_difficulty                                 = mq_db_record[self.mq_db_entry_to_index_dict['question_difficulty']]
@@ -2697,6 +2840,8 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
         # VARIABLEN
         self.mq_response_counter = 0    #wird verwendet zu zählen, wieviele Anworten pro Frage verwendet werden. Bei einer neuer Antwort -> +1
+
+
         self.mq_question_description_main = test_generator_modul_taxonomie_und_textformatierung.Textformatierung.format_description_text_in_xml(self, self.mq_var_use_latex_on_text_check.get(), self.mq_question_description_main)
 
 
@@ -2840,26 +2985,34 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
                 # Fragen-Text (Format) einsetzen -- "mattext_texttype" in xml -- Gibt das Format des Textes an
                 question_description_mattext.set('texttype', "text/html")
+                
+                
+                question_description_mattext.text = test_generator_modul_ilias_test_struktur.Additional_Funtions.add_picture_to_description_main(
+                                                    self, self.mq_description_img_name_1, self.mq_description_img_data_1,
+                                                    self.mq_description_img_name_2, self.mq_description_img_data_2,
+                                                    self.mq_description_img_name_3, self.mq_description_img_data_3,
+                                                    self.mq_question_description_main, question_description_mattext, question_description_material, id_nr)
 
-                # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
-                # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
-                if self.mq_description_img_data_1 != "":
-
-                    with open('il_0_mob_TEST.png', 'wb') as image_file:
-                        image_file.write(self.mq_description_img_data_1)
-
-                    self.mq_file_image_raw = Image.open('il_0_mob_TEST.png')
-                    self.mq_file_image_size_width, self.mq_file_image_size_height = self.mq_file_image_raw.size
-
-                    question_description_mattext.text = "<p>" + self.mq_question_description_main + "</p>" + "<p><img height=\"" + str(self.mq_file_image_size_height) + "\" src=\"il_0_mob_000000" + str(id_nr) + "\" width=\"" + str(self.mq_file_image_size_width) + "\" /></p>"
-
-                    matimage = ET.SubElement(question_description_material, 'matimage')
-                    matimage.set('label', "il_0_mob_000000" + str(id_nr))  # Object -> Filename
-                    matimage.set('uri', "objects/il_0_mob_000000" + str(id_nr) + "/" + self.mq_description_img_name_1 + ".png")
-
-
-                else:
-                    question_description_mattext.text = "<p>" + self.mq_question_description_main + "</p>"
+                
+                # # Fragen-Text (Text) einsetzen   -- "mattext_texttype" in xml -- Gibt die eigentliche Fragen-Beschreibung an
+                # # Wenn Bild enthalten ist, dann in Fragenbeschreibung einbetten
+                # if self.mq_description_img_data_1 != "":
+                # 
+                #     with open('il_0_mob_TEST.png', 'wb') as image_file:
+                #         image_file.write(self.mq_description_img_data_1)
+                # 
+                #     self.mq_file_image_raw = Image.open('il_0_mob_TEST.png')
+                #     self.mq_file_image_size_width, self.mq_file_image_size_height = self.mq_file_image_raw.size
+                # 
+                #     question_description_mattext.text = "<p>" + self.mq_question_description_main + "</p>" + "<p><img height=\"" + str(self.mq_file_image_size_height) + "\" src=\"il_0_mob_000000" + str(id_nr) + "\" width=\"" + str(self.mq_file_image_size_width) + "\" /></p>"
+                # 
+                #     matimage = ET.SubElement(question_description_material, 'matimage')
+                #     matimage.set('label', "il_0_mob_000000" + str(id_nr))  # Object -> Filename
+                #     matimage.set('uri', "objects/il_0_mob_000000" + str(id_nr) + "/" + self.mq_description_img_name_1 + ".png")
+                # 
+                # 
+                # else:
+                #     question_description_mattext.text = "<p>" + self.mq_question_description_main + "</p>"
 
 
                 # "MQ --> Matching Question Identifier für xml datei
@@ -2947,8 +3100,11 @@ class Create_Zuordnungsfrage_Questions(Zuordnungsfrage):
 
 
                 self.mq_mytree.write(self.qti_file_path_output)
-                print("Zuordnungsfrage erstellt! --> Titel: " + str(self.mq_question_title))
 
+                
+                print(str(self.mq_number_of_questions_generated) + ".) Zuordnungsfrage Frage erstellt! ---> Titel: " + str(self.mq_question_title))
+                self.mq_number_of_questions_generated += 1
+                self.mq_collection_of_question_titles.append(self.mq_question_title)
 
         mq_connect.commit()
         mq_connect.close()
@@ -3122,31 +3278,327 @@ class Create_Zuordnungsfrage_Test(Zuordnungsfrage):
                                                                             self.mq_question_type_entry.get(),
                                                                             )
 
+        if self.mq_var_create_test_settings_check.get() == 1:
+            test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.create_settings(self, self.test_settings_database_path, self.test_settings_database_table, self.mq_selected_profile_for_test_settings_box.get())
+
+
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.mq_collection_of_question_titles)):
+            self.excel_temp_list = self.mq_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.mq_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragentest enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragentest erstellen", "Fragentest wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning)
 
 
 
 class Create_Zuordnungsfrage_Pool(Zuordnungsfrage):
-    def __init__(self, entry_to_index_dict, var_create_all_questions):
-
+    
+    def __init__(self, entry_to_index_dict, var_create_all_questions, var_create_multiple_question_pools_from_tax):
         self.mq_entry_to_index_dict = entry_to_index_dict
         self.mq_var_create_question_pool_all = var_create_all_questions
+        self.var_create_multiple_question_pools_from_tax = var_create_multiple_question_pools_from_tax
+        self.mq_pool_entry = self.create_zuordnungsfrage_pool_entry.get()
+        self.taxonomy_collection_no_dublicates = []
+
+        self.pool_number_list = []
+        self.taxonomy_number_list = []
+        self.directory_number_list = []
+        self.oid_number_list_temp = []
+        self.oid_number_list = []
+
+
+
+        # Wertebereich berechnen für Fragenpool Einträge
+        #if var_calculate_value_range_for_pool_ids == 1:
+        #    print("Wertebereich für Pool-IDs berechnen")
+        #    zuordnungsfrage.mq_calculate_value_range_function_in_GUI(self, self.mq_pool_entry)
+
+        # "Normalerweise" wird nur ein Fragenpool erstellt
+        # Wenn mehrere Fragenpools "nach Taxonomie getrennt" erstellt werden sollen, wird "self.number_of_pool"
+        # auf die Anzahl der Taxonomien gesetzt
+        self.number_of_pools = 1
+
+
+
+        # Wenn "nach Taxonomie getrennte Fragenpools" == 1:
+        if self.mq_var_create_multiple_question_pools_from_tax_check.get() == 1:
+
+            self.tax_entries_from_db_list = []
+            self.oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list_sorted = []
+            self.ids_with_same_tax_list = []
+            self.list_of_lists = []
+
+
+
+
+            # Verbindung mit Datenbank
+            conn = sqlite3.connect(self.database_zuordnungsfrage_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM %s" % self.mq_database_table)
+            mq_db_records = c.fetchall()
+
+            # Alle Einträge aus der DB nehmen
+            if self.mq_var_create_question_pool_all == 1:
+                for mq_db_record in mq_db_records:
+                    self.oid_entries_from_db_list.append(int(mq_db_record[len(mq_db_record) - 1]))
+                    self.tax_entries_from_db_list.append(mq_db_record[self.mq_db_entry_to_index_dict['question_pool_tag']])
+
+                #self.oid_entries_from_db_list.pop(0)
+                #self.tax_entries_from_db_list.pop(0)
+
+
+
+            # ID's aus dem Eingabefeld nehmen
+            else:
+
+                self.mq_pool_entry_list = []
+                self.mq_pool_entry_list = self.mq_pool_entry.split(',')
+
+                for mq_db_record in mq_db_records:
+                    if str(mq_db_record[len(mq_db_record) - 1]) in self.mq_pool_entry_list:
+                        self.oid_entries_from_db_list.append(int(mq_db_record[len(mq_db_record) - 1]))
+                        self.tax_entries_from_db_list.append(mq_db_record[self.mq_db_entry_to_index_dict['question_pool_tag']])
+
+
+
+            # Listen zusammenfügen
+            for i in range(len(self.oid_entries_from_db_list)):
+                self.tax_and_oid_entries_from_db_list.append([self.oid_entries_from_db_list[i], self.tax_entries_from_db_list[i]])
+
+
+            #print(self.oid_entries_from_db_list)
+            #print(self.tax_entries_from_db_list)
+
+            # Liste muss sortiert sein (Alphabetisch)  itemgetter(1) nimmt den Wert aus Fach 1 aus den Listen in der Liste
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # hier: '1', '2', '2', '3', '3'
+            self.tax_and_oid_entries_from_db_list_sorted = sorted(self.tax_and_oid_entries_from_db_list, key=itemgetter(1))
+
+
+
+
+            # Taxonomie der Fragen (ohne doppelte Einträge)
+            self.taxonomy_collection_no_dublicates = list(dict.fromkeys(self.tax_entries_from_db_list))
+
+
+            new_list = []
+
+            # 1. Feld auslesen (Tax_id)
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # Taxonomien sind hier als '1', '2','3' deklariert
+            # Tax_id im Bsp. self.id_temp = '1'
+            self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[0][1]
+            #new_list.append(self.tax_and_oid_entries_from_db_list[0][0])
+
+            for k in range(len(self.tax_and_oid_entries_from_db_list_sorted)):
+
+                if self.tax_and_oid_entries_from_db_list_sorted[k][1] == self.id_temp:
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+
+                else:
+
+                    self.list_of_lists.append(new_list)
+                    new_list = []
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+                    self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[k][1]
+
+
+
+
+            # new_list wird nur der list_of_lists hinzugefügt wenn die Taxonomien unterschiedlich sind
+            # Da die letzten Taxonomien gleich sein können, muss nochmal manuell der Befehl gestartet werden
+            self.list_of_lists.append(new_list)
+
+            self.number_of_pools = len(self.list_of_lists)
+
+
 
         # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
         # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-        test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
-                                                                            self.project_root_path,
-                                                                            self.zuordnungsfrage_pool_directory_output,
-                                                                            self.zuordnungsfrage_files_path_pool_output,
-                                                                            self.zuordnungsfrage_pool_qti_file_path_template,
-                                                                            self.mq_ilias_test_title_entry.get(),
-                                                                            self.create_zuordnungsfrage_pool_entry.get(),
-                                                                            self.mq_question_type_name,
-                                                                            self.database_zuordnungsfrage_path,
-                                                                            self.mq_database_table,
-                                                                            self.mq_db_entry_to_index_dict,
-                                                                            self.mq_var_create_question_pool_all
-                                                                            )
-        #shutil.make_archive("test", 'zip', self.zuordnungsfrage_pool_directory_output)
+        for pool_number in range(self.number_of_pools):
 
 
-        print("\n ----> Erstellung Fragenpool abgeschlossen! <----")
+            if self.var_create_multiple_question_pools_from_tax == 1:
+
+
+
+                self.string_entry = ','.join(map(str, self.list_of_lists[pool_number]))
+                self.mq_pool_entry = self.string_entry
+
+
+            self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(
+                                                                                                                                                                                                                    self, self.project_root_path, self.zuordnungsfrage_files_path_pool_output,
+                                                                                                                                                                                                                            self.zuordnungsfrage_files_path_pool_output, self.zuordnungsfrage_pool_qti_file_path_template,
+                                                                                                                                                                                                                            self.mq_ilias_test_title_entry.get(), self.mq_pool_entry, self.mq_question_type_name,
+                                                                                                                                                                                                                            self.database_zuordnungsfrage_path, self.mq_database_table, self.mq_db_entry_to_index_dict,
+                                                                                                                                                                                                                            self.mq_var_create_question_pool_all)
+
+
+
+            # Bestimmt den Pfad zum spezifischen erstellten zuordnungsfrage-Pool Ordner
+            # z.B.: ...ILIAS-zuordnungsfrage\mq_ilias_pool_abgabe\1596569820__0__qpl_1115713
+            self.mq_specific_pool_dir_path = os.path.join(self.zuordnungsfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir)
+
+
+            # Variablen für Bildschirmausgabe sammeln
+            self.pool_number_list.append(pool_number)
+            self.directory_number_list.append(self.ilias_id_pool_qpl_dir)
+            self.oid_number_list_temp = self.mq_pool_entry.split(',')
+            self.oid_number_list.append(len(self.oid_number_list_temp))
+
+            # zuordnungsfrage Fragen erstellen
+            Create_Zuordnungsfrage_Questions.__init__(self,
+                                                   self.mq_db_entry_to_index_dict,
+                                                   self.mq_pool_entry,
+                                                   "question_pool",
+                                                   self.ilias_id_pool_img_dir,
+                                                   self.ilias_id_pool_qpl_dir,
+                                                   self.zuordnungsfrage_pool_qti_file_path_template,
+                                                   self.pool_qti_file_path_output,
+                                                   self.pool_qpl_file_path_output,
+                                                   self.ilias_id_pool_qti_xml,
+                                                   self.file_max_id,
+                                                   self.taxonomy_file_question_pool)
+
+
+            # In der erstellten XML Datei muss "&amp;" gegen "&" getauscht werden
+            test_generator_modul_ilias_test_struktur.Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
+
+            # Taxonomien werden für erstellte Pools nicht verwendet
+            if self.mq_var_remove_pool_tags_for_tax_check.get() == 0:
+                # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
+                test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
+                                                                                                       self.mq_pool_entry,
+                                                                                                       self.mq_var_create_question_pool_all,
+                                                                                                       self.database_zuordnungsfrage_path,
+                                                                                                       "zuordnungsfrage_table",
+                                                                                                       self.mq_entry_to_index_dict,
+                                                                                                       self.taxonomy_file_question_pool,
+                                                                                                       self.pool_qti_file_path_output,
+                                                                                                       pool_number,
+                                                                                                       self.number_of_pools
+                                                                                                       )
+
+            # Abgeschlossener Fragenpool abgelegt
+
+            print("______________________________________________________________________")
+            print("FRAGENPOOL ABGESCHLOSSEN")
+            print(" ---> Erstellt im Ordner \"" + "mq_ilias_pool_abgabe\\" + self.ilias_id_pool_qpl_dir)
+
+
+            self.zip_output_path = os.path.join(self.mq_specific_pool_dir_path, self.ilias_id_pool_qpl_dir)
+            self.zip_output_path2 = os.path.join(self.mq_specific_pool_dir_path, "test")
+
+            # Zip Ordner erstellen
+            def zip(src, dst):
+                zf = zipfile.ZipFile("%s.zip" % (dst), "w", zipfile.ZIP_DEFLATED)
+                abs_src = os.path.abspath(src)
+                for dirname, subdirs, files in os.walk(src):
+                    for filename in files:
+                        absname = os.path.abspath(os.path.join(dirname, filename))
+                        arcname = absname[len(abs_src)-len(self.ilias_id_pool_qpl_dir):]
+                        #print('zipping %s as %s' % (os.path.join(dirname, filename), arcname))
+                        zf.write(absname, arcname)
+                zf.close()
+
+            zip(os.path.join(self.zuordnungsfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir), os.path.join(self.zuordnungsfrage_files_path_pool_output, self.ilias_id_pool_qpl_dir))
+
+        string_collection = ""
+
+        if self.var_create_multiple_question_pools_from_tax == 1:
+            for i in range(len(self.pool_number_list)):
+                string_collection += "Fragenpool: " + str(self.pool_number_list[i]+1) + "/" + str(len(self.pool_number_list)) + "\n" + \
+                                     "Abgelegt im Ordner: " + str(self.directory_number_list[i]) + "\n" + \
+                                     "Taxonomie: " + str(self.taxonomy_collection_no_dublicates[i]) + "\n" + \
+                                     "Anzahl der Fragen: " + str(self.oid_number_list[i]) + " \n" + \
+                                     "_____________________________________________________________" + "\n" + \
+                                     "\n"
+
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.mq_collection_of_question_titles)):
+            self.excel_temp_list = self.mq_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.mq_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragenpool enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning + "\n\n"+ string_collection)
+
+    
+    # def __init__(self, entry_to_index_dict, var_create_all_questions):
+    # 
+    #     self.mq_entry_to_index_dict = entry_to_index_dict
+    #     self.mq_var_create_question_pool_all = var_create_all_questions
+    # 
+    #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
+    #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
+    #     test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
+    #                                                                         self.project_root_path,
+    #                                                                         self.zuordnungsfrage_pool_directory_output,
+    #                                                                         self.zuordnungsfrage_files_path_pool_output,
+    #                                                                         self.zuordnungsfrage_pool_qti_file_path_template,
+    #                                                                         self.mq_ilias_test_title_entry.get(),
+    #                                                                         self.create_zuordnungsfrage_pool_entry.get(),
+    #                                                                         self.mq_question_type_name,
+    #                                                                         self.database_zuordnungsfrage_path,
+    #                                                                         self.mq_database_table,
+    #                                                                         self.mq_db_entry_to_index_dict,
+    #                                                                         self.mq_var_create_question_pool_all
+    #                                                                         )
+    #     #shutil.make_archive("test", 'zip', self.zuordnungsfrage_pool_directory_output)
+    # 
+    # 
+    #     print("\n ----> Erstellung Fragenpool abgeschlossen! <----")

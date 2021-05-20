@@ -1879,6 +1879,8 @@ class Formelfrage:
 
         print("\n")
 
+        #############
+
         # Insert into Table
         c.execute(
             "INSERT INTO " + self.ff_database_table + " VALUES (" + self.ff_db_column_names_string + ")",
@@ -2347,6 +2349,7 @@ class Formelfrage:
             self.ff_description_img_data_3 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_data_3']]
             self.ff_description_img_path_3 = ff_db_record[self.ff_db_entry_to_index_dict['description_img_path_3']]
 
+            self.ff_question_pool_tag_entry.insert(END, ff_db_record[self.ff_db_entry_to_index_dict['question_pool_tag']])
 
         conn.commit()
         conn.close()
@@ -3008,6 +3011,7 @@ class Formelfrage:
         self.res10_tol_entry.delete(0, END)
         self.res10_points_entry.delete(0, END)
 
+        self.ff_question_pool_tag_entry.delete(0, END)
 
 class Create_Formelfrage_Questions(Formelfrage):
 

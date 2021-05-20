@@ -13,6 +13,12 @@ from datetime import datetime
 from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
 import xlsxwriter                       # import/export von excel Dateien
 import shutil                           # Wird verwendet um Verzeichnisse zu kopieren
+from collections import Counter
+from tkinter import messagebox
+from operator import itemgetter
+import zipfile
+
+
 
 ### Eigene Dateien / Module
 from Test_Generator_Module import test_generator_modul_datenbanken_anzeigen
@@ -20,6 +26,7 @@ from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
 from Test_Generator_Module import test_generator_modul_taxonomie_und_textformatierung
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
+from Test_Generator_Module import test_generator_modul_test_einstellungen
 
 class SingleChoice:
     def __init__(self, app, singlechoice_tab, project_root_path):
@@ -32,6 +39,10 @@ class SingleChoice:
         # Name für Datenbank und Tabelle
         self.sc_database = "ilias_singlechoice_db.db"
         self.sc_database_table = "singlechoice_table"
+
+        self.test_settings_database = "test_settings_profiles_db.db"
+        self.test_settings_database_table = "my_profiles_table"
+        self.test_settings_database_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.test_settings_database))
 
         # Name für Tabellenkalulations-Datei und Tabelle
         self.sc_xlsx_workbook_name = "SingleChoice_DB_export_file"
@@ -885,13 +896,64 @@ class SingleChoice:
         self.create_singlechoice_test_entry = Entry(self.sc_frame_create_singlechoice_test, width=15)
         self.create_singlechoice_test_entry.grid(row=0, column=1, sticky=W, padx=0)
 
-        # Checkbox "Test-Einstellungen übernehmen?"
-        self.create_test_settings_label = Label(self.sc_frame_create_singlechoice_test, text="Test-Einstellungen übernehmen?")
-        self.create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
-        self.var_test_settings = IntVar()
-        self.check_test_settings = Checkbutton(self.sc_frame_create_singlechoice_test, text="", variable=self.var_test_settings, onvalue=1, offvalue=0)
-        self.check_test_settings.deselect()
-        self.check_test_settings.grid(row=1, column=1, sticky=W)
+        # Checkbox "Test-Einstellungen verwenden?"
+        self.sc_create_test_settings_label = Label(self.sc_frame_create_singlechoice_test, text="Test-Einstellungen verwenden?")
+        self.sc_create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
+        self.sc_var_create_test_settings_check = IntVar()
+        self.sc_create_test_settings = Checkbutton(self.sc_frame_create_singlechoice_test, text="", variable=self.sc_var_create_test_settings_check, onvalue=1, offvalue=0, command=lambda: refresh_box_test_settings_profiles(self))
+        self.sc_create_test_settings.grid(row=1, column=1, sticky=W)
+
+
+
+        
+
+        # Combobox Profile für Datenbank
+        self.sc_profile_for_test_settings_value = []
+
+        # Datenbank nach Profilen durchsuchen
+        conn = sqlite3.connect(self.test_settings_database_path)
+        c = conn.cursor()
+
+        c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+        profile_records = c.fetchall()
+
+        # Loop through Results
+        for profile_record in profile_records:
+            self.sc_profile_for_test_settings_value.append(profile_record[0])
+
+        conn.commit()
+        conn.close()
+        ###
+
+        def sc_profile_selected(event):
+            self.var = event
+
+        self.sc_selected_profile_for_test_settings_box = ttk.Combobox(self.sc_frame_create_singlechoice_test, value=self.sc_profile_for_test_settings_value, width=8)
+        self.sc_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", sc_profile_selected)
+        self.sc_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+
+        def refresh_box_test_settings_profiles(self):
+            if self.sc_var_create_test_settings_check.get() == 1:
+                self.sc_selected_profile_for_test_settings_box.grid_forget()
+
+                # Combobox Profile für Datenbank
+                self.sc_profile_for_test_settings_value = []
+
+                # Datenbank nach Profilen durchsuchen
+                conn = sqlite3.connect(self.test_settings_database_path)
+                c = conn.cursor()
+
+                c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+                profile_records = c.fetchall()
+
+                # Loop through Results
+                for profile_record in profile_records:
+                    self.sc_profile_for_test_settings_value.append(profile_record[0])
+
+                self.sc_selected_profile_for_test_settings_box = ttk.Combobox(self.sc_frame_create_singlechoice_test, value=self.sc_profile_for_test_settings_value, width=8)
+                self.sc_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", sc_profile_selected)
+                self.sc_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
 
         # Checkbox "Latex für Fragentext nutzen?"
         self.sc_use_latex_on_text_label = Label(self.sc_frame_create_singlechoice_test, text="Latex für Fragentext nutzen?")
@@ -911,11 +973,26 @@ class SingleChoice:
         self.sc_create_question_pool_all = Checkbutton(self.sc_frame_create_singlechoice_test, text="", variable=self.sc_var_create_question_pool_all_check, onvalue=1, offvalue=0)
         #self.sc_var_create_question_pool_all_check.set(0)
         self.sc_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
+        
+         # Checkbox "Mehrere Fragenpools Taxonomie getrennt erstellen?"
+        self.sc_create_multiple_question_pools_from_tax_label = Label(self.sc_frame_create_singlechoice_test, text="Mehrere Fragenpools (Taxonomie getrennt) erstellen?")
+        self.sc_create_multiple_question_pools_from_tax_label.grid(row=5, column=0, pady=(10,0), padx=5, sticky=W)
+        self.sc_var_create_multiple_question_pools_from_tax_check = IntVar()
+        self.sc_create_multiple_question_pools_from_tax = Checkbutton(self.sc_frame_create_singlechoice_test, text="", variable=self.sc_var_create_multiple_question_pools_from_tax_check, onvalue=1, offvalue=0)
+        #self.sc_var_create_question_pool_all_check.set(0)
+        self.sc_create_multiple_question_pools_from_tax.grid(row=5, column=1, sticky=W, pady=(10,0))
 
+        # Checkbox "Taxonomie für getrennte Pools behalten?"
+        self.sc_remove_pool_tags_for_tax_label = Label(self.sc_frame_create_singlechoice_test, text=" ---> Taxonomie für getrennte Pools \"löschen\"?")
+        self.sc_remove_pool_tags_for_tax_label.grid(row=6, column=0, pady=(0,0), padx=5, sticky=W)
+        self.sc_var_remove_pool_tags_for_tax_check = IntVar()
+        self.sc_remove_pool_tags_for_tax = Checkbutton(self.sc_frame_create_singlechoice_test, text="", variable=self.sc_var_remove_pool_tags_for_tax_check, onvalue=1, offvalue=0)
+        #self.sc_var_create_question_pool_all_check.set(0)
+        self.sc_remove_pool_tags_for_tax.grid(row=6, column=1, sticky=W, pady=(0,0))
 
 
         # Button "SingleChoice-Fragenpool erstellen"
-        self.create_singlechoice_pool_btn = Button(self.sc_frame_create_singlechoice_test, text="SC-Pool erstellen", command=lambda: Create_SingleChoice_Pool.__init__(self, self.sc_db_entry_to_index_dict, self.sc_var_create_question_pool_all_check.get()))
+        self.create_singlechoice_pool_btn = Button(self.sc_frame_create_singlechoice_test, text="SC-Pool erstellen", command=lambda: Create_SingleChoice_Pool.__init__(self, self.sc_db_entry_to_index_dict, self.sc_var_create_question_pool_all_check.get(), self.sc_var_create_multiple_question_pools_from_tax_check.get()))
         self.create_singlechoice_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
         self.create_singlechoice_pool_entry = Entry(self.sc_frame_create_singlechoice_test, width=15)
         self.create_singlechoice_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
@@ -983,7 +1060,7 @@ class SingleChoice:
                 self.sc_description_img_data_1 = image_file_1.read()
 
         else:
-            self.sc_description_img_name_1= ""
+            self.sc_description_img_name_1 = ""
             self.sc_description_img_path_1 = ""
             self.sc_description_img_data_1 = ""
 
@@ -1011,6 +1088,7 @@ class SingleChoice:
             self.sc_description_img_name_3 = ""
             self.sc_description_img_path_3 = ""
             self.sc_description_img_data_3 = ""
+        
 
 
 
@@ -1030,7 +1108,37 @@ class SingleChoice:
         sc_bind_value_for_empty_answer_image(self.sc_var8_img_label_entry, self.sc_var8_img_data_entry, self.sc_var8_img_path_entry)
         sc_bind_value_for_empty_answer_image(self.sc_var9_img_label_entry, self.sc_var9_img_data_entry, self.sc_var9_img_path_entry)
         sc_bind_value_for_empty_answer_image(self.sc_var10_img_label_entry, self.sc_var10_img_data_entry, self.sc_var10_img_path_entry)
+        
+        
+        
+        ########### Prüfen ob Fragen-TItel oder Fragen-ID bereits in DB vorhanden ####
+        c.execute("SELECT *, oid FROM " + self.sc_database_table)
+        db_records = c.fetchall()
+        self.db_records_fragen_titel_list = []
+        self.db_records_fragen_id_list = []
+        self.temp_list = []
+        self.temp2_list = []
+        self.temp_string = ""
+        for db_record in db_records:
+            self.db_records_fragen_titel_list.append(db_record[self.sc_db_entry_to_index_dict['question_title']])
+            self.temp_list = db_record[self.sc_db_entry_to_index_dict['question_title']].split(' ')
+            self.db_records_fragen_id_list.append(self.temp_list[0])
 
+        print("\n")
+
+        if self.sc_question_title_entry.get() in self.db_records_fragen_titel_list:
+            print(" -----> ACHTUNG! Fragentitel: \"" + str(self.sc_question_title_entry.get()) + "\" befindet sich bereits in der Datenbank")
+
+        self.temp2_list = self.sc_question_title_entry.get().split(' ')
+        self.temp_string = self.temp2_list[0]
+
+        if self.temp_string in self.db_records_fragen_id_list:
+            print(" -----> ACHTUNG! Fragen-ID: \"" + str(self.temp_string) + "\" befindet sich bereits in der Datenbank")
+
+        print("\n")
+        
+        #############
+        
 
         # Insert into Table
         # Reihenfolge muss mit der Datenbank übereinstimmen
@@ -1174,6 +1282,8 @@ class SingleChoice:
 
             self.sc_question_difficulty_entry.insert(END,  sc_db_record[self.sc_db_entry_to_index_dict['question_difficulty']] )
             self.sc_question_category_entry.insert(END,  sc_db_record[self.sc_db_entry_to_index_dict['question_category']] )
+
+            self.sc_question_type_entry.delete(0, END)
             self.sc_question_type_entry.insert(END,  sc_db_record[self.sc_db_entry_to_index_dict['question_type']] )
 
             self.sc_question_title_entry.insert(END,  sc_db_record[self.sc_db_entry_to_index_dict['question_title']] )
@@ -1247,11 +1357,18 @@ class SingleChoice:
             self.sc_description_img_data_3 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_data_3']]
             self.sc_description_img_path_3 = sc_db_record[self.sc_db_entry_to_index_dict['description_img_path_3']]
 
+            self.sc_question_pool_tag_entry.insert(END, sc_db_record[self.sc_db_entry_to_index_dict['question_pool_tag']])
 
 
         conn.commit()
         conn.close()
 
+        if self.sc_var_highlight_question_text.get() == 1:
+            print("Frage wird MIT Text-Formatierung geladen. --> Fragen-ID: " + str(self.sc_load_box.get()))
+            test_generator_modul_taxonomie_und_textformatierung.Textformatierung.reallocate_text(self, self.sc_question_description_main_entry)
+
+        else:
+            print("Frage wird OHNE Text-Formatierung geladen. --> Fragen-ID: " + str(self.sc_load_box.get()))
 
 
 
@@ -1273,7 +1390,9 @@ class SingleChoice:
         # Bilder werden als byte eingelesen "rb" = read byte
 
         # Fragen-Text Bild 1
-        if self.sc_description_img_name_1 != "" or self.sc_description_img_name_1 != "EMPTY":
+
+        print("------", self.sc_description_img_name_1, self.sc_description_img_path_1)
+        if self.sc_description_img_name_1 != "" and self.sc_description_img_name_1 != "EMPTY":
             with open( self.sc_description_img_path_1, 'rb') as description_image_file_1:
                 self.sc_description_img_data_1 = description_image_file_1.read()
         
@@ -1283,7 +1402,7 @@ class SingleChoice:
             self.sc_description_img_path_1 = ""
             
         # Fragen-Text Bild 2
-        if self.sc_description_img_name_2 != "" or self.sc_description_img_name_2 != "EMPTY":
+        if self.sc_description_img_name_2 != "" and self.sc_description_img_name_2 != "EMPTY":
             with open( self.sc_description_img_path_2, 'rb') as description_image_file_2:
                 self.sc_description_img_data_2 = description_image_file_2.read()
         
@@ -1293,7 +1412,7 @@ class SingleChoice:
             self.sc_description_img_path_2 = ""
         
         # Fragen-Text Bild 3
-        if self.sc_description_img_name_3 != "" or self.sc_description_img_name_3 != "EMPTY":
+        if self.sc_description_img_name_3 != "" and self.sc_description_img_name_3 != "EMPTY":
             with open( self.sc_description_img_path_3, 'rb') as description_image_file_3:
                 self.sc_description_img_data_3 = description_image_file_3.read()
         
@@ -1324,7 +1443,7 @@ class SingleChoice:
                 'response_2_img_string_base64_encoded'= :response_2_img_string_base64_encoded,
                 'response_2_img_path'= :response_2_img_path,
 
-                'response_3_text'= : response_3_text,
+                'response_3_text'= :response_3_text,
                 'response_3_pts'= :response_3_pts,
                 'response_3_img_label'= :response_3_img_label,
                 'response_3_img_string_base64_encoded'= :response_3_img_string_base64_encoded,
@@ -1372,7 +1491,7 @@ class SingleChoice:
                 'response_10_img_string_base64_encoded'= :response_10_img_string_base64_encoded,
                 'response_10_img_path'= :response_10_img_path,
 
-                'picture_preview_pixel'= :'picture_preview_pixel',
+                'picture_preview_pixel'= :picture_preview_pixel,
 
                 'description_img_name_1'= :description_img_name_1,
                 'description_img_data_1'= :description_img_data_1,
@@ -1388,7 +1507,6 @@ class SingleChoice:
 
                 'test_time'= :test_time,
 
-                'var_number'= :var_number,
                 'question_pool_tag'= :question_pool_tag,
                 'question_author'= :question_author
                 
@@ -1482,7 +1600,12 @@ class SingleChoice:
                  'question_author': self.sc_question_author_entry.get(),
                  'oid': record_id
                  })
-                 
+
+        conn.commit()
+        conn.close()
+
+        print("Frage mit ID: '" + record_id + "' editiert")
+
     def sc_delete_id_from_db(self):
 
         self.sc_delete_box_id = ""
@@ -1536,6 +1659,7 @@ class SingleChoice:
         self.sc_var9_points_entry.delete(0, END)
         self.sc_var10_points_entry.delete(0, END)
 
+        self.sc_question_pool_tag_entry.delete(0, END)
 
 
 class Create_SingleChoice_Questions(SingleChoice):
@@ -1552,6 +1676,7 @@ class Create_SingleChoice_Questions(SingleChoice):
         
         self.all_entries_from_db_list = []
         self.number_of_entrys = []
+        self.sc_collection_of_question_titles = []
 
         self.sc_question_pool_id_list = []
         self.sc_question_title_list = []
@@ -1902,6 +2027,7 @@ class Create_SingleChoice_Questions(SingleChoice):
                 self.sc_mytree.write(self.qti_file_path_output)
                 print(str(self.sc_number_of_questions_generated) + ".) SingleChoice Frage erstellt! ---> Titel: " + str(self.sc_question_title))
                 self.sc_number_of_questions_generated += 1
+                self.sc_collection_of_question_titles.append(self.sc_question_title)
 
         sc_connect.commit()
         sc_connect.close()
@@ -2046,30 +2172,332 @@ class Create_SingleChoice_Test(SingleChoice):
                                                                             self.sc_question_type_entry.get(),
                                                                             )
 
+        if self.sc_var_create_test_settings_check.get() == 1:
+            test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.create_settings(self, self.test_settings_database_path, self.test_settings_database_table, self.sc_selected_profile_for_test_settings_box.get())
+
+
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.sc_collection_of_question_titles)):
+            self.excel_temp_list = self.sc_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.sc_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragentest enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragentest erstellen", "Fragentest wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning)
 
 
 
 class Create_SingleChoice_Pool(SingleChoice):
-    def __init__(self, entry_to_index_dict, var_create_all_questions):
-
-        self.entry_to_index_dict = entry_to_index_dict
+    
+    def __init__(self, entry_to_index_dict, var_create_all_questions, var_create_multiple_question_pools_from_tax):
+        self.sc_entry_to_index_dict = entry_to_index_dict
         self.sc_var_create_question_pool_all = var_create_all_questions
+        self.var_create_multiple_question_pools_from_tax = var_create_multiple_question_pools_from_tax
+        self.sc_pool_entry = self.create_singlechoice_pool_entry.get()
+        self.taxonomy_collection_no_dublicates = []
+
+        self.pool_number_list = []
+        self.taxonomy_number_list = []
+        self.directory_number_list = []
+        self.oid_number_list_temp = []
+        self.oid_number_list = []
+
+
+
+        # Wertebereich berechnen für Fragenpool Einträge
+        #if var_calculate_value_range_for_pool_ids == 1:
+        #    print("Wertebereich für Pool-IDs berechnen")
+        #    singlechoice.sc_calculate_value_range_function_in_GUI(self, self.sc_pool_entry)
+
+        # "Normalerweise" wird nur ein Fragenpool erstellt
+        # Wenn mehrere Fragenpools "nach Taxonomie getrennt" erstellt werden sollen, wird "self.number_of_pool"
+        # auf die Anzahl der Taxonomien gesetzt
+        self.number_of_pools = 1
+
+
+
+        # Wenn "nach Taxonomie getrennte Fragenpools" == 1:
+        if self.sc_var_create_multiple_question_pools_from_tax_check.get() == 1:
+
+            self.tax_entries_from_db_list = []
+            self.oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list_sorted = []
+            self.ids_with_same_tax_list = []
+            self.list_of_lists = []
+
+
+
+
+            # Verbindung mit Datenbank
+            conn = sqlite3.connect(self.database_singlechoice_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM %s" % self.sc_database_table)
+            sc_db_records = c.fetchall()
+
+            # Alle Einträge aus der DB nehmen
+            if self.sc_var_create_question_pool_all == 1:
+                for sc_db_record in sc_db_records:
+                    self.oid_entries_from_db_list.append(int(sc_db_record[len(sc_db_record) - 1]))
+                    self.tax_entries_from_db_list.append(sc_db_record[self.sc_db_entry_to_index_dict['question_pool_tag']])
+
+                #self.oid_entries_from_db_list.pop(0)
+                #self.tax_entries_from_db_list.pop(0)
+
+
+
+            # ID's aus dem Eingabefeld nehmen
+            else:
+
+                self.sc_pool_entry_list = []
+                self.sc_pool_entry_list = self.sc_pool_entry.split(',')
+
+                for sc_db_record in sc_db_records:
+                    if str(sc_db_record[len(sc_db_record) - 1]) in self.sc_pool_entry_list:
+                        self.oid_entries_from_db_list.append(int(sc_db_record[len(sc_db_record) - 1]))
+                        self.tax_entries_from_db_list.append(sc_db_record[self.sc_db_entry_to_index_dict['question_pool_tag']])
+
+
+
+            # Listen zusammenfügen
+            for i in range(len(self.oid_entries_from_db_list)):
+                self.tax_and_oid_entries_from_db_list.append([self.oid_entries_from_db_list[i], self.tax_entries_from_db_list[i]])
+
+
+            #print(self.oid_entries_from_db_list)
+            #print(self.tax_entries_from_db_list)
+
+            # Liste muss sortiert sein (Alphabetisch)  itemgetter(1) nimmt den Wert aus Fach 1 aus den Listen in der Liste
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # hier: '1', '2', '2', '3', '3'
+            self.tax_and_oid_entries_from_db_list_sorted = sorted(self.tax_and_oid_entries_from_db_list, key=itemgetter(1))
+
+
+
+
+            # Taxonomie der Fragen (ohne doppelte Einträge)
+            self.taxonomy_collection_no_dublicates = list(dict.fromkeys(self.tax_entries_from_db_list))
+
+
+            new_list = []
+
+            # 1. Feld auslesen (Tax_id)
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # Taxonomien sind hier als '1', '2','3' deklariert
+            # Tax_id im Bsp. self.id_temp = '1'
+            self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[0][1]
+            #new_list.append(self.tax_and_oid_entries_from_db_list[0][0])
+
+            for k in range(len(self.tax_and_oid_entries_from_db_list_sorted)):
+
+                if self.tax_and_oid_entries_from_db_list_sorted[k][1] == self.id_temp:
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+
+                else:
+
+                    self.list_of_lists.append(new_list)
+                    new_list = []
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+                    self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[k][1]
+
+
+
+
+            # new_list wird nur der list_of_lists hinzugefügt wenn die Taxonomien unterschiedlich sind
+            # Da die letzten Taxonomien gleich sein können, muss nochmal manuell der Befehl gestartet werden
+            self.list_of_lists.append(new_list)
+
+            self.number_of_pools = len(self.list_of_lists)
+
+
 
         # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
         # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-        test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
-                                                                            self.project_root_path,
-                                                                            self.singlechoice_pool_directory_output,
-                                                                            self.singlechoice_files_path_pool_output,
-                                                                            self.singlechoice_pool_qti_file_path_template,
-                                                                            self.sc_ilias_test_title_entry.get(),
-                                                                            self.create_singlechoice_pool_entry.get(),
-                                                                            self.sc_question_type_name,
-                                                                            self.database_singlechoice_path,
-                                                                            self.sc_database_table,
-                                                                            self.sc_db_entry_to_index_dict,
-                                                                            self.sc_var_create_question_pool_all
-                                                                            )
+        for pool_number in range(self.number_of_pools):
+
+
+            if self.var_create_multiple_question_pools_from_tax == 1:
+
+
+
+                self.string_entry = ','.join(map(str, self.list_of_lists[pool_number]))
+                self.sc_pool_entry = self.string_entry
+
+
+            self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(
+                                                                                                                                                                                                                    self, self.project_root_path, self.singlechoice_files_path_pool_output,
+                                                                                                                                                                                                                            self.singlechoice_files_path_pool_output, self.singlechoice_pool_qti_file_path_template,
+                                                                                                                                                                                                                            self.sc_ilias_test_title_entry.get(), self.sc_pool_entry, self.sc_question_type_name,
+                                                                                                                                                                                                                            self.database_singlechoice_path, self.sc_database_table, self.sc_db_entry_to_index_dict,
+                                                                                                                                                                                                                            self.sc_var_create_question_pool_all)
+
+
+
+            # Bestimmt den Pfad zum spezifischen erstellten singlechoice-Pool Ordner
+            # z.B.: ...ILIAS-singlechoice\sc_ilias_pool_abgabe\1596569820__0__qpl_1115713
+            self.sc_specific_pool_dir_path = os.path.join(self.singlechoice_files_path_pool_output, self.ilias_id_pool_qpl_dir)
+
+
+            # Variablen für Bildschirmausgabe sammeln
+            self.pool_number_list.append(pool_number)
+            self.directory_number_list.append(self.ilias_id_pool_qpl_dir)
+            self.oid_number_list_temp = self.sc_pool_entry.split(',')
+            self.oid_number_list.append(len(self.oid_number_list_temp))
+
+            # singlechoice Fragen erstellen
+            Create_SingleChoice_Questions.__init__(self,
+                                                   self.sc_db_entry_to_index_dict,
+                                                   self.sc_pool_entry,
+                                                   "question_pool",
+                                                   self.ilias_id_pool_img_dir,
+                                                   self.ilias_id_pool_qpl_dir,
+                                                   self.singlechoice_pool_qti_file_path_template,
+                                                   self.pool_qti_file_path_output,
+                                                   self.pool_qpl_file_path_output,
+                                                   self.ilias_id_pool_qti_xml,
+                                                   self.file_max_id,
+                                                   self.taxonomy_file_question_pool)
+
+
+            # In der erstellten XML Datei muss "&amp;" gegen "&" getauscht werden
+            test_generator_modul_ilias_test_struktur.Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
+
+            # Taxonomien werden für erstellte Pools nicht verwendet
+            if self.sc_var_remove_pool_tags_for_tax_check.get() == 0:
+                # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
+                test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
+                                                                                                       self.sc_pool_entry,
+                                                                                                       self.sc_var_create_question_pool_all,
+                                                                                                       self.database_singlechoice_path,
+                                                                                                       "singlechoice_table",
+                                                                                                       self.sc_entry_to_index_dict,
+                                                                                                       self.taxonomy_file_question_pool,
+                                                                                                       self.pool_qti_file_path_output,
+                                                                                                       pool_number,
+                                                                                                       self.number_of_pools
+                                                                                                       )
+
+            # Abgeschlossener Fragenpool abgelegt
+
+            print("______________________________________________________________________")
+            print("FRAGENPOOL ABGESCHLOSSEN")
+            print(" ---> Erstellt im Ordner \"" + "sc_ilias_pool_abgabe\\" + self.ilias_id_pool_qpl_dir)
+
+
+            self.zip_output_path = os.path.join(self.sc_specific_pool_dir_path, self.ilias_id_pool_qpl_dir)
+            self.zip_output_path2 = os.path.join(self.sc_specific_pool_dir_path, "test")
+
+            # Zip Ordner erstellen
+            def zip(src, dst):
+                zf = zipfile.ZipFile("%s.zip" % (dst), "w", zipfile.ZIP_DEFLATED)
+                abs_src = os.path.abspath(src)
+                for dirname, subdirs, files in os.walk(src):
+                    for filename in files:
+                        absname = os.path.abspath(os.path.join(dirname, filename))
+                        arcname = absname[len(abs_src)-len(self.ilias_id_pool_qpl_dir):]
+                        #print('zipping %s as %s' % (os.path.join(dirname, filename), arcname))
+                        zf.write(absname, arcname)
+                zf.close()
+
+            zip(os.path.join(self.singlechoice_files_path_pool_output, self.ilias_id_pool_qpl_dir), os.path.join(self.singlechoice_files_path_pool_output, self.ilias_id_pool_qpl_dir))
+
+        string_collection = ""
+
+        if self.var_create_multiple_question_pools_from_tax == 1:
+            for i in range(len(self.pool_number_list)):
+                string_collection += "Fragenpool: " + str(self.pool_number_list[i]+1) + "/" + str(len(self.pool_number_list)) + "\n" + \
+                                     "Abgelegt im Ordner: " + str(self.directory_number_list[i]) + "\n" + \
+                                     "Taxonomie: " + str(self.taxonomy_collection_no_dublicates[i]) + "\n" + \
+                                     "Anzahl der Fragen: " + str(self.oid_number_list[i]) + " \n" + \
+                                     "_____________________________________________________________" + "\n" + \
+                                     "\n"
+
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.sc_collection_of_question_titles)):
+            self.excel_temp_list = self.sc_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.sc_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragenpool enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning + "\n\n"+ string_collection)
+
+    
+    
+    
+    
+    
+    
+    
+    # def __init__(self, entry_to_index_dict, var_create_all_questions):
+    # 
+    #     self.entry_to_index_dict = entry_to_index_dict
+    #     self.sc_var_create_question_pool_all = var_create_all_questions
+    # 
+    #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
+    #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
+    #     test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
+    #                                                                         self.project_root_path,
+    #                                                                         self.singlechoice_pool_directory_output,
+    #                                                                         self.singlechoice_files_path_pool_output,
+    #                                                                         self.singlechoice_pool_qti_file_path_template,
+    #                                                                         self.sc_ilias_test_title_entry.get(),
+    #                                                                         self.create_singlechoice_pool_entry.get(),
+    #                                                                         self.sc_question_type_name,
+    #                                                                         self.database_singlechoice_path,
+    #                                                                         self.sc_database_table,
+    #                                                                         self.sc_db_entry_to_index_dict,
+    #                                                                         self.sc_var_create_question_pool_all
+    #                                                                         )
 
 
 
