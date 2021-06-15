@@ -184,7 +184,13 @@ class Import_ILIAS_Datei_in_DB:
         # Fragen-Beschreibung, aller Fragen, sammeln
         for flow in self.myroot.iter('flow'):
             for material in flow.iter('material'):
-                if "" in material.find('mattext').text:
+
+                print("---", material.find('mattext').text)
+                print(material.find('mattext').attrib.get('texttype'))
+
+                # Todo - workaround.. nochmal neu programmieren
+                #if "" in material.find('mattext').text:
+                if material.find('mattext').attrib.get('texttype') == "text/xhtml":
 
 
                     # Wenn in dem Fragentext "img" enthalten ist, gibt es immer auch ein Bild zu der Frage
