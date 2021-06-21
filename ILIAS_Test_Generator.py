@@ -1,7 +1,7 @@
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.3.2                                                                                          #
+#    Version: 2.4                                                                                          #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
@@ -13,19 +13,7 @@
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
-#     Warnung beim Import für doppelte Einträge                                                             #
-#     Warnung beim Erstellen von Fragenpool mit doppelten Einträgen                                         #
-#                                                                                                           #
-#     Fragenpool "Taxonomie" getrennt erstellen. Die Fragen aus der Datenbank können unterteilt nach        #
-#     Taxonomie in verschiedene/mehrere Fragenpools erstellt werden. Bei Bedarf kann der Eintrag für        #
-#     Taxonomie zusätzlich gelöscht werden, sodass der Fragenpool KEINER Taxonomie mehr zugehört            #
-#                                                                                                           #
-#     Wertebereiche für Formelfragen erstellen. Benötigt werden Einträge für die Variablen (min/max)        #
-#     Die Formeln können auch wiederrum Ergebnisse enthalten.                                               #
-#                                                                                                           #
-#     Formel 1:    $v1+$v2+$v3                                                                              #
-#     Formel 2:    $v3/$r1                                                                                  #
-#     etc.                                                                                                  #
+#     Import_ILIAS_Datei_in_DB Modul neu erstellt                                                           #                                                                                             #
 #                                                                                                           #
 #                                                                                                           #
 #                                                                                                           #
@@ -100,7 +88,7 @@ class GuiMainWindow:
     def __init__(self, master):
         self.master = master
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.3.2')
+        master.title('ilias - Test-Generator v2.4')
 
         def print_in_a_frame(*words):
             size = max(len(word) for word in words)
@@ -111,7 +99,7 @@ class GuiMainWindow:
 
 
         print("\n")
-        print_in_a_frame("", "ILIAS - Test-Generator v2.3.2", "@digitalfellowship", "", )
+        print_in_a_frame("", "ILIAS - Test-Generator v2.4", "@digitalfellowship", "", )
         print("\n")
 
         # Fenstergröße für die Module setzen
