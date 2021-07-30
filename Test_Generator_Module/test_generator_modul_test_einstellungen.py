@@ -1,3 +1,15 @@
+"""
+********************************************
+test_generator_modul_test_einstellungen.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung von Testeinstellungen für einen ILIAS-Test
+Es sind nicht alle Einstellmöglichkeiten aus ILIAS verfügbar, sondern
+lediglich die Einstellungen unter "Allgemeine Einstellungen" im ILIAS
+"""
+
 from tkinter import *
 from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
 import sqlite3
