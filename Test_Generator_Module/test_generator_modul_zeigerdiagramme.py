@@ -1,3 +1,16 @@
+"""
+********************************************
+test_generator_modul_zeigerdiagramme.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung von Zeigerdiagrammen für Serienschaltungen
+Die Funktionen hierfür sind noch stark begrenzt und geben eine Idee wie Zeigerdiagramme auf der
+GUI angegeben werden könnten. Ein sinnvoller Einsatz ist im jetzigen Zustand nicht möglich.
+Die definierten Schaltungen sind noch intern mit festen Werten belegt!
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt
