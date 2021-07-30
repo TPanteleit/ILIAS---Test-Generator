@@ -1,20 +1,35 @@
+"""
+********************************************
+test_generator_modul_formelfrage_permutation.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient zur Erstellung mehrerer ähnlicher Fragen.
+Ziel ist die Rotation von Variablen und dadurch die Erzeugung mehrerer Fragen.
+
+Dieses Modul steht nicht vollumfänglich zur Verfügung und stellt eher ein "proof-of-concept" dar.
+Es können max 5 Variablen und 2 Ergebnisse behandelt werden.
+Es ist für 1 perm-Symbol mit Werten ausgelegt.
+
+Die Verwendung eines weiteren perm-Symbol steht derweil noch aus.
+"""
+
+
 from tkinter import ttk
-from tkinter import filedialog
 from tkinter import *
 import sqlite3                              #verwendet für mySQL Datenbank
 import xml.etree.ElementTree as ET
 from sympy import *
 import os
-import datetime                             # wird benötigt für "Test-Einstellungen benutzen"
-from datetime import datetime               # wird benötigt für "delete all entrys?" ??
-import pathlib
-import shutil                               # zum kopieren und zippen von Dateien
-from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
 import pandas as pd
 from pandas.core.reshape.util import cartesian_product
 import numpy as np
 import re   # RegEx -> handle Regular Expressions
-import decimal
+from collections import Counter
+from tkinter import messagebox
+import zipfile
+
 
 ### Eigene Dateien / Module
 from Test_Generator_Module import test_generator_modul_datenbanken_anzeigen
@@ -26,6 +41,26 @@ class Formelfrage_Permutation:
     def __init__(self, app, formelfrage_permutation_tab, project_root_path):
 
 ############## SET IMAGE VARIABLES
+
+
+        # Name des Fragentyps
+        self.ffperm_question_type_name = "formelfrage_permutation"
+
+        # Name für Datenbank und Tabelle
+        self.ffperm_database = "ilias_formelfrage_permutation_db.db"
+        self.ffperm_database_table = "formelfrage_permutation_table"
+
+        self.test_settings_database = "test_settings_profiles_db.db"
+        self.test_settings_database_table = "my_profiles_table"
+        self.test_settings_database_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", self.test_settings_database))
+
+
+        # Name für Tabellenkalulations-Datei und Tabelle
+        self.ffperm_xlsx_workbook_name = "Formelfrage_Permutation_DB_export_file"
+        self.ffperm_xlsx_worksheet_name = "Formelfrage_Permutation - Database"
+
+
+
 
         # Die Variablen müssen am Anfang des Programms gesetzt werden, um diese an andere Funktionen weitergeben zu können
 
@@ -120,7 +155,7 @@ class Formelfrage_Permutation:
         self.ffperm_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
         self.ffperm_frame_create_formelfrage_permutation_test = LabelFrame(self.formelfrage_permutation_tab, text="FF-Test erstellen", padx=5, pady=5)
-        self.ffperm_frame_create_formelfrage_permutation_test.grid(row=2, column=0, padx=105, pady=120, sticky="NE")
+        self.ffperm_frame_create_formelfrage_permutation_test.grid(row=2, column=0, padx=10, pady=120, sticky="NE")
 
 
         self.ffperm_frame_taxonomy_settings = LabelFrame(self.formelfrage_permutation_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
@@ -264,17 +299,79 @@ class Formelfrage_Permutation:
 ###################### "FF-Test erstellen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         # Button "Formelfrage-Test erstellen"
-        self.create_formelfrage_permutation_test_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFpermut-Test erstellen", command=lambda: Create_formelfrage_permutation_Test.__init__(self, self.ffperm_db_entry_to_index_dict))
+        self.create_formelfrage_permutation_test_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FF_Permutation-Test erstellen", command=lambda: Create_formelfrage_permutation_Test.__init__(self, self.ffperm_db_entry_to_index_dict))
         self.create_formelfrage_permutation_test_btn.grid(row=0, column=0, sticky=W)
         self.create_formelfrage_permutation_test_entry = Entry(self.ffperm_frame_create_formelfrage_permutation_test, width=15)
         self.create_formelfrage_permutation_test_entry.grid(row=0, column=1, sticky=W, padx=0)
 
+
+        # Checkbox "Test-Einstellungen verwenden?"
+        self.ffperm_create_test_settings_label = Label(self.ffperm_frame_create_formelfrage_permutation_test, text="Test-Einstellungen verwenden?")
+        self.ffperm_create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
+        self.ffperm_var_create_test_settings_check = IntVar()
+        self.ffperm_create_test_settings = Checkbutton(self.ffperm_frame_create_formelfrage_permutation_test, text="", variable=self.ffperm_var_create_test_settings_check, onvalue=1, offvalue=0, command=lambda: refresh_box_test_settings_profiles(self))
+        self.ffperm_create_test_settings.grid(row=1, column=1, sticky=W)
+
+         # Combobox Profile für Datenbank
+        self.ffperm_profile_for_test_settings_value = []
+
+        # Datenbank nach Profilen durchsuchen
+        conn = sqlite3.connect(self.test_settings_database_path)
+        c = conn.cursor()
+
+        c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+        profile_records = c.fetchall()
+
+        # Loop through Results
+        for profile_record in profile_records:
+            self.ffperm_profile_for_test_settings_value.append(profile_record[0])
+
+        conn.commit()
+        conn.close()
+        ###
+
+        # WIrd dazu verwendet ein Event zu verarbeiten
+        # Bei der Aktivierung für Testeinstellungen sollen alle in der DB gespeicherten Profile geladen werden
+        def ffperm_profile_selected(event):
+            self.var = event
+
+        self.ffperm_selected_profile_for_test_settings_box = ttk.Combobox(self.ffperm_frame_create_formelfrage_permutation_test, value=self.ffperm_profile_for_test_settings_value, width=8)
+        self.ffperm_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", ffperm_profile_selected)
+        self.ffperm_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+        # Bei der Aktivierung für Testeinstellungen sollen alle in der DB gespeicherten Profile geladen werden
+        # Verwendet ffperm_profile_selected
+        def refresh_box_test_settings_profiles(self):
+            if self.ffperm_var_create_test_settings_check.get() == 1:
+                self.ffperm_selected_profile_for_test_settings_box.grid_forget()
+
+                # Combobox Profile für Datenbank
+                self.ffperm_profile_for_test_settings_value = []
+
+                # Datenbank nach Profilen durchsuchen
+                conn = sqlite3.connect(self.test_settings_database_path)
+                c = conn.cursor()
+
+                c.execute("SELECT *, oid FROM " + self.test_settings_database_table)
+                profile_records = c.fetchall()
+
+                # Loop through Results
+                for profile_record in profile_records:
+                    self.ffperm_profile_for_test_settings_value.append(profile_record[0])
+
+                self.ffperm_selected_profile_for_test_settings_box = ttk.Combobox(self.ffperm_frame_create_formelfrage_permutation_test, value=self.ffperm_profile_for_test_settings_value, width=8)
+                self.ffperm_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", ffperm_profile_selected)
+                self.ffperm_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
+
+
+
+        
+        
         # Checkbox "Test-Einstellungen übernehmen?"
         self.create_test_settings_label = Label(self.ffperm_frame_create_formelfrage_permutation_test, text="Test-Einstellungen übernehmen?")
         self.create_test_settings_label.grid(row=1, column=0, pady=5, padx=5, sticky=W)
         self.perm_var_test_settings = IntVar()
         self.check_test_settings = Checkbutton(self.ffperm_frame_create_formelfrage_permutation_test, text="", variable=self.perm_var_test_settings, onvalue=1, offvalue=0)
-        self.check_test_settings.deselect()
         self.check_test_settings.grid(row=1, column=1, sticky=W)
 
         # Checkbox "Latex für Fragentext nutzen?"
@@ -293,13 +390,25 @@ class Formelfrage_Permutation:
         self.ffperm_create_question_pool_all_label.grid(row=4, column=0, pady=(10,0), padx=5, sticky=W)
         self.ffperm_var_create_question_pool_all_check = IntVar()
         self.ffperm_create_question_pool_all = Checkbutton(self.ffperm_frame_create_formelfrage_permutation_test, text="", variable=self.ffperm_var_create_question_pool_all_check, onvalue=1, offvalue=0)
-        #self.ffperm_var_create_question_pool_all_check.set(0)
         self.ffperm_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
 
+        # Checkbox "Mehrere Fragenpools Taxonomie getrennt erstellen?"
+        self.ffperm_create_multiple_question_pools_from_tax_label = Label(self.ffperm_frame_create_formelfrage_permutation_test, text="Mehrere Fragenpools (Taxonomie getrennt) erstellen?")
+        self.ffperm_create_multiple_question_pools_from_tax_label.grid(row=5, column=0, pady=(10,0), padx=5, sticky=W)
+        self.ffperm_var_create_multiple_question_pools_from_tax_check = IntVar()
+        self.ffperm_create_multiple_question_pools_from_tax = Checkbutton(self.ffperm_frame_create_formelfrage_permutation_test, text="", variable=self.ffperm_var_create_multiple_question_pools_from_tax_check, onvalue=1, offvalue=0)
+        self.ffperm_create_multiple_question_pools_from_tax.grid(row=5, column=1, sticky=W, pady=(10,0))
+
+        # Checkbox "Taxonomie für getrennte Pools behalten?"
+        self.ffperm_remove_pool_tags_for_tax_label = Label(self.ffperm_frame_create_formelfrage_permutation_test, text=" ---> Taxonomie für getrennte Pools \"löschen\"?")
+        self.ffperm_remove_pool_tags_for_tax_label.grid(row=6, column=0, pady=(0,0), padx=5, sticky=W)
+        self.ffperm_var_remove_pool_tags_for_tax_check = IntVar()
+        self.ffperm_remove_pool_tags_for_tax = Checkbutton(self.ffperm_frame_create_formelfrage_permutation_test, text="", variable=self.ffperm_var_remove_pool_tags_for_tax_check, onvalue=1, offvalue=0)
+        self.ffperm_remove_pool_tags_for_tax.grid(row=6, column=1, sticky=W, pady=(0,0))
 
 
         # Button "Formelfrage-Fragenpool erstellen"
-        self.create_formelfrage_permutation_pool_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFpermut-Pool erstellen", command=lambda: Create_formelfrage_permutation_Pool.__init__(self, self.ffperm_db_entry_to_index_dict, self.ffperm_var_create_question_pool_all_check.get()))
+        self.create_formelfrage_permutation_pool_btn = Button(self.ffperm_frame_create_formelfrage_permutation_test, text="FFpermut-Pool erstellen", command=lambda: Create_formelfrage_permutation_Pool.__init__(self, self.ffperm_db_entry_to_index_dict, self.ffperm_var_create_question_pool_all_check.get(), self.ffperm_var_create_multiple_question_pools_from_tax_check.get()))
         self.create_formelfrage_permutation_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
         self.create_formelfrage_permutation_pool_entry = Entry(self.ffperm_frame_create_formelfrage_permutation_test, width=15)
         self.create_formelfrage_permutation_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
@@ -368,13 +477,13 @@ class Formelfrage_Permutation:
 
 
 #################### "Fragen Permutation - FRAME
-        self.ffperm_start_question_permutation_btn = Button(self.ffperm_frame_question_permutation, text="Permutation starten", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "formelfrage", self.ffperm_db_entry_to_index_dict))
-        #self.ffperm_start_question_permutation_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
-
-        self.ffperm_var_start_question_permutation = IntVar()
-        self.ffperm_start_question_permutation = Checkbutton(self.ffperm_frame_question_permutation, text="Permutation verwenden?", variable=self.ffperm_var_start_question_permutation, onvalue=1, offvalue=0)
-        self.ffperm_start_question_permutation.deselect()
-        self.ffperm_start_question_permutation.grid(row=1, column=1, sticky=W)
+        # self.ffperm_start_question_permutation_btn = Button(self.ffperm_frame_question_permutation, text="Permutation starten", command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_import_to_db(self, "formelfrage", self.ffperm_db_entry_to_index_dict))
+        # #self.ffperm_start_question_permutation_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
+        #
+        # self.ffperm_var_start_question_permutation = IntVar()
+        # self.ffperm_start_question_permutation = Checkbutton(self.ffperm_frame_question_permutation, text="Permutation verwenden?", variable=self.ffperm_var_start_question_permutation, onvalue=1, offvalue=0)
+        # self.ffperm_start_question_permutation.deselect()
+        # self.ffperm_start_question_permutation.grid(row=1, column=1, sticky=W)
 
 
 
@@ -2642,9 +2751,12 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
         self.all_entries_from_db_list = []
         self.number_of_entrys = []
+        self.ffperm_collection_of_question_titles = []
 
         self.question_pool_id_list = []
         self.question_title_list = []
+        
+        self.ffperm_number_of_questions_generated = 1
 
         self.ilias_id_pool_qpl_dir = ilias_id_pool_qpl_dir
         self.ffperm_file_max_id = max_id
@@ -3119,7 +3231,7 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                 # Permutation immer Aktiv
 
                 ##########################
-                print("Permutation aktiv!")
+                print("Permutation IMMER aktiv!")
                 print('''''''''''''''''''''''''''''''')
                 print("\n")
 
@@ -3242,10 +3354,10 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                                     self.ffperm_var5_prec_replaced = self.ffperm_var5_prec
                         else:
                             self.ffperm_var5_max_replaced = self.ffperm_var5_max
+
+
+
                         # PERMUTATION SYMBOLE in RESULT ERSETZEN
-
-
-
                         #RES1 - MIN / MAX
                         if str(self.perm_symbol_sammlung[n]) != "" and str(self.perm_symbol_sammlung[n]) in str(self.ffperm_res1_min):
                             self.ffperm_res1_min_replaced = self.ffperm_res1_min.replace(str(self.perm_symbol_sammlung[n]), self.perm_symbol_to_values_dict[self.perm_symbol_sammlung[n]][k])
@@ -3563,14 +3675,11 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
                         self.ffperm_myroot.append(item)
 
                     self.ffperm_mytree.write(self.qti_file_path_output)
-                    print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title_replaced))
-
-
-
-
-
-
-
+                    print("Formelfrage Frage erstellt! --> Titel: " + str(self.ffperm_question_title_replaced) + " ----- " + str(self.ffperm_res1_formula_permutation))
+                    print(self.ffperm_question_description_main_permutation)
+                    print("---------------------------------------------------------------------------------------------------------------------------------------------")
+                    self.ffperm_number_of_questions_generated += 1
+                    self.ffperm_collection_of_question_titles.append(self.ffperm_question_title)
 
         ffperm_connect.commit()
         ffperm_connect.close()
@@ -3645,18 +3754,18 @@ class Create_formelfrage_permutation_Questions(Formelfrage_Permutation):
 
         self.ffperm_res_name = ffperm_res_name
         self.ffperm_res_formula = ffperm_res_formula
-        self.ffperm_res_formula_length = len(str(self.ffperm_res_formula))
+        self.ffperm_res_formula_length = str(len(str(self.ffperm_res_formula)))
         self.ffperm_res_min = str(ffperm_res_min)
-        self.ffperm_res_min_length = len(str(self.ffperm_res_min))
+        self.ffperm_res_min_length = str(len(str(self.ffperm_res_min)))
         self.ffperm_res_max = str(ffperm_res_max)
-        self.ffperm_res_max_length = len(str(self.ffperm_res_max))
+        self.ffperm_res_max_length = str(len(str(self.ffperm_res_max)))
         self.ffperm_res_prec = str(ffperm_res_prec)
         self.ffperm_res_tol = str(ffperm_res_tol)
-        self.ffperm_res_tol_length = len(str(self.ffperm_res_tol))
+        self.ffperm_res_tol_length = str(len(str(self.ffperm_res_tol)))
 
         self.ffperm_res_points = str(ffperm_res_points)
         self.ffperm_res_unit = ffperm_res_unit
-        self.ffperm_res_unit_length = len(str(self.ffperm_res_unit))
+        self.ffperm_res_unit_length = str(len(str(self.ffperm_res_unit)))
 
 
 
@@ -3748,24 +3857,256 @@ class Create_formelfrage_permutation_Test(Formelfrage_Permutation):
 
 class Create_formelfrage_permutation_Pool(Formelfrage_Permutation):
 
-    def __init__(self, entry_to_index_dict, var_create_all_questions):
+    def __init__(self, entry_to_index_dict, var_create_all_questions, var_create_multiple_question_pools_from_tax):
         self.ffperm_entry_to_index_dict = entry_to_index_dict
         self.ffperm_var_create_question_pool_all = var_create_all_questions
+        self.var_create_multiple_question_pools_from_tax = var_create_multiple_question_pools_from_tax
+        self.ffperm_pool_entry = self.create_formelfrage_permutation_pool_entry.get()
+        self.taxonomy_collection_no_dublicates = []
+
+        self.pool_number_list = []
+        self.taxonomy_number_list = []
+        self.directory_number_list = []
+        self.oid_number_list_temp = []
+        self.oid_number_list = []
+
+
+        # "Normalerweise" wird nur ein Fragenpool erstellt
+        # Wenn mehrere Fragenpools "nach Taxonomie getrennt" erstellt werden sollen, wird "self.number_of_pool"
+        # auf die Anzahl der Taxonomien gesetzt
+        self.number_of_pools = 1
+
+
+
+        # Wenn "nach Taxonomie getrennte Fragenpools" == 1:
+        if self.ffperm_var_create_multiple_question_pools_from_tax_check.get() == 1:
+
+            self.tax_entries_from_db_list = []
+            self.oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list = []
+            self.tax_and_oid_entries_from_db_list_sorted = []
+            self.ids_with_same_tax_list = []
+            self.list_of_lists = []
+
+
+
+
+            # Verbindung mit Datenbank
+            conn = sqlite3.connect(self.database_formelfrage_permutation_path)
+            c = conn.cursor()
+            c.execute("SELECT *, oid FROM %s" % self.ffperm_database_table)
+            ffperm_db_records = c.fetchall()
+
+            # Alle Einträge aus der DB nehmen
+            if self.ffperm_var_create_question_pool_all == 1:
+                for ffperm_db_record in ffperm_db_records:
+                    self.oid_entries_from_db_list.append(int(ffperm_db_record[len(ffperm_db_record) - 1]))
+                    self.tax_entries_from_db_list.append(ffperm_db_record[self.ffperm_db_entry_to_index_dict['question_pool_tag']])
+
+                #self.oid_entries_from_db_list.pop(0)
+                #self.tax_entries_from_db_list.pop(0)
+
+
+
+            # ID's aus dem Eingabefeld nehmen
+            else:
+
+                self.ffperm_pool_entry_list = []
+                self.ffperm_pool_entry_list = self.ffperm_pool_entry.split(',')
+
+                for ffperm_db_record in ffperm_db_records:
+                    if str(ffperm_db_record[len(ffperm_db_record) - 1]) in self.ffperm_pool_entry_list:
+                        self.oid_entries_from_db_list.append(int(ffperm_db_record[len(ffperm_db_record) - 1]))
+                        self.tax_entries_from_db_list.append(ffperm_db_record[self.ffperm_db_entry_to_index_dict['question_pool_tag']])
+
+
+
+            # Listen zusammenfügen
+            for i in range(len(self.oid_entries_from_db_list)):
+                self.tax_and_oid_entries_from_db_list.append([self.oid_entries_from_db_list[i], self.tax_entries_from_db_list[i]])
+
+
+            #print(self.oid_entries_from_db_list)
+            #print(self.tax_entries_from_db_list)
+
+            # Liste muss sortiert sein (Alphabetisch)  itemgetter(1) nimmt den Wert aus Fach 1 aus den Listen in der Liste
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # hier: '1', '2', '2', '3', '3'
+            self.tax_and_oid_entries_from_db_list_sorted = sorted(self.tax_and_oid_entries_from_db_list, key=itemgetter(1))
+
+
+
+
+            # Taxonomie der Fragen (ohne doppelte Einträge)
+            self.taxonomy_collection_no_dublicates = list(dict.fromkeys(self.tax_entries_from_db_list))
+
+
+            new_list = []
+
+            # 1. Feld auslesen (Tax_id)
+            # Bsp. Format von "self.tax_and_oid_entries_from_db_list" = [[2, '1'], [3, '2'], [4, '2'], [5, '3'], [6, '3']]
+            # Taxonomien sind hier als '1', '2','3' deklariert
+            # Tax_id im Bsp. self.id_temp = '1'
+            self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[0][1]
+            #new_list.append(self.tax_and_oid_entries_from_db_list[0][0])
+
+            for k in range(len(self.tax_and_oid_entries_from_db_list_sorted)):
+
+                if self.tax_and_oid_entries_from_db_list_sorted[k][1] == self.id_temp:
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+
+                else:
+
+                    self.list_of_lists.append(new_list)
+                    new_list = []
+                    new_list.append(self.tax_and_oid_entries_from_db_list_sorted[k][0])
+                    self.id_temp = self.tax_and_oid_entries_from_db_list_sorted[k][1]
+
+
+
+
+            # new_list wird nur der list_of_lists hinzugefügt wenn die Taxonomien unterschiedlich sind
+            # Da die letzten Taxonomien gleich sein können, muss nochmal manuell der Befehl gestartet werden
+            self.list_of_lists.append(new_list)
+
+            self.number_of_pools = len(self.list_of_lists)
+
+
 
         # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
         # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-        test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
-                                                                            self.project_root_path,
-                                                                            self.formelfrage_permutation_pool_directory_output,
-                                                                            self.formelfrage_permutation_files_path_pool_output,
-                                                                            self.formelfrage_permutation_pool_qti_file_path_template,
-                                                                            self.ffperm_ilias_test_title_entry.get(),
-                                                                            self.create_formelfrage_permutation_pool_entry.get(),
-                                                                            self.ffperm_question_type_entry.get(),
-                                                                            self.database_formelfrage_permutation_path,
-                                                                            "formelfrage_permutation_table",
-                                                                            self.ffperm_db_entry_to_index_dict,
-                                                                            self.ffperm_var_create_question_pool_all
-                                                                            )
+        for pool_number in range(self.number_of_pools):
+
+
+            if self.var_create_multiple_question_pools_from_tax == 1:
+
+
+
+                self.string_entry = ','.join(map(str, self.list_of_lists[pool_number]))
+                self.ffperm_pool_entry = self.string_entry
+
+
+            self.ilias_id_pool_img_dir, self.ilias_id_pool_qpl_dir, self.pool_qti_file_path_output, self.pool_qpl_file_path_output, self.ilias_id_pool_qti_xml, self.file_max_id, self.taxonomy_file_question_pool = test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(
+                                                                                                                                                                                                                    self, self.project_root_path, self.formelfrage_permutation_files_path_pool_output,
+                                                                                                                                                                                                                            self.formelfrage_permutation_files_path_pool_output, self.formelfrage_permutation_pool_qti_file_path_template,
+                                                                                                                                                                                                                            self.ffperm_ilias_test_title_entry.get(), self.ffperm_pool_entry, self.ffperm_question_type_name,
+                                                                                                                                                                                                                            self.database_formelfrage_permutation_path, self.ffperm_database_table, self.ffperm_db_entry_to_index_dict,
+                                                                                                                                                                                                                            self.ffperm_var_create_question_pool_all)
+
+
+
+            # Bestimmt den Pfad zum spezifischen erstellten Formelfrage-Pool Ordner
+            # z.B.: ...ILIAS-Formelfrage\ff_ilias_pool_abgabe\1596569820__0__qpl_1115713
+            self.ffperm_specific_pool_dir_path = os.path.join(self.formelfrage_permutation_files_path_pool_output, self.ilias_id_pool_qpl_dir)
+
+
+            # Variablen für Bildschirmausgabe sammeln
+            self.pool_number_list.append(pool_number)
+            self.directory_number_list.append(self.ilias_id_pool_qpl_dir)
+            self.oid_number_list_temp = self.ffperm_pool_entry.split(',')
+            self.oid_number_list.append(len(self.oid_number_list_temp))
+
+            # Formelfrage Fragen erstellen
+            Create_formelfrage_permutation_Questions.__init__(self,
+                                                   self.ffperm_db_entry_to_index_dict,
+                                                   self.ffperm_pool_entry,
+                                                   "question_pool",
+                                                   self.ilias_id_pool_img_dir,
+                                                   self.ilias_id_pool_qpl_dir,
+                                                   self.formelfrage_permutation_pool_qti_file_path_template,
+                                                   self.pool_qti_file_path_output,
+                                                   self.pool_qpl_file_path_output,
+                                                   self.ilias_id_pool_qti_xml,
+                                                   self.file_max_id,
+                                                   self.taxonomy_file_question_pool)
+
+
+            # In der erstellten XML Datei muss "&amp;" gegen "&" getauscht werden
+            test_generator_modul_ilias_test_struktur.Additional_Funtions.replace_character_in_xml_file(self, self.pool_qti_file_path_output)
+
+            # Taxonomien werden für erstellte Pools nicht verwendet
+            if self.ffperm_var_remove_pool_tags_for_tax_check.get() == 0:
+                # Hier wird die Taxonomie des Fragenpools bearbeitet / konfiguriert
+                test_generator_modul_taxonomie_und_textformatierung.Taxonomie.create_taxonomy_for_pool(self,
+                                                                                                       self.ffperm_pool_entry,
+                                                                                                       self.ffperm_var_create_question_pool_all,
+                                                                                                       self.database_formelfrage_permutation_path,
+                                                                                                       "formelfrage_permutation_table",
+                                                                                                       self.ffperm_entry_to_index_dict,
+                                                                                                       self.taxonomy_file_question_pool,
+                                                                                                       self.pool_qti_file_path_output,
+                                                                                                       pool_number,
+                                                                                                       self.number_of_pools
+                                                                                                       )
+
+            # Abgeschlossener Fragenpool abgelegt
+
+            print("______________________________________________________________________")
+            print("FRAGENPOOL ABGESCHLOSSEN")
+            print(" ---> Erstellt im Ordner \"" + "ffperm_ilias_pool_abgabe\\" + self.ilias_id_pool_qpl_dir)
+
+
+            self.zip_output_path = os.path.join(self.ffperm_specific_pool_dir_path, self.ilias_id_pool_qpl_dir)
+            self.zip_output_path2 = os.path.join(self.ffperm_specific_pool_dir_path, "test")
+
+            # Zip Ordner erstellen
+            def zip(src, dst):
+                zf = zipfile.ZipFile("%s.zip" % (dst), "w", zipfile.ZIP_DEFLATED)
+                abs_src = os.path.abspath(src)
+                for dirname, subdirs, files in os.walk(src):
+                    for filename in files:
+                        absname = os.path.abspath(os.path.join(dirname, filename))
+                        arcname = absname[len(abs_src)-len(self.ilias_id_pool_qpl_dir):]
+                        #print('zipping %s as %s' % (os.path.join(dirname, filename), arcname))
+                        zf.write(absname, arcname)
+                zf.close()
+
+            zip(os.path.join(self.formelfrage_permutation_files_path_pool_output, self.ilias_id_pool_qpl_dir), os.path.join(self.formelfrage_permutation_files_path_pool_output, self.ilias_id_pool_qpl_dir))
+
+        string_collection = ""
+
+        if self.var_create_multiple_question_pools_from_tax == 1:
+            for i in range(len(self.pool_number_list)):
+                string_collection += "Fragenpool: " + str(self.pool_number_list[i]+1) + "/" + str(len(self.pool_number_list)) + "\n" + \
+                                     "Abgelegt im Ordner: " + str(self.directory_number_list[i]) + "\n" + \
+                                     "Taxonomie: " + str(self.taxonomy_collection_no_dublicates[i]) + "\n" + \
+                                     "Anzahl der Fragen: " + str(self.oid_number_list[i]) + " \n" + \
+                                     "_____________________________________________________________" + "\n" + \
+                                     "\n"
+
+
+        self.excel_id_list =[]
+        self.excel_temp_list = []
+        for t in range(len(self.ffperm_collection_of_question_titles)):
+            self.excel_temp_list = self.ffperm_collection_of_question_titles[t].split(' ')
+            self.excel_id_list.append(self.excel_temp_list[0])
+
+
+
+        self.id_dublicates_counter = Counter(self.excel_id_list)
+        self.id_dublicates_results = [k for k, v in self.id_dublicates_counter.items() if v > 1]
+
+        self.titels_dublicates_counter = Counter(self.ffperm_collection_of_question_titles)
+        self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
+        dublicate_id_warning = ""
+        dublicate_title_warning = ""
+
+        if len(self.id_dublicates_results) >= 1 or len(self.titles_dublicates_results) >= 1:
+            dublicate_id_warning = "ACHTUNG!\nErstellter Fragenpool enthält doppelte Fragen:" + "\n"
+
+        if len(self.id_dublicates_results) >= 1:
+            dublicate_id_warning += "\n\n" + "Fragen-ID" + "\n"
+            for i in range(len(self.id_dublicates_results)):
+                dublicate_id_warning +=  "---> " + str(self.id_dublicates_results[i]) + "\n"
+
+        if len(self.titles_dublicates_results) >= 1:
+            dublicate_title_warning = "Fragen-Titel" + "\n"
+            for i in range(len(self.titles_dublicates_results)):
+                dublicate_title_warning += "---> " + str(self.titles_dublicates_results[i]) + "\n"
+
+
+        messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning + "\n\n"+ string_collection)
+
 
 
