@@ -1,3 +1,16 @@
+"""
+********************************************
+test_generator_modul_taxonomie_und_textformatierung.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Bearbeitung des Textes in "Fragen-Text"
+Ermöglicht Formatierung nach z.B. kursiv, latex etc.
+
+Zusätzlich ermöglicht es die Bearbeitung der Taxonomie bestehender Fragenpools
+"""
+
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import *
@@ -61,7 +74,7 @@ class Textformatierung:
         self.search_index_start = self.search_index
         self.search_index_end = self.search_index
 
-        for x in range(self.numbers_of_searchterm_p):
+        for w in range(self.numbers_of_searchterm_p):
             self.search_p1_begin = self.description_main_entry.search('^', self.search_index_start, stopindex ="end")
             self.search_p1_end = self.description_main_entry.search(" ", self.search_p1_begin, stopindex="end")
             self.description_main_entry.tag_add('SUP', self.search_p1_begin, self.search_p1_end)
@@ -74,7 +87,7 @@ class Textformatierung:
         self.search_index = '1.0'
         self.search_index_start = self.search_index
         self.search_index_end = self.search_index
-        for y in range(self.numbers_of_searchterm_b):
+        for x in range(self.numbers_of_searchterm_b):
             self.search_b1_begin = self.description_main_entry.search('_', self.search_index_start, stopindex ="end")
             self.search_b1_end = self.description_main_entry.search(" ", self.search_b1_begin, stopindex="end")
             self.description_main_entry.tag_add('SUB', self.search_b1_begin, self.search_b1_end)
@@ -86,9 +99,8 @@ class Textformatierung:
 
         self.search_index = '1.0'
         self.search_index_start = self.search_index
-        print(self.search_index_start)
         self.search_index_end = self.search_index
-        for z in range(self.numbers_of_searchterm_italic):
+        for y in range(self.numbers_of_searchterm_italic):
             try:
                 self.search_italic1_begin = self.description_main_entry.search('//', self.search_index_start, stopindex="end")
                 self.search_italic1_end = self.description_main_entry.search('///', self.search_italic1_begin , stopindex="end")
@@ -97,6 +109,21 @@ class Textformatierung:
                 self.description_main_entry.tag_config('ITALIC', font=('Times New Roman', 9, 'italic'))
                 self.search_index_start = self.search_italic1_end + '+3c'
                 self.search_index_end = self.search_italic1_begin
+
+            except:
+                print("Index error in italic-function -> can be ignored ")
+                
+        self.search_index = '1.0'
+        self.search_index_start = self.search_index
+        self.search_index_end = self.search_index
+        for z in range(self.numbers_of_searchterm_italic):
+            try:
+                self.search_latex1_begin = self.description_main_entry.search('\(', self.search_index_start, stopindex="end")
+                self.search_latex1_end = self.description_main_entry.search('\)', self.search_latex1_begin , stopindex="end")
+                self.description_main_entry.tag_add('LATEX', self.search_latex1_begin, self.search_latex1_end + '+2c')
+                self.description_main_entry.tag_config('LATEX', foreground='orange')
+                self.search_index_start = self.search_latex1_end + '+2c'
+                self.search_index_end = self.search_latex1_begin
 
             except:
                 print("Index error in italic-function -> can be ignored ")
@@ -330,7 +357,8 @@ class Taxonomie:
             self.item_title_list.append(self.item_title)
 
 
-        #print(len(self.ident))
+        print(self.item_id_list)
+        print(self.item_title_list)
 
 
 
@@ -1511,6 +1539,8 @@ class Taxonomie:
                     self.question_pool_id_list.append(db_record[self.db_entry_to_index_dict['question_pool_tag']])
         # ID und Fragen auflisten
 
+        print(self.question_title_list)
+        print(self.question_pool_id_list)
 
 
         self.question_title_to_pool_id_dict = dict(zip(self.question_title_list, self.question_pool_id_list))
