@@ -1,15 +1,23 @@
-from tkinter import *
+"""
+********************************************
+test_generator_moduL_ilias_import_test_datei.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul wird für den Import von bestehenden ILIAS-Tests/-Pools verwendet.
+Die Fragen werden in die jeweilige Datenbank (Fragentyp-spezifisch) einsortiert
+"""
+
+
+
 from tkinter import filedialog
-from PIL import ImageTk, Image
-from tkinter import ttk
 import sqlite3                              #verwendet für mySQL Datenbank
 import xml.etree.ElementTree as ET
 import os
 import pathlib
 import base64
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QMessageBox, QFileDialog, QTimeEdit, QTableWidgetItem
-from PyQt5 import QtCore, QtGui, QtWidgets
-import shutil
+
 from distutils.dir_util import copy_tree
 
 class Import_ILIAS_Datei_in_DB:
