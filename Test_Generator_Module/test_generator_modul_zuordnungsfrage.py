@@ -1,3 +1,15 @@
+"""
+********************************************
+test_generator_modul_zuordnungsfrage.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung der Zuordnungsfragen-GUI
+sowie den Zuordnungsfragen in XML Struktur
+"""
+
+
 import xml.etree.ElementTree as ET
 from tkinter import *                  # Stellt die Funktionen für z.B. Labels & Entrys zur Verfügung
 from tkinter import ttk                # Stellt die Funktionen der Comboboxen (Auswahlboxen) zur Verfügung
@@ -6,12 +18,6 @@ import base64
 import pathlib
 import sqlite3
 import os
-import pprint
-import pandas as pd
-from datetime import datetime
-from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
-import xlsxwriter                       # import/export von excel Dateien
-import shutil                           # Wird verwendet um Verzeichnisse zu kopieren
 from collections import Counter
 from tkinter import messagebox
 from operator import itemgetter
@@ -144,13 +150,16 @@ class Zuordnungsfrage:
         self.mq_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
 
         self.mq_frame_question_attributes = LabelFrame(self.zuordnungsfrage_tab, text="Fragen Attribute", padx=5, pady=5)
-        self.mq_frame_question_attributes.grid(row=2, column=0, padx=10, pady=10, sticky="NE")
+        self.mq_frame_question_attributes.grid(row=2, column=0, padx=250, pady=10, sticky="NW")
 
         self.mq_frame_database = LabelFrame(self.zuordnungsfrage_tab, text="Zuordnungsfrage-Datenbank", padx=5, pady=5)
         self.mq_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
         self.mq_frame_create_zuordnungsfrage_test = LabelFrame(self.zuordnungsfrage_tab, text="MQ-Test erstellen", padx=5, pady=5)
-        self.mq_frame_create_zuordnungsfrage_test.grid(row=2, column=0, padx=105, pady=120, sticky="NE")
+        self.mq_frame_create_zuordnungsfrage_test.grid(row=2, column=0, padx=250, pady=120, sticky="NW")
+
+        self.mq_frame_test_settings = LabelFrame(self.zuordnungsfrage_tab, text="Test Einstellungen", padx=5, pady=5)
+        self.mq_frame_test_settings.grid(row=0, column=0, padx=200, pady=10, sticky="NE")
 
 
         self.mq_frame_taxonomy_settings = LabelFrame(self.zuordnungsfrage_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
@@ -247,6 +256,12 @@ class Zuordnungsfrage:
                  self.mq_description_img_name_2,
                  self.mq_description_img_name_3,
             )
+
+################## TEST SETTINGS
+
+        self.show_test_settings_formula_tab = Button(self.mq_frame_test_settings, text="Test Einstellungen",command=lambda: test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.__init__(self, self.project_root_path, self.zuordnungsfrage_test_qti_file_path_output))
+        self.show_test_settings_formula_tab.grid(row=0, column=0, pady=0, sticky=NE)
+
 
 ###################### "Taxonomie Einstellungen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
         self.mq_taxonomy_settings_btn = Button(self.mq_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
@@ -1736,7 +1751,7 @@ class Zuordnungsfrage:
             self.mq_description_img_path_3 = ""
             self.mq_description_img_data_3 = ""
         
-    
+
         
         def mq_bind_value_for_empty_answer_image(definition_picture_label_entry, definition_picture_data_entry, definition_picture_path_entry, term_picture_label_entry, term_picture_data_entry, term_picture_path_entry):
 
