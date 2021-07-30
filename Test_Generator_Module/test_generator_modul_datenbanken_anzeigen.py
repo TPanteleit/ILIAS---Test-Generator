@@ -1,8 +1,18 @@
-import xml.etree.ElementTree as ET
+"""
+********************************************
+test_generator_moduL_datenbanken_anzeigen.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Anzeige der Datenbank in einem seperaten Fenster,
+sowie der Anzeige der Fragen in der jeweiligen Datenbank
+"""
+
+
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
-import numpy as np
 import pandas as pd
 import sqlite3
 import tkinter as tk
