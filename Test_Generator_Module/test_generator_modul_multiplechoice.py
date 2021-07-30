@@ -1,3 +1,13 @@
+"""
+********************************************
+test_generator_modul_multiplechoice.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung der Multiplechoice-GUI
+sowie den Multiplechoice-Fragen in XML Struktur
+"""
 
 import xml.etree.ElementTree as ET
 from tkinter import *                  # Stellt die Funktionen für z.B. Labels & Entrys zur Verfügung
@@ -7,16 +17,11 @@ import base64
 import pathlib
 import sqlite3
 import os
-import pprint
-import pandas as pd
-from datetime import datetime
-from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
-import xlsxwriter                       # import/export von excel Dateien
-import shutil                           # Wird verwendet um Verzeichnisse zu kopieren
 from collections import Counter
 from tkinter import messagebox
 from operator import itemgetter
 import zipfile
+
 ### Eigene Dateien / Module
 from Test_Generator_Module import test_generator_modul_datenbanken_anzeigen
 from Test_Generator_Module import test_generator_modul_datenbanken_erstellen
@@ -127,14 +132,16 @@ class MultipleChoice:
         self.mc_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
 
         self.mc_frame_question_attributes = LabelFrame(self.multiplechoice_tab, text="Fragen Attribute", padx=5, pady=5)
-        self.mc_frame_question_attributes.grid(row=2, column=0, padx=155, pady=10, sticky="NE")
+        self.mc_frame_question_attributes.grid(row=2, column=0, padx=250, pady=10, sticky="NW")
 
         self.mc_frame_database = LabelFrame(self.multiplechoice_tab, text="Multiplechoice-Datenbank", padx=5, pady=5)
         self.mc_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
         self.mc_frame_create_multiplechoice_test = LabelFrame(self.multiplechoice_tab, text="MC-Test erstellen", padx=5, pady=5)
-        self.mc_frame_create_multiplechoice_test.grid(row=2, column=0, padx=250, pady=120, sticky="NE")
+        self.mc_frame_create_multiplechoice_test.grid(row=2, column=0, padx=250, pady=120, sticky="NW")
 
+        self.mc_frame_test_settings = LabelFrame(self.multiplechoice_tab, text="Test Einstellungen", padx=5, pady=5)
+        self.mc_frame_test_settings.grid(row=0, column=0, padx=100, pady=10, sticky="NE")
 
         self.mc_frame_taxonomy_settings = LabelFrame(self.multiplechoice_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
         self.mc_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
@@ -229,7 +236,12 @@ class MultipleChoice:
                  self.mc_description_img_name_2,
                  self.mc_description_img_name_3,
             )
-            
+
+################## TEST SETTINGS
+        self.show_test_settings_formula_tab = Button(self.mc_frame_test_settings, text="Test Einstellungen",command=lambda: test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.__init__(self, self.project_root_path, self.multiplechoice_test_qti_file_path_output))
+        self.show_test_settings_formula_tab.grid(row=0, column=0, pady=0, sticky=NE)
+
+
 ###################### "Taxonomie Einstellungen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
         self.mc_taxonomy_settings_btn = Button(self.mc_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
         self.mc_taxonomy_settings_btn.grid(row=3, column=0, columnspan = 2, padx=10, sticky="W")
@@ -2579,25 +2591,4 @@ class Create_MultipleChoice_Pool(MultipleChoice):
     
     
     
-    # def __init__(self, entry_to_index_dict, var_create_all_questions):
-    # 
-    #     self.entry_to_index_dict = entry_to_index_dict
-    #     self.mc_var_create_question_pool_all = var_create_all_questions
-    #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
-    #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-    # 
-    #     test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
-    #                                                                         self.project_root_path,
-    #                                                                         self.multiplechoice_pool_directory_output,
-    #                                                                         self.multiplechoice_files_path_pool_output,
-    #                                                                         self.multiplechoice_pool_qti_file_path_template,
-    #                                                                         self.mc_ilias_test_title_entry.get(),
-    #                                                                         self.create_multiplechoice_pool_entry.get(),
-    #                                                                         self.mc_question_type_name,
-    #                                                                         self.database_multiplechoice_path,
-    #                                                                         self.mc_database_table,
-    #                                                                         self.mc_db_entry_to_index_dict,
-    #                                                                         self.mc_var_create_question_pool_all)
-    # 
-
 
