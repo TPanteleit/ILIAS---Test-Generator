@@ -1,24 +1,27 @@
+"""
+********************************************
+test_generator_moduL_formelfrage.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung der Formelfragen-GUI
+sowie den Formelfragen in XML Struktur
+"""
+
+
 from tkinter import ttk
-from tkinter import filedialog
 from tkinter import *
 import sqlite3                              #verwendet für mySQL Datenbank
 import xml.etree.ElementTree as ET
 from sympy import *
 import os
-import datetime                             # wird benötigt für "Test-Einstellungen benutzen"
-from datetime import datetime               # wird benötigt für "delete all entrys?" ??
-import pathlib
-import shutil                               # zum kopieren und zippen von Dateien
-from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
 import pandas as pd
 from pandas.core.reshape.util import cartesian_product
 import numpy as np
 import re
-from functools import partial
-import time
 from tkinter import messagebox
 import zipfile
-import subprocess
 from collections import Counter
 from operator import itemgetter
 
@@ -30,44 +33,12 @@ from Test_Generator_Module import test_generator_modul_taxonomie_und_textformati
 from Test_Generator_Module import test_generator_modul_ilias_test_struktur
 from Test_Generator_Module import test_generator_modul_ilias_import_test_datei
 from Test_Generator_Module import test_generator_modul_test_einstellungen
-#from Test_Generator_Module import test_generator_modul_zeigerdiagramme
+from Test_Generator_Module import test_generator_modul_zeigerdiagramme
 
 class Formelfrage:
 
-    ############## SET IMAGE VARIABLES
-    ############## DEFINE FORMELFRAGE PATHS
-    ############## FRAMES
-    # add_image_to_description_and_create_labels
-    # add_image_to_description_and_delete_labels
-    ############## BEARBEITUNGSDAUER
-    # selected_hours
-    # selected_minutes
-    # selecteds_seconds
-    ############## ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX
-    ############## EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX
-    # answer_selected
-    ############## AUSWAHL DER EINHEITEN FÜR VARIABLEN ---- DERZEIT NICHT AKTIV
-    ############## ÜBERSCHRIFTEN / LABELS FÜR EINGABEFELDER-MATRIX
-    ############## EINGABEFELDER / ENTRYS FÜR EINGABEFELDER-MATRIX
-    ############## EINHEITEN FÜR ERGEBNISSE DERZEIT DEAKTIVIERT
-    # result_selected
-    #____ INIT end
-    # ff_variable_show_or_remove
-    # ff_result_show_or_remove
-    # unit_table
-    # ff_replace_character_in_xml_file
-    # ff_calculate_value_range_function_in_GUI
-    # ff_calculate_value_range_from_formula_in_GUI
-    ############## DATENBANK FUNKTIONEN
-    # ff_save_id_to_db
-    # ff_load_id_from_db
-    # ff_edit_id_from_db
-    # ff_delete_id_from_db
-    # ff_load_id_from_db
-    # ff_clear_GUI
-
-
-
+    # Hier wird die GUI für Formelfrage erstellt
+    # Definition von Labels, Buttons etc.
     def __init__(self, app, formelfrage_tab, project_root_path):
 
 
@@ -156,6 +127,7 @@ class Formelfrage:
         connect = sqlite3.connect(self.database_formelfrage_path)
         cursor = connect.execute('select * from ' + self.ff_database_table)
 
+        # Durch list(map(lambdax: x[0])) werden die Spaltennamen aus der DB ausgelesen
         self.ff_db_column_names_list = list(map(lambda x: x[0], cursor.description))
         self.ff_db_column_names_string = ', :'.join(self.ff_db_column_names_list)
         self.ff_db_column_names_string = ":" + self.ff_db_column_names_string
@@ -163,14 +135,6 @@ class Formelfrage:
 
         for i in range(len(self.ff_db_column_names_list)):
             self.ff_db_find_indexes.append(i)
-
-        """
-        # Durch list(map(lambdax: x[0])) werden die Spaltennamen aus der DB ausgelesen
-        cursor = conn.execute('select * from ' + self.ff_database_table)
-        db_column_names_list = list(map(lambda x: x[0], cursor.description))
-        db_column_names_string  = ', :'.join(db_column_names_list)
-        db_column_names_string  = ":" + db_column_names_string
-        """
 
         self.ff_db_entry_to_index_dict = dict(zip((self.ff_db_column_names_list), (self.ff_db_find_indexes)))
 
@@ -215,6 +179,8 @@ class Formelfrage:
         self.ff_frame_description_picture = LabelFrame(self.formelfrage_tab, text="Fragen-Text Bild", padx=5, pady=5)
         self.ff_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
 
+        # Um Zeigerdiagramme zu aktivieren, die Zeile aus dem Kommentar wieder einfügen
+        # Das Modul für Zeigerdiagramme ist nur schwach ausgebaut und kann nicht frei verwendet werden
         self.ff_frame_vector_diagram = LabelFrame(self.formelfrage_tab, text="Zeigerdiagramme", padx=5, pady=5)
         #self.ff_frame_vector_diagram.grid(row=2, column=1, padx=10, pady=200, sticky="NW")
 
@@ -380,8 +346,6 @@ class Formelfrage:
         self.ff_create_test_settings = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.ff_var_create_test_settings_check, onvalue=1, offvalue=0, command=lambda: refresh_box_test_settings_profiles(self))
         self.ff_create_test_settings.grid(row=1, column=1, sticky=W)
 
-
-
         
 
         # Combobox Profile für Datenbank
@@ -402,6 +366,8 @@ class Formelfrage:
         conn.close()
         ###
 
+        # WIrd dazu verwendet ein Event zu verarbeiten
+        # Bei der Aktivierung für Testeinstellungen sollen alle in der DB gespeicherten Profile geladen werden
         def ff_profile_selected(event):
             self.var = event
 
@@ -409,7 +375,8 @@ class Formelfrage:
         self.ff_selected_profile_for_test_settings_box.bind("<<ComboboxSelected>>", ff_profile_selected)
         self.ff_selected_profile_for_test_settings_box.grid(row=1, column=1, sticky=W, padx=(22, 0))
 
-
+        # Bei der Aktivierung für Testeinstellungen sollen alle in der DB gespeicherten Profile geladen werden
+        # Verwendet ff_profile_selected
         def refresh_box_test_settings_profiles(self):
             if self.ff_var_create_test_settings_check.get() == 1:
                 self.ff_selected_profile_for_test_settings_box.grid_forget()
@@ -450,7 +417,6 @@ class Formelfrage:
         self.ff_create_question_pool_all_label.grid(row=4, column=0, pady=(10,0), padx=5, sticky=W)
         self.ff_var_create_question_pool_all_check = IntVar()
         self.ff_create_question_pool_all = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.ff_var_create_question_pool_all_check, onvalue=1, offvalue=0)
-        #self.ff_var_create_question_pool_all_check.set(0)
         self.ff_create_question_pool_all.grid(row=4, column=1, sticky=W, pady=(10,0))
 
         # Checkbox "Mehrere Fragenpools Taxonomie getrennt erstellen?"
@@ -458,7 +424,6 @@ class Formelfrage:
         self.ff_create_multiple_question_pools_from_tax_label.grid(row=5, column=0, pady=(10,0), padx=5, sticky=W)
         self.ff_var_create_multiple_question_pools_from_tax_check = IntVar()
         self.ff_create_multiple_question_pools_from_tax = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.ff_var_create_multiple_question_pools_from_tax_check, onvalue=1, offvalue=0)
-        #self.ff_var_create_question_pool_all_check.set(0)
         self.ff_create_multiple_question_pools_from_tax.grid(row=5, column=1, sticky=W, pady=(10,0))
 
         # Checkbox "Taxonomie für getrennte Pools behalten?"
@@ -466,11 +431,7 @@ class Formelfrage:
         self.ff_remove_pool_tags_for_tax_label.grid(row=6, column=0, pady=(0,0), padx=5, sticky=W)
         self.ff_var_remove_pool_tags_for_tax_check = IntVar()
         self.ff_remove_pool_tags_for_tax = Checkbutton(self.ff_frame_create_formelfrage_test, text="", variable=self.ff_var_remove_pool_tags_for_tax_check, onvalue=1, offvalue=0)
-        #self.ff_var_create_question_pool_all_check.set(0)
         self.ff_remove_pool_tags_for_tax.grid(row=6, column=1, sticky=W, pady=(0,0))
-
-
-
 
 
         # Button "Formelfrage-Fragenpool erstellen"
@@ -629,20 +590,10 @@ class Formelfrage:
 
 
 
-        self.ff_vector_diagram_btn = Button(self.ff_frame_vector_diagram, text="Zeigerdiagramm erzeugen", command=lambda: test_generator_modul_zeigerdiagramme.Zeigerdiagramme.__init__( self, self.ff_vector_diagram_type_box.get(),
-
-                                                                                                                                                                                         self.ff_var_create_voltage_current_vector_diagram.get(),
-                                                                                                                                                                                         self.ff_var_create_impedance_vector_diagram.get(),
-                                                                                                                                                                                         self.ff_var_create_admittance_vector_diagram.get(),
-                                                                                                                                                                                         self.ff_var_create_power_vector_diagram.get(),
-
-                                                                                                                                                                                         self.ff_vector_diagram_U_entry.get(),
-                                                                                                                                                                                         self.ff_vector_diagram_R_entry.get(),
-                                                                                                                                                                                         self.ff_vector_diagram_L_entry.get(),
-                                                                                                                                                                                         self.ff_vector_diagram_C_entry.get(),
-                                                                                                                                                                                         self.ff_vector_diagram_freq_entry.get()
-                                                                                                                                                                                         ))
+        self.ff_vector_diagram_btn = Button(self.ff_frame_vector_diagram, text="Zeigerdiagramm erzeugen", command=lambda: test_generator_modul_zeigerdiagramme.Zeigerdiagramme.__init__( self, self.ff_vector_diagram_type_box.get(),                                                                                                                                                                       ))
         self.ff_vector_diagram_btn.grid(row=10, column=0, padx=10, pady=(10, 0), sticky="W")
+
+
 ###################### "Formelfrage" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ###################
 
         self.ff_question_author_label = Label(self.ff_frame, text="Fragen-Autor")
@@ -695,6 +646,7 @@ class Formelfrage:
         self.ff_proc_minutes_box = ttk.Combobox(self.ff_frame, value=self.ff_processingtime_minutes, width=2)
         self.ff_proc_seconds_box = ttk.Combobox(self.ff_frame, value=self.ff_processingtime_seconds, width=2)
 
+        # Voreinstellung für die Zeit pro Frage auf 23h
         self.ff_proc_hours_box.current(23)
         self.ff_proc_minutes_box.current(0)
         self.ff_proc_seconds_box.current(0)
@@ -1162,7 +1114,7 @@ class Formelfrage:
         self.ff_numbers_of_results_box.grid(row=40, column=1, sticky=W, pady=(20, 0))
 
 
-
+    # Wird verwendet um Eingabefelder ein- und auszublenden, abhängig von der gewählten Anzahl an Variablen bzw. Ergebnissen
     def ff_variable_show_or_remove(self, var_label, var_name_entry, var_min_entry, var_max_entry, var_prec_entry, var_divby_entry, row_nr, var_status):
 
             if var_status == "show":
@@ -1208,6 +1160,9 @@ class Formelfrage:
             res_formula_entry.grid_remove()
             #var_unit_myCombo.grid_remove()
 
+    # Wird für die Verarbeitung von Einheiten verwendet
+    # Als Dictionary festlegen welche benutzerdefinierten Einheiten zu welcher benutzerdefinierten ID gehört
+    # Die ID wurde hier willkürlich gewählt, jede ID < 100 wurde im ILIAS nicht richtig verwertet
     def unit_table(self, selected_unit):
         self.unit_to_ilias_code = { "H" : "125", "mH" : "126", "µH" : "127", "nH" : "128", "kH" : "129", "pH" : "130",
                                     "F" : "131", "mF" : "132", "µF" : "133", "nF" : "134", "kF" : "135",
@@ -1221,6 +1176,8 @@ class Formelfrage:
         self.selected_unit = self.unit_to_ilias_code[self.var_selected_unit]
         return self.selected_unit
 
+    # Bei einem Import der XML nach ILIAS dürfen keine '&amp;' vorhanden sein
+    # Diese werden hier durch das entsprechende Symbol '&' ersetzt
     def ff_replace_character_in_xml_file(self, file_path_qti_xml):
         # Im Nachgang werden alle "&amp;" wieder gegen "&" getauscht
         # "&" Zeichen kann XML nicht verarbeiten, daher wurde beim schreiben der Texte in die XML "&" gegen "&amp;" getauscht
@@ -1459,7 +1416,7 @@ class Formelfrage:
                             conn.close()
 
 
-
+    # Hier wird die eingegebene Formel in eine Numpy konforme Formel umgewandelt
     def ff_calculate_value_range_replace_formula_numpy(self, formula, var_res_combined_min_entries_list, var_res_combined_max_entries_list, res_min_entries_list, res_max_entries_list):
 
         self.formula = formula
@@ -1573,7 +1530,7 @@ class Formelfrage:
 
         return self.formula
 
-
+    # Hier wird der Wertebereich berechnet
     def ff_calculate_value_range_from_formula_in_GUI(self, formula, var_res_combined_min_entries_list, var_res_combined_max_entries_list, var_prec_entries_list,  res_min_entry, res_max_entry, res_prec_entry, res_min_entries_list, res_max_entries_list, calculate_value_range_for_pool_check):
 
 
@@ -1800,6 +1757,7 @@ class Formelfrage:
 
 
 #############  DATENBANK FUNKTIONEN
+    # Frage in DB speichern (neue Frage)
     def ff_save_id_to_db(self, ff_database_table, column_names_string):
 
         self.ff_database_table = ff_database_table
@@ -2120,6 +2078,7 @@ class Formelfrage:
 
         print("Neuer Eintrag in die Formelfrage-Datenbank --> Fragentitel: " + str(self.ff_question_title_entry.get()))
 
+    # Frage aus der DB in die GUI laden
     def ff_load_id_from_db(self, entry_to_index_dict):
         self.ff_db_entry_to_index_dict = entry_to_index_dict
         conn = sqlite3.connect(self.database_formelfrage_path)
@@ -2362,6 +2321,7 @@ class Formelfrage:
         else:
             print("Frage wird OHNE Text-Formatierung geladen. --> Fragen-ID: " + str(self.ff_load_box.get()))
 
+    # Aktuell geladene Frage editieren
     def ff_edit_id_from_db(self):
 
         # Verbindung mit der Datenbank
@@ -2650,6 +2610,7 @@ class Formelfrage:
 
         print("Frage mit ID: '" + record_id + "' editiert")
 
+    # Frage aus der DB löschen
     def ff_delete_id_from_db(self):
 
         self.ff_delete_box_id = ""
@@ -2831,6 +2792,7 @@ class Formelfrage:
         self.res10_tol_entry.delete(0, END)
         self.res10_points_entry.delete(0, END)
 
+    # Alle GUI Einträge löschen
     def ff_clear_GUI(self):
         self.ff_question_difficulty_entry.delete(0, END)
         self.ff_question_category_entry.delete(0, END)
@@ -3015,10 +2977,6 @@ class Formelfrage:
 
 class Create_Formelfrage_Questions(Formelfrage):
 
-    # INIT
-    # ff_question_structure
-    # ff_question_variable_structure
-    # ff_question_results_structure
 
     def __init__(self, db_entry_to_index_dict, ids_in_entry_box, question_type, pool_img_dir, ilias_id_pool_qpl_dir, xml_read_qti_template_path, xml_qti_output_file_path, xml_qpl_output_file_path, max_id_pool_qti_xml, max_id, taxonomy_file_question_pool):
 
@@ -3341,6 +3299,10 @@ class Create_Formelfrage_Questions(Formelfrage):
 
             Create_Formelfrage_Questions.ff_question_structure(self, i)
 
+    # Stellt die XML Fragenstruktur für Formelfrage dar
+    # Jede Frage hat einen allgemeinen Teil und einen spezifischen Teil
+    # Im allg. Teil steht z.B. "ILIAS-Version", "Questiontype", "Author"
+    # Im spez. Teil stehen die Variablen/Ergebnisse etc
     def ff_question_structure(self, id_nr):
         """Diese Funktion wandelt die SQL-Einträge in die .xml um, welche anschließend in ILIAS eingespielt werden kann"""
 
@@ -3551,6 +3513,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                 ident_id.set('Entry', "il_0_qpl_" + str(self.ff_file_max_id+1))
             self.mytree.write(self.qpl_file)
 
+    # Definiert den XML Aufbau für eine Variable
     def ff_question_variables_structure(self, xml_qtimetadata,  ff_var_name, ff_var_min, ff_var_max, ff_var_prec, ff_var_divby, ff_var_unit):
 
         # <------------ INIT ----------->
@@ -3590,6 +3553,7 @@ class Create_Formelfrage_Questions(Formelfrage):
                               "s:9:\"unitvalue\";s:0:\"\";" \
                               "}"
 
+    # Definiert den XML Aufbau eines Ergebnisses
     def ff_question_results_structure(self, xml_qtimetadata, ff_res_name, ff_res_formula, ff_res_min, ff_res_max, ff_res_prec, ff_res_tol, ff_res_points, ff_res_unit):
 
         def replace_words_in_formula(formula):
@@ -3726,6 +3690,12 @@ class Create_Formelfrage_Questions(Formelfrage):
 
 
 # <------------ FORMELFRAGE-TEST ERSTELLEN ----------->
+# Die Erstellung eines Tests ist etwas verzweigt. Das liegt daran dass für jeden Fragentyp die gleiche Vorlage verwendet wird
+# Jeder Fragentyp sendet sein Dictionary, Pfade etc an "test_generator_modul_ilias_test_struktur.py"
+# Hier wird dann das "Grundmodell" für einen Test definiert, anschließend wird von "test_generator_modul_ilias_test_struktur.py"
+# wieder der jeweilige Fragentyp mit Fragenstruktur aufgerufen
+# ---> formelfrage.py(Create_FF_Test) -> ilias_test_struktur.py(Create_ILIAS_Test) -> formelfrage.py(Create_FF_Questions)
+
 class Create_Formelfrage_Test(Formelfrage):
 
     def __init__(self, entry_to_index_dict):
@@ -3760,6 +3730,7 @@ class Create_Formelfrage_Test(Formelfrage):
 
         self.titels_dublicates_counter = Counter(self.ff_collection_of_question_titles)
         self.titles_dublicates_results = [k for k, v in self.titels_dublicates_counter.items() if v > 1]
+
 
         dublicate_id_warning = ""
         dublicate_title_warning = ""
@@ -3798,12 +3769,6 @@ class Create_Formelfrage_Pool(Formelfrage):
         self.oid_number_list_temp = []
         self.oid_number_list = []
 
-
-
-        # Wertebereich berechnen für Fragenpool Einträge
-        #if var_calculate_value_range_for_pool_ids == 1:
-        #    print("Wertebereich für Pool-IDs berechnen")
-        #    Formelfrage.ff_calculate_value_range_function_in_GUI(self, self.ff_pool_entry)
 
         # "Normalerweise" wird nur ein Fragenpool erstellt
         # Wenn mehrere Fragenpools "nach Taxonomie getrennt" erstellt werden sollen, wird "self.number_of_pool"
