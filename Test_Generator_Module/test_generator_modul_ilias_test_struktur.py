@@ -1,8 +1,24 @@
+"""
+********************************************
+test_generator_modul_ilias_test_struktur.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung von ILIAS-Tests/-Pools
+Jeder Fragentyp ruft bei der Erstellung diese ..struktur.py auf und
+übergibt das spezifische Dictionary und die jeweiligen Pfade
+
+Anschließend wird die Strukur für einen Test oder Pool in XML definiert und
+der jeweilige Fragentyp mit "Create_Question" als Frage erstellt z.B.:
+---> formelfrage.py(Create_FF_Test) -> ilias_test_struktur.py(Create_ILIAS_Test) -> formelfrage.py(Create_FF_Questions)
+
+"""
+
+
 import xml.etree.ElementTree as ET
 import os
 import shutil
-from PIL import Image
-from tkinter import ttk
 from tkinter import filedialog
 from tkinter import *
 from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
