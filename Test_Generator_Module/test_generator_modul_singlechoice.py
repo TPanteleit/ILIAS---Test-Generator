@@ -1,3 +1,14 @@
+"""
+********************************************
+test_generator_modul_singlechoice.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul dient der Erstellung der Singlechoice-GUI
+sowie den Singlechoice-Fragen in XML Struktur
+"""
+
 
 import xml.etree.ElementTree as ET
 from tkinter import *                  # Stellt die Funktionen für z.B. Labels & Entrys zur Verfügung
@@ -7,12 +18,6 @@ import base64
 import pathlib
 import sqlite3
 import os
-import pprint
-import pandas as pd
-from datetime import datetime
-from PIL import ImageTk, Image          # Zur Preview von ausgewählten Bildern
-import xlsxwriter                       # import/export von excel Dateien
-import shutil                           # Wird verwendet um Verzeichnisse zu kopieren
 from collections import Counter
 from tkinter import messagebox
 from operator import itemgetter
@@ -139,27 +144,25 @@ class SingleChoice:
         self.sc_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NW")
 
         self.sc_frame_question_attributes = LabelFrame(self.singlechoice_tab, text="Fragen Attribute", padx=5, pady=5)
-        self.sc_frame_question_attributes.grid(row=2, column=0, padx=155, pady=10, sticky="NE")
+        self.sc_frame_question_attributes.grid(row=2, column=0, padx=250, pady=10, sticky="NW")
 
         self.sc_frame_database = LabelFrame(self.singlechoice_tab, text="Singlechoice-Datenbank", padx=5, pady=5)
         self.sc_frame_database.grid(row=2, column=0, padx=10, pady=10, sticky="NW")
 
         self.sc_frame_create_singlechoice_test = LabelFrame(self.singlechoice_tab, text="SC-Test erstellen", padx=5, pady=5)
-        self.sc_frame_create_singlechoice_test.grid(row=2, column=0, padx=250, pady=120, sticky="NE")
+        self.sc_frame_create_singlechoice_test.grid(row=2, column=0, padx=250, pady=120, sticky="NW")
 
+        self.sc_frame_test_settings = LabelFrame(self.singlechoice_tab, text="Test Einstellungen", padx=5, pady=5)
+        self.sc_frame_test_settings.grid(row=0, column=0, padx=100, pady=10, sticky="NE")
 
         self.sc_frame_taxonomy_settings = LabelFrame(self.singlechoice_tab, text="Taxonomie Einstellungen", padx=5, pady=5)
         self.sc_frame_taxonomy_settings.grid(row=0, column=1, padx=10, pady=10, sticky="NW")
 
         self.sc_frame_question_description_functions = LabelFrame(self.singlechoice_tab, text="Fragentext Funktionen", padx=5, pady=5)
-        self.sc_frame_question_description_functions.grid(row=1, column=1, padx=10, pady=10, sticky="NW")
+        self.sc_frame_question_description_functions.grid(row=1, column=1, padx=0, pady=0, sticky="NW")
 
         self.sc_frame_excel_import_export = LabelFrame(self.singlechoice_tab, text="Excel Import/Export", padx=5, pady=5)
-        self.sc_frame_excel_import_export.grid(row=2, column=1, padx=10, pady=10, sticky="NW")
-
-        self.sc_frame_question_permutation = LabelFrame(self.singlechoice_tab, text="Fragen - Permutation", padx=5, pady=5)
-        self.sc_frame_question_permutation.grid(row=2, column=1,padx=10, pady=120,   sticky="NW")
-
+        self.sc_frame_excel_import_export.grid(row=2, column=1, padx=0, pady=0, sticky="NW")
 
         self.sc_frame_description_picture = LabelFrame(self.singlechoice_tab, text="Fragen-Text Bild", padx=5, pady=5)
         self.sc_frame_description_picture.grid(row=1, column=2, padx=10, pady=10, sticky="NW")
@@ -242,6 +245,15 @@ class SingleChoice:
                  self.sc_description_img_name_2,
                  self.sc_description_img_name_3,
             )
+
+
+################## TEST SETTINGS
+
+        self.show_test_settings_formula_tab = Button(self.sc_frame_test_settings, text="Test Einstellungen",command=lambda: test_generator_modul_test_einstellungen.Test_Einstellungen_GUI.__init__(self, self.project_root_path, self.singlechoice_test_qti_file_path_output))
+        self.show_test_settings_formula_tab.grid(row=0, column=0, pady=0, sticky=NE)
+
+
+
 
 ###################### "Taxonomie Einstellungen" - FRAME   -------- LABELS / ENTRYS / BUTTONS  ################
         self.sc_taxonomy_settings_btn = Button(self.sc_frame_taxonomy_settings, text="Taxonomie-Einstellungen",command=lambda: test_generator_modul_taxonomie_und_textformatierung.Taxonomie.__init__(self))
@@ -996,9 +1008,6 @@ class SingleChoice:
         self.create_singlechoice_pool_btn.grid(row=3, column=0, sticky=W, pady=(30,0))
         self.create_singlechoice_pool_entry = Entry(self.sc_frame_create_singlechoice_test, width=15)
         self.create_singlechoice_pool_entry.grid(row=3, column=1, sticky=W, padx=0, pady=(30,0))
-
-
-
 
 
 
@@ -2470,35 +2479,6 @@ class Create_SingleChoice_Pool(SingleChoice):
 
 
         messagebox.showinfo("Fragenpool erstellen", "Fragenpool wurde erstellt!" + "\n\n" + dublicate_id_warning + "\n\n" + dublicate_title_warning + "\n\n"+ string_collection)
-
-    
-    
-    
-    
-    
-    
-    
-    # def __init__(self, entry_to_index_dict, var_create_all_questions):
-    # 
-    #     self.entry_to_index_dict = entry_to_index_dict
-    #     self.sc_var_create_question_pool_all = var_create_all_questions
-    # 
-    #     # Die __init__ wird bei einem Knopfdruck auf "ILIAS-Fragenpool erstellen" ausgeführt
-    #     # Es werden XML-Dateien und Ordner mit einer aufsteigenden ID erstellt.
-    #     test_generator_modul_ilias_test_struktur.Create_ILIAS_Pool.__init__(self,
-    #                                                                         self.project_root_path,
-    #                                                                         self.singlechoice_pool_directory_output,
-    #                                                                         self.singlechoice_files_path_pool_output,
-    #                                                                         self.singlechoice_pool_qti_file_path_template,
-    #                                                                         self.sc_ilias_test_title_entry.get(),
-    #                                                                         self.create_singlechoice_pool_entry.get(),
-    #                                                                         self.sc_question_type_name,
-    #                                                                         self.database_singlechoice_path,
-    #                                                                         self.sc_database_table,
-    #                                                                         self.sc_db_entry_to_index_dict,
-    #                                                                         self.sc_var_create_question_pool_all
-    #                                                                         )
-
 
 
 
