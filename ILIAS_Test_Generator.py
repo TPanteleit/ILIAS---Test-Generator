@@ -1,11 +1,24 @@
+"""
+********************************************
+ILIAS_Test_Generator.py
+@digitalfellowship - Stand 07/2021
+Autor: Tobias Panteleit
+********************************************
+
+Dieses Modul ist die Hauptdatei zum Starten des Aufgabengenerators
+Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
+"""
+
+
+
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.4                                                                                          #
+#    Version: 2.5                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
-#    Das Tool dient zur Erstellung von Fragen für die ILIAS-Plattform.                                      #
-#    In der derzeitigen Version (v2.3.2) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    Dieses Tool dient der Erstellung und Verwaltung von Fragen für die ILIAS-Plattform.                    #
+#    In der derzeitigen Version (v2.5) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -29,7 +42,7 @@
 #                                                                                                           #
 #    - Datenbank Import:                                                                                    #
 #       Beim Import von Fragen (mit dem exakt gleichen Titel) werden automatisch aktualisiert und nicht     #
-#       in der Datenbank angehangen (als neue Frage                                                         #
+#       in der Datenbank angehangen (als neue Frage)                                                        #
 #                                                                                                           #
 #   - Datenbank Export ---> Auswahl ob Export im XLSX oder ODS Format                                       #
 #                                                                                                           #
@@ -50,7 +63,7 @@
 #############################################################################################################
 # -------------------------------------------------------------------------------------------------         #
 #    Behandlung der Excel-Inhalte:                                                                          #
-#    Unter der Kategorie "Fragen-Typ" MUSS z.B.: "Formelfrage" oder "MultipleChoice" eingetragen werden, da #
+#    Unter der Kategorie "Fragen-Typ" MUSS z.B.: "Formelfrage" oder "Multiplechoice" eingetragen werden, da #
 #    ansonsten die Frage vom Programm nicht verwertbar ist                                                  #
 #                                                                                                           #
 #    Wird ein "Result" (1..10) ausgefüllt MUSS auch die entsprechende Spalte für "Result-pts" ein Wert      #
@@ -67,7 +80,7 @@
 
 
 
-# Import
+
 from tkinter import *
 from tkinter import ttk
 from tkscrolledframe import ScrolledFrame  #Bewegbares Fesnter (Scrollbalken)
@@ -87,9 +100,12 @@ class GuiMainWindow:
 
     def __init__(self, master):
         self.master = master
-        master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.4')
 
+        # Die größe der GUI wird durch die Einträge für self.window_width und self.window_height festgelegt
+        master.geometry = '800x710'
+        master.title('ilias - Test-Generator v2.5')
+
+        # Wird verwendet um in der Konsole einen benutzerdefinierten Text mit * zu umranden
         def print_in_a_frame(*words):
             size = max(len(word) for word in words)
             print('*' * (size + 4))
@@ -99,7 +115,7 @@ class GuiMainWindow:
 
 
         print("\n")
-        print_in_a_frame("", "ILIAS - Test-Generator v2.4", "@digitalfellowship", "", )
+        print_in_a_frame("", "ILIAS - Test-Generator v2.5", "@digitalfellowship", "", )
         print("\n")
 
         # Fenstergröße für die Module setzen
@@ -180,10 +196,6 @@ class GuiMainWindow:
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_multiplechoice(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_zuordnungsfrage(self)
         test_generator_modul_datenbanken_erstellen.CreateDatabases.create_database_test_settings_profiles(self)
-
-        # <------------ ERSTELLEN VON DATENBANKEN ----------->
-        # Bei Programmstart wird für jeden Fragen-Typ eine Datenbank erstellt, wenn keine vorhanden ist.
-
 
 
         # <------------ MODULE INITIALISIEREN ----------->
