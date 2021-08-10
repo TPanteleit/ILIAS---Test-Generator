@@ -115,7 +115,7 @@ class GuiMainWindow:
 
 
         print("\n")
-        print_in_a_frame("", "ILIAS - Test-Generator v2.5", "@digitalfellowship", "", )
+        print_in_a_frame("", "ILIAS - Test-Generator v2.5.1", "@digitalfellowship", "", )
         print("\n")
 
         # Fenstergröße für die Module setzen
