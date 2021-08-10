@@ -419,7 +419,7 @@ class SingleChoice:
         self.sc_mix_answers_label = Label(self.sc_frame, text="Antworten mischen")
         self.sc_mix_answers_label.grid(row=6, column=0, sticky=W, padx=10, pady=(0, 0))
         self.sc_var_mix_answers = StringVar()
-        self.sc_check_mix_answers = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_answers, onvalue="Yes", offvalue="No")
+        self.sc_check_mix_answers = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_answers, onvalue="1", offvalue="0")
         self.sc_check_mix_answers.deselect()
         self.sc_check_mix_answers.grid(row=6, column=1, sticky=W, pady=(0, 0))
         
@@ -1177,7 +1177,7 @@ class SingleChoice:
             ":description_img_name_1, :description_img_data_1, :description_img_path_1, "
             ":description_img_name_2, :description_img_data_2, :description_img_path_2, "
             ":description_img_name_3, :description_img_data_3, :description_img_path_3, "
-            ":test_time, :var_number, :question_pool_tag, :question_author)",
+            ":test_time, :var_number, :question_pool_tag, :question_author, :mix_answers)",
             {
                 'question_difficulty': self.sc_question_difficulty_entry.get(),
                 'question_category': self.sc_question_category_entry.get(),
@@ -1270,7 +1270,8 @@ class SingleChoice:
 
                 'var_number': "",
                 'question_pool_tag': self.sc_question_pool_tag_entry.get(),
-                'question_author': self.sc_question_author_entry.get()
+                'question_author': self.sc_question_author_entry.get(),
+                'mix_answers': self.sc_var_mix_answers.get()
 
             }
         )
@@ -1525,7 +1526,8 @@ class SingleChoice:
                 'test_time'= :test_time,
 
                 'question_pool_tag'= :question_pool_tag,
-                'question_author'= :question_author
+                'question_author'= :question_author,
+                'mix_answers'= :mix_answers
                 
                 WHERE oid = :oid""",
                 {'question_difficulty': self.sc_question_difficulty_entry.get(),
@@ -1615,6 +1617,7 @@ class SingleChoice:
                  'test_time': self.sc_test_time,
                  'question_pool_tag': self.sc_question_pool_tag_entry.get(),
                  'question_author': self.sc_question_author_entry.get(),
+                 'mix_answers': self.sc_var_mix_answers.get(),
                  'oid': record_id
                  })
 
