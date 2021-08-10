@@ -406,16 +406,24 @@ class SingleChoice:
         self.sc_proc_hours_box.grid(row=4, column=1, sticky=W, padx=25, pady=(5, 0))
         self.sc_proc_minutes_box.grid(row=4, column=1, sticky=W, padx=100, pady=(5, 0))
         self.sc_proc_seconds_box.grid(row=4, column=1, sticky=W, padx=170, pady=(5, 0))
-
+        
+        # Fragen msichen - checkbox
         self.sc_mix_questions_label = Label(self.sc_frame, text="Fragen mischen")
         self.sc_mix_questions_label.grid(row=5, column=0, sticky=W, padx=10, pady=(5, 0))
-
         self.sc_var_mix_questions = StringVar()
-        self.sc_check_mix_questions = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_questions,
-                                                  onvalue="Yes", offvalue="No")
+        self.sc_check_mix_questions = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_questions, onvalue="Yes", offvalue="No")
         self.sc_check_mix_questions.deselect()
         self.sc_check_mix_questions.grid(row=5, column=1, sticky=W, pady=(5, 0))
-
+        
+        # Antworten mischen - checkbox
+        self.sc_mix_answers_label = Label(self.sc_frame, text="Antworten mischen")
+        self.sc_mix_answers_label.grid(row=6, column=0, sticky=W, padx=10, pady=(0, 0))
+        self.sc_var_mix_answers = StringVar()
+        self.sc_check_mix_answers = Checkbutton(self.sc_frame, text="", variable=self.sc_var_mix_answers, onvalue="Yes", offvalue="No")
+        self.sc_check_mix_answers.deselect()
+        self.sc_check_mix_answers.grid(row=6, column=1, sticky=W, pady=(0, 0))
+        
+        
         def sc_answer_selected(event):  # "event" is necessary here to react, although it is not used "officially"
 
             if self.sc_numbers_of_answers_box.get() == '1':
@@ -1812,7 +1820,9 @@ class Create_SingleChoice_Questions(SingleChoice):
                             self.sc_response_10_img_label	                = sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_label']].replace('&', "&amp;")
                             self.sc_response_10_img_string_base64_encoded	= sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_string_base64_encoded']]
                             self.sc_response_10_img_path                 	= sc_db_record[self.sc_db_entry_to_index_dict['response_10_img_path']]
-                            
+
+                            self.sc_mix_answers                             = sc_db_record[self.sc_db_entry_to_index_dict['mix_answers']]
+
                             self.sc_picture_preview_pixel                   = sc_db_record[self.sc_db_entry_to_index_dict['picture_preview_pixel']]
                             
                             self.sc_description_img_name_1	                = sc_db_record[self.sc_db_entry_to_index_dict['description_img_name_1']]
@@ -2001,7 +2011,13 @@ class Create_SingleChoice_Questions(SingleChoice):
                 # "MCSR --> Singlechoice Identifier für xml datei
                 response_lid.set('ident', "MCSR")
                 response_lid.set('rcardinality', "Single")
-                render_choice.set('shuffle', self.sc_var_mix_questions.get())
+
+                if self.sc_mix_answers == "1":
+                    self.sc_mix_answers = "Yes"
+                else:
+                    self.sc_mix_answers = "No"
+
+                render_choice.set('shuffle', self.sc_mix_answers)
 
 
 
@@ -2071,6 +2087,7 @@ class Create_SingleChoice_Questions(SingleChoice):
 
             #    print(sc_response_var_img_path)
             #    print("============")
+
             if sc_response_var_img_string_base64_encoded != "":
                 question_answer_matimage = ET.SubElement(question_answer_material, 'matimage')
 

@@ -622,6 +622,8 @@ class CreateDatabases:
                     
                     picture_preview_pixel int,
                     
+                    
+                    
                     description_img_name_1 text,
                     description_img_data_1 blop,
                     description_img_path_1 text,
@@ -637,7 +639,8 @@ class CreateDatabases:
                     test_time text,
                     var_number int,
                     question_pool_tag text,
-                    question_author text
+                    question_author text,
+                    mix_answers text
                     )""")
 
             # Commit Changes
@@ -1108,7 +1111,10 @@ class Import_Export_Database(CreateDatabases):
                     base64_encoded_string = base64.b64encode(image_file.read())
                     base64_encoded_string = base64_encoded_string.decode('utf-8')
 
-                return base64_encoded_string
+            else:
+                base64_encoded_string = ""
+
+            return base64_encoded_string
 
 
         self.question_type = question_type.lower()
@@ -1220,7 +1226,7 @@ class Import_Export_Database(CreateDatabases):
 
 
         if self.question_type == "singlechoice" or self.question_type == "single choice":
-            print("-------------------------------------")
+            print("-------------- SC - Frage -----------------------")
             print("Öffne Datei:  \"" + self.xlsx_path + "\"...", end="", flush=True)
             # Mit SingleChoice Datenbank verbinden
             conn = sqlite3.connect(self.database_singlechoice_path)
@@ -1314,7 +1320,9 @@ class Import_Export_Database(CreateDatabases):
                                 response_10_img_label= :response_10_img_label,
                                 response_10_img_string_base64_encoded= :response_10_img_string_base64_encoded,
                                 response_10_img_path= :response_10_img_path,
-                
+                                
+                                
+                                
                                 picture_preview_pixel= :picture_preview_pixel,
                 
                                 description_img_name_1= :description_img_name_1,
@@ -1332,8 +1340,9 @@ class Import_Export_Database(CreateDatabases):
                                 test_time= :test_time,
 
                                 question_pool_tag= :question_pool_tag,
-                                question_author= :question_author
-                               
+                                question_author= :question_author,
+                                mix_answers= :mix_answers
+                                
                                 WHERE question_title = :question_title""",
                                 {'question_difficulty': sc_row[db_entry_to_index_dict['question_difficulty'] + 1],
                                  'question_category': sc_row[db_entry_to_index_dict['question_category'] + 1],
@@ -1403,7 +1412,8 @@ class Import_Export_Database(CreateDatabases):
                                  'response_10_img_string_base64_encoded': sc_row[db_entry_to_index_dict['response_10_img_string_base64_encoded'] + 1],
                                  'response_10_img_path': sc_row[db_entry_to_index_dict['response_10_img_path'] + 1],
                 
-                
+
+
                                  'picture_preview_pixel': sc_row[db_entry_to_index_dict['picture_preview_pixel'] + 1],
                 
                                  
@@ -1423,6 +1433,7 @@ class Import_Export_Database(CreateDatabases):
                                  'test_time': sc_row[db_entry_to_index_dict['test_time'] + 1],
                                  'question_pool_tag': sc_row[db_entry_to_index_dict['question_pool_tag'] + 1],
                                  'question_author': sc_row[db_entry_to_index_dict['question_author'] + 1],
+                                 'mix_answers': sc_row[db_entry_to_index_dict['mix_answers'] + 1],
                                  'oid': sc_row[-1]
                                  })
                     
@@ -1452,7 +1463,7 @@ class Import_Export_Database(CreateDatabases):
                     self.sc_description_img_data_2 = Import_Export_Database.excel_import_placeholder_to_data(self, sc_row, self.db_entry_to_index_dict['description_img_data_2'], self.db_entry_to_index_dict['description_img_path_2'])
                     self.sc_description_img_data_3 = Import_Export_Database.excel_import_placeholder_to_data(self, sc_row, self.db_entry_to_index_dict['description_img_data_3'], self.db_entry_to_index_dict['description_img_path_3'])
     
-    
+
                     c.execute("INSERT INTO singlechoice_table VALUES " + self.sql_values_question_marks, (
                        sc_row.question_difficulty,
                        sc_row.question_category,
@@ -1520,7 +1531,9 @@ class Import_Export_Database(CreateDatabases):
                        sc_row.response_10_img_label,
                        self.response_10_img_string_base64_encoded,
                        sc_row.response_10_img_path,
-    
+
+
+
                        sc_row.picture_preview_pixel,
     
                        sc_row.description_img_name_1,
@@ -1538,7 +1551,8 @@ class Import_Export_Database(CreateDatabases):
                        sc_row.test_time,
                        sc_row.var_number,
                        sc_row.question_pool_tag,
-                       sc_row.question_author
+                       sc_row.question_author,
+                       sc_row.mix_answers
                      ))
         
         
@@ -3324,10 +3338,6 @@ class Import_Export_Database(CreateDatabases):
                 # # Wenn die Prüfung "falsch" ergibt, handelt es sich um einen Bild-Eintrag
 
 
-
-
-
-
                 # prüfen ob Zeilen-Inhalt vom Typ "BLOB" ist (Bild Format in SQL)
                 if isinstance(column_data,byteobj.ByteString) == False:
                     excel_sheet.write(row_index, column_index, column_data, body_cell_format)
@@ -3354,14 +3364,21 @@ class Import_Export_Database(CreateDatabases):
 
                     # Wenn Fragen-Typ ---> "SINGLECHOICE"
                     elif row[self.db_entry_to_index_dict['question_type']].lower() == "singlechoice":
-                        if self.picture_definitions_answer_index <= 10:
+                        if self.sc_picture_answer_index <= 10:
+
+
+
                             self.dict_entry_string = 'response_%s_img_label' % (str(self.sc_picture_answer_index))
 
 
-                            if str(row[self.db_entry_to_index_dict[self.dict_entry_string]]) != "":
+                            #if str(row[self.db_entry_to_index_dict[self.dict_entry_string]]) != "":
 
-                                column_data = str(row[self.db_entry_to_index_dict[self.dict_entry_string]])  + " - img_data_string_placeholder"
-                                self.sc_picture_answer_index += 1
+                                #column_data = str(row[self.db_entry_to_index_dict[self.dict_entry_string]])  + " - img_data_string_placeholder"
+
+
+                            self.sc_picture_answer_index += 1
+
+
 
                     excel_sheet.write(row_index, column_index, column_data, body_cell_format)
 

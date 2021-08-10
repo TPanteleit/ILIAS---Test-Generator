@@ -14,7 +14,7 @@ Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.5                                                                                           #
+#    Version: 2.5.1                                                                                         #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Dieses Tool dient der Erstellung und Verwaltung von Fragen für die ILIAS-Plattform.                    #
@@ -26,7 +26,7 @@ Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #
-#     Import_ILIAS_Datei_in_DB Modul neu erstellt                                                           #                                                                                             #
+#     "Antworten mischen" für SC-Fragen hinzugefügt                                                         #                                                                                             #
 #                                                                                                           #
 #                                                                                                           #
 #                                                                                                           #
@@ -103,7 +103,7 @@ class GuiMainWindow:
 
         # Die größe der GUI wird durch die Einträge für self.window_width und self.window_height festgelegt
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.5')
+        master.title('ilias - Test-Generator v2.5.1')
 
         # Wird verwendet um in der Konsole einen benutzerdefinierten Text mit * zu umranden
         def print_in_a_frame(*words):
