@@ -1,7 +1,7 @@
 """
 ********************************************
 ILIAS_Test_Generator.py
-@digitalfellowship - Stand 07/2021
+@digitalfellowship - Stand 01/2022
 Autor: Tobias Panteleit
 ********************************************
 
@@ -14,19 +14,20 @@ Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.5.1                                                                                         #
+#    Version: 2.5.2                                                                                         #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Dieses Tool dient der Erstellung und Verwaltung von Fragen für die ILIAS-Plattform.                    #
-#    In der derzeitigen Version (v2.5) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.5.2) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
 #        - Zuordnungsfragen                                                                                 #
 #############################################################################################################
 #                                                                                                           #
-#    Neuerungen:                                                                                            #
-#     "Antworten mischen" für SC-Fragen hinzugefügt                                                         #                                                                                             #
+#    Neuerungen:                                                                                            #                                                 #
+#     Fehler bei SC-Fragen beseitigt. Für den Bildnamen wurde der gesamte Bildpfad verwendet, statt nur     #
+#     die Character nach dem letzen "/"                                                                     #
 #                                                                                                           #
 #                                                                                                           #
 #                                                                                                           #
@@ -103,7 +104,7 @@ class GuiMainWindow:
 
         # Die größe der GUI wird durch die Einträge für self.window_width und self.window_height festgelegt
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.5.1')
+        master.title('ilias - Test-Generator v2.5.2')
 
         # Wird verwendet um in der Konsole einen benutzerdefinierten Text mit * zu umranden
         def print_in_a_frame(*words):
@@ -115,7 +116,7 @@ class GuiMainWindow:
 
 
         print("\n")
-        print_in_a_frame("", "ILIAS - Test-Generator v2.5.1", "@digitalfellowship", "", )
+        print_in_a_frame("", "ILIAS - Test-Generator v2.5.2", "@digitalfellowship", "", )
         print("\n")
 
         # Fenstergröße für die Module setzen

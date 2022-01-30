@@ -2103,7 +2103,9 @@ class Create_SingleChoice_Questions(SingleChoice):
                 else:
                     print("Bildformat ist nicht jpg/jpeg/png/gif und wird von ILIAS nicht unterstützt!")
 
-                question_answer_matimage.set('label', sc_response_var_img_path.rpartition('/')[-1])
+                question_answer_matimage.set('label', sc_response_var_img_path.rpartition('\\')[-1])
+
+
                 question_answer_matimage.set('embedded', "base64")
                 question_answer_matimage.text = str(sc_response_var_img_string_base64_encoded)
 
