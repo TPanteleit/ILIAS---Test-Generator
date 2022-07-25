@@ -1,7 +1,7 @@
 """
 ********************************************
 ILIAS_Test_Generator.py
-@digitalfellowship - Stand 01/2022
+@digitalfellowship - Stand 07/2022
 Autor: Tobias Panteleit
 ********************************************
 
@@ -14,11 +14,11 @@ Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
 #############################################################################################################
 #                                                                                                           #
 #    Ilias Test - Generator                                                                                 #
-#    Version: 2.5.2                                                                                         #
+#    Version: 2.6                                                                                           #
 #    Author:  Tobias Panteleit                                                                              #
 #                                                                                                           #
 #    Dieses Tool dient der Erstellung und Verwaltung von Fragen für die ILIAS-Plattform.                    #
-#    In der derzeitigen Version (v2.5.2) ist die Erstellung von folgenden Fragentypen möglich:                #
+#    In der derzeitigen Version (v2.6) ist die Erstellung von folgenden Fragentypen möglich:                #
 #        - Formelfrage                                                                                      #
 #        - SingleChoice                                                                                     #
 #        - MultipleChoice                                                                                   #
@@ -26,8 +26,14 @@ Beim Start werden die Fragentyp-Module geladen und die GUI erstellt
 #############################################################################################################
 #                                                                                                           #
 #    Neuerungen:                                                                                            #                                                 #
-#     Fehler bei SC-Fragen beseitigt. Für den Bildnamen wurde der gesamte Bildpfad verwendet, statt nur     #
-#     die Character nach dem letzen "/"                                                                     #
+#     Neuer Button / neue Funktion unter "Formelfrage-Tab" --> ILIAS-Evaluator                              #
+#     Über diese Funktion werden folgende Schritte ausgeführt:                                              #
+#       - ILIAS Test zum importieren auswählen                                                              #
+#       - Temp-DB wird erzeugt                                                                              #
+#       - Daten werden in Temp-DB gespeichert                                                               #
+#       - DB wird direkt exportiert, für alle Fragentypen (abgelegt unter dem ausgewählten Pfad)            #
+#       - Temp-DB wird wieder gelöscht                                                                      #
+#                                                                                                           #
 #                                                                                                           #
 #                                                                                                           #
 #                                                                                                           #
@@ -104,7 +110,7 @@ class GuiMainWindow:
 
         # Die größe der GUI wird durch die Einträge für self.window_width und self.window_height festgelegt
         master.geometry = '800x710'
-        master.title('ilias - Test-Generator v2.5.2')
+        master.title('ilias - Test-Generator v2.6')
 
         # Wird verwendet um in der Konsole einen benutzerdefinierten Text mit * zu umranden
         def print_in_a_frame(*words):
@@ -116,7 +122,7 @@ class GuiMainWindow:
 
 
         print("\n")
-        print_in_a_frame("", "ILIAS - Test-Generator v2.5.2", "@digitalfellowship", "", )
+        print_in_a_frame("", "ILIAS - Test-Generator v2.6", "@digitalfellowship", "", )
         print("\n")
 
         # Fenstergröße für die Module setzen
