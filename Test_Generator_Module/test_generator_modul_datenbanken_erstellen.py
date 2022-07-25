@@ -3258,7 +3258,7 @@ class Import_Export_Database(CreateDatabases):
         return self.description_img_data
 
 
-    def excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name):
+    def excel_export_to_xlsx(self,  project_root_path, db_entry_to_index_dict, database_path, database_name, database_table_name, xlsx_workbook_name, xlsx_worksheet_name, ilias_evaluator_flag, ilias_evaluator_path):
 
     ##################
 
@@ -3270,13 +3270,18 @@ class Import_Export_Database(CreateDatabases):
         self.xlsx_worksheet_name = xlsx_worksheet_name
         self.project_root_path = project_root_path
         self.db_entry_to_index_dict = db_entry_to_index_dict
+        self.ilias_evaluator_flag = ilias_evaluator_flag
+        self.ilias_evaluator_path = ilias_evaluator_path
 
         # Abfrage in welchem Format die Datenbank exportiert wrden soll
         # Messagebox liefert ein "Standard" Abfragefenster mit der Möglichkeit "Ja" / "Nein" auszuwählen
         # Die Rückgabewerte dieser Box sind entsprechend "Yes" / "No"
-        self.export_filetype_choice = messagebox.askquestion("Datenbank exportieren", "Datenbank als XLSX-Dateiformat exportieren?\n(\"Nein\" exportiert die Datei im ODS-Dateiformat)")
 
+        if self.ilias_evaluator_flag == 0:
+            self.export_filetype_choice = messagebox.askquestion("Datenbank exportieren", "Datenbank als XLSX-Dateiformat exportieren?\n(\"Nein\" exportiert die Datei im ODS-Dateiformat)")
 
+        else:
+            self.export_filetype_choice = "yes"
 
 
 
@@ -3309,8 +3314,12 @@ class Import_Export_Database(CreateDatabases):
         rows = cursor.fetchall()
 
         # Create an new Excel file and add a worksheet.
-        #os.path.normpath(os.path.join(self.project_root_path, 'ILIAS-Fragenpool_qpl_Daten'))
-        excel = xlsxwriter.Workbook(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", self.xlsx_workbook_name)))
+        if self.ilias_evaluator_flag == 0:
+            excel = xlsxwriter.Workbook(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", self.xlsx_workbook_name)))
+
+        else:
+            excel = xlsxwriter.Workbook(os.path.normpath(os.path.join(self.ilias_evaluator_path, os.pardir, self.xlsx_workbook_name)))
+
         excel_sheet = excel.add_worksheet(self.xlsx_worksheet_name)
 
         # Create style for cells
@@ -3423,7 +3432,8 @@ class Import_Export_Database(CreateDatabases):
             with ExcelWriter(os.path.normpath(os.path.join(self.project_root_path, "Datenbank_Export", self.ods_workbook_name)).format('ods')) as writer:
                 dataframe.to_excel(writer, engine='ods')
 
-        messagebox.showinfo("Datenbank exportieren", "Datenbank wurde exportiert!")
+        if self.ilias_evaluator_flag == 0:
+            messagebox.showinfo("Datenbank exportieren", "Datenbank wurde exportiert!")
 
 
 
