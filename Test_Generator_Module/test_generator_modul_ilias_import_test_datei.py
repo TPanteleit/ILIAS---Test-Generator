@@ -21,7 +21,7 @@ import base64
 from distutils.dir_util import copy_tree
 
 class Import_ILIAS_Datei_in_DB:
-    def __init__(self, project_root_path):
+    def __init__(self, project_root_path, ilias_evaluator_flag):
         # self.project_root_path = os.path.normpath(r"C:\Users\Genesis\Desktop\ilias Generator - Projekt\Silvan\1623652533__0__tst_2341643")
 
         self.ilias_test_qti_file = "1602067473__0__qti_30598_wilde_mischung.xml"
@@ -31,12 +31,24 @@ class Import_ILIAS_Datei_in_DB:
 
         
         # Pfade für Datenbanken
+        self.ilias_evaluator_flag = ilias_evaluator_flag
         self.project_root_path = project_root_path
-        self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
-        self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
-        self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
-        self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
 
+        # Wenn ein Test in die Datenbank abgelegt werden soll (ohne evaluator), dann Daten in die statischen DB's ablegen
+        if self.ilias_evaluator_flag == 0:
+            print("Ausgelesene Fragen werden in statischer DB's abgelegt")
+            self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "Test_Generator_Datenbanken", "ilias_formelfrage_db.db"))
+            self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_singlechoice_db.db"))
+            self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_multiplechoice_db.db"))
+            self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path,"Test_Generator_Datenbanken", "ilias_zuordnungsfrage_db.db"))
+
+        # Wenn ein Test über den ilias_evaluator in die DB's abgelegt werden soll, dann die temp DB's verwenden
+        else:
+            print("Ausgelesene Fragen werden in temp DB's abgelegt")
+            self.database_formelfrage_path = os.path.normpath(os.path.join(self.project_root_path, "ff_db_temp.db"))
+            self.database_singlechoice_path = os.path.normpath(os.path.join(self.project_root_path, "sc_db_temp.db"))
+            self.database_multiplechoice_path = os.path.normpath(os.path.join(self.project_root_path, "mc_db_temp.db"))
+            self.database_zuordnungsfrage_path = os.path.normpath(os.path.join(self.project_root_path, "mq_db_temp.db"))
 
 
         # Ordner-Name splitten um automatisiert die enthaltene qti.xml Datei einlesen zu können
@@ -220,7 +232,7 @@ class Import_ILIAS_Datei_in_DB:
 
 
 
-                ########### VARAIBLES
+                ########### VARIABLES
                 self.variables_settings_list = []
                 self.ff_variables_settings_list = []
 
@@ -601,6 +613,9 @@ class Import_ILIAS_Datei_in_DB:
 
         print("Import abgeschlossen -->", self.import_ilias_test_or_pool_file_folder_name)
 
+        if self.ilias_evaluator_flag == 1:
+            return self.import_ilias_test_or_pool_file
+
 
     def read_description_main_text_and_img_from_qti(self, flow_material_mattext_list):
 
@@ -677,7 +692,7 @@ class Import_ILIAS_Datei_in_DB:
 
 
         self.copy_to_question_response_img_dir_path = os.path.join(pathlib.Path().absolute(), "Bilder", "Bilder_von_Import_" + self.import_ilias_test_or_pool_file_folder_name, "Fragen_Antworten_Bilder", self.question_type_dir)
-        print(self.copy_to_question_response_img_dir_path)
+
         # Create directory
         try:
             # Create target Directory
