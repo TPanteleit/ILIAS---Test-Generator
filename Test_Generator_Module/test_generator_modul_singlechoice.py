@@ -716,11 +716,11 @@ class SingleChoice:
         self.sc_excel_import_to_db_singlechoice_btn.grid(row=0, column=1, sticky=W, pady=5, padx=10)
 
         # excel_export_btn
-        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, self.sc_database, self.sc_database_table, self.sc_xlsx_workbook_name, self.sc_xlsx_worksheet_name))
+        self.sc_excel_export_to_xlsx_singlechoice_btn = Button(self.sc_frame_excel_import_export, text="Datenbank exportieren",command=lambda: test_generator_modul_datenbanken_erstellen.Import_Export_Database.excel_export_to_xlsx(self, self.project_root_path, self.sc_db_entry_to_index_dict, self.database_singlechoice_path, self.sc_database, self.sc_database_table, self.sc_xlsx_workbook_name, self.sc_xlsx_worksheet_name, 0, ""))
         self.sc_excel_export_to_xlsx_singlechoice_btn.grid(row=1, column=1, sticky=W, pady=5, padx=10)
 
         # ILIAS_testfile_import
-        self.sc_import_ilias_testfile_btn = Button(self.sc_frame_excel_import_export, text="ILIAS-Datei importieren",command=lambda: test_generator_modul_ilias_import_test_datei.Import_ILIAS_Datei_in_DB.__init__(self, self.project_root_path))
+        self.sc_import_ilias_testfile_btn = Button(self.sc_frame_excel_import_export, text="ILIAS-Datei importieren",command=lambda: test_generator_modul_ilias_import_test_datei.Import_ILIAS_Datei_in_DB.__init__(self, self.project_root_path, 0))
         self.sc_import_ilias_testfile_btn.grid(row=2, column=1, sticky=W, pady=(20,0), padx=10)
 
         ##ilias test import_btn
