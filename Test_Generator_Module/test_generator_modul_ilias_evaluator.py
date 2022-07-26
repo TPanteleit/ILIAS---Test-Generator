@@ -56,7 +56,7 @@ class ILIAS_Evaluator:
         self.database_collection = ["ilias_formelfrage_db.db", "ilias_singlechoice_db.db", "ilias_multiplechoice_db.db", "ilias_zuordnungsfrage_db.db"]
         self.database_table_collection = ["formelfrage_table", "singlechoice_table", "multiplechoice_table", "zuordnungsfrage_table"]
         self.xlsx_workbook_name_collection = ["Formelfrage_DB_export_file", "SingleChoice_DB_export_file", "MultipleChoice_DB_export_file", "Zuordnungsfrage_DB_export_file"]
-        self.xlsx_worksheet_name_collection = ["Formelfrage - Database", "Singlechoice - Database", "Multiplechoice - Database", "Zuordnungsfrage - Database"]
+        self.xlsx_worksheet_name_collection = ["Formelfrage - Database", "SingleChoice - Database", "MultipleChoice - Database", "Zuordnungsfrage - Database"]
 
 
         # Daten aus temp DB exportieren

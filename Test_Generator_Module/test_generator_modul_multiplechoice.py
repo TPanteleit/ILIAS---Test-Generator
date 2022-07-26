@@ -1712,7 +1712,7 @@ class MultipleChoice:
         self.mc_delete_box_id = ""
         self.mc_delete_box_id = self.mc_delete_box.get()
 
-        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, self.mc_question_type_name, self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "Multiplechoice - Database")
+        test_generator_modul_datenbanken_erstellen.Delete_Entry_from_Database.__init__(self, self.mc_delete_box_id, self.mc_question_type_name, self.mc_var_delete_all.get(), self.project_root_path, self.mc_db_entry_to_index_dict, self.database_multiplechoice_path, "multiplechoice_db.db", "multiplechoice_table", "MultipleChoice_DB_export_file.xlsx", "MultipleChoice - Database")
         
         self.mc_delete_box.delete(0, END)
 
